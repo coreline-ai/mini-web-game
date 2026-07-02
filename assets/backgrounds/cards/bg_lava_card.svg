@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-label="Cartoon lava mobile background card">
+  <defs>
+    <linearGradient id="lava_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#31152d"/>
+      <stop offset="52%" stop-color="#7f2d28"/>
+      <stop offset="100%" stop-color="#ff7d31"/>
+    </linearGradient>
+    <radialGradient id="lava_glow" cx="50%" cy="74%" r="63%">
+      <stop offset="0%" stop-color="#ffd35a" stop-opacity="0.82"/>
+      <stop offset="52%" stop-color="#ff6d2c" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="lava_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#2a0806" flood-opacity="0.42"/>
+    </filter>
+    <clipPath id="lava_clip">
+      <rect x="8" y="8" width="304" height="464" rx="34"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="304" height="464" rx="34" fill="#4a1718" filter="url(#lava_shadow)"/>
+  <g clip-path="url(#lava_clip)">
+    <rect x="8" y="8" width="304" height="464" fill="url(#lava_sky)"/>
+    <rect x="8" y="8" width="304" height="464" fill="url(#lava_glow)"/>
+    <g fill="#5a2422" opacity="0.58">
+      <ellipse cx="62" cy="97" rx="36" ry="13"/>
+      <ellipse cx="96" cy="98" rx="23" ry="10"/>
+      <ellipse cx="236" cy="133" rx="40" ry="15"/>
+    </g>
+    <g stroke="#3c1e21" stroke-width="5" stroke-linejoin="round">
+      <path d="M52 306 L132 162 L197 306 Z" fill="#4b3034"/>
+      <path d="M132 162 L197 306 L144 286 Z" fill="#38262c"/>
+      <path d="M94 255 C113 236 124 211 132 162 C146 215 160 240 178 263 C148 249 122 250 94 255 Z" fill="#ffb33e" stroke="#7d2b24"/>
+      <path d="M117 247 C128 233 132 217 133 191 C141 220 151 239 160 254 C145 247 131 246 117 247 Z" fill="#ff4a2d" stroke="none"/>
+    </g>
+    <path d="M8 327 C59 302 102 315 148 293 C199 268 245 284 312 249 L312 472 L8 472 Z" fill="#332934"/>
+    <path d="M8 382 C55 362 86 374 127 353 C178 326 224 349 312 305 L312 472 L8 472 Z" fill="#241e28"/>
+    <path d="M8 406 C38 384 68 393 101 377 C137 358 166 371 201 351 C246 326 279 341 312 320 L312 472 L8 472 Z" fill="#ff6f2d"/>
+    <path d="M8 432 C45 407 73 421 111 400 C144 383 177 397 212 378 C251 356 279 368 312 349 L312 472 L8 472 Z" fill="#ffd054"/>
+    <path d="M35 413 C67 395 99 409 133 390 M187 401 C226 379 267 392 302 371" stroke="#fff092" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.82"/>
+    <g fill="#ffce51" stroke="#7e2a22" stroke-width="4" stroke-linejoin="round">
+      <path d="M72 111 C56 89 76 72 84 52 C95 79 117 91 101 116 C94 130 78 128 72 111 Z"/>
+      <path d="M231 91 C220 75 234 62 239 47 C248 67 265 77 253 96 C248 106 236 104 231 91 Z"/>
+      <path d="M255 205 C243 188 258 176 265 158 C273 178 292 190 279 209 C273 219 260 217 255 205 Z"/>
+    </g>
+    <g fill="#5d3d3f" stroke="#2d2027" stroke-width="3">
+      <ellipse cx="55" cy="358" rx="23" ry="10"/>
+      <ellipse cx="235" cy="328" rx="25" ry="11"/>
+      <ellipse cx="154" cy="432" rx="19" ry="8"/>
+    </g>
+    <rect x="8" y="8" width="304" height="464" rx="34" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.22"/>
+    <rect x="14" y="14" width="292" height="452" rx="29" fill="none" stroke="#ffb24e" stroke-width="3" opacity="0.24"/>
+  </g>
+</svg>

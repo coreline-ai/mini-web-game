@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="poop_bird_fast_body" x1="34" y1="23" x2="90" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.58" stop-color="#f4f7fb"/>
+      <stop offset="1" stop-color="#dbe3ef"/>
+    </linearGradient>
+    <radialGradient id="poop_bird_fast_shine" cx="45" cy="42" r="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.86"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g opacity="0.68" stroke="#9eb0c5" stroke-width="5" stroke-linecap="round">
+    <path d="M33 17 L22 47"/>
+    <path d="M63 8 L54 38"/>
+    <path d="M95 18 L84 47"/>
+  </g>
+  <ellipse cx="64" cy="114" rx="34" ry="8" fill="#5f6e7e" opacity="0.16"/>
+  <path d="M36 82 C34 66 43 55 55 54 C53 41 61 28 74 27 C87 26 96 39 91 53 C104 57 111 71 105 86 C99 100 82 105 64 103 C47 106 32 99 29 88 C28 84 31 81 36 82 Z" fill="url(#poop_bird_fast_body)" stroke="#65768a" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M44 67 C56 59 78 59 88 69" fill="none" stroke="#c2cfde" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="49" cy="51" rx="9" ry="15" fill="url(#poop_bird_fast_shine)" transform="rotate(28 49 51)"/>
+    <ellipse cx="50" cy="82" rx="6" ry="7" fill="#273342"/>
+    <ellipse cx="78" cy="82" rx="6" ry="7" fill="#273342"/>
+    <circle cx="48" cy="79" r="1.9" fill="#ffffff"/>
+    <circle cx="76" cy="79" r="1.9" fill="#ffffff"/>
+    <path d="M57 96 C61 101 68 101 72 96" fill="none" stroke="#273342" stroke-width="4" stroke-linecap="round"/>
+</svg>

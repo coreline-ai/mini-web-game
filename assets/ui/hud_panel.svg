@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 128" role="img" aria-label="Cute game HUD panel">
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#DDF7FF"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="28" y1="37" x2="82" y2="91" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF8A6"/>
+      <stop offset="100%" stop-color="#FFC02D"/>
+    </linearGradient>
+    <filter id="softShadow" x="-5%" y="-10%" width="110%" height="125%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#3F6D8A" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect x="12" y="14" width="396" height="100" rx="30" fill="#69D7FF" opacity="0.42"/>
+  <rect x="20" y="8" width="380" height="100" rx="28" fill="url(#panel)" stroke="#50BDE8" stroke-width="6" filter="url(#softShadow)"/>
+  <path d="M45 22 H269" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity="0.72"/>
+  <circle cx="62" cy="63" r="26" fill="url(#gold)" stroke="#B87900" stroke-width="4"/>
+  <path d="M51 69 C51 62 56 58 63 58 C70 58 75 62 75 69 C75 77 51 77 51 69 Z" fill="#87502C"/>
+  <path d="M56 59 C56 53 61 51 66 53 C70 56 68 62 59 62 Z" fill="#A96B38"/>
+  <circle cx="58" cy="69" r="1.8" fill="#24140D"/>
+  <circle cx="68" cy="69" r="1.8" fill="#24140D"/>
+  <text x="104" y="52" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#4375B7">SCORE</text>
+  <text x="104" y="83" font-family="Arial, sans-serif" font-size="31" font-weight="900" fill="#1C427A" letter-spacing="1">000000</text>
+  <rect x="270" y="29" width="100" height="55" rx="22" fill="#FFF2A8" stroke="#EEA900" stroke-width="4"/>
+  <g shape-rendering="crispEdges">
+    <rect x="287" y="44" width="10" height="10" fill="#FF477F"/>
+    <rect x="297" y="44" width="10" height="10" fill="#FF477F"/>
+    <rect x="317" y="44" width="10" height="10" fill="#D92B60"/>
+    <rect x="327" y="44" width="10" height="10" fill="#D92B60"/>
+    <rect x="277" y="54" width="10" height="10" fill="#FF477F"/>
+    <rect x="287" y="54" width="10" height="10" fill="#FF477F"/>
+    <rect x="297" y="54" width="10" height="10" fill="#FF477F"/>
+    <rect x="307" y="54" width="10" height="10" fill="#FF477F"/>
+    <rect x="317" y="54" width="10" height="10" fill="#D92B60"/>
+    <rect x="327" y="54" width="10" height="10" fill="#D92B60"/>
+    <rect x="337" y="54" width="10" height="10" fill="#B51D4B"/>
+    <rect x="287" y="64" width="10" height="10" fill="#FF477F"/>
+    <rect x="297" y="64" width="10" height="10" fill="#FF477F"/>
+    <rect x="307" y="64" width="10" height="10" fill="#D92B60"/>
+    <rect x="317" y="64" width="10" height="10" fill="#D92B60"/>
+    <rect x="327" y="64" width="10" height="10" fill="#B51D4B"/>
+  </g>
+  <text x="353" y="68" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#855213" text-anchor="middle">x3</text>
+  <circle cx="388" cy="26" r="8" fill="#FF79A8"/>
+  <circle cx="27" cy="95" r="6" fill="#8DEB70"/>
+</svg>

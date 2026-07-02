@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pixel heart continue icon variant 2">
+  <rect width="128" height="128" rx="24" fill="#ECFFF8"/>
+  <g shape-rendering="crispEdges">
+    <rect x="28" y="21" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="42" y="21" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="84" y="21" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="98" y="21" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="14" y="35" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="28" y="35" width="14" height="14" fill="#FF6FA2"/>
+    <rect x="42" y="35" width="14" height="14" fill="#FF6FA2"/>
+    <rect x="56" y="35" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="70" y="35" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="84" y="35" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="98" y="35" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="112" y="35" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="14" y="49" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="28" y="49" width="14" height="14" fill="#FF6FA2"/>
+    <rect x="42" y="49" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="56" y="49" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="70" y="49" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="84" y="49" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="98" y="49" width="14" height="14" fill="#E03678"/>
+    <rect x="112" y="49" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="28" y="63" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="42" y="63" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="56" y="63" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="70" y="63" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="84" y="63" width="14" height="14" fill="#E03678"/>
+    <rect x="98" y="63" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="42" y="77" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="56" y="77" width="14" height="14" fill="#FF4F8E"/>
+    <rect x="70" y="77" width="14" height="14" fill="#E03678"/>
+    <rect x="84" y="77" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="56" y="91" width="14" height="14" fill="#8C1B4A"/>
+    <rect x="70" y="91" width="14" height="14" fill="#8C1B4A"/>
+  </g>
+  <path d="M55 84 C43 70 46 48 64 43 C82 48 85 70 73 84" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+  <path d="M80 81 L80 105 L101 93 Z" fill="#52E099" stroke="#147C54" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M32 101 C43 113 66 116 81 102" fill="none" stroke="#52E099" stroke-width="7" stroke-linecap="round"/>
+  <path d="M78 112 L82 101 L70 103" fill="none" stroke="#52E099" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

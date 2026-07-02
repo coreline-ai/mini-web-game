@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pause button">
+  <defs>
+    <linearGradient id="btn" x1="20" y1="14" x2="108" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7BE3FF"/>
+      <stop offset="100%" stop-color="#2E8EED"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#34475F" flood-opacity="0.26"/>
+    </filter>
+  </defs>
+  <rect x="14" y="14" width="100" height="100" rx="28" fill="url(#btn)" stroke="#1569B8" stroke-width="6" filter="url(#shadow)"/>
+  <path d="M34 29 H89" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.42"/>
+  <rect x="46" y="39" width="14" height="50" rx="6" fill="#FFFFFF" stroke="#1D5E9F" stroke-width="4"/>
+  <rect x="70" y="39" width="14" height="50" rx="6" fill="#FFFFFF" stroke="#1D5E9F" stroke-width="4"/>
+  <circle cx="94" cy="35" r="6" fill="#FFE36B"/>
+</svg>

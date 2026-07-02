@@ -1,0 +1,463 @@
+{
+  "version": "0.1.0",
+  "format": "png",
+  "source": "AI catalog image (ChatGPT), auto-sliced with transparent cutout",
+  "style": "cute mobile casual chibi, transparent background",
+  "root": "assets/sprites",
+  "total_png": 86,
+  "note": "Animation strips (animations/*) are multi-frame sheets; individual poop_spin frames also available as enemies/poop/poop_spin_f1..f8.",
+  "categories": {
+    "animations": [
+      "assets/sprites/animations/player_walk_8frames.png",
+      "assets/sprites/animations/poop_spin_8frames.png",
+      "assets/sprites/animations/toilet_boss_attack_12frames.png"
+    ],
+    "backgrounds": [
+      "assets/sprites/backgrounds/bg_city.png",
+      "assets/sprites/backgrounds/bg_desert.png",
+      "assets/sprites/backgrounds/bg_iceberg.png",
+      "assets/sprites/backgrounds/bg_lava.png",
+      "assets/sprites/backgrounds/bg_park.png",
+      "assets/sprites/backgrounds/bg_school.png",
+      "assets/sprites/backgrounds/bg_space.png",
+      "assets/sprites/backgrounds/bg_subway.png"
+    ],
+    "characters/players": [
+      "assets/sprites/characters/players/player_astronaut.png",
+      "assets/sprites/characters/players/player_boy.png",
+      "assets/sprites/characters/players/player_cat.png",
+      "assets/sprites/characters/players/player_duck.png",
+      "assets/sprites/characters/players/player_girl.png",
+      "assets/sprites/characters/players/player_ninja.png",
+      "assets/sprites/characters/players/player_office_worker.png",
+      "assets/sprites/characters/players/player_rabbit.png"
+    ],
+    "effects/common": [
+      "assets/sprites/effects/common/effect_explosion.png",
+      "assets/sprites/effects/common/effect_smoke.png",
+      "assets/sprites/effects/common/effect_starburst.png",
+      "assets/sprites/effects/common/effect_starring.png"
+    ],
+    "effects/hazard": [
+      "assets/sprites/effects/hazard/poison_floor_1.png",
+      "assets/sprites/effects/hazard/poison_floor_2.png",
+      "assets/sprites/effects/hazard/poison_floor_3.png"
+    ],
+    "enemies/boss": [
+      "assets/sprites/enemies/boss/toilet_boss_1.png",
+      "assets/sprites/enemies/boss/toilet_boss_2.png",
+      "assets/sprites/enemies/boss/toilet_boss_3.png",
+      "assets/sprites/enemies/boss/toilet_boss_4.png"
+    ],
+    "enemies/poop": [
+      "assets/sprites/enemies/poop/poop_basic_1.png",
+      "assets/sprites/enemies/poop/poop_basic_2.png",
+      "assets/sprites/enemies/poop/poop_basic_3.png",
+      "assets/sprites/enemies/poop/poop_big_1.png",
+      "assets/sprites/enemies/poop/poop_big_2.png",
+      "assets/sprites/enemies/poop/poop_big_3.png",
+      "assets/sprites/enemies/poop/poop_bird_1.png",
+      "assets/sprites/enemies/poop/poop_bird_2.png",
+      "assets/sprites/enemies/poop/poop_bird_3.png",
+      "assets/sprites/enemies/poop/poop_bird_4.png",
+      "assets/sprites/enemies/poop/poop_bird_5.png",
+      "assets/sprites/enemies/poop/poop_fake_1.png",
+      "assets/sprites/enemies/poop/poop_fake_2.png",
+      "assets/sprites/enemies/poop/poop_fake_3.png",
+      "assets/sprites/enemies/poop/poop_golden_1.png",
+      "assets/sprites/enemies/poop/poop_golden_2.png",
+      "assets/sprites/enemies/poop/poop_golden_3.png",
+      "assets/sprites/enemies/poop/poop_poison_1.png",
+      "assets/sprites/enemies/poop/poop_poison_2.png",
+      "assets/sprites/enemies/poop/poop_poison_3.png",
+      "assets/sprites/enemies/poop/poop_small_1.png",
+      "assets/sprites/enemies/poop/poop_small_2.png",
+      "assets/sprites/enemies/poop/poop_small_3.png",
+      "assets/sprites/enemies/poop/poop_small_4.png",
+      "assets/sprites/enemies/poop/poop_small_5.png",
+      "assets/sprites/enemies/poop/poop_small_6.png",
+      "assets/sprites/enemies/poop/poop_spin_f1.png",
+      "assets/sprites/enemies/poop/poop_spin_f2.png",
+      "assets/sprites/enemies/poop/poop_spin_f3.png",
+      "assets/sprites/enemies/poop/poop_spin_f4.png",
+      "assets/sprites/enemies/poop/poop_spin_f5.png",
+      "assets/sprites/enemies/poop/poop_spin_f6.png",
+      "assets/sprites/enemies/poop/poop_spin_f7.png",
+      "assets/sprites/enemies/poop/poop_spin_f8.png"
+    ],
+    "items": [
+      "assets/sprites/items/coin_1.png",
+      "assets/sprites/items/coin_2.png",
+      "assets/sprites/items/heart_1.png",
+      "assets/sprites/items/heart_2.png",
+      "assets/sprites/items/item_clock.png",
+      "assets/sprites/items/item_lightning.png",
+      "assets/sprites/items/item_magnet.png",
+      "assets/sprites/items/item_slipper.png",
+      "assets/sprites/items/item_umbrella.png"
+    ],
+    "messages": [
+      "assets/sprites/messages/msg_fantastic.png",
+      "assets/sprites/messages/msg_gameover.png",
+      "assets/sprites/messages/msg_warning.png"
+    ],
+    "ui": [
+      "assets/sprites/ui/btn_home.png",
+      "assets/sprites/ui/btn_pause.png",
+      "assets/sprites/ui/btn_pause_big.png",
+      "assets/sprites/ui/btn_ranking.png",
+      "assets/sprites/ui/btn_restart.png",
+      "assets/sprites/ui/btn_settings.png",
+      "assets/sprites/ui/btn_shop.png",
+      "assets/sprites/ui/btn_sound.png",
+      "assets/sprites/ui/btn_trophy.png",
+      "assets/sprites/ui/ui_score_panel.png"
+    ]
+  },
+  "dimensions": {
+    "assets/sprites/animations/player_walk_8frames.png": [
+      470,
+      164
+    ],
+    "assets/sprites/animations/poop_spin_8frames.png": [
+      268,
+      158
+    ],
+    "assets/sprites/animations/toilet_boss_attack_12frames.png": [
+      470,
+      178
+    ],
+    "assets/sprites/backgrounds/bg_city.png": [
+      116,
+      177
+    ],
+    "assets/sprites/backgrounds/bg_desert.png": [
+      116,
+      177
+    ],
+    "assets/sprites/backgrounds/bg_iceberg.png": [
+      112,
+      178
+    ],
+    "assets/sprites/backgrounds/bg_lava.png": [
+      108,
+      182
+    ],
+    "assets/sprites/backgrounds/bg_park.png": [
+      118,
+      179
+    ],
+    "assets/sprites/backgrounds/bg_school.png": [
+      119,
+      178
+    ],
+    "assets/sprites/backgrounds/bg_space.png": [
+      119,
+      176
+    ],
+    "assets/sprites/backgrounds/bg_subway.png": [
+      118,
+      175
+    ],
+    "assets/sprites/characters/players/player_astronaut.png": [
+      93,
+      126
+    ],
+    "assets/sprites/characters/players/player_boy.png": [
+      91,
+      127
+    ],
+    "assets/sprites/characters/players/player_cat.png": [
+      89,
+      122
+    ],
+    "assets/sprites/characters/players/player_duck.png": [
+      40,
+      108
+    ],
+    "assets/sprites/characters/players/player_girl.png": [
+      95,
+      126
+    ],
+    "assets/sprites/characters/players/player_ninja.png": [
+      96,
+      126
+    ],
+    "assets/sprites/characters/players/player_office_worker.png": [
+      85,
+      127
+    ],
+    "assets/sprites/characters/players/player_rabbit.png": [
+      80,
+      126
+    ],
+    "assets/sprites/effects/common/effect_explosion.png": [
+      108,
+      99
+    ],
+    "assets/sprites/effects/common/effect_smoke.png": [
+      84,
+      82
+    ],
+    "assets/sprites/effects/common/effect_starburst.png": [
+      91,
+      63
+    ],
+    "assets/sprites/effects/common/effect_starring.png": [
+      99,
+      53
+    ],
+    "assets/sprites/effects/hazard/poison_floor_1.png": [
+      103,
+      54
+    ],
+    "assets/sprites/effects/hazard/poison_floor_2.png": [
+      102,
+      77
+    ],
+    "assets/sprites/effects/hazard/poison_floor_3.png": [
+      81,
+      78
+    ],
+    "assets/sprites/enemies/boss/toilet_boss_1.png": [
+      101,
+      125
+    ],
+    "assets/sprites/enemies/boss/toilet_boss_2.png": [
+      90,
+      117
+    ],
+    "assets/sprites/enemies/boss/toilet_boss_3.png": [
+      133,
+      123
+    ],
+    "assets/sprites/enemies/boss/toilet_boss_4.png": [
+      112,
+      123
+    ],
+    "assets/sprites/enemies/poop/poop_basic_1.png": [
+      76,
+      74
+    ],
+    "assets/sprites/enemies/poop/poop_basic_2.png": [
+      93,
+      90
+    ],
+    "assets/sprites/enemies/poop/poop_basic_3.png": [
+      108,
+      91
+    ],
+    "assets/sprites/enemies/poop/poop_big_1.png": [
+      100,
+      95
+    ],
+    "assets/sprites/enemies/poop/poop_big_2.png": [
+      96,
+      98
+    ],
+    "assets/sprites/enemies/poop/poop_big_3.png": [
+      80,
+      80
+    ],
+    "assets/sprites/enemies/poop/poop_bird_1.png": [
+      92,
+      68
+    ],
+    "assets/sprites/enemies/poop/poop_bird_2.png": [
+      92,
+      67
+    ],
+    "assets/sprites/enemies/poop/poop_bird_3.png": [
+      93,
+      69
+    ],
+    "assets/sprites/enemies/poop/poop_bird_4.png": [
+      91,
+      67
+    ],
+    "assets/sprites/enemies/poop/poop_bird_5.png": [
+      96,
+      67
+    ],
+    "assets/sprites/enemies/poop/poop_fake_1.png": [
+      83,
+      84
+    ],
+    "assets/sprites/enemies/poop/poop_fake_2.png": [
+      79,
+      80
+    ],
+    "assets/sprites/enemies/poop/poop_fake_3.png": [
+      76,
+      77
+    ],
+    "assets/sprites/enemies/poop/poop_golden_1.png": [
+      111,
+      94
+    ],
+    "assets/sprites/enemies/poop/poop_golden_2.png": [
+      99,
+      94
+    ],
+    "assets/sprites/enemies/poop/poop_golden_3.png": [
+      90,
+      90
+    ],
+    "assets/sprites/enemies/poop/poop_poison_1.png": [
+      75,
+      94
+    ],
+    "assets/sprites/enemies/poop/poop_poison_2.png": [
+      87,
+      94
+    ],
+    "assets/sprites/enemies/poop/poop_poison_3.png": [
+      70,
+      92
+    ],
+    "assets/sprites/enemies/poop/poop_small_1.png": [
+      26,
+      38
+    ],
+    "assets/sprites/enemies/poop/poop_small_2.png": [
+      28,
+      36
+    ],
+    "assets/sprites/enemies/poop/poop_small_3.png": [
+      29,
+      34
+    ],
+    "assets/sprites/enemies/poop/poop_small_4.png": [
+      32,
+      32
+    ],
+    "assets/sprites/enemies/poop/poop_small_5.png": [
+      31,
+      32
+    ],
+    "assets/sprites/enemies/poop/poop_small_6.png": [
+      32,
+      31
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f1.png": [
+      36,
+      56
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f2.png": [
+      35,
+      56
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f3.png": [
+      34,
+      56
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f4.png": [
+      40,
+      56
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f5.png": [
+      43,
+      54
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f6.png": [
+      50,
+      53
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f7.png": [
+      49,
+      52
+    ],
+    "assets/sprites/enemies/poop/poop_spin_f8.png": [
+      39,
+      39
+    ],
+    "assets/sprites/items/coin_1.png": [
+      87,
+      100
+    ],
+    "assets/sprites/items/coin_2.png": [
+      105,
+      105
+    ],
+    "assets/sprites/items/heart_1.png": [
+      97,
+      89
+    ],
+    "assets/sprites/items/heart_2.png": [
+      89,
+      79
+    ],
+    "assets/sprites/items/item_clock.png": [
+      82,
+      96
+    ],
+    "assets/sprites/items/item_lightning.png": [
+      88,
+      109
+    ],
+    "assets/sprites/items/item_magnet.png": [
+      89,
+      86
+    ],
+    "assets/sprites/items/item_slipper.png": [
+      99,
+      88
+    ],
+    "assets/sprites/items/item_umbrella.png": [
+      101,
+      99
+    ],
+    "assets/sprites/messages/msg_fantastic.png": [
+      221,
+      50
+    ],
+    "assets/sprites/messages/msg_gameover.png": [
+      226,
+      37
+    ],
+    "assets/sprites/messages/msg_warning.png": [
+      220,
+      50
+    ],
+    "assets/sprites/ui/btn_home.png": [
+      54,
+      39
+    ],
+    "assets/sprites/ui/btn_pause.png": [
+      57,
+      39
+    ],
+    "assets/sprites/ui/btn_pause_big.png": [
+      78,
+      76
+    ],
+    "assets/sprites/ui/btn_ranking.png": [
+      56,
+      39
+    ],
+    "assets/sprites/ui/btn_restart.png": [
+      55,
+      39
+    ],
+    "assets/sprites/ui/btn_settings.png": [
+      58,
+      39
+    ],
+    "assets/sprites/ui/btn_shop.png": [
+      54,
+      39
+    ],
+    "assets/sprites/ui/btn_sound.png": [
+      58,
+      39
+    ],
+    "assets/sprites/ui/btn_trophy.png": [
+      58,
+      39
+    ],
+    "assets/sprites/ui/ui_score_panel.png": [
+      372,
+      76
+    ]
+  }
+}

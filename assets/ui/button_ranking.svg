@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ranking button">
+  <defs>
+    <linearGradient id="btn" x1="20" y1="14" x2="108" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF9FD5"/>
+      <stop offset="100%" stop-color="#EA57A6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#34475F" flood-opacity="0.26"/>
+    </filter>
+  </defs>
+  <rect x="14" y="14" width="100" height="100" rx="28" fill="url(#btn)" stroke="#B8327B" stroke-width="6" filter="url(#shadow)"/>
+  <path d="M34 29 H89" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.42"/>
+  <rect x="30" y="70" width="21" height="27" rx="5" fill="#FFFFFF" stroke="#7A1C54" stroke-width="4"/>
+  <rect x="54" y="49" width="21" height="48" rx="5" fill="#FFF1A8" stroke="#7A1C54" stroke-width="4"/>
+  <rect x="78" y="61" width="21" height="36" rx="5" fill="#FFFFFF" stroke="#7A1C54" stroke-width="4"/>
+  <text x="64.5" y="79" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#7A1C54">1</text>
+  <path d="M64 27 L69 38 L81 39 L72 47 L75 59 L64 53 L53 59 L56 47 L47 39 L59 38 Z" fill="#FFE36B" stroke="#7A1C54" stroke-width="4" stroke-linejoin="round"/>
+</svg>

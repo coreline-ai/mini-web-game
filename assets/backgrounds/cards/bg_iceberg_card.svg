@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-label="Cartoon iceberg mobile background card">
+  <defs>
+    <linearGradient id="ice_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#85d9ff"/>
+      <stop offset="60%" stop-color="#d5f7ff"/>
+      <stop offset="100%" stop-color="#effdff"/>
+    </linearGradient>
+    <linearGradient id="ice_water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5bc7e5"/>
+      <stop offset="100%" stop-color="#2788bb"/>
+    </linearGradient>
+    <filter id="ice_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#14607a" flood-opacity="0.24"/>
+    </filter>
+    <clipPath id="ice_clip">
+      <rect x="8" y="8" width="304" height="464" rx="34"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="304" height="464" rx="34" fill="#dffaff" filter="url(#ice_shadow)"/>
+  <g clip-path="url(#ice_clip)">
+    <rect x="8" y="8" width="304" height="464" fill="url(#ice_sky)"/>
+    <path d="M8 101 C55 58 96 86 132 52 C178 10 231 54 312 22 L312 157 C238 136 178 147 123 130 C78 116 41 128 8 148 Z" fill="#b4ffec" opacity="0.36"/>
+    <path d="M8 128 C72 82 132 122 184 76 C232 33 266 56 312 37 L312 141 C257 124 217 127 169 114 C116 100 72 116 8 158 Z" fill="#c890ff" opacity="0.22"/>
+    <g fill="#ffffff" opacity="0.9">
+      <ellipse cx="68" cy="122" rx="35" ry="13"/>
+      <ellipse cx="99" cy="123" rx="21" ry="10"/>
+      <ellipse cx="235" cy="94" rx="30" ry="12"/>
+    </g>
+    <path d="M8 287 C69 265 111 280 164 260 C220 239 260 247 312 225 L312 472 L8 472 Z" fill="url(#ice_water)"/>
+    <path d="M8 313 C68 295 112 308 164 291 C221 272 260 278 312 260" fill="none" stroke="#bff7ff" stroke-width="8" opacity="0.72"/>
+    <g stroke="#4b93ba" stroke-width="5" stroke-linejoin="round">
+      <path d="M55 294 L112 176 L182 294 Z" fill="#e9fdff"/>
+      <path d="M112 176 L182 294 L124 275 Z" fill="#b9e9f6"/>
+      <path d="M55 294 L92 251 L124 275 L182 294 Z" fill="#a1dff0"/>
+      <path d="M196 276 L235 206 L283 276 Z" fill="#e7fbff"/>
+      <path d="M235 206 L283 276 L245 267 Z" fill="#b2e7f5"/>
+    </g>
+    <g fill="#dff9ff" stroke="#70bdd6" stroke-width="3">
+      <path d="M25 372 L61 353 L99 372 L68 389 Z"/>
+      <path d="M200 395 L237 376 L280 394 L243 414 Z"/>
+      <path d="M116 431 L153 412 L197 431 L159 449 Z"/>
+    </g>
+    <g stroke="#dffbff" stroke-width="5" stroke-linecap="round" opacity="0.72">
+      <path d="M25 342 C58 330 95 331 130 345"/>
+      <path d="M180 344 C215 330 257 329 291 342"/>
+      <path d="M54 412 C92 397 135 399 176 414"/>
+    </g>
+    <g transform="translate(44 398)">
+      <ellipse cx="31" cy="21" rx="24" ry="15" fill="#2f4559"/>
+      <circle cx="12" cy="17" r="14" fill="#2f4559"/>
+      <ellipse cx="18" cy="19" rx="7" ry="9" fill="#fff5d5"/>
+      <circle cx="8" cy="13" r="2" fill="#0b1722"/>
+      <path d="M-1 24 L-16 32 L0 35" fill="#2f4559"/>
+    </g>
+    <rect x="8" y="8" width="304" height="464" rx="34" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.62"/>
+    <rect x="14" y="14" width="292" height="452" rx="29" fill="none" stroke="#2788bb" stroke-width="3" opacity="0.22"/>
+  </g>
+</svg>

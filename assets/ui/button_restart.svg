@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Restart button">
+  <defs>
+    <linearGradient id="btn" x1="20" y1="14" x2="108" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8FEAFF"/>
+      <stop offset="100%" stop-color="#35B3FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#34475F" flood-opacity="0.26"/>
+    </filter>
+  </defs>
+  <rect x="14" y="14" width="100" height="100" rx="28" fill="url(#btn)" stroke="#1579C7" stroke-width="6" filter="url(#shadow)"/>
+  <path d="M34 29 H89" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.42"/>
+  <path d="M86 45 C77 34 58 32 46 43 C34 54 34 74 46 85 C58 96 78 94 88 80" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M87 30 V48 H69" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M55 62 L55 80 L73 71 Z" fill="#1A6AA8" opacity="0.55"/>
+</svg>

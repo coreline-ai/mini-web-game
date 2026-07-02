@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="cloth" x1="31" y1="18" x2="101" y2="119" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4d5265"/>
+      <stop offset="0.48" stop-color="#242833"/>
+      <stop offset="1" stop-color="#11141c"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="49" cy="45" r="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe1b0"/>
+      <stop offset="1" stop-color="#f0ad7f"/>
+    </radialGradient>
+    <linearGradient id="red" x1="28" y1="31" x2="100" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff6b5a"/>
+      <stop offset="1" stop-color="#cf2230"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#2c2331" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M33 118c1-31 12-51 31-51s30 20 31 51c-13 7-49 7-62 0z" fill="url(#cloth)"/>
+    <path d="M37 88c-12 5-19 15-19 28" fill="none"/>
+    <path d="M91 88c12 5 19 15 19 28" fill="none"/>
+    <circle cx="19" cy="116" r="7" fill="#282c38"/>
+    <circle cx="109" cy="116" r="7" fill="#282c38"/>
+    <path d="M31 50c0-23 14-37 33-37s33 14 33 37c0 25-14 41-33 41S31 75 31 50z" fill="url(#cloth)"/>
+    <path d="M34 35h57c2 3 3 6 3 10-16 5-42 5-62 0 0-4 1-7 2-10z" fill="url(#red)"/>
+    <path d="M84 36c7-8 20-10 29-4-5 4-9 9-11 15-6-2-13-6-18-11z" fill="url(#red)"/>
+    <path d="M91 43c6 2 12 7 15 14-7 0-14-2-19-7" fill="url(#red)"/>
+    <path d="M38 52c4-8 13-12 26-12s22 4 26 12c-4 11-13 17-26 17S42 63 38 52z" fill="url(#skin)"/>
+    <path d="M48 54c4-3 9-3 13 0" fill="none" stroke-width="3.5"/>
+    <path d="M68 54c4-3 9-3 13 0" fill="none" stroke-width="3.5"/>
+    <circle cx="56" cy="57" r="2.7" fill="#2c2331" stroke="none"/>
+    <circle cx="72" cy="57" r="2.7" fill="#2c2331" stroke="none"/>
+    <path d="M57 70c4 3 10 3 14 0" fill="none"/>
+    <path d="M43 90l21 20 21-20" fill="none" stroke="#ff5b52" stroke-width="5"/>
+    <path d="M89 78l20-24" fill="none" stroke="#d7e4ff" stroke-width="5"/>
+    <path d="M107 52l5 5" fill="none" stroke="#f7fbff" stroke-width="4"/>
+    <ellipse cx="78" cy="28" rx="12" ry="4" fill="#fff" opacity="0.13" stroke="none" transform="rotate(30 78 28)"/>
+  </g>
+</svg>

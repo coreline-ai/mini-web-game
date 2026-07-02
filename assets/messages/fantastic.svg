@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 118" role="img" aria-label="Fantastic message text">
+  <defs>
+    <linearGradient id="fant" x1="0" y1="8" x2="0" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="32%" stop-color="#FFF36F"/>
+      <stop offset="100%" stop-color="#FF69C3"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-20%" width="110%" height="145%">
+      <feDropShadow dx="0" dy="7" stdDeviation="3" flood-color="#3B246F" flood-opacity="0.34"/>
+    </filter>
+  </defs>
+  <path d="M48 15 L56 34 L77 36 L61 49 L66 70 L48 59 L30 70 L35 49 L19 36 L40 34 Z" fill="#FFE66D" stroke="#9B5B00" stroke-width="4"/>
+  <path d="M371 21 L377 35 L392 36 L381 46 L385 61 L371 53 L357 61 L361 46 L350 36 L365 35 Z" fill="#79F0FF" stroke="#226A98" stroke-width="4"/>
+  <text x="210" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="55" font-weight="900" letter-spacing="1" fill="url(#fant)" stroke="#5B35B5" stroke-width="8" paint-order="stroke" filter="url(#shadow)">FANTASTIC!</text>
+  <circle cx="88" cy="88" r="7" fill="#67E37C"/>
+  <circle cx="331" cy="90" r="6" fill="#FF8E5F"/>
+  <path d="M104 21 C122 9 138 9 154 21" fill="none" stroke="#FF79B8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M268 20 C286 8 302 8 318 20" fill="none" stroke="#72DFFF" stroke-width="6" stroke-linecap="round"/>
+</svg>

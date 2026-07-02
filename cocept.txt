@@ -1,0 +1,490 @@
+이 게임은 단순한 "똥피하기"가 아니라 2026년 감성의 레트로 아케이드 + 모바일 중독성 + AI 이미지 에셋 제작까지 고려해서 기획하는 것이 좋다.
+
+내 목표는 다음이다.
+
+"Flappy Bird + Vampire Survivors + 90년대 오락실"처럼 1분은 쉽고, 5분부터 미친 난이도가 되는 게임
+
+프로젝트명
+💩 Don't Get Pooped!
+
+또는
+
+Toilet Escape
+Poop Rush
+Poop Panic
+Dodge The Poop
+Ultimate Poop Survival
+게임 컨셉
+
+휴대폰 세로모드
+
+1080 x 1920
+
+한 손 플레이
+
+조작은
+
+👉 좌우 이동만
+
+(손가락 드래그)
+
+플레이어는 아래쪽 15% 영역에서 이동한다.
+
+위에서는 계속 똥이 떨어진다.
+
+게임 흐름
+START
+
+↓
+
+1단계
+
+↓
+
+2단계
+
+↓
+
+3단계
+
+↓
+
+....
+
+↓
+
+무한모드
+
+점수는
+
+생존시간
+
+회피 개수
+
+콤보
+
+레트로 감성
+
+화면은
+
+□□□□□□□□□□
+
+■
+
+💩
+
+💩
+
+💩
+
+□□□□□□□□□□
+
+같은 고전게임 느낌.
+
+하지만
+
+배경은 현대적.
+
+전체 난이도 설계
+Stage 1
+
+튜토리얼
+
+속도
+
+★
+
+똥 개수
+
+★
+
+패턴
+
+직선
+
+Stage 2
+
+속도 증가
+
+★★
+
+큰 똥 등장
+
+Stage 3
+
+작은 똥
+
+큰 똥
+
+혼합
+
+Stage 4
+
+회전하는 똥 등장
+
+맞으면 동일
+
+하지만
+
+판정이 애매해짐
+
+Stage 5
+
+황금똥 등장
+
+맞으면 죽음
+
+피하면
+
++500점
+
+Stage 6
+
+새똥 등장
+
+비스듬히 날아온다.
+
+Stage 7
+
+독똥
+
+바닥에 남는다.
+
+일정 시간 장애물
+
+Stage 8
+
+연속 폭격
+
+💩💩💩💩💩
+💩💩💩💩💩
+Stage 9
+
+가짜 똥
+
+그림자만 있다.
+
+안 떨어짐.
+
+페이크
+
+Stage 10
+
+보스
+
+🚽
+
+거대한 변기
+
+화면 위 등장
+
+양쪽으로 움직이며
+
+폭격
+
+이후
+
+Endless
+
+속도 계속 증가
+
+점수 시스템
+
+생존
+
+1초
+
+=
+
+10점
+
+회피
+
+1개
+
+=
+
+2점
+
+Near Miss
+
+=
+
+20점
+
+황금똥 회피
+
+=
+
+500점
+
+콤보 시스템
+
+100개 연속 회피
+
+↓
+
+FANTASTIC
+
+200
+
+↓
+
+MASTER
+
+500
+
+↓
+
+LEGEND
+
+아이템
+우산
+
+10초 보호
+
+슬리퍼
+
+이동속도 증가
+
+자석
+
+코인 자동획득
+
+시계
+
+5초 슬로우
+
+번개
+
+화면 전체 제거
+
+코인 시스템
+
+똥을 피하면
+
+랜덤으로
+
+🪙
+
+드롭
+
+상점
+
+캐릭터
+스킨
+배경
+캐릭터
+
+소년
+
+소녀
+
+직장인
+
+닌자
+
+우주인
+
+토끼
+
+고양이
+
+오리
+
+배경
+
+도시
+
+공원
+
+학교
+
+지하철
+
+우주
+
+사막
+
+빙하
+
+용암
+
+특수 이벤트
+
+30초마다
+
+경고
+
+⚠ WARNING ⚠
+
+이후
+
+폭우처럼 떨어짐
+
+사운드
+
+피하기
+
+틱
+
+Near Miss
+
+슈욱
+
+황금똥
+
+띵~
+
+게임오버
+
+뿌직...
+UI
+Score
+
+Best
+
+Combo
+
+Coin
+
+Pause
+
+아주 심플
+
+게임오버
+
+플레이어
+
+↓
+
+납작해짐
+
+↓
+
+별
+
+빙글빙글
+
+↓
+
+GAME OVER
+
+광고
+
+한 판
+
+30~90초
+
+↓
+
+광고 보기
+
+↓
+
+이어하기
+
+AI 이미지 제작 계획
+1. 플레이어
+프롬프트
+
+Cute chibi arcade game character, front view, full body, clean outline, colorful cartoon style, simple shading, transparent background, mobile game sprite, idle pose, high quality, consistent proportions, 1024x1024
+
+2. 기본 똥
+
+Cute smiling poop icon, glossy brown cartoon, arcade game asset, simple shape, transparent background, front view, soft shadow, clean outline, high quality sprite sheet style
+
+3. 황금똥
+
+Golden shiny poop icon with sparkling effects, premium collectible style, glossy metallic gold, cartoon game asset, transparent background, front view, high quality
+
+4. 독똥
+
+Toxic green glowing poop, radioactive ooze, cartoon game asset, transparent background, arcade style, slimy texture, bright neon green accents
+
+5. 회전 똥
+
+Cartoon poop viewed from multiple rotation angles, sprite sheet, transparent background, consistent lighting, arcade asset, 8-frame animation
+
+6. 변기 보스
+
+Giant angry toilet boss with expressive eyes, arcade boss design, cartoon style, front view, transparent background, highly detailed, mobile game asset
+
+7. 코인
+
+Shiny arcade coin with poop logo engraved, cartoon style, transparent background, game collectible icon
+
+8. 우산
+
+Cute blue umbrella power-up, cartoon mobile game asset, transparent background, glossy finish, simple icon
+
+9. 슬리퍼
+
+Red speed slippers, cartoon power-up icon, transparent background, arcade game asset
+
+10. 자석
+
+Horseshoe magnet power-up, red and blue, cartoon game icon, transparent background
+
+11. 번개
+
+Electric lightning power-up icon, glowing yellow bolt, arcade mobile game style, transparent background
+
+12. 배경
+도시
+
+Colorful cartoon city street background, vertical mobile game, endless runner perspective, vibrant colors, layered parallax scenery, high resolution, no characters
+
+학교
+
+Cute school playground background, vertical arcade game, cartoon style, layered parallax, clean sky, colorful buildings
+
+우주
+
+Cartoon outer space background with stars, planets and nebula, vertical mobile game, endless arcade style, layered parallax
+
+UI 아이콘
+일시정지
+설정
+사운드
+최고기록
+랭킹
+재시작
+
+모두 동일한 스타일의 벡터 아이콘으로 제작하면 통일감이 높다.
+
+애니메이션 에셋 프롬프트
+플레이어 걷기 (8프레임)
+
+Cute chibi game character sprite sheet, 8-frame walking animation, front view, transparent background, arcade mobile game style, consistent proportions, evenly spaced frames
+
+똥 회전 (8프레임)
+
+Cartoon poop sprite sheet, 8-frame rotation animation, transparent background, consistent lighting, seamless arcade animation
+
+변기 보스 공격 (12프레임)
+
+Giant cartoon toilet boss sprite sheet, 12-frame attack animation, opening lid, shaking, launching poop projectiles, transparent background, consistent proportions
+
+개발 로드맵
+단계	목표	주요 기능
+1	MVP	좌우 이동, 기본 똥 낙하, 점수, 게임 오버
+2	난이도 시스템	속도 증가, 스테이지 전환, 경고 이벤트
+3	콘텐츠 확장	아이템, 코인, 다양한 똥 종류, 보스
+4	메타 시스템	캐릭터·배경 스킨, 업적, 일일 미션
+5	완성도 향상	사운드, 파티클, 진동, 광고/이어하기, 랭킹
+기술 아키텍처
+게임 엔진: Phaser 3 또는 Unity(2D)
+해상도 기준: 1080×1920(세로)
+렌더링: 60 FPS 목표
+배경: 3~5 레이어 패럴랙스 스크롤
+난이도: 시간 기반 + 점수 기반 혼합 증가
+오브젝트 풀링: 낙하 오브젝트 재사용으로 성능 최적화
+데이터: ScriptableObject(Unity) 또는 JSON(Phaser)로 스테이지/아이템 관리
+이후 확장 콘텐츠
+시즌 이벤트(할로윈: 호박똥, 크리스마스: 눈똥)
+일일 도전 과제
+랭킹 및 친구 점수 경쟁
+다양한 플레이어 스킨과 배경 테마
+
+이 구조대로 진행하면 레트로 오락실 감성과 현대 모바일 게임의 반복 플레이 요소를 결합한 완성도 높은 세로형 아케이드 게임을 만들 수 있으며, AI를 활용한 에셋 생성까지 일관된 스타일로 진행할 수 있다.

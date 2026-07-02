@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-label="Cartoon park mobile background card">
+  <defs>
+    <linearGradient id="park_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9be4ff"/>
+      <stop offset="62%" stop-color="#d9f7ff"/>
+      <stop offset="100%" stop-color="#f3ffe4"/>
+    </linearGradient>
+    <linearGradient id="park_path" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd98a"/>
+      <stop offset="100%" stop-color="#e7a95d"/>
+    </linearGradient>
+    <filter id="park_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#28552c" flood-opacity="0.24"/>
+    </filter>
+    <clipPath id="park_clip">
+      <rect x="8" y="8" width="304" height="464" rx="34"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="304" height="464" rx="34" fill="#dff9c8" filter="url(#park_shadow)"/>
+  <g clip-path="url(#park_clip)">
+    <rect x="8" y="8" width="304" height="464" fill="url(#park_sky)"/>
+    <circle cx="60" cy="72" r="29" fill="#ffe175"/>
+    <g fill="#fff" opacity="0.88">
+      <ellipse cx="176" cy="82" rx="33" ry="14"/>
+      <ellipse cx="205" cy="83" rx="22" ry="11"/>
+      <ellipse cx="165" cy="73" rx="17" ry="9"/>
+    </g>
+    <path d="M8 258 C48 236 82 245 128 226 C188 202 248 220 312 190 L312 472 L8 472 Z" fill="#8ed66f"/>
+    <path d="M8 300 C66 278 111 291 160 267 C222 237 258 254 312 232 L312 472 L8 472 Z" fill="#70bd54"/>
+    <path d="M129 472 C148 405 140 358 126 316 C113 277 116 243 153 218 C186 251 190 293 176 331 C161 375 168 418 193 472 Z" fill="url(#park_path)"/>
+    <path d="M152 242 C144 306 158 349 156 409" fill="none" stroke="#fff3bb" stroke-width="5" stroke-dasharray="12 22" stroke-linecap="round" opacity="0.7"/>
+    <g stroke="#4a7e32" stroke-width="4" stroke-linejoin="round">
+      <g transform="translate(42 196)">
+        <rect x="25" y="58" width="17" height="79" rx="8" fill="#9b6139" stroke="#6e4227"/>
+        <circle cx="32" cy="50" r="43" fill="#4fbd57"/>
+        <circle cx="7" cy="64" r="28" fill="#67cc63"/>
+        <circle cx="57" cy="68" r="32" fill="#59c75d"/>
+        <circle cx="32" cy="24" r="31" fill="#78db72"/>
+      </g>
+      <g transform="translate(226 176)">
+        <rect x="21" y="67" width="16" height="88" rx="8" fill="#9b6139" stroke="#6e4227"/>
+        <circle cx="28" cy="58" r="41" fill="#3fac55"/>
+        <circle cx="4" cy="73" r="26" fill="#5fc566"/>
+        <circle cx="55" cy="75" r="30" fill="#52bd5e"/>
+        <circle cx="30" cy="31" r="30" fill="#7bdc72"/>
+      </g>
+    </g>
+    <g transform="translate(39 345)">
+      <rect x="9" y="18" width="78" height="14" rx="7" fill="#a7653c" stroke="#704027" stroke-width="4"/>
+      <rect x="0" y="37" width="96" height="12" rx="6" fill="#c57b45" stroke="#704027" stroke-width="4"/>
+      <path d="M17 48 L10 82 M80 48 L87 82" stroke="#704027" stroke-width="6" stroke-linecap="round"/>
+      <path d="M8 55 L88 55" stroke="#f0a267" stroke-width="3" opacity="0.7"/>
+    </g>
+    <g transform="translate(212 341)">
+      <ellipse cx="31" cy="39" rx="47" ry="24" fill="#66c7d9" stroke="#2d7b8c" stroke-width="5"/>
+      <ellipse cx="19" cy="33" rx="20" ry="8" fill="#aaf0f7" opacity="0.75"/>
+      <path d="M-8 41 C16 50 44 50 70 38" stroke="#2d9bad" stroke-width="4" fill="none" opacity="0.55"/>
+    </g>
+    <g fill="#ff7ca8" stroke="#c94d78" stroke-width="3">
+      <circle cx="28" cy="308" r="6"/><circle cx="52" cy="286" r="5"/><circle cx="222" cy="291" r="5"/><circle cx="286" cy="315" r="6"/>
+    </g>
+    <rect x="8" y="8" width="304" height="464" rx="34" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.58"/>
+    <rect x="14" y="14" width="292" height="452" rx="29" fill="none" stroke="#326d35" stroke-width="3" opacity="0.25"/>
+  </g>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Lightning clear item">
+  <defs>
+    <radialGradient id="burst" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="42%" stop-color="#FFE97D"/>
+      <stop offset="100%" stop-color="#FF8C3D" stop-opacity="0.45"/>
+    </radialGradient>
+    <linearGradient id="bolt" x1="45" y1="9" x2="80" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF56D"/>
+      <stop offset="100%" stop-color="#FFAF00"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 8 L73 30 L98 20 L88 45 L117 52 L91 66 L111 88 L80 84 L75 119 L58 91 L32 111 L41 79 L10 72 L38 56 L18 33 L50 39 Z" fill="url(#burst)" stroke="#F06B21" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M70 13 L38 65 H61 L52 115 L91 55 H68 Z" fill="url(#bolt)" stroke="#6A3B00" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M70 13 L49 55 H68 L61 93 L91 55 H68 Z" fill="#FFF9A8" opacity="0.72"/>
+  <g fill="none" stroke-linecap="round" stroke-width="5">
+    <path d="M22 101 L33 90" stroke="#74E3FF"/>
+    <path d="M21 90 L34 102" stroke="#74E3FF"/>
+    <path d="M99 108 L111 96" stroke="#FF72A3"/>
+    <path d="M99 96 L111 108" stroke="#FF72A3"/>
+    <path d="M109 28 L118 19" stroke="#66DA83"/>
+    <path d="M109 19 L118 28" stroke="#66DA83"/>
+  </g>
+  <circle cx="25" cy="25" r="5" fill="#FFFFFF" opacity="0.86"/>
+  <circle cx="105" cy="75" r="4" fill="#FFFFFF" opacity="0.82"/>
+</svg>

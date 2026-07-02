@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 108" role="img" aria-label="Warning message text">
+  <defs>
+    <linearGradient id="warn" x1="0" y1="0" x2="0" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF477"/>
+      <stop offset="100%" stop-color="#FF9C2F"/>
+    </linearGradient>
+    <filter id="pop" x="-5%" y="-20%" width="110%" height="145%">
+      <feDropShadow dx="0" dy="7" stdDeviation="3" flood-color="#5B2E00" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+  <path d="M28 93 L76 15 C82 5 96 5 102 15 L150 93 Z" fill="url(#warn)" stroke="#7F3D00" stroke-width="7" stroke-linejoin="round" filter="url(#pop)"/>
+  <rect x="84" y="36" width="11" height="32" rx="5" fill="#7F3D00"/>
+  <circle cx="89.5" cy="78" r="6" fill="#7F3D00"/>
+  <text x="176" y="72" font-family="Arial, sans-serif" font-size="47" font-weight="900" fill="#FF4A3E" stroke="#FFFFFF" stroke-width="8" paint-order="stroke" filter="url(#pop)">WARNING</text>
+  <circle cx="319" cy="26" r="9" fill="#FF6E9B"/>
+  <path d="M329 80 L342 68 L346 85 Z" fill="#70E6FF"/>
+</svg>

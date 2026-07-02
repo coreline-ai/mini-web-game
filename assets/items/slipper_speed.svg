@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Slipper speed item">
+  <defs>
+    <linearGradient id="sole" x1="28" y1="76" x2="102" y2="86" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#71F2D0"/>
+      <stop offset="100%" stop-color="#18B7B2"/>
+    </linearGradient>
+    <linearGradient id="strap" x1="50" y1="37" x2="86" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFE18B"/>
+      <stop offset="100%" stop-color="#FF8B37"/>
+    </linearGradient>
+  </defs>
+  <circle cx="67" cy="66" r="50" fill="#F0FEFF"/>
+  <path d="M16 46 H45" stroke="#81D4FF" stroke-width="8" stroke-linecap="round"/>
+  <path d="M9 67 H38" stroke="#A9E966" stroke-width="8" stroke-linecap="round"/>
+  <path d="M18 88 H48" stroke="#FFD66E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M43 40 C65 29 99 45 109 71 C115 86 105 101 85 104 C61 107 36 94 31 78 C26 62 31 46 43 40 Z" fill="url(#sole)" stroke="#0B8F9D" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M42 75 C59 88 86 94 103 84" fill="none" stroke="#D8FFF4" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+  <path d="M53 51 C68 45 86 52 96 69" fill="none" stroke="url(#strap)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M60 83 C64 67 73 56 90 49" fill="none" stroke="#FF9957" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="59" cy="82" r="7" fill="#FFEFBC" stroke="#D36E1F" stroke-width="3"/>
+  <path d="M69 47 C76 48 84 52 90 60" fill="none" stroke="#FFF4CB" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <path d="M23 30 L34 26 L31 38 Z" fill="#FFD767" opacity="0.88"/>
+  <path d="M98 29 L108 35 L96 41 Z" fill="#FF78A8" opacity="0.9"/>
+</svg>

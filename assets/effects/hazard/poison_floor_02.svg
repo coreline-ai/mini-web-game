@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="poison_floor_02_puddle" cx="61" cy="73" r="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c9ff44" stop-opacity="0.95"/>
+      <stop offset="0.52" stop-color="#66d923" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#178522" stop-opacity="0.7"/>
+    </radialGradient>
+    <linearGradient id="poison_floor_02_edge" x1="18" y1="61" x2="111" y2="103" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e8ff62"/>
+      <stop offset="1" stop-color="#087527"/>
+    </linearGradient>
+  </defs>
+  <path d="M28 51 C20 44 34 37 29 28" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M61 44 C53 35 68 29 62 18" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M98 49 C90 42 106 34 101 25" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <ellipse cx="64" cy="103" rx="43" ry="8" fill="#0d4d20" opacity="0.18"/>
+  <path d="M13 88 C18 72 38 69 50 72 C61 58 81 59 93 70 C107 70 119 79 115 93 C111 108 92 111 78 104 C63 114 39 111 27 104 C16 102 9 96 13 88 Z" fill="url(#poison_floor_02_puddle)" stroke="#0b6e27" stroke-width="5.5" stroke-linejoin="round"/>
+  <path d="M27 86 C41 93 78 95 101 84" fill="none" stroke="url(#poison_floor_02_edge)" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
+  <ellipse cx="48" cy="80" rx="12" ry="5" fill="#e8ff62" opacity="0.62" transform="rotate(-10 48 80)"/>
+  <circle cx="31" cy="75" r="4" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="58" cy="60" r="5" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="93" cy="65" r="5" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="74" cy="101" r="5" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="104" cy="91" r="3.2" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+</svg>

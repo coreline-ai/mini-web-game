@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="feather" x1="32" y1="19" x2="93" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff37a"/>
+      <stop offset="0.58" stop-color="#ffd74d"/>
+      <stop offset="1" stop-color="#f4a929"/>
+    </linearGradient>
+    <linearGradient id="beak" x1="42" y1="58" x2="88" y2="78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb64d"/>
+      <stop offset="1" stop-color="#f77a23"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="30" y1="78" x2="82" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe56b"/>
+      <stop offset="1" stop-color="#eda431"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#2c2331" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 116c0-31 12-51 31-51s31 20 31 51c-12 9-50 9-62 0z" fill="url(#feather)"/>
+    <path d="M38 91c-14 4-21 12-20 25" fill="none"/>
+    <path d="M90 92c12 4 19 12 20 24" fill="none"/>
+    <path d="M45 113c-5 5-12 7-20 6" fill="none" stroke="#f77a23" stroke-width="6"/>
+    <path d="M83 113c5 5 12 7 20 6" fill="none" stroke="#f77a23" stroke-width="6"/>
+    <path d="M40 88c12 1 23 7 28 20-15 6-28 0-34-12" fill="url(#wing)"/>
+    <circle cx="64" cy="50" r="35" fill="url(#feather)"/>
+    <path d="M58 17c-1-8 8-12 14-6-7 3-8 8-5 13" fill="#ffd84f"/>
+    <circle cx="52" cy="48" r="3.7" fill="#2c2331" stroke="none"/>
+    <circle cx="76" cy="48" r="3.7" fill="#2c2331" stroke="none"/>
+    <circle cx="49" cy="57" r="5" fill="#ff9b78" opacity="0.38" stroke="none"/>
+    <circle cx="79" cy="57" r="5" fill="#ff9b78" opacity="0.38" stroke="none"/>
+    <path d="M45 62c8-8 30-8 38 0 4 4 2 13-6 15-7 2-19 2-26 0-8-2-10-11-6-15z" fill="url(#beak)"/>
+    <path d="M47 66c8 4 26 4 34 0" fill="none" stroke="#d85f20" stroke-width="3" opacity="0.65"/>
+    <path d="M57 80c4 3 10 3 14 0" fill="none"/>
+    <ellipse cx="76" cy="35" rx="10" ry="5" fill="#fff" opacity="0.35" stroke="none" transform="rotate(28 76 35)"/>
+  </g>
+</svg>

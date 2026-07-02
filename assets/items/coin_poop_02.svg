@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Gold coin with poop icon variant 2">
+  <defs>
+    <linearGradient id="edge" x1="19" y1="19" x2="109" y2="109" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF59A"/>
+      <stop offset="45%" stop-color="#FFC229"/>
+      <stop offset="100%" stop-color="#D98200"/>
+    </linearGradient>
+    <radialGradient id="center" cx="38%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFF8B8"/>
+      <stop offset="100%" stop-color="#FFBB19"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="64" cy="64" rx="52" ry="55" fill="url(#edge)" stroke="#A96400" stroke-width="7" transform="rotate(-8 64 64)"/>
+  <ellipse cx="64" cy="64" rx="38" ry="42" fill="url(#center)" stroke="#FFE780" stroke-width="5" transform="rotate(-8 64 64)"/>
+  <path d="M43 78 C43 66 52 60 65 60 C78 60 87 66 87 78 C87 91 43 91 43 78 Z" fill="#8A4E2E" stroke="#53301E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M50 63 C51 53 58 49 67 49 C76 49 82 54 82 63 C82 72 50 72 50 63 Z" fill="#AD6C3B" stroke="#53301E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M59 50 C58 42 66 37 72 42 C78 48 68 54 58 54 Z" fill="#C8894E" stroke="#53301E" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="58" cy="77" r="3.4" fill="#20120B"/>
+  <circle cx="73" cy="77" r="3.4" fill="#20120B"/>
+  <path d="M61 84 C64 86 68 86 71 84" stroke="#20120B" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M34 42 L39 32 L44 42 L54 47 L44 52 L39 62 L34 52 L24 47 Z" fill="#FFFFFF" opacity="0.82"/>
+  <path d="M93 25 L97 18 L101 25 L108 29 L101 33 L97 40 L93 33 L86 29 Z" fill="#FFFFFF" opacity="0.72"/>
+  <path d="M26 78 C30 95 43 106 60 110" fill="none" stroke="#FFE986" stroke-width="6" stroke-linecap="round" opacity="0.62"/>
+</svg>

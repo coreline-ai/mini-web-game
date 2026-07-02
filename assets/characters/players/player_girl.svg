@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="dress" x1="35" y1="61" x2="93" y2="121" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff9bd2"/>
+      <stop offset="0.58" stop-color="#ff62ad"/>
+      <stop offset="1" stop-color="#db3c8b"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="48" cy="35" r="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe9c7"/>
+      <stop offset="0.8" stop-color="#ffd1a2"/>
+      <stop offset="1" stop-color="#f0a77a"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="35" y1="18" x2="91" y2="83" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b5537"/>
+      <stop offset="1" stop-color="#4d2c24"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#2c2331" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 66c-4-22 7-44 26-44s31 22 26 44c-4 16-14 25-26 25S42 82 38 66z" fill="url(#hair)"/>
+    <path d="M40 118c3-30 11-47 24-47s21 17 24 47c-14 7-35 7-48 0z" fill="url(#dress)"/>
+    <path d="M43 92c-9 3-17 11-19 21" fill="none"/>
+    <path d="M85 92c9 3 17 11 19 21" fill="none"/>
+    <circle cx="25" cy="114" r="7" fill="url(#skin)"/>
+    <circle cx="103" cy="114" r="7" fill="url(#skin)"/>
+    <path d="M42 52c0-16 9-27 22-27s22 11 22 27c0 20-9 32-22 32S42 72 42 52z" fill="url(#skin)"/>
+    <path d="M42 47c5-12 17-19 30-17 1 8-15 16-30 17z" fill="url(#hair)"/>
+    <path d="M72 31c10 4 15 11 15 22-8-2-14-8-15-22z" fill="url(#hair)"/>
+    <circle cx="55" cy="58" r="3.4" fill="#2c2331" stroke="none"/>
+    <circle cx="73" cy="58" r="3.4" fill="#2c2331" stroke="none"/>
+    <circle cx="52" cy="67" r="5" fill="#ff8fb0" opacity="0.55" stroke="none"/>
+    <circle cx="76" cy="67" r="5" fill="#ff8fb0" opacity="0.55" stroke="none"/>
+    <path d="M57 70c4 4 10 4 14 0" fill="none"/>
+    <path d="M58 86l6 8 6-8" fill="#ffcee8"/>
+    <path d="M58 103h12" fill="none" stroke="#ffc2e2" stroke-width="3"/>
+    <path d="M43 21c-7-7-16-4-19 4 6 7 15 9 22 3z" fill="#ff72b8"/>
+    <path d="M46 28c4-9 13-11 20-5-2 9-11 14-20 5z" fill="#ff8fca"/>
+    <circle cx="45" cy="27" r="4" fill="#ff4fa5"/>
+    <ellipse cx="77" cy="42" rx="8" ry="4" fill="#fff" opacity="0.22" stroke="none" transform="rotate(28 77 42)"/>
+  </g>
+</svg>

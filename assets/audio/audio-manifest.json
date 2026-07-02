@@ -1,0 +1,121 @@
+{
+  "version": "0.1.0",
+  "format": "ogg/vorbis",
+  "sampleRate": 44100,
+  "channels": "stereo dual-mono",
+  "license": "project-generated procedural audio; no external samples",
+  "publicPathNote": "Vite publicDir is assets, so load paths like /audio/sfx/near_miss_whoosh_tick.ogg",
+  "totalAudio": 10,
+  "assets": [
+    {
+      "key": "coin_ding",
+      "path": "audio/sfx/coin_ding.ogg",
+      "category": "sfx",
+      "usage": "coin or golden poop reward",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.421,
+      "sizeBytes": 7092
+    },
+    {
+      "key": "dodge_tick_01",
+      "path": "audio/sfx/dodge_tick_01.ogg",
+      "category": "sfx",
+      "usage": "normal dodge feedback variation 1",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.106,
+      "sizeBytes": 5122
+    },
+    {
+      "key": "dodge_tick_02",
+      "path": "audio/sfx/dodge_tick_02.ogg",
+      "category": "sfx",
+      "usage": "normal dodge feedback variation 2",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.106,
+      "sizeBytes": 5117
+    },
+    {
+      "key": "dodge_tick_03",
+      "path": "audio/sfx/dodge_tick_03.ogg",
+      "category": "sfx",
+      "usage": "normal dodge feedback variation 3",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.106,
+      "sizeBytes": 5054
+    },
+    {
+      "key": "game_over_jingle",
+      "path": "audio/sfx/game_over_jingle.ogg",
+      "category": "sfx",
+      "usage": "game over stinger",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 1.251,
+      "sizeBytes": 10199
+    },
+    {
+      "key": "hit_splat",
+      "path": "audio/sfx/hit_splat.ogg",
+      "category": "sfx",
+      "usage": "player hit / poop impact",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.46,
+      "sizeBytes": 9402
+    },
+    {
+      "key": "near_miss_whoosh_tick",
+      "path": "audio/sfx/near_miss_whoosh_tick.ogg",
+      "category": "sfx",
+      "usage": "near miss reward feedback",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.361,
+      "sizeBytes": 12942
+    },
+    {
+      "key": "powerup_shield",
+      "path": "audio/sfx/powerup_shield.ogg",
+      "category": "sfx",
+      "usage": "umbrella shield or power-up activation",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.58,
+      "sizeBytes": 7542
+    },
+    {
+      "key": "warning_beep",
+      "path": "audio/sfx/warning_beep.ogg",
+      "category": "sfx",
+      "usage": "30-second warning event alert",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.681,
+      "sizeBytes": 14104
+    },
+    {
+      "key": "button_click",
+      "path": "audio/ui/button_click.ogg",
+      "category": "ui",
+      "usage": "button tap/click feedback",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 0.086,
+      "sizeBytes": 5894
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pixel heart continue icon variant 1">
+  <rect width="128" height="128" rx="26" fill="#FFEAF1"/>
+  <g shape-rendering="crispEdges">
+    <rect x="32" y="24" width="16" height="16" fill="#FF6B91"/>
+    <rect x="48" y="24" width="16" height="16" fill="#FF3E70"/>
+    <rect x="80" y="24" width="16" height="16" fill="#FF3E70"/>
+    <rect x="96" y="24" width="16" height="16" fill="#D92B60"/>
+    <rect x="16" y="40" width="16" height="16" fill="#FF6B91"/>
+    <rect x="32" y="40" width="16" height="16" fill="#FF3E70"/>
+    <rect x="48" y="40" width="16" height="16" fill="#FF3E70"/>
+    <rect x="64" y="40" width="16" height="16" fill="#FF3E70"/>
+    <rect x="80" y="40" width="16" height="16" fill="#FF3E70"/>
+    <rect x="96" y="40" width="16" height="16" fill="#D92B60"/>
+    <rect x="112" y="40" width="16" height="16" fill="#B51D4B"/>
+    <rect x="16" y="56" width="16" height="16" fill="#FF3E70"/>
+    <rect x="32" y="56" width="16" height="16" fill="#FF3E70"/>
+    <rect x="48" y="56" width="16" height="16" fill="#FF3E70"/>
+    <rect x="64" y="56" width="16" height="16" fill="#FF3E70"/>
+    <rect x="80" y="56" width="16" height="16" fill="#FF3E70"/>
+    <rect x="96" y="56" width="16" height="16" fill="#D92B60"/>
+    <rect x="112" y="56" width="16" height="16" fill="#B51D4B"/>
+    <rect x="32" y="72" width="16" height="16" fill="#FF3E70"/>
+    <rect x="48" y="72" width="16" height="16" fill="#FF3E70"/>
+    <rect x="64" y="72" width="16" height="16" fill="#FF3E70"/>
+    <rect x="80" y="72" width="16" height="16" fill="#D92B60"/>
+    <rect x="96" y="72" width="16" height="16" fill="#B51D4B"/>
+    <rect x="48" y="88" width="16" height="16" fill="#FF3E70"/>
+    <rect x="64" y="88" width="16" height="16" fill="#D92B60"/>
+    <rect x="80" y="88" width="16" height="16" fill="#B51D4B"/>
+    <rect x="64" y="104" width="16" height="16" fill="#B51D4B"/>
+    <rect x="35" y="43" width="13" height="13" fill="#FFB3C8"/>
+    <rect x="51" y="43" width="9" height="9" fill="#FF9EB8"/>
+  </g>
+  <path d="M29 16 H50 M78 16 H99 M8 45 V70 M119 45 V70 M62 119 H82" stroke="#7B1435" stroke-width="5" stroke-linecap="round" opacity="0.18"/>
+</svg>

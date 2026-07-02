@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Fullscreen Cartoon school mobile background card for 1080x1920 vertical game">
+  <title>School Fullscreen Background</title>
+  <desc>Fullscreen 1080 by 1920 mobile game background generated from the original card composition using vector cover scaling. The source card is preserved under assets/backgrounds/cards.</desc>
+  <rect width="1080" height="1920" fill="#071017"/>
+  <g transform="translate(-122.069 -33.103) scale(4.137931)">
+
+  <defs>
+    <linearGradient id="school_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8dd9ff"/>
+      <stop offset="68%" stop-color="#d9f5ff"/>
+      <stop offset="100%" stop-color="#fff4ce"/>
+    </linearGradient>
+    <filter id="school_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#68411f" flood-opacity="0.23"/>
+    </filter>
+    <clipPath id="school_clip">
+      <rect x="8" y="8" width="304" height="464" rx="34"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="304" height="464" rx="34" fill="#ffedbd" filter="url(#school_shadow)"/>
+  <g clip-path="url(#school_clip)">
+    <rect x="8" y="8" width="304" height="464" fill="url(#school_sky)"/>
+    <circle cx="262" cy="67" r="31" fill="#ffdd65"/>
+    <g fill="#ffffff" opacity="0.9">
+      <ellipse cx="74" cy="90" rx="35" ry="14"/>
+      <ellipse cx="104" cy="91" rx="22" ry="11"/>
+      <ellipse cx="62" cy="80" rx="17" ry="9"/>
+    </g>
+    <path d="M8 318 C74 288 125 302 178 280 C226 260 270 270 312 251 L312 472 L8 472 Z" fill="#91d47b"/>
+    <path d="M88 472 C103 425 117 384 139 352 L181 352 C203 386 217 426 232 472 Z" fill="#f1bf72"/>
+    <path d="M160 353 L160 472" stroke="#fff0b8" stroke-width="5" stroke-dasharray="14 18" stroke-linecap="round"/>
+    <g stroke="#7f4c36" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 204 L160 128 L260 204 Z" fill="#d95b48"/>
+      <rect x="72" y="204" width="176" height="132" rx="9" fill="#ffc15a"/>
+      <rect x="98" y="232" width="38" height="40" rx="5" fill="#8cd3ff"/>
+      <rect x="184" y="232" width="38" height="40" rx="5" fill="#8cd3ff"/>
+      <rect x="136" y="260" width="48" height="76" rx="8" fill="#8d5b3c"/>
+      <path d="M72 204 H248" stroke="#7f4c36" stroke-width="7"/>
+      <rect x="118" y="166" width="84" height="42" rx="8" fill="#fff5ce"/>
+      <circle cx="160" cy="187" r="15" fill="#ffffff"/>
+      <path d="M160 178 L160 187 L169 191" stroke="#5a7790" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </g>
+    <g stroke="#6b5335" stroke-width="4" stroke-linecap="round">
+      <path d="M269 169 V267"/>
+      <path d="M269 172 L296 184 L269 197 Z" fill="#ff6b78" stroke-linejoin="round"/>
+      <path d="M269 198 L291 209 L269 220 Z" fill="#6ec6ff" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(31 343)">
+      <rect x="3" y="28" width="74" height="35" rx="10" fill="#63c5ff" stroke="#2b7391" stroke-width="4"/>
+      <path d="M19 28 L30 12 H57 L70 28" fill="#9de5ff" stroke="#2b7391" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="20" cy="65" r="8" fill="#26384b"/><circle cx="61" cy="65" r="8" fill="#26384b"/>
+      <rect x="8" y="38" width="12" height="8" rx="3" fill="#fff0a0"/>
+    </g>
+    <g fill="#fff1b2" stroke="#d99b44" stroke-width="3" opacity="0.9">
+      <path d="M50 137 l6 13 14 2 -10 9 3 14 -13 -7 -13 7 3 -14 -10 -9 14 -2z"/>
+      <path d="M249 110 l5 10 11 2 -8 8 2 11 -10 -5 -10 5 2 -11 -8 -8 11 -2z"/>
+    </g>
+    <rect x="8" y="8" width="304" height="464" rx="34" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.58"/>
+    <rect x="14" y="14" width="292" height="452" rx="29" fill="none" stroke="#7b4c2b" stroke-width="3" opacity="0.25"/>
+  </g>
+
+  </g>
+</svg>

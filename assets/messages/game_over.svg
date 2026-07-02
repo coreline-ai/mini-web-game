@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 138" role="img" aria-label="Game over popup text">
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="138" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6B5BFF"/>
+      <stop offset="100%" stop-color="#28206F"/>
+    </linearGradient>
+    <linearGradient id="textFill" x1="0" y1="28" x2="0" y2="101" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="48%" stop-color="#FFE7F0"/>
+      <stop offset="100%" stop-color="#FF6F98"/>
+    </linearGradient>
+    <filter id="drop" x="-5%" y="-20%" width="110%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="4" flood-color="#0D0935" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect x="17" y="18" width="396" height="94" rx="31" fill="url(#panel)" stroke="#171044" stroke-width="7" filter="url(#drop)"/>
+  <path d="M49 34 H305" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity="0.22"/>
+  <text x="215" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="900" letter-spacing="2" fill="url(#textFill)" stroke="#171044" stroke-width="9" paint-order="stroke">GAME OVER</text>
+  <g shape-rendering="crispEdges" opacity="0.98">
+    <rect x="35" y="94" width="12" height="12" fill="#FF477F"/>
+    <rect x="47" y="94" width="12" height="12" fill="#FF477F"/>
+    <rect x="71" y="94" width="12" height="12" fill="#D92B60"/>
+    <rect x="83" y="94" width="12" height="12" fill="#D92B60"/>
+    <rect x="23" y="106" width="12" height="12" fill="#FF477F"/>
+    <rect x="35" y="106" width="12" height="12" fill="#FF477F"/>
+    <rect x="47" y="106" width="12" height="12" fill="#FF477F"/>
+    <rect x="59" y="106" width="12" height="12" fill="#FF477F"/>
+    <rect x="71" y="106" width="12" height="12" fill="#D92B60"/>
+    <rect x="83" y="106" width="12" height="12" fill="#D92B60"/>
+    <rect x="95" y="106" width="12" height="12" fill="#B51D4B"/>
+  </g>
+  <path d="M354 101 C364 113 385 113 394 101" fill="none" stroke="#FFD66E" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="367" cy="91" r="5" fill="#FFD66E"/>
+  <circle cx="386" cy="91" r="5" fill="#FFD66E"/>
+</svg>

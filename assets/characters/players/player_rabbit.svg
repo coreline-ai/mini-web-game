@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="fur" x1="34" y1="8" x2="94" y2="121" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.72" stop-color="#f4f7ff"/>
+      <stop offset="1" stop-color="#dbe6f5"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="40" y1="14" x2="83" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffc5de"/>
+      <stop offset="1" stop-color="#ff8db8"/>
+    </linearGradient>
+    <radialGradient id="belly" cx="55" cy="90" r="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e8effb"/>
+    </radialGradient>
+  </defs>
+  <g stroke="#2c2331" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 45c-12-22-13-38-4-42 10-4 23 19 25 42z" fill="url(#fur)"/>
+    <path d="M50 44c-8-18-8-29-3-31 5-1 13 15 14 31z" fill="url(#pink)" stroke-width="3"/>
+    <path d="M74 45c3-23 16-46 26-42 9 4 8 20-4 42z" fill="url(#fur)"/>
+    <path d="M76 44c1-16 9-32 14-31 5 2 5 13-3 31z" fill="url(#pink)" stroke-width="3"/>
+    <path d="M31 113c1-32 13-52 33-52s32 20 33 52c-11 12-55 12-66 0z" fill="url(#fur)"/>
+    <ellipse cx="64" cy="98" rx="20" ry="21" fill="url(#belly)"/>
+    <path d="M34 89c-10 4-16 12-17 24" fill="none"/>
+    <path d="M94 89c10 4 16 12 17 24" fill="none"/>
+    <circle cx="17" cy="113" r="7" fill="url(#fur)"/>
+    <circle cx="111" cy="113" r="7" fill="url(#fur)"/>
+    <circle cx="64" cy="55" r="35" fill="url(#fur)"/>
+    <circle cx="51" cy="56" r="3.8" fill="#2c2331" stroke="none"/>
+    <circle cx="77" cy="56" r="3.8" fill="#2c2331" stroke="none"/>
+    <ellipse cx="64" cy="64" rx="5" ry="3.5" fill="#ff8db8"/>
+    <path d="M64 68v6" fill="none" stroke-width="3.4"/>
+    <path d="M56 75c4 5 12 5 16 0" fill="none"/>
+    <circle cx="47" cy="67" r="5" fill="#ffb0ca" opacity="0.5" stroke="none"/>
+    <circle cx="81" cy="67" r="5" fill="#ffb0ca" opacity="0.5" stroke="none"/>
+    <path d="M39 49c-7 1-13 5-17 10" fill="none" stroke-width="3"/>
+    <path d="M39 59c-8 1-15 4-20 9" fill="none" stroke-width="3"/>
+    <path d="M89 49c7 1 13 5 17 10" fill="none" stroke-width="3"/>
+    <path d="M89 59c8 1 15 4 20 9" fill="none" stroke-width="3"/>
+    <ellipse cx="76" cy="39" rx="10" ry="5" fill="#fff" opacity="0.5" stroke="none" transform="rotate(30 76 39)"/>
+  </g>
+</svg>

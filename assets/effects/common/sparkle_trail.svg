@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Cartoon sparkle trail effect icon">
+  <defs>
+    <linearGradient id="sparkle_swoosh" x1="10" y1="103" x2="114" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5ee8ff" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#78f0ff" stop-opacity="0.82"/>
+      <stop offset="70%" stop-color="#ffdfff" stop-opacity="0.94"/>
+      <stop offset="100%" stop-color="#fff07a" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="sparkle_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#4b4e9f" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <path d="M16 101 C40 75 68 53 113 29" fill="none" stroke="url(#sparkle_swoosh)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M22 106 C47 82 73 61 108 45" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.78"/>
+  <g filter="url(#sparkle_shadow)" stroke-linejoin="round">
+    <path d="M92 13 l8 19 20 8 -20 8 -8 20 -8 -20 -20 -8 20 -8z" fill="#fff06a" stroke="#b98c2a" stroke-width="4"/>
+    <path d="M46 42 l6 14 15 6 -15 6 -6 15 -6 -15 -15 -6 15 -6z" fill="#9af2ff" stroke="#4aa2bf" stroke-width="3"/>
+    <path d="M26 82 l5 11 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" fill="#ffd8fb" stroke="#ab67aa" stroke-width="3"/>
+    <path d="M78 83 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#ffffff" stroke="#93a1d6" stroke-width="3"/>
+  </g>
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="111" cy="70" r="4"/>
+    <circle cx="62" cy="101" r="3"/>
+    <circle cx="16" cy="47" r="3"/>
+    <circle cx="104" cy="103" r="2.5"/>
+  </g>
+  <g stroke="#fff5ad" stroke-width="4" stroke-linecap="round">
+    <path d="M18 17 L18 29 M12 23 H24"/>
+    <path d="M115 91 L115 105 M108 98 H122"/>
+  </g>
+</svg>

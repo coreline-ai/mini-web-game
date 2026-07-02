@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Cartoon smoke puff effect icon">
+  <defs>
+    <radialGradient id="smoke_soft" cx="42%" cy="35%" r="68%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="62%" stop-color="#cfd7df"/>
+      <stop offset="100%" stop-color="#8592a0"/>
+    </radialGradient>
+    <filter id="smoke_shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#3f4b58" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <g filter="url(#smoke_shadow)" stroke="#6f7d8c" stroke-width="5" stroke-linejoin="round">
+    <circle cx="39" cy="72" r="26" fill="#b8c3cd"/>
+    <circle cx="61" cy="53" r="32" fill="url(#smoke_soft)"/>
+    <circle cx="86" cy="69" r="27" fill="#c8d0d8"/>
+    <circle cx="65" cy="82" r="31" fill="#aeb9c4"/>
+    <circle cx="29" cy="86" r="18" fill="#d9e0e7"/>
+    <circle cx="98" cy="89" r="17" fill="#d3dae1"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.55">
+    <path d="M41 49 C50 38 64 34 77 39"/>
+    <path d="M24 79 C30 71 39 69 47 72"/>
+  </g>
+  <g fill="#8e9aa7" opacity="0.45">
+    <ellipse cx="42" cy="109" rx="21" ry="6"/>
+    <ellipse cx="85" cy="107" rx="18" ry="5"/>
+  </g>
+</svg>

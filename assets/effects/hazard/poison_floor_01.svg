@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="poison_floor_01_puddle" cx="61" cy="73" r="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c9ff44" stop-opacity="0.95"/>
+      <stop offset="0.52" stop-color="#66d923" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#178522" stop-opacity="0.7"/>
+    </radialGradient>
+    <linearGradient id="poison_floor_01_edge" x1="18" y1="61" x2="111" y2="103" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e8ff62"/>
+      <stop offset="1" stop-color="#087527"/>
+    </linearGradient>
+  </defs>
+  <path d="M36 45 C29 36 43 31 36 23" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M68 43 C60 35 74 29 69 20" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M96 51 C88 44 103 38 98 29" fill="none" stroke="#6aff3a" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <ellipse cx="64" cy="103" rx="43" ry="8" fill="#0d4d20" opacity="0.18"/>
+  <path d="M16 84 C22 69 38 72 49 66 C65 57 79 64 88 67 C101 70 116 76 113 91 C110 107 85 108 69 103 C55 112 31 108 22 101 C13 94 12 89 16 84 Z" fill="url(#poison_floor_01_puddle)" stroke="#0b6e27" stroke-width="5.5" stroke-linejoin="round"/>
+  <path d="M27 86 C41 93 78 95 101 84" fill="none" stroke="url(#poison_floor_01_edge)" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
+  <ellipse cx="48" cy="80" rx="12" ry="5" fill="#e8ff62" opacity="0.62" transform="rotate(-10 48 80)"/>
+  <circle cx="38" cy="62" r="5" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="70" cy="58" r="4" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="96" cy="72" r="4" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="53" cy="95" r="6" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+  <circle cx="82" cy="92" r="3.5" fill="#bfff46" stroke="#198627" stroke-width="2" opacity="0.86"/>
+</svg>

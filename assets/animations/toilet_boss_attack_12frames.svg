@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 160" role="img" aria-labelledby="title desc">
+  <title id="title">Toilet Boss Attack 12 Frame Sprite Sheet</title>
+  <desc id="desc">Standalone transparent SVG sprite sheet with twelve 160 by 160 frames.</desc>
+
+  <defs>
+    <linearGradient id="ceramic" x1="32" y1="24" x2="124" y2="138" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#f3fbff"/>
+      <stop offset="1" stop-color="#cfe3ef"/>
+    </linearGradient>
+    <linearGradient id="ceramicShade" x1="40" y1="64" x2="122" y2="134" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8fdff"/>
+      <stop offset="1" stop-color="#b6d0df"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="48" y1="15" x2="104" y2="49" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff16a"/>
+      <stop offset="0.5" stop-color="#f7b928"/>
+      <stop offset="1" stop-color="#d88611"/>
+    </linearGradient>
+    <linearGradient id="poopGrad" x1="34" y1="31" x2="114" y2="125" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#b6652e"/>
+      <stop offset="0.55" stop-color="#7a3f1d"/>
+      <stop offset="1" stop-color="#4a2412"/>
+    </linearGradient>
+    <radialGradient id="water" cx="76" cy="88" r="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#54d5ff"/>
+      <stop offset="0.68" stop-color="#168bc7"/>
+      <stop offset="1" stop-color="#0b3a66"/>
+    </radialGradient>
+  </defs>
+
+  <style><![CDATA[
+    .ink{stroke:#202832;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+    .ink4{stroke:#202832;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+    .ink3{stroke:#202832;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+    .shine{stroke:#ffffff;stroke-width:4;stroke-linecap:round;opacity:.78;}
+    .anger{stroke:#e33c32;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;}
+    .motion{stroke:#78401d;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+  ]]></style>
+
+  <g id="frame_01" transform="translate(0 0)">
+
+    <g>
+
+      <g transform="rotate(-0.0 45 80)" opacity="0.18">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="1.00" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g>
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+  <g id="frame_02" transform="translate(160 0)">
+    <path class="anger" d="M31 53 L22 43 M128 53 L138 43"/>
+    <g transform="translate(-1 2) scale(1.02 .98)">
+
+      <g transform="rotate(-11.8 45 80)" opacity="0.31">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.84" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(4 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+  <g id="frame_03" transform="translate(320 0)">
+    <path class="ink4" fill="none" d="M129 83 C140 77 141 68 134 61" opacity="0.45"/>
+    <g transform="translate(0 1)">
+
+      <g transform="rotate(-28.1 45 80)" opacity="0.49">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.55" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g>
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+  <g id="frame_04" transform="translate(480 0)">
+    <path class="ink4" fill="none" d="M28 82 C18 75 18 66 26 59" opacity="0.45"/>
+    <g>
+
+      <g transform="rotate(-50.3 45 80)" opacity="0.74">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.28" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(-4 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+  <g id="frame_05" transform="translate(640 0)">
+    <path class="anger" d="M119 41 L132 33"/>
+    <g transform="translate(1 -1)">
+
+      <g transform="rotate(-68.1 45 80)" opacity="0.93">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.05" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g>
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+      <g transform="translate(91.0 76.0) scale(0.24) translate(-80 -82)" opacity="0.95">
+        <path class="motion" fill="none" d="M37 75 C27 70 22 64 17 56 M39 92 L22 95"/>
+        <path class="ink" fill="url(#poopGrad)" d="M52 108 C45 97 53 86 66 84 C58 75 64 65 77 64 C72 56 78 47 88 45 C86 37 92 32 101 30 C98 42 111 43 111 55 C111 63 104 68 96 68 C108 73 115 82 112 94 C125 99 122 117 105 123 C88 130 61 126 52 108 Z"/>
+        <path class="ink4" fill="#9b5428" d="M67 84 C79 74 101 75 111 91" opacity="0.65"/>
+        <path class="ink3" d="M64 82 L73 78 M87 78 L96 82"/>
+        <ellipse cx="70" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <ellipse cx="91" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <path class="ink3" fill="none" d="M72 102 Q80 96 89 102"/>
+      </g>
+    </g>
+  </g>
+  <g id="frame_06" transform="translate(800 0)">
+    <path class="anger" d="M124 52 L143 50"/>
+    <g transform="translate(-3 0)">
+
+      <g transform="rotate(-74.0 45 80)" opacity="1.00">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(3 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+      <g transform="translate(111.0 70.0) scale(0.40) translate(-80 -82)" opacity="1.00">
+        <path class="motion" fill="none" d="M37 75 C27 70 22 64 17 56 M39 92 L22 95"/>
+        <path class="ink" fill="url(#poopGrad)" d="M52 108 C45 97 53 86 66 84 C58 75 64 65 77 64 C72 56 78 47 88 45 C86 37 92 32 101 30 C98 42 111 43 111 55 C111 63 104 68 96 68 C108 73 115 82 112 94 C125 99 122 117 105 123 C88 130 61 126 52 108 Z"/>
+        <path class="ink4" fill="#9b5428" d="M67 84 C79 74 101 75 111 91" opacity="0.65"/>
+        <path class="ink3" d="M64 82 L73 78 M87 78 L96 82"/>
+        <ellipse cx="70" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <ellipse cx="91" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <path class="ink3" fill="none" d="M72 102 Q80 96 89 102"/>
+      </g>
+    </g>
+  </g>
+  <g id="frame_07" transform="translate(960 0)">
+    <path class="anger" d="M120 86 L139 98"/>
+    <g transform="translate(-5 1) scale(.99 1.01)">
+
+      <g transform="rotate(-72.5 45 80)" opacity="0.98">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(7 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+      <g transform="translate(128.0 66.0) scale(0.48) translate(-80 -82)" opacity="1.00">
+        <path class="motion" fill="none" d="M37 75 C27 70 22 64 17 56 M39 92 L22 95"/>
+        <path class="ink" fill="url(#poopGrad)" d="M52 108 C45 97 53 86 66 84 C58 75 64 65 77 64 C72 56 78 47 88 45 C86 37 92 32 101 30 C98 42 111 43 111 55 C111 63 104 68 96 68 C108 73 115 82 112 94 C125 99 122 117 105 123 C88 130 61 126 52 108 Z"/>
+        <path class="ink4" fill="#9b5428" d="M67 84 C79 74 101 75 111 91" opacity="0.65"/>
+        <path class="ink3" d="M64 82 L73 78 M87 78 L96 82"/>
+        <ellipse cx="70" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <ellipse cx="91" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <path class="ink3" fill="none" d="M72 102 Q80 96 89 102"/>
+      </g>
+    </g>
+  </g>
+  <g id="frame_08" transform="translate(1120 0)">
+    <path class="motion" fill="none" d="M111 66 L94 69"/>
+    <g transform="translate(-6 2)">
+
+      <g transform="rotate(-62.2 45 80)" opacity="0.87">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.04" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(10 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+      <g transform="translate(139.0 64.0) scale(0.44) translate(-80 -82)" opacity="0.95">
+        <path class="motion" fill="none" d="M37 75 C27 70 22 64 17 56 M39 92 L22 95"/>
+        <path class="ink" fill="url(#poopGrad)" d="M52 108 C45 97 53 86 66 84 C58 75 64 65 77 64 C72 56 78 47 88 45 C86 37 92 32 101 30 C98 42 111 43 111 55 C111 63 104 68 96 68 C108 73 115 82 112 94 C125 99 122 117 105 123 C88 130 61 126 52 108 Z"/>
+        <path class="ink4" fill="#9b5428" d="M67 84 C79 74 101 75 111 91" opacity="0.65"/>
+        <path class="ink3" d="M64 82 L73 78 M87 78 L96 82"/>
+        <ellipse cx="70" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <ellipse cx="91" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <path class="ink3" fill="none" d="M72 102 Q80 96 89 102"/>
+      </g>
+    </g>
+  </g>
+  <g id="frame_09" transform="translate(1280 0)">
+    <path class="motion" fill="none" d="M119 67 L104 72" opacity=".7"/>
+    <g transform="translate(-3 5) scale(1.03 .97)">
+
+      <g transform="rotate(-42.9 45 80)" opacity="0.66">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.18" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(5 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+      <g transform="translate(145.0 62.0) scale(0.33) translate(-80 -82)" opacity="0.72">
+        <path class="motion" fill="none" d="M37 75 C27 70 22 64 17 56 M39 92 L22 95"/>
+        <path class="ink" fill="url(#poopGrad)" d="M52 108 C45 97 53 86 66 84 C58 75 64 65 77 64 C72 56 78 47 88 45 C86 37 92 32 101 30 C98 42 111 43 111 55 C111 63 104 68 96 68 C108 73 115 82 112 94 C125 99 122 117 105 123 C88 130 61 126 52 108 Z"/>
+        <path class="ink4" fill="#9b5428" d="M67 84 C79 74 101 75 111 91" opacity="0.65"/>
+        <path class="ink3" d="M64 82 L73 78 M87 78 L96 82"/>
+        <ellipse cx="70" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <ellipse cx="91" cy="88" rx="3.8" ry="4.8" fill="#202832"/>
+        <path class="ink3" fill="none" d="M72 102 Q80 96 89 102"/>
+      </g>
+    </g>
+  </g>
+  <g id="frame_10" transform="translate(1440 0)">
+    <path class="ink4" fill="#ffe45e" d="M121 38 L126 47 L136 43 L130 53 L138 61 L126 60 L122 71 L117 60 L106 60 L114 52 L109 42 Z"/>
+    <g transform="translate(2 4) rotate(3 80 90)">
+
+      <g transform="rotate(-26.6 45 80)" opacity="0.48">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.42" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(-12 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M58 56 L67 65 M67 56 L58 65 M91 56 L100 65 M100 56 L91 65"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+      <path class="ink3" fill="none" d="M101 88 L93 98 L100 106 L89 117"/>
+      <path class="ink3" fill="none" d="M54 106 L62 112 L56 121"/>
+
+    </g>
+  </g>
+  <g id="frame_11" transform="translate(1600 0)">
+    <path class="ink4" fill="none" d="M132 81 C140 78 142 71 137 65" opacity=".38"/>
+    <g transform="translate(1 2)">
+
+      <g transform="rotate(-13.3 45 80)" opacity="0.33">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="0.72" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g transform="rotate(-6 78 37)">
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+  <g id="frame_12" transform="translate(1760 0)">
+    <path class="anger" d="M30 49 L22 39 M128 49 L138 39"/>
+    <g>
+
+      <g transform="rotate(-0.0 45 80)" opacity="0.18">
+        <path class="ink" fill="url(#ceramic)" d="M40 72 C55 55 101 55 118 72 C125 81 116 92 94 91 C78 82 61 82 45 93 C34 91 33 80 40 72 Z"/>
+        <path class="shine" d="M53 71 C66 63 94 63 106 71"/>
+      </g>
+
+      <ellipse cx="80" cy="142" rx="52" ry="9" fill="#1c2733" opacity="0.18"/>
+      <path class="ink" fill="url(#ceramicShade)" d="M51 100 C44 110 42 126 52 137 C61 147 99 147 108 137 C118 125 115 109 108 100 Z"/>
+      <path class="ink" fill="url(#ceramic)" d="M43 77 C51 66 107 66 117 77 C128 91 114 108 80 109 C45 108 32 91 43 77 Z"/>
+      <ellipse class="ink" cx="80" cy="86" rx="34" ry="17" fill="url(#water)"/>
+      <path class="shine" d="M62 83 C70 77 88 77 96 83"/>
+      <path class="ink" fill="url(#ceramic)" opacity="1.00" d="M42 74 C54 59 105 59 118 74 C126 83 115 95 80 96 C45 95 33 83 42 74 Z"/>
+      <rect class="ink" x="44" y="40" width="72" height="45" rx="14" fill="url(#ceramic)"/>
+      <rect class="ink4" x="111" y="52" width="11" height="17" rx="5" fill="#d6edf8"/>
+      <path class="shine" d="M55 49 C65 43 94 43 104 50"/>
+
+  <g>
+    <path class="ink" fill="url(#gold)" d="M50 39 L56 18 L69 33 L78 15 L87 33 L100 18 L106 39 Z"/>
+    <rect class="ink" x="53" y="38" width="50" height="14" rx="5" fill="url(#gold)"/>
+    <circle class="ink3" cx="66" cy="43" r="3.5" fill="#e84258"/>
+    <circle class="ink3" cx="78" cy="40" r="3.7" fill="#45c7ff"/>
+    <circle class="ink3" cx="90" cy="43" r="3.5" fill="#7ad94a"/>
+    <path class="shine" d="M58 40 L64 24"/>
+  </g>
+      <path class="ink4" d="M55 56 L70 51 M90 51 L105 56"/>
+      <ellipse class="ink3" cx="64" cy="62" rx="5" ry="6" fill="#202832"/>
+      <ellipse class="ink3" cx="96" cy="62" rx="5" ry="6" fill="#202832"/>
+      <circle cx="62" cy="59" r="1.6" fill="#fff"/>
+      <circle cx="94" cy="59" r="1.6" fill="#fff"/>
+      <path class="ink4" fill="none" d="M66 75 Q80 68 94 75"/>
+      <path class="ink4" fill="#4c2a1b" d="M79 74 C72 65 61 68 56 76 C64 76 70 83 79 74 Z"/>
+      <path class="ink4" fill="#4c2a1b" d="M81 74 C88 65 99 68 104 76 C96 76 90 83 81 74 Z"/>
+
+    </g>
+  </g>
+</svg>
