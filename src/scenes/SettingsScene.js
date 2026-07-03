@@ -1,5 +1,6 @@
 import { GC, SCENES } from '../config/gameConfig.js';
 import { Save } from '../systems/SaveData.js';
+import { Music } from '../systems/MusicManager.js';
 import { FONT_BODY, FONT_HEAVY, iconButton, imageTextButton, panel } from '../ui/UiKit.js';
 import { setViewportBackdrop } from '../ui/ViewportBackdrop.js';
 
@@ -53,7 +54,7 @@ export default class SettingsScene extends Phaser.Scene {
 
   toggleSound() {
     Save.setMute(!Save.mute);
-    this.sound.mute = Save.mute;
+    Music.syncMute(this);
     this.updateSoundLabel();
   }
 

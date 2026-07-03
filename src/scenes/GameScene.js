@@ -1,5 +1,6 @@
 import { GC, SCENES } from '../config/gameConfig.js';
 import { Save } from '../systems/SaveData.js';
+import { Music } from '../systems/MusicManager.js';
 import Player from '../entities/Player.js';
 import PoopSpawner from '../systems/PoopSpawner.js';
 import Difficulty from '../systems/Difficulty.js';
@@ -34,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
     this.floorGen = 0; // 독 바닥 세대 id(타이머 오작동 방지)
 
     this.sound.mute = Save.mute;
+    Music.play(this);
     this.effects = new Effects(this);
 
     const charDef = GC.ASSETS.characters.find((c) => c.id === Save.selChar) || GC.ASSETS.characters[0];
@@ -130,12 +132,13 @@ export default class GameScene extends Phaser.Scene {
       .setOrigin(0.5, 0)
       .setDepth(20);
 
-    // 일시정지 버튼 (모바일 터치 타깃 확대: 표시 132 + 히트영역 여유)
+    // 일시정지 버튼 — 표시 132px 풀프레임 판정(텍스처 크기 무관). 커스텀 픽셀 히트영역은
+    // 텍스처가 512px일 때 좌상단 일부만 눌리는 버그가 있어 사용하지 않는다.
     this.pauseBtn = this.add
       .image(GC.WIDTH - 88, 88, 'btn_pause')
       .setDepth(20)
       .setDisplaySize(132, 132)
-      .setInteractive({ useHandCursor: true, hitArea: new Phaser.Geom.Rectangle(-24, -24, 176, 176), hitAreaCallback: Phaser.Geom.Rectangle.Contains });
+      .setInteractive({ useHandCursor: true });
     this.hudObjects.push(this.pauseBtn);
     this.pauseBtn.on('pointerdown', (p, x, y, e) => { if (e) e.stopPropagation(); this.openPause(); });
 
@@ -419,6 +422,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.pause();
     this.playSfx(GC.AUDIO.sfx.hit.key, 0.6);
     this.playSfx(GC.AUDIO.sfx.gameOver.key, 0.55);
+    Music.stop(this);
     // 사망 시점에 이번 판 코인을 즉시 적립(결과화면에서 탭을 닫아도 코인이 보존됨)
     this.bankCoins();
     this.scene.launch(SCENES.GAMEOVER, { gameKey: SCENES.GAME });
@@ -491,6 +495,7 @@ export default class GameScene extends Phaser.Scene {
   openPause() {
     if (this.isGameOver || this.scene.isPaused()) return;
     this.playSfx(GC.AUDIO.ui.buttonClick.key, 0.6);
+    Music.pause(this);
     this.setHudVisible(false);
     this.scene.launch(SCENES.PAUSE, { gameKey: SCENES.GAME });
     this.scene.pause();

@@ -217,6 +217,15 @@ export const GC = {
   },
 
   AUDIO: {
+    music: {
+      arcadeSurvivalLoop: {
+        key: 'music_arcade_survival_loop',
+        path: 'audio/music/arcade_survival_loop.ogg',
+        bpm: 152,
+        bars: 32,
+        volume: 0.28,
+      },
+    },
     ui: { buttonClick: { key: 'button_click', path: 'audio/ui/button_click.ogg' } },
     sfx: {
       dodgeTicks: [

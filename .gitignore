@@ -3,3 +3,5 @@ dist/
 *.log
 .DS_Store
 tmp_game_*.png
+
+.tmp_audio_build/

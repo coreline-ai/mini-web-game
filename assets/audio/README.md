@@ -1,6 +1,6 @@
 # Audio Assets — Don't Get Pooped!
 
-Procedural retro arcade OGG SFX generated for the MVP. No external sample libraries were used.
+Procedural retro arcade OGG SFX and BGM generated for the MVP. No external sample libraries were used.
 
 ## Runtime paths
 
@@ -9,12 +9,14 @@ This project uses `assets/` as Vite `publicDir`, so Phaser should load files fro
 ```js
 this.load.audio('near_miss', '/audio/sfx/near_miss_whoosh_tick.ogg');
 this.load.audio('button_click', '/audio/ui/button_click.ogg');
+this.load.audio('music_arcade_survival_loop', '/audio/music/arcade_survival_loop.ogg');
 ```
 
 ## Files
 
 | File | Use |
 |---|---|
+| `music/arcade_survival_loop.ogg` | 152 BPM / 32-bar loopable retro arcade survival BGM |
 | `sfx/dodge_tick_01.ogg` | normal dodge feedback variation 1 |
 | `sfx/dodge_tick_02.ogg` | normal dodge feedback variation 2 |
 | `sfx/dodge_tick_03.ogg` | normal dodge feedback variation 3 |
@@ -32,6 +34,7 @@ Regenerate with:
 
 ```bash
 python3 scripts/generate_audio_sfx.py
+python3 scripts/generate_audio_music.py
 ```
 
 Requires `ffmpeg` with an OGG/Vorbis encoder.

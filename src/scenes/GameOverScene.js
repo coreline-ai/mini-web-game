@@ -1,5 +1,6 @@
 import { GC, SCENES } from '../config/gameConfig.js';
 import { Save } from '../systems/SaveData.js';
+import { Music } from '../systems/MusicManager.js';
 import { FONT_BODY, FONT_HEAVY, fitTextWidth, formatCount, iconButton, imageTextButton, panel } from '../ui/UiKit.js';
 
 // GameScene 위 오버레이. 이어하기(하트/코인) 또는 종료.
@@ -85,6 +86,7 @@ export default class GameOverScene extends Phaser.Scene {
       this.errorText?.setText('코인이 부족합니다');
       return;
     }
+    Music.play(this);
     this.scene.resume(this.gameKey);
     this.scene.stop();
   }
@@ -95,6 +97,7 @@ export default class GameOverScene extends Phaser.Scene {
       if (game.bankCoins) game.bankCoins(); // 남은 코인 적립(멱등)
       if (game.recordScore) game.recordScore(); // 정식 종료 → 랭킹 1회 기록
     }
+    Music.stop(this);
     this.scene.stop(this.gameKey);
     this.scene.start(sceneKey);
     this.scene.stop();

@@ -1,5 +1,6 @@
 import { GC, SCENES } from '../config/gameConfig.js';
 import { Save } from '../systems/SaveData.js';
+import { Music } from '../systems/MusicManager.js';
 import { iconButton, imageTextButton, coinLabel } from '../ui/UiKit.js';
 import { setViewportBackdrop } from '../ui/ViewportBackdrop.js';
 
@@ -10,6 +11,7 @@ export default class HomeScene extends Phaser.Scene {
 
   create() {
     this.sound.mute = Save.mute;
+    Music.stop(this);
     setViewportBackdrop(Save.selBg);
     this.add.image(GC.WIDTH / 2, GC.HEIGHT / 2, Save.selBg).setDepth(0);
     this.add.rectangle(0, 0, GC.WIDTH, GC.HEIGHT, 0x0b0d1a, 0.4).setOrigin(0, 0).setDepth(1);
@@ -31,7 +33,9 @@ export default class HomeScene extends Phaser.Scene {
       this.tweens.add({ targets: s, y: s.y - 20, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
     }
 
-    imageTextButton(this, GC.WIDTH / 2, GC.HEIGHT * 0.62, 'btn_wide_play', 'PLAY', () => this.scene.start(SCENES.GAME), {
+    imageTextButton(this, GC.WIDTH / 2, GC.HEIGHT * 0.62, 'btn_wide_play', 'PLAY', () => {
+      this.scene.start(SCENES.GAME);
+    }, {
       width: 580,
       height: 154,
       fontSize: '82px',
@@ -55,7 +59,7 @@ export default class HomeScene extends Phaser.Scene {
 
   toggleSound() {
     Save.setMute(!Save.mute);
-    this.sound.mute = Save.mute;
+    Music.syncMute(this);
     this.soundBtn.setAlpha(Save.mute ? 0.4 : 1);
   }
 }

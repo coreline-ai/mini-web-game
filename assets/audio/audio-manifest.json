@@ -2,11 +2,26 @@
   "version": "0.1.0",
   "format": "ogg/vorbis",
   "sampleRate": 44100,
-  "channels": "stereo dual-mono",
+  "channels": "stereo",
   "license": "project-generated procedural audio; no external samples",
   "publicPathNote": "Vite publicDir is assets, so load paths like /audio/sfx/near_miss_whoosh_tick.ogg",
-  "totalAudio": 10,
+  "totalAudio": 11,
   "assets": [
+    {
+      "key": "music_arcade_survival_loop",
+      "path": "audio/music/arcade_survival_loop.ogg",
+      "category": "music",
+      "usage": "main menu/gameplay retro arcade survival loop; low enough to leave room for SFX",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 50.527,
+      "sizeBytes": 848821,
+      "bpm": 152,
+      "bars": 32,
+      "loopable": true,
+      "license": "project-generated procedural audio; no external samples"
+    },
     {
       "key": "coin_ding",
       "path": "audio/sfx/coin_ding.ogg",

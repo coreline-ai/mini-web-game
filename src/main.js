@@ -28,3 +28,9 @@ const config = {
 const game = new Phaser.Game(config);
 window.__GAME = game; // 디버그/자동화 훅
 window.__SAVE = Save;
+
+// 개발 편의: 코드 수정 시 부분 HMR이 실행 중인 Phaser 인스턴스를 망가뜨려(=멈춤)
+// 보이지 않도록, 변경이 오면 전체 페이지를 깔끔히 새로고침한다. (프로덕션 빌드에는 미포함)
+if (import.meta.hot) {
+  import.meta.hot.on('vite:beforeUpdate', () => window.location.reload());
+}

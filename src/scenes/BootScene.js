@@ -82,6 +82,7 @@ export default class BootScene extends Phaser.Scene {
 
     // 오디오
     const au = GC.AUDIO;
+    Object.values(au.music || {}).forEach((m) => audio(m.key, m.path));
     audio(au.ui.buttonClick.key, au.ui.buttonClick.path);
     au.sfx.dodgeTicks.forEach((s) => audio(s.key, s.path));
     ['nearMiss', 'coin', 'warning', 'hit', 'gameOver', 'shield'].forEach((k) =>

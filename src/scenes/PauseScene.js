@@ -1,5 +1,6 @@
 import { GC, SCENES } from '../config/gameConfig.js';
 import { Save } from '../systems/SaveData.js';
+import { Music } from '../systems/MusicManager.js';
 import { FONT_HEAVY, imageTextButton, panel } from '../ui/UiKit.js';
 
 // GameScene 위 오버레이 일시정지.
@@ -40,13 +41,14 @@ export default class PauseScene extends Phaser.Scene {
 
   toggleSound() {
     Save.setMute(!Save.mute);
-    this.sound.mute = Save.mute;
+    Music.syncMute(this);
     this.updateSoundLabel();
   }
 
   resumeGame() {
     const g = this.scene.get(this.gameKey);
     if (g && g.setHudVisible) g.setHudVisible(true);
+    Music.play(this);
     this.scene.resume(this.gameKey);
     this.scene.stop();
   }
@@ -62,6 +64,7 @@ export default class PauseScene extends Phaser.Scene {
   goHome() {
     const g = this.scene.get(this.gameKey);
     if (g && g.bankCoins) g.bankCoins(); // 코인만 적립(중도 포기 판은 랭킹 미기록)
+    Music.stop(this);
     this.scene.stop(this.gameKey);
     this.scene.start(SCENES.HOME);
     this.scene.stop();
