@@ -2,6 +2,8 @@
 
 # 💩 Don't Get Pooped!
 
+[![▶ PLAY NOW](https://img.shields.io/badge/▶%20PLAY%20NOW-Live%20Demo-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://liz-sets-services-easily.trycloudflare.com/)
+
 [![Phaser](https://img.shields.io/badge/Phaser-3.90-8A2BE2?logo=phaser&logoColor=white)](https://phaser.io/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ESM-F7DF1E?logo=javascript&logoColor=black)
@@ -15,7 +17,11 @@
 좌우로만 움직여 위에서 쏟아지는 똥을 피하며 최대한 오래 살아남으세요.
 스테이지가 오를수록 미친 난이도 · 파워업 · 3단 보스 · 코인 상점까지.
 
-[주요 기능](#-주요-기능) · [스크린샷](#-스크린샷) · [실행 방법](#-실행-방법) · [콘텐츠](#-콘텐츠와-밸런스) · [라이선스](#-라이선스)
+🎮 **[▶ 브라우저에서 바로 플레이하기 (라이브 데모)](https://liz-sets-services-easily.trycloudflare.com/)**
+
+<sub>※ 임시 라이브 데모 링크로, 서버 상황에 따라 접속이 제한될 수 있습니다.</sub>
+
+[▶ 지금 플레이](https://liz-sets-services-easily.trycloudflare.com/) · [주요 기능](#-주요-기능) · [스크린샷](#-스크린샷) · [실행 방법](#-실행-방법) · [콘텐츠](#-콘텐츠와-밸런스) · [라이선스](#-라이선스)
 
 </div>
 
@@ -83,6 +89,10 @@
 ---
 
 ## 🚀 실행 방법
+
+설치 없이 바로 해보려면 → **[▶ 라이브 데모 플레이](https://liz-sets-services-easily.trycloudflare.com/)** 🎮
+
+로컬에서 실행:
 
 ```bash
 npm install       # 의존성 설치
