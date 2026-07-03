@@ -1,5 +1,7 @@
 <div align="center">
 
+<img width="2752" height="1536" alt="귀여운_아케이드_게임_주요_특징" src="https://github.com/user-attachments/assets/89481c71-e2a3-4ce7-9425-6b17d0ec440a" />
+
 # 💩 Don't Get Pooped!
 
 [![▶ PLAY NOW](https://img.shields.io/badge/▶%20PLAY%20NOW-Live%20Demo-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://liz-sets-services-easily.trycloudflare.com/)
