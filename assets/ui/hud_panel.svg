@@ -20,8 +20,6 @@
   <path d="M56 59 C56 53 61 51 66 53 C70 56 68 62 59 62 Z" fill="#A96B38"/>
   <circle cx="58" cy="69" r="1.8" fill="#24140D"/>
   <circle cx="68" cy="69" r="1.8" fill="#24140D"/>
-  <text x="104" y="52" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#4375B7">SCORE</text>
-  <text x="104" y="83" font-family="Arial, sans-serif" font-size="31" font-weight="900" fill="#1C427A" letter-spacing="1">000000</text>
   <rect x="270" y="29" width="100" height="55" rx="22" fill="#FFF2A8" stroke="#EEA900" stroke-width="4"/>
   <g shape-rendering="crispEdges">
     <rect x="287" y="44" width="10" height="10" fill="#FF477F"/>

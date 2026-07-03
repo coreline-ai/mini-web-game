@@ -34,6 +34,8 @@ export default class PoopSpawner {
       vx = (fromLeft ? 1 : -1) * speed * 0.55;
       vy = speed * 0.9;
     } else {
+      // 화면 전체 너비에 균등 스폰(좌우 대칭). 똥은 depth 5로 HUD(depth 19) 뒤를 지나므로
+      // 상단 HUD와 겹쳐도 시각적 혼동이 없다.
       x = Phaser.Math.Between(halfPad, GC.WIDTH - halfPad);
     }
 

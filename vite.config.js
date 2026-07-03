@@ -1,9 +1,14 @@
 import { defineConfig } from 'vite';
+import { fileURLToPath } from 'node:url';
+
+const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
 // assets/ 폴더를 publicDir로 사용 → 파일이 사이트 루트(/)에서 서빙된다.
 // 예) assets/backgrounds/bg_city.svg  ->  /backgrounds/bg_city.svg
 export default defineConfig({
+  root: projectRoot,
   publicDir: 'assets',
+  base: './',
   // 5173은 다른 프로젝트가 점유 중이므로 전용 포트 5180 고정
   server: {
     host: true,

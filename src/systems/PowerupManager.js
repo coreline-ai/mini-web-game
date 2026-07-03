@@ -29,9 +29,11 @@ export default class PowerupManager {
     item.body.setCircle(item.width / 2);
     item.body.setAllowGravity(false);
     item.setVelocity(0, GC.POWERUP.fallSpeed || baseSpeed * 0.9);
+    // 회전: 물리 각속도로 연속 회전(똥과 동일 방식). 트윈 누수/각도 래핑 없이 매끄럽다.
+    item.setAngle(0);
+    item.body.setAngularVelocity(150);
     item._effect = def.effect;
     item._durationMs = def.durationMs;
-    this.scene.tweens.add({ targets: item, angle: 360, duration: 1600, repeat: -1 });
   }
 
   // 획득

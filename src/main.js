@@ -11,7 +11,7 @@ import PauseScene from './scenes/PauseScene.js';
 import GameOverScene from './scenes/GameOverScene.js';
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   parent: 'game',
   backgroundColor: GC.BG_COLOR,
   scale: {
@@ -21,6 +21,7 @@ const config = {
     height: GC.HEIGHT,
   },
   physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
+  input: { activePointers: 2 }, // 동시 터치 2개(이동 중에도 일시정지 버튼 터치 가능)
   scene: [BootScene, HomeScene, ShopScene, RankingScene, SettingsScene, GameScene, PauseScene, GameOverScene],
 };
 

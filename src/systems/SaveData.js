@@ -12,6 +12,15 @@ const DEFAULT = {
   runs: [], // 상위 점수 목록(내림차순)
 };
 
+function freshDefault() {
+  return {
+    ...DEFAULT,
+    ownedChars: [...DEFAULT.ownedChars],
+    ownedBgs: [...DEFAULT.ownedBgs],
+    runs: [...DEFAULT.runs],
+  };
+}
+
 class SaveDataStore {
   constructor() {
     this.data = this.load();
@@ -20,18 +29,23 @@ class SaveDataStore {
   load() {
     try {
       const raw = window.localStorage.getItem(GC.SCORE.SAVE_KEY);
-      if (!raw) return { ...DEFAULT };
+      if (!raw) return freshDefault();
       const parsed = JSON.parse(raw);
-      const d = { ...DEFAULT, ...parsed };
+      const d = { ...freshDefault(), ...parsed };
       // 방어적 정규화
-      if (!Array.isArray(d.ownedChars) || !d.ownedChars.includes('boy')) d.ownedChars = ['boy', ...(d.ownedChars || [])];
-      if (!Array.isArray(d.ownedBgs) || !d.ownedBgs.includes('bg_city')) d.ownedBgs = ['bg_city', ...(d.ownedBgs || [])];
+      if (!Array.isArray(d.ownedChars)) d.ownedChars = ['boy'];
+      if (!Array.isArray(d.ownedBgs)) d.ownedBgs = ['bg_city'];
+      d.ownedChars = Array.from(new Set(['boy', ...d.ownedChars]));
+      d.ownedBgs = Array.from(new Set(['bg_city', ...d.ownedBgs]));
       if (!Array.isArray(d.runs)) d.runs = [];
       d.coins = Number.isFinite(d.coins) ? Math.max(0, Math.floor(d.coins)) : 0;
       d.best = Number.isFinite(d.best) ? Math.max(0, Math.floor(d.best)) : 0;
+      // 선택값이 보유 목록에 없으면(제거/미보유 스킨) 기본값으로 되돌려 렌더 크래시 방지
+      if (!d.ownedChars.includes(d.selChar)) d.selChar = 'boy';
+      if (!d.ownedBgs.includes(d.selBg)) d.selBg = 'bg_city';
       return d;
     } catch {
-      return { ...DEFAULT };
+      return freshDefault();
     }
   }
 
@@ -41,6 +55,11 @@ class SaveDataStore {
     } catch {
       /* 무시 */
     }
+  }
+
+  reset() {
+    this.data = freshDefault();
+    this.save();
   }
 
   get coins() { return this.data.coins; }

@@ -5,7 +5,7 @@ export default class CoinManager {
   constructor(scene) {
     this.scene = scene;
     this.runCoins = 0;
-    this.group = scene.physics.add.group({ maxSize: 60, allowGravity: false });
+    this.group = scene.physics.add.group({ maxSize: GC.COIN.poolMax || 90, allowGravity: false });
   }
 
   spawn(x, y) {
@@ -19,16 +19,16 @@ export default class CoinManager {
     if (this.scene.anims.exists('coin_spin')) coin.play('coin_spin');
   }
 
-  // 자석 활성 시 플레이어로 끌어당김 + 화면 밖 회수
+  // 상시 약한 자석(수집 편의) + 자석 파워업 시 강력 흡수 + 화면 밖 회수
   update(player, magnetActive) {
+    const radius = magnetActive ? GC.COIN.magnetRadius : GC.COIN.passiveMagnetRadius;
+    const speed = magnetActive ? GC.COIN.magnetSpeed : GC.COIN.passiveMagnetSpeed;
     this.group.children.each((coin) => {
       if (!coin.active) return;
-      if (magnetActive) {
-        const d = Phaser.Math.Distance.Between(coin.x, coin.y, player.x, player.y);
-        if (d < GC.COIN.magnetRadius) {
-          const ang = Phaser.Math.Angle.Between(coin.x, coin.y, player.x, player.y);
-          coin.setVelocity(Math.cos(ang) * GC.COIN.magnetSpeed, Math.sin(ang) * GC.COIN.magnetSpeed);
-        }
+      const d = Phaser.Math.Distance.Between(coin.x, coin.y, player.x, player.y);
+      if (d < radius) {
+        const ang = Phaser.Math.Angle.Between(coin.x, coin.y, player.x, player.y);
+        coin.setVelocity(Math.cos(ang) * speed, Math.sin(ang) * speed);
       }
       if (coin.y > GC.POOP.DESPAWN_Y) coin.disableBody(true, true);
     });
