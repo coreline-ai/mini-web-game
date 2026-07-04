@@ -93,6 +93,76 @@
 - 배경은 기준 해상도와 일치함
 - UI와 게임 오브젝트 스타일이 섞이지 않음
 - OGG/PNG/SVG 등 런타임 포맷이 결정됨
+- 이미지 에셋은 Asset QA Gate를 통과함
+- 사운드 에셋은 Audio QA Gate를 통과함
+
+### Phase 3.1 이미지 에셋 QA Gate
+
+이미지 에셋은 생성 자체보다 **게임에서 고품질로 읽히는지**가 중요하다. `Asset QA Agent`는 아래 기준으로 통과/실패를 판정한다.
+
+| QA 축 | 통과 기준 | 실패 예시 | 확인 방법 |
+|---|---|---|---|
+| 해상도/비율 | manifest의 기준 크기와 일치, 배경은 기준 해상도 이상 | 1080×1920 배경이 카드 비율로 생성됨 | `identify`, manifest diff |
+| 투명도 | 캐릭터/아이템/적은 배경 투명, 불필요한 흰 박스 없음 | PNG 주변 흰 배경, 검은 테두리 잔상 | alpha 채널 검사, checkerboard preview |
+| 크롭/여백 | 오브젝트가 잘리지 않고 8~15% 안전 여백 유지 | 머리/발/이펙트가 이미지 밖으로 잘림 | contact sheet 육안 검수 |
+| 스타일 일관성 | 외곽선, 광원, 그림자, 채도, 렌더링 톤 통일 | 캐릭터마다 화풍/두께/시점이 다름 | reference sheet 비교 |
+| 판독성 | 실제 게임 크기에서 0.2초 안에 위험/보상 구분 | 코인과 적 색이 비슷함 | 1080×1920 실제 배치 스크린샷 |
+| AI 결함 | 손가락/눈/텍스트/프레임 왜곡 없음 | 손가락 6개, 이상한 한글, 깨진 얼굴 | 확대 검수 + 실제 크기 검수 |
+| 애니메이션 | 프레임 중심점/스케일/광원 일관 | 걷기 프레임마다 키가 튐 | spritesheet frame overlay |
+| 충돌 친화성 | 시각 크기와 히트박스 설계가 분리 가능 | 투명 여백 때문에 판정이 어긋남 | debug hitbox overlay |
+| 파일 최적화 | 용량/포맷이 런타임에 적절 | 1개 아이콘이 수 MB | `du`, 압축/atlas 검사 |
+| 라이선스/출처 | 생성 프롬프트/모델/외부 출처 기록 | 출처 불명 이미지 혼입 | asset manifest field 검사 |
+
+Asset QA Agent 산출물:
+
+```text
+assets/qa/asset-qa-report.md
+assets/qa/contact-sheet.png
+assets/qa/failures/*.png 또는 issue 목록
+```
+
+판정:
+- `PASS`: 바로 게임 적용 가능
+- `FIX`: 프롬프트/크롭/리사이즈/투명도 수정 후 재검수
+- `REJECT`: 스타일/해상도/AI 결함이 커서 재생성
+
+### Phase 3.2 사운드 에셋 생성 & QA Gate
+
+모든 게임은 최소 오디오 팩을 가진 상태로 MVP를 시작한다. 무음 프로토타입은 피드백 품질을 검증하기 어렵다.
+
+| 분류 | 최소 에셋 | 권장 길이 | 예시 트리거 |
+|---|---|---:|---|
+| UI | button, confirm, cancel | 0.05~0.2s | 버튼, 탭, 메뉴 전환 |
+| Gameplay SFX | move/dodge, collect, hit, warning | 0.08~0.8s | 이동, 회피, 획득, 피격 |
+| Reward SFX | coin, combo, new best, mission clear | 0.2~1.2s | 보상/기록/업적 |
+| Power/Boss SFX | powerup, boss appear, boss attack, boss defeat | 0.3~1.5s | 파워업/보스 상태 변화 |
+| Music | menu loop, gameplay loop, optional boss loop | 20~90s loop | 홈/게임/보스 |
+| Ambient | optional environment loop | 10~60s loop | 배경 테마 |
+
+Audio QA 기준:
+
+| QA 축 | 통과 기준 | 확인 방법 |
+|---|---|---|
+| 포맷 | Web: OGG Vorbis 우선, 필요 시 MP3/AAC fallback | `ffprobe` |
+| 샘플레이트 | 44.1kHz 또는 프로젝트 표준 | `ffprobe` |
+| 루프 | BGM loop seam이 튀지 않음 | waveform/실청 |
+| 클리핑 | 피크 깨짐 없음, 과도한 loudness 없음 | meter/실청 |
+| 믹스 | SFX가 BGM 위에서 들림, UI가 너무 크지 않음 | 게임 내 실청 |
+| 중복 재생 | dodge/click 같은 반복음은 throttle/variation 존재 | runtime QA |
+| 상태 제어 | pause/home/background에서 음악 정지 또는 pause | runtime QA |
+| manifest | key/path/category/trigger/volume/duration 기록 | audio manifest 검사 |
+
+### Phase 3.3 공통 에셋 팩
+
+새 게임마다 최소한 아래 공통 에셋을 먼저 만든다.
+
+| 팩 | 포함 항목 |
+|---|---|
+| Loading Pack | 로고, 로딩바, 로딩 아이콘, 팁 패널 |
+| UI Pack | play, pause, home, restart, settings, sound, shop, ranking 버튼 |
+| Feedback Pack | warning, fantastic/combo, game over, new best 메시지 |
+| FX Pack | explosion, smoke, sparkle, shield, hit flash |
+| Audio Pack | UI click, warning, collect, hit, game over, gameplay loop |
 
 ### Phase 4. 기술 아키텍처 & 구현 계획
 
@@ -101,9 +171,11 @@
 - 기준 해상도: 예) 1080×1920 portrait
 - 입력: 드래그/탭/좌우 버튼 등
 - 오브젝트 풀링 범위
-- 씬 구조
+- 씬 구조: Boot/Loading/Home/Game/Pause/GameOver는 공통 Foundation
 - 저장/랭킹/상점 데이터
+- 오디오 상태 제어: 홈/일시정지/백그라운드에서 BGM 동작 규칙
 - 배포 경로: GitHub Pages, Cloudflare Tunnel, Vercel, 앱 패키징
+- 공통 기능 체크: `common-game-systems-checklist.md` 기준
 
 구현 순서:
 1. 부트/로딩/에셋 로더
@@ -176,10 +248,12 @@ MVP 완료 조건:
 | B. Game Designer | 코어 루프/난이도/경제 | `design-spec.md` | 가능, Analyst 결과 반영 필요 |
 | C. Scenario Writer | 세계관/스테이지/보스/이벤트 | `scenario-full.md` | 가능 |
 | D. Art Director | 스타일가이드/프롬프트/에셋 리스트 | `asset-plan.md` | 가능, Scenario와 계약 필요 |
-| E. Audio Designer | BGM/SFX 목록/트리거/볼륨 | `audio-plan.md` | 가능 |
-| F. Engineer | 씬/시스템/데이터/빌드 | `src/`, `impl-plan.md` | Foundation 이후 가능 |
-| G. QA Agent | 테스트 매트릭스/버그 재현 | `qa-report.md` | 구현 이후 가능 |
-| H. Release Agent | README/배포/릴리즈 체크 | README, deploy config | QA 이후 가능 |
+| E. Asset QA Agent | 이미지 품질/해상도/투명도/일관성 검수 | `asset-qa-report.md`, contact sheet | 에셋 생성 후 가능 |
+| F. Audio Designer | BGM/SFX 목록/트리거/볼륨/생성 | `audio-plan.md`, `audio-manifest.json` | 가능 |
+| G. Audio QA Agent | 포맷/루프/볼륨/상태제어 검수 | `audio-qa-report.md` | 오디오 생성 후 가능 |
+| H. Engineer | 씬/시스템/데이터/빌드 | `src/`, `impl-plan.md` | Foundation 이후 가능 |
+| I. QA Agent | 테스트 매트릭스/버그 재현 | `qa-report.md` | 구현 이후 가능 |
+| J. Release Agent | README/배포/릴리즈 체크 | README, deploy config | QA 이후 가능 |
 
 ### 안전한 병렬 순서
 
@@ -215,7 +289,11 @@ Round 6: 릴리즈 + 운영 계획
 - [ ] 에셋 매니페스트
 - [ ] 이미지 프롬프트
 - [ ] 애니메이션 프롬프트
+- [ ] 실제 게임 크기 contact sheet
+- [ ] Asset QA Agent PASS/FIX/REJECT 리포트
 - [ ] 오디오 목록과 트리거
+- [ ] 최소 Audio Pack 생성(UI/수집/경고/피격/게임오버/BGM)
+- [ ] Audio QA Agent 리포트
 - [ ] 라이선스/출처 정리
 
 ## 3. Engineering
@@ -242,6 +320,9 @@ Round 6: 릴리즈 + 운영 계획
 ```
 
 ## 6. 템플릿 폴더 구조 권장안
+
+> 실제 구현 단계에서는 아래 권장 구조와 함께 저장소 루트의 현재 `Don't Get Pooped!` 프로젝트 형식(`src/scenes`, `src/systems`, `src/ui`, `assets/manifest.json`, `docs/DEV-GUIDE.md`)을 참고한다. `dev_game`이 만든 starter는 최소 Foundation이고, 출시형 구조는 실제 프로젝트 패턴으로 확장한다.
+
 
 ```text
 new-game/

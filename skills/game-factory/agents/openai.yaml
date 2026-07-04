@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Factory"
+  short_description: "Create and QA mobile arcade game starters"
+  default_prompt: "Use $game-factory to create a new mobile portrait Phaser/Vite arcade game starter from my idea."

@@ -1,0 +1,24 @@
+{
+  "name": "dev-game-factory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Scaffold mobile portrait Phaser/Vite arcade games at Don't Get Pooped MVP scope.",
+  "bin": {
+    "dev-game": "src/cli.mjs"
+  },
+  "scripts": {
+    "validate": "node src/cli.mjs --validate-only --spec examples/poop-dodge.spec.json",
+    "dry-run": "node src/cli.mjs --dry-run --spec examples/poop-dodge.spec.json --out ../generated/poop-dodge-demo",
+    "smoke": "node scripts/smoke-generate.mjs",
+    "asset-qa": "node scripts/asset-qa.mjs",
+    "browser-smoke": "node scripts/browser-smoke.mjs",
+    "qa": "npm run validate && npm run smoke && npm run asset-qa && npm run browser-smoke"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

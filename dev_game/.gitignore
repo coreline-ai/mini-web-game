@@ -1,0 +1,4 @@
+node_modules/
+.tmp/
+generated/*
+!generated/.gitkeep

@@ -1,0 +1,42 @@
+name: dev_game Factory QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dev_game/**'
+      - 'skills/**'
+      - '.claude/skills/**'
+      - 'scripts/install_game_factory_skill.sh'
+      - '.github/workflows/dev-game-factory.yml'
+  pull_request:
+    paths:
+      - 'dev_game/**'
+      - 'skills/**'
+      - '.claude/skills/**'
+      - 'scripts/install_game_factory_skill.sh'
+      - '.github/workflows/dev-game-factory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  factory-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check skill copies are in sync
+        run: |
+          diff -ru skills/game-factory .claude/skills/game-factory \
+            || { echo '::error::skills/game-factory and .claude/skills/game-factory have diverged — sync them (SKILL.md must be identical).'; exit 1; }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dev_game tooling
+        run: npm --prefix dev_game install
+      - name: Install Playwright Chromium
+        run: npm --prefix dev_game exec playwright install chromium
+      - name: Run factory QA
+        run: npm --prefix dev_game run factory:qa

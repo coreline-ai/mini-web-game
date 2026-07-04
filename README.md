@@ -239,10 +239,11 @@ game-dd/
 | [docs/scenario-full.md](docs/scenario-full.md) | 전체 게임 시나리오 · 에셋 활용 맵 |
 | [docs/design-spec-supplement.md](docs/design-spec-supplement.md) | 상세 기획 보강(판정·경제·밸런스 수치) |
 | [docs/impl-plan-mvp.md](docs/impl-plan-mvp.md) | MVP 구현 계획서 |
-| [docs/research/reference-analysis-4-games.md](docs/research/reference-analysis-4-games.md) | Crossy Road · Jetpack Joyride · Survivor.io · Super Hexagon 병렬 분석 |
-| [docs/templates/game-production-template.md](docs/templates/game-production-template.md) | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
-| [docs/templates/game-archetype-recipes.md](docs/templates/game-archetype-recipes.md) | 4개 레퍼런스 구조를 재사용 가능한 제작 레시피로 변환 |
-| [docs/templates/common-game-systems-checklist.md](docs/templates/common-game-systems-checklist.md) | 로딩 화면 · 공통 씬 · 저장 · 오디오 · QA Foundation 체크리스트 |
+| [skills/game-factory/SKILL.md](skills/game-factory/SKILL.md) | Codex/Claude에서 재사용 가능한 Game Factory 스킬 |
+| [dev_game/docs/reference-analysis-4-games.md](dev_game/docs/reference-analysis-4-games.md) | Crossy Road · Jetpack Joyride · Survivor.io · Super Hexagon 병렬 분석 |
+| [dev_game/docs/game-production-template.md](dev_game/docs/game-production-template.md) | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
+| [dev_game/docs/game-archetype-recipes.md](dev_game/docs/game-archetype-recipes.md) | 4개 레퍼런스 구조를 재사용 가능한 제작 레시피로 변환 |
+| [dev_game/docs/common-game-systems-checklist.md](dev_game/docs/common-game-systems-checklist.md) | 로딩 화면 · 공통 씬 · 저장 · 오디오 · QA Foundation 체크리스트 |
 
 ---
 
