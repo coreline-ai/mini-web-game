@@ -57,9 +57,12 @@ async function importPlaywright() {
 async function browserCheck(projectDir, port) {
   run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
   run(npmCommand(), ['run', 'build'], { cwd: projectDir });
+  // detached: 자체 프로세스 그룹으로 분리해 npm→sh→vite→esbuild 트리 전체를 그룹 시그널로 종료할 수 있게 한다.
+  // (npm만 kill하면 리눅스 CI에서 손자 프로세스가 살아남아 stdio 파이프를 물고 스크립트가 영원히 종료되지 않는다)
   const server = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], {
     cwd: projectDir,
     stdio: ['ignore', 'pipe', 'pipe'],
+    detached: process.platform !== 'win32',
   });
   let serverLog = '';
   server.stdout.on('data', (d) => { serverLog += d.toString(); });
@@ -92,7 +95,13 @@ async function browserCheck(projectDir, port) {
     console.error(serverLog);
     throw err;
   } finally {
-    server.kill('SIGTERM');
+    if (process.platform === 'win32') {
+      spawnSync('taskkill', ['/pid', String(server.pid), '/T', '/F'], { stdio: 'ignore' });
+    } else {
+      try { process.kill(-server.pid, 'SIGTERM'); } catch { server.kill('SIGTERM'); }
+      await wait(500);
+      try { process.kill(-server.pid, 'SIGKILL'); } catch {}
+    }
   }
 }
 
@@ -108,8 +117,14 @@ function generateFixtures(spec) {
 
 const args = parseArgs(process.argv.slice(2));
 const projects = generateFixtures(args.spec);
+let failed = false;
 try {
   for (let i = 0; i < projects.length; i += 1) await browserCheck(projects[i], args.startPort + i);
+} catch (err) {
+  console.error(err.message || err);
+  failed = true;
 } finally {
   if (!args.keep) fs.rmSync(tmpRoot, { recursive: true, force: true });
 }
+// 명시적 종료: 살아남은 서버 파이프/핸들이 이벤트 루프를 붙잡아도 프로세스가 반드시 끝나게 한다 (CI 행 방지 이중 안전장치).
+process.exit(failed ? 1 : 0);
