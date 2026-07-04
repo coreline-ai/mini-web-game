@@ -36,7 +36,7 @@
   <tr>
     <td align="center"><img src="docs/screenshots/home.png" width="240" alt="첫 화면"/><br/><b>🏠 첫 화면</b></td>
     <td align="center"><img src="docs/screenshots/gameplay.png" width="240" alt="게임 진행"/><br/><b>🎮 게임 진행</b></td>
-    <td align="center"><img src="docs/screenshots/boss.png" width="240" alt="보스전"/><br/><b>👹 보스전</b></td>
+    <td align="center"><img src="docs/screenshots/boss-gameplay.gif" width="240" alt="끝판왕 보스전"/><br/><b>👹 끝판왕 보스전 (플레이 영상)</b></td>
   </tr>
 </table>
 </div>
@@ -230,6 +230,7 @@ game-dd/
 | [docs/research/reference-analysis-4-games.md](docs/research/reference-analysis-4-games.md) | Crossy Road · Jetpack Joyride · Survivor.io · Super Hexagon 병렬 분석 |
 | [docs/templates/game-production-template.md](docs/templates/game-production-template.md) | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
 | [docs/templates/game-archetype-recipes.md](docs/templates/game-archetype-recipes.md) | 4개 레퍼런스 구조를 재사용 가능한 제작 레시피로 변환 |
+| [docs/templates/common-game-systems-checklist.md](docs/templates/common-game-systems-checklist.md) | 로딩 화면 · 공통 씬 · 저장 · 오디오 · QA Foundation 체크리스트 |
 
 ---
 
