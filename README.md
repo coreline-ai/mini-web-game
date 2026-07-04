@@ -205,14 +205,28 @@ game-dd/
 
 ---
 
-## 📜 라이선스
+## 📜 License
 
-이 프로젝트의 **라이선스 · 사용 · 배포 관련 사항은 [Coreline-ai](https://github.com/coreline-ai) 로 문의**해 주세요.
+**Copyright © 2026 Coreline-ai. All rights reserved.**
 
-[![License](https://img.shields.io/badge/License-Inquiry%20%E2%86%92%20Coreline--ai-orange)](https://github.com/coreline-ai)
+[![License](https://img.shields.io/badge/License-Proprietary%20%C2%B7%20All%20Rights%20Reserved-orange)](LICENSE.md)
 
-> 별도의 오픈소스 라이선스를 부여하지 않으며, 사용 권한은 Coreline-ai 문의를 통해 안내됩니다.
-> 게임 엔진 Phaser 등 서드파티 라이브러리는 각자의 라이선스를 따릅니다.
+This is **proprietary software** and is **not** released under an open-source
+license. No rights are granted by default.
+
+Without prior written permission from **Coreline-ai**, you may **not** copy,
+modify, distribute, host, deploy, sell, or use this project (or its assets)
+for any purpose beyond playing the official live demo.
+
+| Item | Details |
+|------|---------|
+| 📩 **Licensing & inquiries** | Contact **[Coreline-ai](https://github.com/coreline-ai)** |
+| 📄 **Full terms** | See **[LICENSE.md](LICENSE.md)** |
+| ▶ **Play (evaluation)** | <https://coreline-ai.github.io/mini-web-game/> |
+| 🧩 **Third-party libraries** | Phaser 3, Vite — under their own (MIT) licenses |
+
+> 한국어 안내: 본 프로젝트는 오픈소스가 아니며, 모든 권리는 Coreline-ai에 있습니다.
+> 사용·복제·수정·배포·상업적 이용은 [Coreline-ai](https://github.com/coreline-ai) 문의 후 서면 허가가 필요합니다. 전체 조항은 [LICENSE.md](LICENSE.md) 참고.
 
 ---
 
