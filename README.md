@@ -213,6 +213,8 @@ game-dd/
 > 실제 구현·운영은 이 프로젝트를 이어받는 **개발자(사용자)의 몫**이며, 각 단계는 독립적으로 채택할 수 있습니다.
 > 아키텍처·연동 지점·스키마·체크리스트 등 **상세 내용은 아래 개발 가이드를 참고하세요.**
 
+💡 **웹 서버 없이 로컬 실행/배포** 방식 비교도 포함되어 있습니다 — 단일 HTML 원파일 · **Tauri**/Electron 데스크톱 앱 · Capacitor 모바일 앱 · PWA · 원클릭 로컬 서버.
+
 📘 **[확장 & 라이브옵스 개발 가이드 → docs/DEV-GUIDE.md](docs/DEV-GUIDE.md)**
 
 ---
@@ -225,6 +227,9 @@ game-dd/
 | [docs/scenario-full.md](docs/scenario-full.md) | 전체 게임 시나리오 · 에셋 활용 맵 |
 | [docs/design-spec-supplement.md](docs/design-spec-supplement.md) | 상세 기획 보강(판정·경제·밸런스 수치) |
 | [docs/impl-plan-mvp.md](docs/impl-plan-mvp.md) | MVP 구현 계획서 |
+| [docs/research/reference-analysis-4-games.md](docs/research/reference-analysis-4-games.md) | Crossy Road · Jetpack Joyride · Survivor.io · Super Hexagon 병렬 분석 |
+| [docs/templates/game-production-template.md](docs/templates/game-production-template.md) | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
+| [docs/templates/game-archetype-recipes.md](docs/templates/game-archetype-recipes.md) | 4개 레퍼런스 구조를 재사용 가능한 제작 레시피로 변환 |
 
 ---
 
