@@ -205,6 +205,85 @@ def sfx_powerup_shield(t: float, i: int) -> float:
     return s
 
 
+def sfx_boss_appear(t: float, i: int) -> float:
+    """Short intimidating entrance cue: siren + low roar + toilet-lid slam."""
+    dur = 1.18
+    x = min(max(t / dur, 0.0), 1.0)
+
+    # Heavy first-frame impact so the boss arrival reads immediately.
+    thud_freq = 82 - 34 * min(t / 0.38, 1)
+    thud = sine(thud_freq, t) * env_decay(t, 0.42, 0.0015, 1.35) * 0.72
+
+    # Arcade monster/body layer with pitch wobble and a downward sweep.
+    roar_start = 0.06
+    tt = t - roar_start
+    roar = 0.0
+    if tt >= 0:
+        rr = min(tt / 0.82, 1.0)
+        roar_env = math.sin(math.pi * rr) ** 0.42 if rr < 1 else 0.0
+        freq = 205 - 116 * rr + sine(7.5, tt) * 10
+        roar = (square(freq, tt) * 0.22 + tri(freq * 0.5, tt) * 0.34) * roar_env
+
+    # Three warning pulses layered into the entrance.
+    siren = 0.0
+    for start, freq in [(0.16, 520), (0.34, 440), (0.52, 360)]:
+        pt = t - start
+        if 0 <= pt < 0.13:
+            siren += (square(freq, pt) * 0.20 + sine(freq * 2, pt) * 0.12) * env_decay(pt, 0.13, 0.002, 1.7)
+
+    # Metallic lid clack at the end of the entrance motion.
+    clack = 0.0
+    ct = t - 0.76
+    if 0 <= ct < 0.18:
+        clack_noise = random.uniform(-1, 1) * 0.34
+        clack_tone = square(1120, ct) * 0.16 + sine(2240, ct) * 0.10
+        clack = (clack_noise + clack_tone) * env_decay(ct, 0.18, 0.001, 2.3)
+
+    # Tiny rising menace tail so it still feels retro/mobile rather than realistic.
+    tail = sine(240 + 520 * x, t) * env_decay(t, dur, 0.02, 2.5) * 0.10
+    return thud + roar + siren + clack + tail
+
+
+def sfx_boss_defeat(t: float, i: int) -> float:
+    """Boss destruction cue: blast + debris + bright reward stinger."""
+    dur = 1.36
+
+    # Main cartoon explosion burst.
+    boom_freq = 96 - 52 * min(t / 0.58, 1)
+    boom = sine(boom_freq, t) * env_decay(t, 0.62, 0.001, 1.1) * 0.82
+    blast_noise = 0.0
+    if t < 0.52:
+        blast_noise = random.uniform(-1, 1) * env_decay(t, 0.52, 0.001, 1.4) * 0.52
+
+    # Debris / ceramic pops.
+    debris = 0.0
+    for start, freq, amp in [
+        (0.08, 280, 0.22),
+        (0.16, 410, 0.18),
+        (0.25, 180, 0.20),
+        (0.34, 620, 0.15),
+    ]:
+        dt = t - start
+        if 0 <= dt < 0.12:
+            debris += (tri(freq, dt) * 0.28 + random.uniform(-1, 1) * 0.18) * env_decay(dt, 0.12, 0.001, 2.6) * amp
+
+    # Reward/victory sparkle after the blast, matching the coin-ding palette.
+    sparkle = 0.0
+    for start, freq, amp in [
+        (0.40, 784, 0.24),
+        (0.50, 988, 0.23),
+        (0.62, 1175, 0.22),
+        (0.76, 1568, 0.28),
+        (0.96, 2093, 0.18),
+    ]:
+        st = t - start
+        if st >= 0:
+            sparkle += sine(freq, st) * env_decay(st, dur - start, 0.004, 2.1) * amp
+            sparkle += sine(freq * 2, st) * env_decay(st, dur - start, 0.002, 3.2) * amp * 0.12
+
+    return boom + blast_noise + debris + sparkle
+
+
 def main() -> None:
     TMP.mkdir(exist_ok=True)
     render("button_click", 0.085, sfx_button_click, "ui")
@@ -217,6 +296,8 @@ def main() -> None:
     render("hit_splat", 0.46, sfx_hit_splat, "sfx")
     render("game_over_jingle", 1.25, sfx_game_over, "sfx")
     render("powerup_shield", 0.58, sfx_powerup_shield, "sfx")
+    render("boss_appear_roar", 1.18, sfx_boss_appear, "sfx")
+    render("boss_defeat_burst", 1.36, sfx_boss_defeat, "sfx")
 
 
 if __name__ == "__main__":

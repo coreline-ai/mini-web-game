@@ -240,6 +240,8 @@ export const GC = {
       hit: { key: 'hit_splat', path: 'audio/sfx/hit_splat.ogg' },
       gameOver: { key: 'game_over_jingle', path: 'audio/sfx/game_over_jingle.ogg' },
       shield: { key: 'powerup_shield', path: 'audio/sfx/powerup_shield.ogg' },
+      bossAppear: { key: 'boss_appear_roar', path: 'audio/sfx/boss_appear_roar.ogg' },
+      bossDefeat: { key: 'boss_defeat_burst', path: 'audio/sfx/boss_defeat_burst.ogg' },
     },
   },
 };

@@ -5,7 +5,7 @@
   "channels": "stereo",
   "license": "project-generated procedural audio; no external samples",
   "publicPathNote": "Vite publicDir is assets, so load paths like /audio/sfx/near_miss_whoosh_tick.ogg",
-  "totalAudio": 11,
+  "totalAudio": 13,
   "assets": [
     {
       "key": "music_arcade_survival_loop",
@@ -120,6 +120,28 @@
       "sampleRate": 44100,
       "durationSec": 0.681,
       "sizeBytes": 14104
+    },
+    {
+      "key": "boss_appear_roar",
+      "path": "audio/sfx/boss_appear_roar.ogg",
+      "category": "sfx",
+      "usage": "boss entrance warning roar / impact stinger",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 1.181,
+      "sizeBytes": 20642
+    },
+    {
+      "key": "boss_defeat_burst",
+      "path": "audio/sfx/boss_defeat_burst.ogg",
+      "category": "sfx",
+      "usage": "boss defeated explosion / reward stinger",
+      "codec": "vorbis",
+      "channels": 2,
+      "sampleRate": 44100,
+      "durationSec": 1.361,
+      "sizeBytes": 20402
     },
     {
       "key": "button_click",

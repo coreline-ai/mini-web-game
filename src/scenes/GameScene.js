@@ -387,7 +387,8 @@ export default class GameScene extends Phaser.Scene {
   startBoss(cfg) {
     this.spawner.reset();
     this.showBanner(`⚠ ${cfg.name} ⚠\n등장!`);
-    this.playSfx(GC.AUDIO.sfx.warning.key, 0.6);
+    this.playSfx(GC.AUDIO.sfx.warning.key, 0.45);
+    this.playSfx(GC.AUDIO.sfx.bossAppear.key, 0.75);
     this.boss.start(cfg);
   }
 
@@ -403,7 +404,8 @@ export default class GameScene extends Phaser.Scene {
     this.bossIndex += 1; // 다음 보스로
     const last = this.bossIndex >= GC.BOSSES.length;
     this.showBanner(last ? '최종 보스 격파!\nENDLESS' : `${cfg.name} 격파!`);
-    this.playSfx(GC.AUDIO.sfx.coin.key, 1);
+    this.playSfx(GC.AUDIO.sfx.bossDefeat.key, 0.85);
+    this.playSfx(GC.AUDIO.sfx.coin.key, 0.65);
   }
 
   onHitPoop(player, poop) {

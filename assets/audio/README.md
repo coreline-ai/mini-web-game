@@ -23,6 +23,8 @@ this.load.audio('music_arcade_survival_loop', '/audio/music/arcade_survival_loop
 | `sfx/near_miss_whoosh_tick.ogg` | near miss reward feedback |
 | `sfx/coin_ding.ogg` | coin / golden poop reward |
 | `sfx/warning_beep.ogg` | WARNING event alert |
+| `sfx/boss_appear_roar.ogg` | boss entrance warning roar / impact stinger |
+| `sfx/boss_defeat_burst.ogg` | boss defeated explosion / reward stinger |
 | `sfx/hit_splat.ogg` | player hit / poop impact |
 | `sfx/game_over_jingle.ogg` | game over stinger |
 | `sfx/powerup_shield.ogg` | umbrella shield or power-up activation |
