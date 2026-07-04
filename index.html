@@ -10,45 +10,20 @@
     <style>
       html,
       body {
-        --game-stage-bg: linear-gradient(180deg, #0b0d1a 0%, #101827 100%);
-        position: relative;
-        isolation: isolate;
         margin: 0;
         height: 100%;
-        background: #0f172a;
+        background: #0b0d1a; /* 레터박스 여백은 깔끔한 단색(흐린 배경 없음) */
         overflow: hidden;
         overscroll-behavior: none;
       }
-      body::before,
-      body::after {
-        content: "";
-        position: fixed;
-        pointer-events: none;
-      }
-      body::before {
-        z-index: 0;
-        inset: -28px;
-        background: var(--game-stage-bg);
-        background-size: cover;
-        background-position: center;
-        filter: blur(16px) saturate(1.08);
-        transform: scale(1.04);
-      }
-      body::after {
-        z-index: 1;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.16) 100%);
-      }
       #game {
-        position: relative;
-        z-index: 2;
         width: 100vw;
         height: 100vh;
-        background: transparent;
+        height: 100dvh; /* 모바일: 주소창·소프트키 제외한 실제 보이는 높이에 맞춤 */
+        background: #0b0d1a;
+        /* 캔버스 중앙정렬은 Phaser Scale.CENTER_BOTH가 처리(flex 중복 금지) */
       }
       canvas {
-        position: relative;
-        z-index: 3;
         display: block;
       }
       * {

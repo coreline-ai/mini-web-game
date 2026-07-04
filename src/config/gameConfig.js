@@ -109,13 +109,14 @@ export const GC = {
   BOSS: { y: 340, size: 300, projSize: 92, anim: 'boss_attack' },
   // 3단 보스: 약한 → 중간 → 강력, 각 enterAtSec(생존초)에 한 번씩 등장
   // hpDrainPerSec = 생존으로 HP가 깎이는 속도 → 처치까지 걸리는 시간 = hp / drain
+  // 난이도 상향: 1번=기존 2번, 2번=기존 3번, 3번=신규 최상급(전반적 난이도 UP)
   BOSSES: [
-    { name: '약한 보스', enterAtSec: 50, hp: 60, hpDrainPerSec: 6, moveSpeed: 180, fireIntervalMs: 1600,
-      projSpeed: 470, rageBelowHp: 0, shots: [0], rageShots: [0], sizeMul: 0.8, tint: 0x9fe6a0, defeatCoins: 12, defeatScore: 800 },
-    { name: '중간 보스', enterAtSec: 120, hp: 110, hpDrainPerSec: 5, moveSpeed: 235, fireIntervalMs: 1200,
+    { name: '약한 보스', enterAtSec: 50, hp: 110, hpDrainPerSec: 5, moveSpeed: 235, fireIntervalMs: 1200,
       projSpeed: 560, rageBelowHp: 40, shots: [0], rageShots: [-0.32, 0, 0.32], sizeMul: 1.0, tint: 0xffd27a, defeatCoins: 24, defeatScore: 1800 },
-    { name: '강력 보스', enterAtSec: 195, hp: 160, hpDrainPerSec: 5, moveSpeed: 285, fireIntervalMs: 950,
+    { name: '중간 보스', enterAtSec: 120, hp: 160, hpDrainPerSec: 5, moveSpeed: 285, fireIntervalMs: 950,
       projSpeed: 650, rageBelowHp: 55, shots: [-0.2, 0.2], rageShots: [-0.5, -0.25, 0, 0.25, 0.5], sizeMul: 1.25, tint: 0xff9a9a, defeatCoins: 45, defeatScore: 4000 },
+    { name: '강력 보스', enterAtSec: 195, hp: 210, hpDrainPerSec: 5, moveSpeed: 325, fireIntervalMs: 800,
+      projSpeed: 730, rageBelowHp: 70, shots: [-0.3, 0, 0.3], rageShots: [-0.6, -0.36, -0.12, 0.12, 0.36, 0.6], sizeMul: 1.4, tint: 0xc98bff, defeatCoins: 75, defeatScore: 7000 },
   ],
 
   ANIM: {
