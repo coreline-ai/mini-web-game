@@ -92,9 +92,15 @@
 
 ## 🚀 실행 방법
 
-설치 없이 바로 해보려면 → **[▶ 라이브 데모 플레이](https://coreline-ai.github.io/mini-web-game/)** 🎮
+### 🎮 라이브 실행 (설치 불필요)
 
-로컬에서 실행:
+브라우저에서 바로 플레이 👉 **https://coreline-ai.github.io/mini-web-game/**
+
+[![▶ PLAY NOW](https://img.shields.io/badge/▶%20PLAY%20NOW-coreline--ai.github.io%2Fmini--web--game-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://coreline-ai.github.io/mini-web-game/)
+
+> GitHub Pages 상시 호스팅 · PC/모바일 브라우저에서 바로 실행됩니다.
+
+### 💻 로컬에서 실행
 
 ```bash
 npm install       # 의존성 설치
