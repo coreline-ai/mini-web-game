@@ -24,6 +24,7 @@ permissions:
 jobs:
   factory-qa:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Check skill copies are in sync
@@ -37,6 +38,6 @@ jobs:
       - name: Install dev_game tooling
         run: npm --prefix dev_game install
       - name: Install Playwright Chromium
-        run: npm --prefix dev_game exec playwright install chromium
+        run: npm --prefix dev_game exec playwright install --with-deps chromium
       - name: Run factory QA
         run: npm --prefix dev_game run factory:qa
