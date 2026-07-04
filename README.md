@@ -29,6 +29,18 @@
 
 ---
 
+## 🎬 게임플레이 미리보기 — 끝판왕 보스전
+
+<div align="center">
+
+<img src="docs/screenshots/boss-gameplay.gif" width="300" alt="끝판왕 보스전 플레이 영상"/>
+
+<br/><sub>강력 보스(끝판왕)의 6발 부채꼴 폭격을 피하는 실제 플레이 영상</sub>
+
+</div>
+
+---
+
 ## 📸 스크린샷
 
 <div align="center">
@@ -36,7 +48,7 @@
   <tr>
     <td align="center"><img src="docs/screenshots/home.png" width="240" alt="첫 화면"/><br/><b>🏠 첫 화면</b></td>
     <td align="center"><img src="docs/screenshots/gameplay.png" width="240" alt="게임 진행"/><br/><b>🎮 게임 진행</b></td>
-    <td align="center"><img src="docs/screenshots/boss-gameplay.gif" width="240" alt="끝판왕 보스전"/><br/><b>👹 끝판왕 보스전 (플레이 영상)</b></td>
+    <td align="center"><img src="docs/screenshots/boss.png" width="240" alt="보스전"/><br/><b>👹 보스전</b></td>
   </tr>
 </table>
 </div>
