@@ -370,6 +370,58 @@ export function clearLayout() {
 }
 `);
 
+  files.set('src/game/systems/StageManager.js', `import Phaser from 'phaser';
+import { SPEC } from '../data/spec.js';
+
+// Full-canvas stage background that swaps as the difficulty level rises. Uses textures
+// keyed bg_0, bg_1, ... (present when production art exists); falls back to a solid color.
+export default class StageManager {
+  constructor(scene) {
+    this.scene = scene;
+    this.keys = [];
+    for (let i = 0; i < 8; i += 1) { if (scene.textures.exists('bg_' + i)) this.keys.push('bg_' + i); }
+    this.current = -1;
+    if (this.keys.length) {
+      this.image = scene.add.image(0, 0, this.keys[0]).setOrigin(0).setDisplaySize(SPEC.canvas.width, SPEC.canvas.height).setDepth(-10);
+      this.current = 0;
+    } else {
+      const c = Phaser.Display.Color.HexStringToColor(SPEC.theme.colors?.background || SPEC.canvas.backgroundColor).color;
+      scene.add.rectangle(0, 0, SPEC.canvas.width, SPEC.canvas.height, c).setOrigin(0).setDepth(-10);
+    }
+  }
+  setLevel(level) {
+    if (this.keys.length < 2) return;
+    const idx = Math.min(this.keys.length - 1, Math.max(0, Math.floor((level - 1) / 3)));
+    if (idx === this.current) return;
+    this.current = idx;
+    const next = this.scene.add.image(0, 0, this.keys[idx]).setOrigin(0).setDisplaySize(SPEC.canvas.width, SPEC.canvas.height).setDepth(-10).setAlpha(0);
+    const prev = this.image;
+    this.image = next;
+    this.scene.tweens.add({ targets: next, alpha: 1, duration: 500, onComplete: () => { if (prev) prev.destroy(); } });
+  }
+}
+`);
+
+  files.set('src/game/systems/Juice.js', `// Lightweight game feel: screen shake, color flash, particle burst, floating score pop.
+export const Juice = {
+  shake(scene, intensity = 0.012, duration = 200) { scene.cameras.main.shake(duration, intensity); },
+  flash(scene, color = 0xffffff, duration = 130) { scene.cameras.main.flash(duration, (color >> 16) & 255, (color >> 8) & 255, color & 255); },
+  burst(scene, x, y, tint = 0xffffff) {
+    const ring = scene.add.circle(x, y, 7, tint, 0.9).setDepth(30);
+    scene.tweens.add({ targets: ring, scale: 3, alpha: 0, duration: 320, ease: 'Cubic.easeOut', onComplete: () => ring.destroy() });
+    for (let i = 0; i < 8; i += 1) {
+      const a = (Math.PI * 2 * i) / 8;
+      const p = scene.add.circle(x, y, 3, tint, 1).setDepth(30);
+      scene.tweens.add({ targets: p, x: x + Math.cos(a) * 44, y: y + Math.sin(a) * 44, alpha: 0, duration: 380, ease: 'Cubic.easeOut', onComplete: () => p.destroy() });
+    }
+  },
+  scorePop(scene, x, y, text, color = '#ffe066') {
+    const t = scene.add.text(x, y, text, { fontFamily: 'Arial Black, Arial', fontSize: '22px', color, stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5).setDepth(31);
+    scene.tweens.add({ targets: t, y: y - 60, alpha: 0, duration: 700, ease: 'Cubic.easeOut', onComplete: () => t.destroy() });
+  },
+};
+`);
+
   files.set('src/game/ui/HudUI.js',`import { SPEC } from '../data/spec.js';\nimport { makeTextButton } from './MobileButton.js';\n\nexport default class HudUI {\n  constructor(scene, onPause) {\n    const { width } = SPEC.canvas;\n    this.scoreText = scene.add.text(18, 18, 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setDepth(20);\n    this.levelText = scene.add.text(18, 44, 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: '14px', color: '#b9d7ff', stroke: '#000000', strokeThickness: 3 }).setDepth(20);\n    this.pause = makeTextButton(scene, width - 54, 38, 'Ⅱ', onPause, 58, 48);\n    this.pause.bg.setDepth(20); this.pause.txt.setDepth(21);\n  }\n  update(score, level) {\n    this.scoreText.setText('SCORE ' + score);\n    this.levelText.setText('LV ' + level);\n  }\n  setVisible(v) {\n    this.scoreText.setVisible(v); this.levelText.setVisible(v); this.pause.bg.setVisible(v); this.pause.txt.setVisible(v);\n  }\n}\n`);
 
   files.set('src/game/scenes/BootScene.js', `import Phaser from 'phaser';\nimport { SCENES } from '../data/spec.js';\nimport { SaveData } from '../systems/SaveData.js';\n\nexport default class BootScene extends Phaser.Scene {\n  constructor() { super(SCENES.BOOT); }\n  create() {\n    SaveData.getSettings();\n    this.scene.start(SCENES.LOADING);\n  }\n}\n`);
@@ -388,14 +440,18 @@ export default class HomeScene extends Phaser.Scene {\n  constructor() { super(S
 
   files.set('src/game/scenes/GameScene.js', `import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport { TUNING } from '../constants/tuning.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport ScoreManager from '../systems/ScoreManager.js';\nimport Spawner from '../systems/Spawner.js';\nimport HudUI from '../ui/HudUI.js';
-import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\n\nexport default class GameScene extends Phaser.Scene {\n  constructor() { super(SCENES.GAME); }\n  create() {\n    this.isOver = false;\n    this.targetX = SPEC.canvas.width / 2;\n    this.score = new ScoreManager();\n    this.spawner = new Spawner(this);\n    this.add.rectangle(0, 0, SPEC.canvas.width, SPEC.canvas.height, Phaser.Display.Color.HexStringToColor(SPEC.theme.colors?.background || SPEC.canvas.backgroundColor).color).setOrigin(0);\n    this.player = this.physics.add.image(this.targetX, TUNING.playerY, ASSET_KEYS.player).setDepth(10);\n    this.player.body.setAllowGravity(false);
+import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\nimport StageManager from '../systems/StageManager.js';\nimport { Juice } from '../systems/Juice.js';\n\nexport default class GameScene extends Phaser.Scene {\n  constructor() { super(SCENES.GAME); }\n  create() {\n    this.isOver = false;\n    this.targetX = SPEC.canvas.width / 2;\n    this.score = new ScoreManager();\n    this.spawner = new Spawner(this);\n    this.stage = new StageManager(this);\n    this.player = this.physics.add.image(this.targetX, TUNING.playerY, ASSET_KEYS.player).setDepth(10);\n    this.player.body.setAllowGravity(false);
     { const a = (this.player.width / this.player.height) || 1; this.player.setDisplaySize(TUNING.playerSize * a, TUNING.playerSize); }\n    const playerHitbox = SPEC.player.hitbox || { width: 42, height: 42 };
     const playerRadius = Math.max(4, (Math.min(playerHitbox.width, playerHitbox.height) / 2) * (this.player.height / TUNING.playerSize));
     this.player.body.setCircle(playerRadius, Math.max(0, (this.player.width - playerRadius * 2) / 2), Math.max(0, (this.player.height - playerRadius * 2) / 2));\n    this.hud = new HudUI(this, () => this.openPause());
-    this.hudLayout = [{ id: 'score', obj: this.hud.scoreText }, { id: 'level', obj: this.hud.levelText }, { id: 'pause', obj: this.hud.pause.bg }];\n    this.physics.add.overlap(this.player, this.spawner.hazards, this.onHit, undefined, this);\n    this.physics.add.overlap(this.player, this.spawner.collectibles, this.onCollect, undefined, this);\n    this.input.on('pointerdown', this.onPointer, this);\n    this.input.on('pointermove', this.onPointer, this);\n    this.visibilityHandler = () => { if (document.hidden && !this.isOver) this.openPause(); };\n    if (SPEC.performance.pauseWhenHidden) document.addEventListener('visibilitychange', this.visibilityHandler);\n    AudioManager.playGameplayMusic(this);\n    this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);\n  }\n  onPointer(pointer) {\n    if (this.isOver || pointer.y < 82) return;\n    if (SPEC.player.moveMode === 'tap-lane') {\n      const lane = Math.floor(pointer.x / (SPEC.canvas.width / 3));\n      this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);\n    } else {\n      this.targetX = Phaser.Math.Clamp(pointer.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);\n    }\n  }\n  update(time, delta) {\n    if (this.isOver) return;\n    this.score.update(delta);\n    const elapsedSec = this.score.elapsedMs / 1000;\n    const params = this.spawner.update(delta, elapsedSec);\n    const dx = this.targetX - this.player.x;
+    this.hudLayout = [{ id: 'score', obj: this.hud.scoreText }, { id: 'level', obj: this.hud.levelText }, { id: 'pause', obj: this.hud.pause.bg }];\n    this.physics.add.overlap(this.player, this.spawner.hazards, this.onHit, undefined, this);\n    this.physics.add.overlap(this.player, this.spawner.collectibles, this.onCollect, undefined, this);\n    this.input.on('pointerdown', this.onPointer, this);\n    this.input.on('pointermove', this.onPointer, this);\n    this.visibilityHandler = () => { if (document.hidden && !this.isOver) this.openPause(); };\n    if (SPEC.performance.pauseWhenHidden) document.addEventListener('visibilitychange', this.visibilityHandler);\n    AudioManager.playGameplayMusic(this);\n    this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);\n  }\n  onPointer(pointer) {\n    if (this.isOver || pointer.y < 82) return;\n    if (SPEC.player.moveMode === 'tap-lane') {\n      const lane = Math.floor(pointer.x / (SPEC.canvas.width / 3));\n      this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);\n    } else {\n      this.targetX = Phaser.Math.Clamp(pointer.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);\n    }\n  }\n  update(time, delta) {\n    if (this.isOver) return;\n    this.score.update(delta);\n    const elapsedSec = this.score.elapsedMs / 1000;\n    const params = this.spawner.update(delta, elapsedSec);
+    this.stage.setLevel(params.level);\n    const dx = this.targetX - this.player.x;
     const maxStep = (SPEC.player.speed || 760) * (delta / 1000);
     this.player.x += Phaser.Math.Clamp(dx, -maxStep, maxStep);\n    this.hud.update(this.score.getScore(), params.level);
-    publishLayout(this, this.hudLayout);\n  }\n  onCollect(player, coin) {\n    coin.disableBody(true, true);\n    this.score.addCollectible();\n    AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);\n  }\n  onHit() {\n    if (this.isOver) return;\n    this.isOver = true;\n    AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);\n    AudioManager.stopMusic();\n    this.physics.pause();\n    this.scene.start(SCENES.GAMEOVER, { score: this.score.getScore(), coins: this.score.coins });\n  }\n  openPause() {\n    if (this.isOver || this.scene.isPaused()) return;\n    AudioManager.pauseMusic();\n    this.hud.setVisible(false);\n    this.scene.launch(SCENES.PAUSE);\n    this.scene.pause();\n  }\n  onResume() {\n    if (!this.isOver) this.hud.setVisible(true);\n  }\n  cleanup() {\n    this.input.off('pointerdown', this.onPointer, this);\n    this.input.off('pointermove', this.onPointer, this);\n    this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
+    publishLayout(this, this.hudLayout);\n  }\n  onCollect(player, coin) {\n    const _cx = coin.x, _cy = coin.y;
+    coin.disableBody(true, true);\n    this.score.addCollectible();
+    Juice.burst(this, _cx, _cy, 0xffe066); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));\n    AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);\n  }\n  onHit() {\n    if (this.isOver) return;\n    this.isOver = true;
+    Juice.shake(this); Juice.flash(this, 0xff5555);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);\n    AudioManager.stopMusic();\n    this.physics.pause();\n    this.scene.start(SCENES.GAMEOVER, { score: this.score.getScore(), coins: this.score.coins });\n  }\n  openPause() {\n    if (this.isOver || this.scene.isPaused()) return;\n    AudioManager.pauseMusic();\n    this.hud.setVisible(false);\n    this.scene.launch(SCENES.PAUSE);\n    this.scene.pause();\n  }\n  onResume() {\n    if (!this.isOver) this.hud.setVisible(true);\n  }\n  cleanup() {\n    this.input.off('pointerdown', this.onPointer, this);\n    this.input.off('pointermove', this.onPointer, this);\n    this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
     clearLayout();\n  }\n}\n`);
 
   files.set('src/game/scenes/PauseScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nexport default class PauseScene extends Phaser.Scene {\n  constructor() { super(SCENES.PAUSE); }\n  create() {\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x000000, 0.62).setOrigin(0);\n    this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '46px', color: '#fff', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 230, 62);\n    makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 230, 62);\n  }\n}\n`);

@@ -421,6 +421,18 @@ function main() {
     minWidth: b.width, minHeight: b.height,
   }));
   manifest.assetPlan = 'asset-plan.json';
+
+  // Per-game asset isolation + provenance: every asset is generated for THIS game
+  // (procedural audio, placeholder/AI images), never a shared/common runtime asset.
+  const gid = spec.game.id;
+  manifest.assetIsolation = { mode: 'per-game', generatedFor: gid, noSharedRuntimeAssets: true };
+  const stampProvenance = (arr) => (Array.isArray(arr) ? arr : []).forEach((e) => {
+    if (e && typeof e === 'object') e.provenance = e.provenance || { source: 'generated-for-game', generatedFor: gid };
+  });
+  stampProvenance(manifest.images);
+  stampProvenance(manifest.audio);
+  stampProvenance(manifest.stageBackgrounds);
+
   writeFile(manifestFile, JSON.stringify(manifest, null, 2) + '\n');
 
   console.log(`Productionized baseline: ${projectDir}`);

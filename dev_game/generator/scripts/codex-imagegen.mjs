@@ -149,6 +149,27 @@ function wireGameToAssets(projectDir, plan) {
   return patched;
 }
 
+// Mark manifest entries production-demo for any plan asset whose file exists on disk.
+function promoteExisting(projectDir, plan, manifest) {
+  manifest.stageBackgrounds = manifest.stageBackgrounds || [];
+  manifest.images = manifest.images || [];
+  const gid = plan.gameId;
+  const prov = () => ({ source: 'generated-for-game', generatedFor: gid });
+  if (gid) manifest.assetIsolation = manifest.assetIsolation || { mode: 'per-game', generatedFor: gid, noSharedRuntimeAssets: true };
+  for (const bg of plan.backgrounds || []) {
+    if (!fs.existsSync(path.join(projectDir, bg.path))) continue;
+    let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
+    if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
+    e.path = bg.path; e.quality = 'production-demo'; e.provenance = prov();
+  }
+  for (const sp of plan.sprites || []) {
+    if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
+    let e = manifest.images.find((x) => x.id === sp.id);
+    if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
+    e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true; e.provenance = prov();
+  }
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
@@ -201,6 +222,10 @@ function main() {
       }
     }
   }
+
+  // Promote manifest entries for any plan asset that actually exists on disk (covers
+  // --only wire, where art was generated in a prior run or restored externally).
+  promoteExisting(projectDir, plan, manifest);
 
   // flip qualityTier only when every declared background + core sprite is real art
   const bgAll = (manifest.stageBackgrounds || []).length >= 3 && (manifest.stageBackgrounds || []).every((b) => b.quality === 'production-demo');
