@@ -75,5 +75,6 @@ node dev_game/generator/scripts/production-gate.mjs --project dev_game/generated
 
 ## 한계 / 주의
 - 이미지 생성은 Codex ChatGPT 계정 쿼터를 소비한다(자율 nested 에이전트, 이미지당 ~40초).
-- gpt-image-2는 native transparent를 지원하지 않으므로 스프라이트는 크로마키 제거에 의존한다(테두리 자동감지). 복잡한 실루엣은 재시도가 필요할 수 있다.
+- 내장 image_gen은 투명 배경을 직접 만들지 못하므로 스프라이트는 flat 크로마키 배경으로 생성 후 제거에 의존한다(테두리 자동감지). 복잡한 실루엣은 재시도가 필요할 수 있다.
+- 에셋은 **최대 네이티브 해상도로 생성**하고 게임에서 축소 표시한다(크리스프). OpenAI 이미지 **API**(gpt-image2 스킬, OPENAI_API_KEY) 경로는 이 파이프라인에서 사용하지 않는다.
 - 생성된 프로젝트(`generated/*`)는 `.gitignore` 대상 — 재현 자산은 파이프라인 스크립트지 산출물이 아니다.
