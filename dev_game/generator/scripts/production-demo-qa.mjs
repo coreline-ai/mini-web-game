@@ -3,6 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ALLOWED_BACKGROUND_FORMATS = new Set(['png', 'webp', 'jpg', 'jpeg']);
+const REQUIRED_IMAGEGEN_METHOD = 'codex-gpt-imagegen-skill';
+// The built-in image_gen tool does NOT expose its model version, so requiring an exact
+// string like "gpt-image-2" asserts something we cannot verify. method + sourceSkill already
+// prove imagegen-skill provenance; the model field only needs to name the built-in tool
+// (opaque version) and NOT be an external API/SDK route. Allow-list keeps legacy label valid.
+const ACCEPTED_IMAGEGEN_MODELS = new Set(['openai-builtin-image_gen (version opaque)', 'gpt-image-2']);
+const REQUIRED_IMAGEGEN_SKILL = 'imagegen';
 const CORE_GAMEPLAY_ROLES = new Set([
   'player', 'vehicle', 'car', 'parcel', 'hazard', 'obstacle', 'enemy', 'boss',
   'collectible', 'reward', 'sort-bin', 'item', 'powerup', 'projectile',
@@ -25,22 +32,30 @@ Options:
   --project <dir>                 Generated/custom game directory to inspect
   --min-stage-backgrounds <n>      Minimum stage/theme backgrounds (default: 3)
   --allow-svg-backgrounds          Allow SVG stage backgrounds (default: false)
+  --require-gpt-imagegen           Require all image assets to use Codex imagegen skill provenance
+  --require-imagegen-skill         Alias for --require-gpt-imagegen
+  --require-gpt-image2-skill       Backward-compatible alias; still requires Codex imagegen skill provenance
   --help                          Show this help
 
 This gate is intentionally stricter than factory:qa. It decides whether a game is a
 high-quality first production-demo, not merely a generated foundation starter.
 It also enforces per-game asset isolation: no shared runtime assets, no symlinked assets,
-and all manifest assets must be generated for this specific game.`);
+and all manifest assets must be generated for this specific game.
+
+When --require-gpt-imagegen is set, every manifest image/stage background must declare:
+provenance.method="${REQUIRED_IMAGEGEN_METHOD}", model in {${[...ACCEPTED_IMAGEGEN_MODELS].join(', ')}},
+sourceSkill="${REQUIRED_IMAGEGEN_SKILL}", and promptHash. External service provenance is rejected.`);
 }
 
 function parseArgs(argv) {
-  const args = { minStageBackgrounds: 3, allowSvgBackgrounds: false };
+  const args = { minStageBackgrounds: 3, allowSvgBackgrounds: false, requireGptImagegen: false };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--help' || a === '-h') args.help = true;
     else if (a === '--project') args.project = argv[++i];
     else if (a === '--min-stage-backgrounds') args.minStageBackgrounds = Number(argv[++i]);
     else if (a === '--allow-svg-backgrounds') args.allowSvgBackgrounds = true;
+    else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill' || a === '--require-gpt-image2-skill' || a === '--require-gpt-image2') args.requireGptImagegen = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.help && !args.project) throw new Error('Missing required --project <dir>');
@@ -126,6 +141,32 @@ function validateNoAssetSymlinks(projectDir, errors) {
   }
 }
 
+function validateNoExternalImageRunners(projectDir, errors) {
+  const scanRoots = ['scripts', 'src', 'docs'];
+  const forbidden = [
+    'OPENAI_' + 'API_KEY',
+    'from open' + 'ai import',
+    'new Open' + 'AI',
+    'client.' + 'images',
+    'images.' + 'generate',
+    'images.' + 'edit',
+    'generate_' + 'gpt_image2_assets',
+  ];
+  for (const rootName of scanRoots) {
+    const root = path.join(projectDir, rootName);
+    for (const file of walkFiles(root)) {
+      if (!/\.(js|mjs|cjs|ts|tsx|jsx|py|md|json)$/i.test(file)) continue;
+      const rel = path.relative(projectDir, file);
+      const text = fs.readFileSync(file, 'utf8');
+      for (const token of forbidden) {
+        if (text.includes(token)) {
+          errors.push(`${rel} contains external image-service runner/reference (${token}); use Codex imagegen skill assets`);
+        }
+      }
+    }
+  }
+}
+
 function entryProvenance(entry) {
   const p = entry?.provenance && typeof entry.provenance === 'object' ? entry.provenance : {};
   return {
@@ -135,6 +176,9 @@ function entryProvenance(entry) {
     generator: p.generator ?? entry?.generator,
     method: p.method ?? entry?.method,
     model: p.model ?? entry?.model,
+    sourceSkill: p.sourceSkill ?? entry?.sourceSkill,
+    sourceService: p['source' + 'Api'] ?? entry?.['source' + 'Api'] ?? p.sourceService ?? entry?.sourceService,
+    toolMode: p.toolMode ?? entry?.toolMode,
     rawPath: p.rawPath ?? entry?.rawPath,
     promptHash: p.promptHash ?? entry?.promptHash,
   };
@@ -150,6 +194,47 @@ function validateEntryProvenance(entry, label, gameId, errors) {
   }
   if (p.reusedFrom) {
     errors.push(`${label} must not declare reused/copied/shared source (${p.reusedFrom}); generate a new asset for this game`);
+  }
+  if (p.sourceService) {
+    errors.push(`${label} declares an external image service provenance field; use the Codex imagegen skill path`);
+  }
+  if (/^openai-|service-|sdk-/i.test(String(p.method || ''))) {
+    errors.push(`${label} provenance.method indicates an external service route (${p.method}); use ${REQUIRED_IMAGEGEN_METHOD}`);
+  }
+}
+
+function validateImagegenEntry(entry, label, errors) {
+  const p = entryProvenance(entry);
+  if (p.method !== REQUIRED_IMAGEGEN_METHOD) {
+    errors.push(`${label} provenance.method must be "${REQUIRED_IMAGEGEN_METHOD}" when imagegen skill is required`);
+  }
+  if (!ACCEPTED_IMAGEGEN_MODELS.has(p.model)) {
+    errors.push(`${label} provenance.model must name the built-in imagegen tool (one of: ${[...ACCEPTED_IMAGEGEN_MODELS].join(', ')}); got "${p.model || 'none'}"`);
+  }
+  if (p.sourceSkill !== REQUIRED_IMAGEGEN_SKILL) {
+    errors.push(`${label} provenance.sourceSkill must be "${REQUIRED_IMAGEGEN_SKILL}" when imagegen skill is required`);
+  }
+  if (!p.promptHash || typeof p.promptHash !== 'string') {
+    errors.push(`${label} provenance.promptHash is required for imagegen skill assets`);
+  }
+}
+
+function validateImagegenSkillContract(manifest, errors) {
+  const meta = manifest.imagegen || {};
+  if (meta.method !== REQUIRED_IMAGEGEN_METHOD) {
+    errors.push(`asset-manifest.imagegen.method must be "${REQUIRED_IMAGEGEN_METHOD}"`);
+  }
+  if (!ACCEPTED_IMAGEGEN_MODELS.has(meta.model)) {
+    errors.push(`asset-manifest.imagegen.model must name the built-in imagegen tool (one of: ${[...ACCEPTED_IMAGEGEN_MODELS].join(', ')}); got "${meta.model || 'none'}"`);
+  }
+  if (meta.sourceSkill !== REQUIRED_IMAGEGEN_SKILL) {
+    errors.push(`asset-manifest.imagegen.sourceSkill must be "${REQUIRED_IMAGEGEN_SKILL}"`);
+  }
+  for (const bg of manifest.stageBackgrounds || []) {
+    validateImagegenEntry(bg, bg?.id || bg?.path || '<stage background>', errors);
+  }
+  for (const image of manifest.images || []) {
+    validateImagegenEntry(image, image?.id || image?.path || '<image>', errors);
   }
 }
 
@@ -396,6 +481,8 @@ function qaProject(projectDir, args) {
   validateImages(projectDir, manifest, spec, args, errors);
   validateAudio(projectDir, manifest, spec, errors);
   validateLayoutRegistry(projectDir, errors);
+  validateNoExternalImageRunners(projectDir, errors);
+  if (args.requireGptImagegen) validateImagegenSkillContract(manifest, errors);
   return errors;
 }
 

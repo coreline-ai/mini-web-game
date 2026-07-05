@@ -319,12 +319,21 @@ function buildAssetPlan(spec, themes) {
   const h = spec.canvas?.height || 844;
   const title = spec.game?.title || spec.game?.id;
   const mood = spec.theme?.preset || 'retro-arcade';
+  // ART BIBLE — fixed house style, injected into EVERY prompt so all assets share one
+  // coherent look. Target = shipped main game ("Don't Get Pooped!"): clean 3D-rendered
+  // glossy mobile cartoon (2.5D), NOT painterly/gacha/realistic illustration.
+  const ART_BIBLE = 'ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.';
+  const CHARACTER_STYLE = 'CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation.';
+  const BG_STYLE = 'BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting.';
+  const CHROMA = 'Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject.';
   const styleGuide = {
+    bible: ART_BIBLE,
     palette: `anchored on ${spec.theme?.colors?.background || '#0b1024'} bg, ${spec.theme?.colors?.player || '#39e98a'} hero, ${spec.theme?.colors?.collectible || '#ffd54a'} reward`,
     outline: 'clean bold silhouettes, high readability at small size',
-    lighting: 'soft top light, gentle drop shadow, subtle rim',
-    camera: 'flat 2D, portrait, gameplay reads in the bottom 60%',
-    mood: `${mood}, punchy, mobile-arcade`,
+    lighting: 'soft top light, glossy specular highlight, gentle ambient occlusion',
+    camera: 'clean 2.5D game render, portrait, gameplay reads in the bottom 60%',
+    characterStyle: CHARACTER_STYLE,
+    mood: `${mood}, glossy 3D mobile-arcade`,
   };
   const backgrounds = themes.map((t) => ({
     id: `stage-${t.index}`,
@@ -332,20 +341,20 @@ function buildAssetPlan(spec, themes) {
     width: Math.max(1080, w),
     height: Math.max(1920, h),
     theme: t.name,
-    prompt: `Ultra-detailed vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. ${styleGuide.mood}. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: ${styleGuide.palette}.`,
+    prompt: `${ART_BIBLE} ${BG_STYLE} Vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: ${styleGuide.palette}.`,
   }));
   const sprites = [
-    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, frameSize: 512, prompt: `A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME ${title} hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${styleGuide.mood}.` },
-    { id: 'hazard', role: 'hazard', path: 'assets/enemies/hazard.png', width: 256, height: 256, prompt: `Primary "${spec.hazards?.label || 'hazard'}" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, ${styleGuide.mood}.` },
-    { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `"${spec.collectibles?.label || 'reward'}" pickup sprite, transparent, inviting/positive, distinct from hazard color, ${styleGuide.mood}.` },
+    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, frameSize: 512, prompt: `${ART_BIBLE} ${CHARACTER_STYLE} A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi mascot character for ${title} in a slightly different walk pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${CHROMA}` },
+    { id: 'hazard', role: 'hazard', path: 'assets/enemies/hazard.png', width: 256, height: 256, prompt: `${ART_BIBLE} A single "${spec.hazards?.label || 'hazard'}" obstacle sprite as a cute-but-clearly-dangerous glossy 3D-cartoon object, bold simple silhouette readable at 64px. ${CHROMA}` },
+    { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `${ART_BIBLE} A single "${spec.collectibles?.label || 'reward'}" pickup sprite as an inviting glossy 3D-cartoon icon, positive and shiny, distinct from the hazard color, bold simple silhouette. ${CHROMA}` },
   ];
   const ui = [
     { id: 'btn-frame', role: 'ui-icon', path: 'assets/ui/btn-frame.png', width: 768, height: 256, prompt: 'A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur — the area outside the pill must be flat solid pure magenta right up to the crisp button edge.' },
     { id: 'btn-pause', role: 'ui-icon', path: 'assets/ui/btn-pause.png', width: 256, height: 256, prompt: 'A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow — flat solid pure magenta right up to the circle edge, centered and filling the frame.' },
   ];
   const fx = [
-    { id: 'fx-hit', role: 'feedback', path: 'assets/effects/fx-hit.png', width: 256, height: 256, prompt: 'Impact burst spritesheet frame, transparent, energetic.' },
-    { id: 'fx-collect', role: 'feedback', path: 'assets/effects/fx-collect.png', width: 192, height: 192, prompt: 'Sparkle/collect burst, transparent, positive.' },
+    { id: 'fx-hit', role: 'feedback', path: 'assets/effects/fx-hit.png', width: 256, height: 256, prompt: `${ART_BIBLE} A glossy cartoon impact/hit burst effect (energetic star/spark shape), bold and readable. ${CHROMA}` },
+    { id: 'fx-collect', role: 'feedback', path: 'assets/effects/fx-collect.png', width: 192, height: 192, prompt: `${ART_BIBLE} A glossy cartoon sparkle/collect burst effect (positive twinkle shape), bright and cheerful. ${CHROMA}` },
   ];
   const audio = [
     { id: 'ui_click', type: 'ui' }, { id: 'collect', type: 'sfx' }, { id: 'hit', type: 'sfx' },
