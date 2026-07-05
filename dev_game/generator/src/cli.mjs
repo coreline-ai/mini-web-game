@@ -406,7 +406,14 @@ export default class StageManager {
 export const Juice = {
   shake(scene, intensity = 0.012, duration = 200) { scene.cameras.main.shake(duration, intensity); },
   flash(scene, color = 0xffffff, duration = 130) { scene.cameras.main.flash(duration, (color >> 16) & 255, (color >> 8) & 255, color & 255); },
-  burst(scene, x, y, tint = 0xffffff) {
+  burst(scene, x, y, tint = 0xffffff, texKey) {
+    if (texKey && scene.textures.exists(texKey)) {
+      const img = scene.add.image(x, y, texKey).setDepth(30);
+      const s = 96 / Math.max(img.width, img.height);
+      img.setScale(s).setAlpha(0.95);
+      scene.tweens.add({ targets: img, scale: s * 1.7, alpha: 0, duration: 420, ease: 'Cubic.easeOut', onComplete: () => img.destroy() });
+      return;
+    }
     const ring = scene.add.circle(x, y, 7, tint, 0.9).setDepth(30);
     scene.tweens.add({ targets: ring, scale: 3, alpha: 0, duration: 320, ease: 'Cubic.easeOut', onComplete: () => ring.destroy() });
     for (let i = 0; i < 8; i += 1) {
@@ -450,8 +457,8 @@ import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\nimpo
     this.player.x += Phaser.Math.Clamp(dx, -maxStep, maxStep);\n    this.hud.update(this.score.getScore(), params.level);
     publishLayout(this, this.hudLayout);\n  }\n  onCollect(player, coin) {\n    const _cx = coin.x, _cy = coin.y;
     coin.disableBody(true, true);\n    this.score.addCollectible();
-    Juice.burst(this, _cx, _cy, 0xffe066); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));\n    AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);\n  }\n  onHit() {\n    if (this.isOver) return;\n    this.isOver = true;
-    Juice.shake(this); Juice.flash(this, 0xff5555);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);\n    AudioManager.stopMusic();\n    this.physics.pause();\n    this.scene.start(SCENES.GAMEOVER, { score: this.score.getScore(), coins: this.score.coins });\n  }\n  openPause() {\n    if (this.isOver || this.scene.isPaused()) return;\n    AudioManager.pauseMusic();\n    this.hud.setVisible(false);\n    this.scene.launch(SCENES.PAUSE);\n    this.scene.pause();\n  }\n  onResume() {\n    if (!this.isOver) this.hud.setVisible(true);\n  }\n  cleanup() {\n    this.input.off('pointerdown', this.onPointer, this);\n    this.input.off('pointermove', this.onPointer, this);\n    this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
+    Juice.burst(this, _cx, _cy, 0xffe066, 'fx_collect'); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));\n    AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);\n  }\n  onHit() {\n    if (this.isOver) return;\n    this.isOver = true;
+    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, 'fx_hit');\n    AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);\n    AudioManager.stopMusic();\n    this.physics.pause();\n    this.scene.start(SCENES.GAMEOVER, { score: this.score.getScore(), coins: this.score.coins });\n  }\n  openPause() {\n    if (this.isOver || this.scene.isPaused()) return;\n    AudioManager.pauseMusic();\n    this.hud.setVisible(false);\n    this.scene.launch(SCENES.PAUSE);\n    this.scene.pause();\n  }\n  onResume() {\n    if (!this.isOver) this.hud.setVisible(true);\n  }\n  cleanup() {\n    this.input.off('pointerdown', this.onPointer, this);\n    this.input.off('pointermove', this.onPointer, this);\n    this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
     clearLayout();\n  }\n}\n`);
 
   files.set('src/game/scenes/PauseScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nexport default class PauseScene extends Phaser.Scene {\n  constructor() { super(SCENES.PAUSE); }\n  create() {\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x000000, 0.62).setOrigin(0);\n    this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '46px', color: '#fff', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 230, 62);\n    makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 230, 62);\n  }\n}\n`);

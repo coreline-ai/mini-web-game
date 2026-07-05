@@ -30,7 +30,7 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.help && !args.project) throw new Error('Missing required --project <dir>');
-  if (!['all', 'backgrounds', 'sprites', 'wire'].includes(args.only)) throw new Error('--only must be all|backgrounds|sprites|wire');
+  if (!['all', 'backgrounds', 'sprites', 'ui', 'fx', 'wire'].includes(args.only)) throw new Error('--only must be all|backgrounds|sprites|ui|fx|wire');
   return args;
 }
 
@@ -126,6 +126,14 @@ function wireGameToAssets(projectDir, plan) {
       const loads = bgs.map((b) => `    this.load.image('${b.key}', '${b.path}');`).join('\n');
       t = t.replace(/(this\.load\.image\(ASSET_KEYS\.collectible[^\n]*\n)/, `$1${loads}\n`);
     }
+    // FX textures (only those that exist on disk — avoid 404 console errors)
+    const fxs = (plan.fx || [])
+      .filter((f) => fs.existsSync(path.join(projectDir, f.path)))
+      .map((f) => ({ key: String(f.id).replace(/-/g, '_'), path: rel(f.path) }));
+    if (fxs.length && !t.includes("this.load.image('fx_")) {
+      const loads = fxs.map((f) => `    this.load.image('${f.key}', '${f.path}');`).join('\n');
+      t = t.replace(/(this\.load\.image\(ASSET_KEYS\.collectible[^\n]*\n)/, `$1${loads}\n`);
+    }
     if (t !== before) { fs.writeFileSync(loadingFile, t); patched.push('LoadingScene'); }
   }
 
@@ -186,7 +194,7 @@ function main() {
   console.log(`codex: ${codex}`);
   console.log(`project: ${projectDir}`);
 
-  const results = { backgrounds: [], sprites: [] };
+  const results = { backgrounds: [], sprites: [], ui: [], fx: [] };
 
   if (args.only === 'all' || args.only === 'backgrounds') {
     for (const bg of plan.backgrounds || []) {
@@ -223,6 +231,28 @@ function main() {
     }
   }
 
+  // UI buttons + FX bursts — transparent AI art (chroma-key removed), same as sprites.
+  const extra = [];
+  if (args.only === 'all' || args.only === 'ui') extra.push(...(plan.ui || []).map((x) => ({ ...x, _group: 'ui' })));
+  if (args.only === 'all' || args.only === 'fx') extra.push(...(plan.fx || []).map((x) => ({ ...x, _group: 'fx' })));
+  for (const it of extra) {
+    const out = path.join(projectDir, it.path);
+    process.stdout.write(`${it._group} ${it.id} … `);
+    const chromaPrompt = `${it.prompt} Render the subject centered on a FLAT SOLID pure-magenta (#FF00FF) background, no gradient, no shadow touching the edges, so the background can be removed by chroma key.`;
+    const ok = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
+    let transparent = false;
+    if (ok) transparent = removeChroma(codexHome, out);
+    const size = ok ? pngSize(out) : null;
+    console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque)'}` : '✗ FAILED');
+    results[it._group].push({ id: it.id, ok });
+    if (ok && Array.isArray(manifest.images)) {
+      let e = manifest.images.find((x) => x.id === it.id);
+      if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
+      e.path = it.path; e.role = it.role; e.requiresAlpha = true;
+      e.provenance = { source: 'generated-for-game', generatedFor: plan.gameId };
+    }
+  }
+
   // Promote manifest entries for any plan asset that actually exists on disk (covers
   // --only wire, where art was generated in a prior run or restored externally).
   promoteExisting(projectDir, plan, manifest);
@@ -240,9 +270,10 @@ function main() {
   if (wired.length) console.log(`wired game to assets: ${wired.join(', ')}`);
 
   console.log('');
-  console.log(`backgrounds: ${results.backgrounds.filter((r) => r.ok).length}/${results.backgrounds.length} · sprites: ${results.sprites.filter((r) => r.ok).length}/${results.sprites.length}`);
+  const n = (a) => `${a.filter((r) => r.ok).length}/${a.length}`;
+  console.log(`backgrounds: ${n(results.backgrounds)} · sprites: ${n(results.sprites)} · ui: ${n(results.ui)} · fx: ${n(results.fx)}`);
   console.log(`qualityTier: ${manifest.qualityTier}${bgAll && coreAll ? ' (promoted)' : ' (still draft — art incomplete)'}`);
-  const failed = [...results.backgrounds, ...results.sprites].filter((r) => !r.ok);
+  const failed = [...results.backgrounds, ...results.sprites, ...results.ui, ...results.fx].filter((r) => !r.ok);
   if (failed.length) { console.log(`FAILED: ${failed.map((r) => r.id).join(', ')}`); process.exit(1); }
 }
 

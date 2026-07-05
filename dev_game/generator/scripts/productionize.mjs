@@ -340,8 +340,8 @@ function buildAssetPlan(spec, themes) {
     { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `"${spec.collectibles?.label || 'reward'}" pickup sprite, transparent, inviting/positive, distinct from hazard color, ${styleGuide.mood}.` },
   ];
   const ui = [
-    { id: 'btn-play', role: 'ui-icon', path: 'assets/ui/btn-play.png', width: 256, height: 96, prompt: 'PLAY button, rounded, high-contrast, mobile-friendly.' },
-    { id: 'btn-pause', role: 'ui-icon', path: 'assets/ui/btn-pause.png', width: 96, height: 96, prompt: 'Pause icon button, minimal, 44px+ touch target.' },
+    { id: 'btn-frame', role: 'ui-icon', path: 'assets/ui/btn-frame.png', width: 360, height: 120, prompt: 'A glossy rounded-rectangle mobile game UI button surface, vibrant green with a bright top highlight, soft 3D bevel, thick rounded corners and a subtle outer glow. Absolutely NO text and NO icon — just the empty button surface, centered, filling most of the frame.' },
+    { id: 'btn-pause', role: 'ui-icon', path: 'assets/ui/btn-pause.png', width: 128, height: 128, prompt: 'A circular glossy mobile game pause button showing two rounded vertical bars (the pause symbol), vibrant green with 3D bevel and highlight, centered.' },
   ];
   const fx = [
     { id: 'fx-hit', role: 'feedback', path: 'assets/effects/fx-hit.png', width: 256, height: 256, prompt: 'Impact burst spritesheet frame, transparent, energetic.' },
