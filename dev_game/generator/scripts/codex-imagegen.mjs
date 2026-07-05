@@ -119,7 +119,15 @@ function wireGameToAssets(projectDir, plan) {
   if (fs.existsSync(loadingFile)) {
     let t = fs.readFileSync(loadingFile, 'utf8');
     const before = t;
-    if (spriteByRole.player) t = t.replace("'images/player.svg'", `'${spriteByRole.player}'`);
+    const playerSprite = (plan.sprites || []).find((s) => s.role === 'player');
+    if (playerSprite && playerSprite.frames && fs.existsSync(path.join(projectDir, playerSprite.path))) {
+      const sz = pngSize(path.join(projectDir, playerSprite.path));
+      const fw = sz ? Math.round(sz.width / playerSprite.frames) : playerSprite.height;
+      const fh = sz ? sz.height : playerSprite.height;
+      t = t.replace(/this\.load\.image\(ASSET_KEYS\.player,[^;]*;/, `this.load.spritesheet(ASSET_KEYS.player, '${rel(playerSprite.path)}', { frameWidth: ${fw}, frameHeight: ${fh} });`);
+    } else if (spriteByRole.player) {
+      t = t.replace("'images/player.svg'", `'${spriteByRole.player}'`);
+    }
     if (spriteByRole.hazard) t = t.replace("'images/hazard.svg'", `'${spriteByRole.hazard}'`);
     if (spriteByRole.collectible) t = t.replace("'images/collectible.svg'", `'${spriteByRole.collectible}'`);
     if (bgs.length && !t.includes("this.load.image('bg_0'")) {
@@ -240,10 +248,14 @@ function main() {
     for (const sp of plan.sprites || []) {
       const out = path.join(projectDir, sp.path);
       process.stdout.write(`sprite ${sp.id} … `);
-      const chromaPrompt = `${sp.prompt} Center the subject on a FLAT SOLID pure-magenta (#FF00FF) background with no gradient and no shadow touching the edges, so the background can be removed by chroma key.`;
+      const chromaPrompt = sp.frames
+        ? `${sp.prompt} Flat solid pure-magenta (#FF00FF) fills everywhere around and between the cells, hard edges, no glow, for chroma-key removal.`
+        : `${sp.prompt} Center the subject on a FLAT SOLID pure-magenta (#FF00FF) background with no gradient and no shadow touching the edges, so the background can be removed by chroma key.`;
       const ok = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
       let transparent = false;
       if (ok) transparent = removeChroma(codexHome, out);
+      // sprite sheet: normalize to N equal square cells so Phaser can slice it cleanly
+      if (ok && transparent && sp.frames && sp.height) autocropResize(out, sp.frames * sp.height, sp.height);
       const size = ok ? pngSize(out) : null;
       console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque — chroma removal failed)'}` : '✗ FAILED');
       results.sprites.push({ id: sp.id, ok: ok && transparent });
@@ -251,6 +263,7 @@ function main() {
         let e = manifest.images.find((x) => x.id === sp.id);
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
         e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+        if (sp.frames) { e.frames = sp.frames; e.frameWidth = sp.height; e.frameHeight = sp.height; }
       }
     }
   }

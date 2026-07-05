@@ -335,7 +335,7 @@ function buildAssetPlan(spec, themes) {
     prompt: `Vertical mobile game background, ${w}x${h}, theme "${t.name}" for ${title}. ${styleGuide.mood}. Layered parallax depth, empty readable center/bottom for gameplay, no characters, no text, no UI. Cohesive with palette: ${styleGuide.palette}.`,
   }));
   const sprites = [
-    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, prompt: `Hero character sprite for ${title}, transparent background, centered, bold silhouette, ${styleGuide.mood}. 8-15% safe margin.` },
+    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, prompt: `A HORIZONTAL SPRITE SHEET: exactly 4 equal-width cells in ONE row, each cell containing THE SAME ${title} hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${styleGuide.mood}.` },
     { id: 'hazard', role: 'hazard', path: 'assets/enemies/hazard.png', width: 256, height: 256, prompt: `Primary "${spec.hazards?.label || 'hazard'}" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, ${styleGuide.mood}.` },
     { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `"${spec.collectibles?.label || 'reward'}" pickup sprite, transparent, inviting/positive, distinct from hazard color, ${styleGuide.mood}.` },
   ];
