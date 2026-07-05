@@ -340,8 +340,8 @@ function buildAssetPlan(spec, themes) {
     { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `"${spec.collectibles?.label || 'reward'}" pickup sprite, transparent, inviting/positive, distinct from hazard color, ${styleGuide.mood}.` },
   ];
   const ui = [
-    { id: 'btn-frame', role: 'ui-icon', path: 'assets/ui/btn-frame.png', width: 360, height: 120, prompt: 'A glossy rounded-rectangle mobile game UI button surface, vibrant green with a bright top highlight, soft 3D bevel, thick rounded corners and a subtle outer glow. Absolutely NO text and NO icon — just the empty button surface, centered, filling most of the frame.' },
-    { id: 'btn-pause', role: 'ui-icon', path: 'assets/ui/btn-pause.png', width: 128, height: 128, prompt: 'A circular glossy mobile game pause button showing two rounded vertical bars (the pause symbol), vibrant green with 3D bevel and highlight, centered.' },
+    { id: 'btn-frame', role: 'ui-icon', path: 'assets/ui/btn-frame.png', width: 360, height: 120, prompt: 'A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur — the area outside the pill must be flat solid pure magenta right up to the crisp button edge.' },
+    { id: 'btn-pause', role: 'ui-icon', path: 'assets/ui/btn-pause.png', width: 128, height: 128, prompt: 'A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow — flat solid pure magenta right up to the circle edge, centered and filling the frame.' },
   ];
   const fx = [
     { id: 'fx-hit', role: 'feedback', path: 'assets/effects/fx-hit.png', width: 256, height: 256, prompt: 'Impact burst spritesheet frame, transparent, energetic.' },

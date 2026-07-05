@@ -134,6 +134,14 @@ function wireGameToAssets(projectDir, plan) {
       const loads = fxs.map((f) => `    this.load.image('${f.key}', '${f.path}');`).join('\n');
       t = t.replace(/(this\.load\.image\(ASSET_KEYS\.collectible[^\n]*\n)/, `$1${loads}\n`);
     }
+    // UI textures: btn-frame -> ui_frame, btn-pause -> ui_pause (only if they exist)
+    const uis = (plan.ui || [])
+      .filter((u) => fs.existsSync(path.join(projectDir, u.path)))
+      .map((u) => ({ key: 'ui_' + String(u.id).replace(/^btn-/, '').replace(/-/g, '_'), path: rel(u.path) }));
+    if (uis.length && !t.includes("this.load.image('ui_")) {
+      const loads = uis.map((u) => `    this.load.image('${u.key}', '${u.path}');`).join('\n');
+      t = t.replace(/(this\.load\.image\(ASSET_KEYS\.collectible[^\n]*\n)/, `$1${loads}\n`);
+    }
     if (t !== before) { fs.writeFileSync(loadingFile, t); patched.push('LoadingScene'); }
   }
 
@@ -176,6 +184,22 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
     e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true; e.provenance = prov();
   }
+}
+
+// Crop a transparent PNG to its alpha bounding box, then resize to an exact target size.
+// Makes AI UI art (arbitrary size + padding) into a predictable button-frame texture.
+function autocropResize(file, targetW, targetH) {
+  const py = [
+    'import sys',
+    'from PIL import Image',
+    'im = Image.open(sys.argv[1]).convert("RGBA")',
+    'b = im.getbbox()',
+    'if b: im = im.crop(b)',
+    'im = im.resize((int(sys.argv[2]), int(sys.argv[3])), Image.LANCZOS)',
+    'im.save(sys.argv[1])',
+  ].join('\n');
+  const r = spawnSync('python3', ['-c', py, file, String(targetW), String(targetH)], { encoding: 'utf8', timeout: 30000 });
+  return r.status === 0;
 }
 
 function main() {
@@ -242,6 +266,9 @@ function main() {
     const ok = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
     let transparent = false;
     if (ok) transparent = removeChroma(codexHome, out);
+    // UI frames/icons: crop away transparent padding + normalize to declared size so the
+    // game can scale them predictably (buttons vary in size).
+    if (ok && it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height);
     const size = ok ? pngSize(out) : null;
     console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque)'}` : '✗ FAILED');
     results[it._group].push({ id: it.id, ok });
