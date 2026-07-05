@@ -343,7 +343,7 @@ import { SPEC } from '../data/spec.js';\n\nexport default class LoadingUI {\n  c
       g.lineStyle(2.5, 0xffffff, 0.9); g.strokeRoundedRect(1, 1, width - 2, height - 2, r);
       g.generateTexture(_k, width, height); g.destroy();
     }
-    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { bg.setScale(0.97); onClick?.(); });\n  bg.on('pointerup', () => bg.setScale(1));\n  bg.on('pointerout', () => bg.setScale(1));\n  return { bg, txt, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
+    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { bg.setDisplaySize(width * 0.96, height * 0.96); txt.setScale(0.96); onClick?.(); });\n  bg.on('pointerup', () => { bg.setDisplaySize(width, height); txt.setScale(1); });\n  bg.on('pointerout', () => { bg.setDisplaySize(width, height); txt.setScale(1); });\n  return { bg, txt, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
 
   files.set('src/game/systems/LayoutRegistry.js', `// Publishes visible UI bounds (in CSS/viewport pixels) to window.__GAME_LAYOUT_BOUNDS__
 // so visual-layout-qa can detect HUD overlap and safe-area violations.
@@ -454,7 +454,12 @@ import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\nimpo
     this.hudLayout = [{ id: 'score', obj: this.hud.scoreText }, { id: 'level', obj: this.hud.levelText }, { id: 'pause', obj: this.hud.pause.bg }];\n    this.physics.add.overlap(this.player, this.spawner.hazards, this.onHit, undefined, this);\n    this.physics.add.overlap(this.player, this.spawner.collectibles, this.onCollect, undefined, this);\n    this.input.on('pointerdown', this.onPointer, this);\n    this.input.on('pointermove', this.onPointer, this);\n    this.visibilityHandler = () => { if (document.hidden && !this.isOver) this.openPause(); };\n    if (SPEC.performance.pauseWhenHidden) document.addEventListener('visibilitychange', this.visibilityHandler);\n    AudioManager.playGameplayMusic(this);\n    this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);\n  }\n  onPointer(pointer) {\n    if (this.isOver || pointer.y < 82) return;\n    if (SPEC.player.moveMode === 'tap-lane') {\n      const lane = Math.floor(pointer.x / (SPEC.canvas.width / 3));\n      this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);\n    } else {\n      this.targetX = Phaser.Math.Clamp(pointer.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);\n    }\n  }\n  update(time, delta) {\n    if (this.isOver) return;\n    this.score.update(delta);\n    const elapsedSec = this.score.elapsedMs / 1000;\n    const params = this.spawner.update(delta, elapsedSec);
     this.stage.setLevel(params.level);\n    const dx = this.targetX - this.player.x;
     const maxStep = (SPEC.player.speed || 760) * (delta / 1000);
-    this.player.x += Phaser.Math.Clamp(dx, -maxStep, maxStep);\n    this.hud.update(this.score.getScore(), params.level);
+    const vx = Phaser.Math.Clamp(dx, -maxStep, maxStep);
+    this.player.x += vx;
+    // 이동 피드백: 진행 방향으로 기울기 + 부드러운 부양 바운스(정지 시 원위치)
+    this.player.angle = Phaser.Math.Linear(this.player.angle, Phaser.Math.Clamp(vx * 1.6, -16, 16), 0.18);
+    this.player.y = TUNING.playerY + Math.sin(time * 0.006) * 3;
+    this.hud.update(this.score.getScore(), params.level);
     publishLayout(this, this.hudLayout);\n  }\n  onCollect(player, coin) {\n    const _cx = coin.x, _cy = coin.y;
     coin.disableBody(true, true);\n    this.score.addCollectible();
     Juice.burst(this, _cx, _cy, 0xffe066, 'fx_collect'); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));\n    AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);\n  }\n  onHit() {\n    if (this.isOver) return;\n    this.isOver = true;
