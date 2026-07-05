@@ -317,7 +317,7 @@ canvas {
 
   files.set('src/game/constants/gameKeys.js', `export const ASSET_KEYS = {\n  player: 'player',\n  hazard: 'hazard',\n  collectible: 'collectible',\n  sfxStart: 'sfx_start',\n  sfxHit: 'sfx_hit',\n  sfxCollect: 'sfx_collect',\n  sfxGameOver: 'sfx_game_over',\n  musicGameplay: 'music_gameplay',\n};\n`);
 
-  files.set('src/game/constants/tuning.js', `import { SPEC } from '../data/spec.js';\n\nexport const TUNING = {\n  playerY: SPEC.canvas.height * 0.86,\n  playerSize: 100,\n  hazardSize: 74,\n  collectibleSize: 56,\n  safeTop: 96,\n  safeSide: 28,\n};\n`);
+  files.set('src/game/constants/tuning.js', `import { SPEC } from '../data/spec.js';\n\nexport const TUNING = {\n  playerY: SPEC.canvas.height * 0.86,\n  playerSize: 100,\n  hazardSize: 90,\n  collectibleSize: 72,\n  safeTop: 96,\n  safeSide: 28,\n};\n`);
 
   files.set('src/game/systems/SaveData.js', `import { SPEC } from '../data/spec.js';\n\nconst SETTINGS_KEY = SPEC.game.id + '_settings';\nconst BEST_KEY = SPEC.scoring.highScoreLocalStorageKey || SPEC.game.id + '_best';\n\nexport const SaveData = {\n  getBest() {\n    try { return Number(localStorage.getItem(BEST_KEY) || '0') || 0; } catch { return 0; }\n  },\n  setBest(score) {\n    try { localStorage.setItem(BEST_KEY, String(Math.max(0, Math.floor(score)))); } catch {}\n  },\n  record(score) {\n    const best = this.getBest();\n    if (score > best) { this.setBest(score); return true; }\n    return false;\n  },\n  getSettings() {\n    try { return { mute: false, ...(JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}')) }; } catch { return { mute: false }; }\n  },\n  setSettings(next) {\n    try { localStorage.setItem(SETTINGS_KEY, JSON.stringify({ ...this.getSettings(), ...next })); } catch {}\n  },\n};\n`);
 
