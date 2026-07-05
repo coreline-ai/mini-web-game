@@ -30,7 +30,7 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.help && !args.project) throw new Error('Missing required --project <dir>');
-  if (!['all', 'backgrounds', 'sprites'].includes(args.only)) throw new Error('--only must be all|backgrounds|sprites');
+  if (!['all', 'backgrounds', 'sprites', 'wire'].includes(args.only)) throw new Error('--only must be all|backgrounds|sprites|wire');
   return args;
 }
 
@@ -104,6 +104,51 @@ function removeChroma(codexHome, file) {
   return r.status === 0;
 }
 
+// Wire the generated game code to actually LOAD and DISPLAY the produced assets:
+// remap sprite loads (svg -> production png paths), load stage backgrounds, and show a
+// background image in Home/Game instead of a flat color. publicDir is 'assets', so a
+// file at assets/characters/player.png is loaded by Phaser as 'characters/player.png'.
+function rel(p) { return String(p).replace(/^assets\//, ''); }
+function wireGameToAssets(projectDir, plan) {
+  const spriteByRole = {};
+  for (const s of plan.sprites || []) spriteByRole[s.role] = rel(s.path);
+  const bgs = (plan.backgrounds || []).map((b, i) => ({ key: `bg_${i}`, path: rel(b.path) }));
+  const patched = [];
+
+  const loadingFile = path.join(projectDir, 'src/game/scenes/LoadingScene.js');
+  if (fs.existsSync(loadingFile)) {
+    let t = fs.readFileSync(loadingFile, 'utf8');
+    const before = t;
+    if (spriteByRole.player) t = t.replace("'images/player.svg'", `'${spriteByRole.player}'`);
+    if (spriteByRole.hazard) t = t.replace("'images/hazard.svg'", `'${spriteByRole.hazard}'`);
+    if (spriteByRole.collectible) t = t.replace("'images/collectible.svg'", `'${spriteByRole.collectible}'`);
+    if (bgs.length && !t.includes("this.load.image('bg_0'")) {
+      const loads = bgs.map((b) => `    this.load.image('${b.key}', '${b.path}');`).join('\n');
+      t = t.replace(/(this\.load\.image\(ASSET_KEYS\.collectible[^\n]*\n)/, `$1${loads}\n`);
+    }
+    if (t !== before) { fs.writeFileSync(loadingFile, t); patched.push('LoadingScene'); }
+  }
+
+  if (bgs.length) {
+    const bgImage = `this.add.image(0, 0, 'bg_0').setOrigin(0).setDisplaySize(SPEC.canvas.width, SPEC.canvas.height).setDepth(-10);`;
+    const gameFile = path.join(projectDir, 'src/game/scenes/GameScene.js');
+    if (fs.existsSync(gameFile)) {
+      let t = fs.readFileSync(gameFile, 'utf8');
+      const before = t;
+      t = t.replace(/this\.add\.rectangle\(0, 0, SPEC\.canvas\.width, SPEC\.canvas\.height,[^\n]*?\.setOrigin\(0\);/, bgImage);
+      if (t !== before) { fs.writeFileSync(gameFile, t); patched.push('GameScene'); }
+    }
+    const homeFile = path.join(projectDir, 'src/game/scenes/HomeScene.js');
+    if (fs.existsSync(homeFile)) {
+      let t = fs.readFileSync(homeFile, 'utf8');
+      const before = t;
+      t = t.replace(/this\.add\.rectangle\(0, 0, width, height, 0x0b1024\)\.setOrigin\(0\);/, `this.add.image(0, 0, 'bg_0').setOrigin(0).setDisplaySize(width, height).setDepth(-10);`);
+      if (t !== before) { fs.writeFileSync(homeFile, t); patched.push('HomeScene'); }
+    }
+  }
+  return patched;
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
@@ -165,6 +210,10 @@ function main() {
   if (bgAll && coreAll) manifest.qualityTier = 'production-demo';
 
   writeJson(manifestFile, manifest);
+
+  const wired = wireGameToAssets(projectDir, plan);
+  if (wired.length) console.log(`wired game to assets: ${wired.join(', ')}`);
+
   console.log('');
   console.log(`backgrounds: ${results.backgrounds.filter((r) => r.ok).length}/${results.backgrounds.length} · sprites: ${results.sprites.filter((r) => r.ok).length}/${results.sprites.length}`);
   console.log(`qualityTier: ${manifest.qualityTier}${bgAll && coreAll ? ' (promoted)' : ' (still draft — art incomplete)'}`);
