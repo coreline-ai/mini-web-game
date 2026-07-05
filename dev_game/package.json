@@ -7,9 +7,14 @@
     "factory:validate": "node generator/src/cli.mjs --validate-only --spec generator/examples/poop-dodge.spec.json",
     "factory:dry-run": "node generator/src/cli.mjs --dry-run --spec generator/examples/poop-dodge.spec.json --out generated/poop-dodge-demo",
     "factory:smoke": "node generator/scripts/smoke-generate.mjs",
+    "factory:productionize": "node generator/scripts/productionize.mjs",
+    "factory:imagegen": "node generator/scripts/codex-imagegen.mjs",
     "factory:asset-qa": "node generator/scripts/asset-qa.mjs",
     "factory:browser-smoke": "node generator/scripts/browser-smoke.mjs",
-    "factory:qa": "npm run factory:validate && npm run factory:smoke && npm run factory:asset-qa && npm run factory:browser-smoke"
+    "factory:qa": "npm run factory:validate && npm run factory:smoke && npm run factory:asset-qa && npm run factory:browser-smoke",
+    "factory:production-demo-qa": "node generator/scripts/production-demo-qa.mjs",
+    "factory:visual-layout-qa": "node generator/scripts/visual-layout-qa.mjs",
+    "factory:production-gate": "node generator/scripts/production-gate.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"
