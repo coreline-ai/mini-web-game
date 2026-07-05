@@ -1,6 +1,6 @@
 ---
 name: game-factory
-description: Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game.
+description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game."
 ---
 
 # Game Factory
@@ -17,6 +17,22 @@ Every new game gets newly generated, self-contained assets.
 Archetype is not the limit of what can be made.
 Archetype is only a reference pattern to start faster.
 ```
+
+## 이미지 에셋: Claude(2D) vs Codex(프로덕션급) — 명확한 구분 (필독)
+
+**Claude(이 에이전트)에는 네이티브 이미지 생성 도구가 없다.** Claude 단독으로 만든 게임 아트는
+절차적 PNG·SVG·코드 도형 수준의 플레이스홀더(플랫한 **2D / 저품질**)에 머문다. Claude가 담당하는 것은
+게임 로직·시스템·씬·물리·경제·오케스트레이션·QA, 그리고 **아트 프롬프트 작성**이다.
+
+**프로덕션급 이미지 에셋은 Codex의 내장 `image_gen` 도구로 생성한다** — `codex exec` → `.system/imagegen`
+스킬, ChatGPT 로그인 인증, OpenAI API 키 불필요. 본 게임("Don't Get Pooped!") 수준의 **3D 글로시
+모바일 카툰** 화풍은 이 경로로만 나온다. (모델 버전은 내장 도구가 노출하지 않아 opaque이며, 원본은
+마젠타 크로마키 위에 생성 후 로컬에서 배경 제거·리사이즈한다.)
+
+> **완성도 높은 게임 = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
+> Codex `image_gen` 단계를 건너뛰면(`--skip-art` 또는 codex 미가용) 결과물은 플레이스홀더 2D 품질에
+> 머물고, `factory:image-quality-qa`(고주파 hf 상한·해상도·색수) 게이트에서 FAIL하여 production-demo로
+> 출시할 수 없다. 아트 방향은 `productionize`의 `ART_BIBLE`(3D 글로시 카툰 강제)이 모든 프롬프트에 주입한다.
 
 If the user's idea does not fit an existing pattern, do not force it into the dodge starter. Design a custom loop and implement game-specific systems.
 
@@ -61,12 +77,17 @@ A game may be reported as complete only after it satisfies the production-demo c
 - Runtime exposes `window.__GAME_LAYOUT_BOUNDS__` so browser QA can catch HUD/button/text overlap and safe-area violations.
 - Audio exists and state control works: gameplay music only during gameplay, paused/stopped on pause/home/background.
 - `factory:production-demo-qa` and `factory:visual-layout-qa` pass for the generated project.
+- Image assets are produced through the Codex `imagegen` skill path, then copied into the generated game. Manifest provenance for imagegen assets uses `method: "codex-gpt-imagegen-skill"`, `model: "gpt-image-2"`, `sourceSkill: "imagegen"`, and a `promptHash`.
+- No generated game may include external image SDK runners, image-key setup steps, or service-backed asset-generation commands.
+- Visual QA covers Loading, Home, Game, Pause, and GameOver at 390×844, 430×932, and 1080×1920. It must catch canvas off-centering, HUD/pause overlap, coin/text baseline mismatch, stretched buttons, item-card clipping, panel overflow, required layout item omissions, and missing safe-area margins. Scenes should declare `requiredIds` for HUD text, buttons, panels, game playfield, hit zones, and result stamps.
+- Imagegen integration must run role-specific alpha/bbox QA: gameplay structures must not become hollow/over-transparent, parcels/vehicles must not lose internal faces, feedback stamps must be square with padding, and buttons/panels must not touch edges or stretch.
+- If AI art is blurry, low-resolution, style-inconsistent, clipped, distorted, over-transparent, leaves chroma/gray residue, has unreadable text, or is below canvas size for backgrounds, regenerate with a stricter high-quality prompt before integration.
 
 If any item is missing, report **production-demo 미통과** with the failing gates. Do not call the game complete.
 
 ## Fast path — one command
 
-Once the spec/idea is settled, the whole pipeline (scaffold → productionize → AI art via codex `image_gen` → QA) runs in one command:
+Once the spec/idea is settled, the whole pipeline (scaffold → productionize → AI art via Codex imagegen skill → QA) runs in one command:
 
 ```bash
 npm --prefix dev_game run factory:make -- --name "My Game" --out dev_game/generated/my-game
@@ -74,7 +95,7 @@ npm --prefix dev_game run factory:make -- --spec generator/examples/<id>.spec.js
 # --skip-art (structure only) | --gate none|demo|full | --stages N
 ```
 
-AI art requires a working codex binary (built-in `image_gen`, ChatGPT auth, no OPENAI_API_KEY). Every generated game ships player walk-cycle animation, juice, stage backgrounds, AI buttons/FX, and layout-QA compliance. See `dev_game/docs/ai-art-pipeline.md`. The steps below are the same pipeline done manually for finer control.
+AI art uses the Codex `imagegen` skill built-in mode / `image_gen` tool. Do not create external image SDK runners, do not wait for image service keys, and do not leave project assets under `$CODEX_HOME/generated_images`. Every generated game ships game-specific stage backgrounds, sprites/animation, UI/buttons/FX, audio, and layout-QA compliance. See `dev_game/docs/ai-art-pipeline.md`. The steps below are the same pipeline done manually for finer control.
 
 ## Required workflow
 
@@ -192,9 +213,9 @@ npm run dev
 Production-demo completion gates:
 
 ```bash
-npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
+npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920
 ```
 
 Also run or create a browser smoke that proves:
@@ -207,6 +228,8 @@ Also run or create a browser smoke that proves:
 - UI elements do not overlap in target mobile viewports
 
 Asset/audio QA must catch obvious broken output: missing files, black boxes, ratio distortion, silence, wrong trigger, UI overlap, missing production backgrounds, placeholder-only core assets, shared/common asset references, symlinked assets, and missing per-game provenance.
+
+Imagegen asset QA must additionally inspect the generated sheet/runtime screenshot before delivery and enforce role-specific alpha/bbox contracts. Regenerate rather than patch around bad art when: background is smaller than the canvas, a subject is squashed/stretched, chroma-key removal leaves a visible box, sprites become hollow/over-transparent, UI panels scale non-uniformly, feedback stamps are banner-squashed, buttons duplicate text/icons, or any scene looks like a placeholder prompt demo.
 
 ### 7. Completion standard
 
@@ -228,7 +251,7 @@ If production-demo gates fail, give a blocker list and next fix plan instead of 
 
 ## Scope limits
 
-Do not add backend, login, server ranking, ads/IAP, native packaging, multiplayer, analytics SDKs, or AI image API integration unless the user explicitly asks.
+Do not add backend, login, server ranking, ads/IAP, native packaging, multiplayer, analytics SDKs, or external image-service integration unless the user explicitly asks.
 
 ## Response format
 

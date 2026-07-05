@@ -2,7 +2,11 @@
 
 `dev_game`는 모바일/웹 게임을 반복 제작하기 위한 **LLM Game Studio형 개발 템플릿/자동 생성기 영역**입니다. 고정 archetype만 찍어내는 도구가 아니라, 아이디어를 기획·설계·구현·검증하는 제작 파이프라인입니다.
 
-**중요:** 이 영역의 목표는 단순 실행 데모가 아니라 **고품질 1차 프로덕션급 데모**입니다. Foundation starter는 출발점일 뿐이며, 완료 판정은 `production-demo-qa`와 `visual-layout-qa`까지 통과해야 합니다. 공통 런타임 에셋을 재사용하지 않습니다. 새 게임의 이미지/오디오/배경은 항상 해당 게임 전용으로 신규 생성해 generated 프로젝트 내부에 포함합니다.
+**중요:** 이 영역의 목표는 단순 실행 데모가 아니라 **고품질 1차 프로덕션급 데모**입니다. Foundation starter는 출발점일 뿐이며, 완료 판정은 `production-demo-qa --require-gpt-imagegen`와 `visual-layout-qa`까지 통과해야 합니다. 공통 런타임 에셋을 재사용하지 않습니다. 새 게임의 이미지/오디오/배경은 항상 해당 게임 전용으로 신규 생성해 generated 프로젝트 내부에 포함합니다. 이미지는 Codex `imagegen` 스킬 built-in 경로를 사용합니다.
+
+> ⚠️ **이미지는 Claude가 아니라 Codex가 만든다.** Claude(에이전트)에는 네이티브 이미지 생성 도구가 없어, 단독 산출물은 플레이스홀더(**2D/저품질**)에 그친다. 원본("Don't Get Pooped!") 수준의 **3D 글로시 카툰 프로덕션 에셋**은 **Codex 내장 `image_gen`**(ChatGPT 인증, API 키 불필요)으로만 나온다. → **완성도 높은 게임 = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).** Codex 단계를 건너뛰면 `image-quality-qa` 게이트(고주파 hf 상한·해상도·색수)에서 FAIL한다. 자세히: [`docs/ai-art-pipeline.md`](docs/ai-art-pipeline.md).
+
+<!-- -->
 
 > 🤖 **Claude Code 스킬로 사용하기:** 이 팩토리는 프로젝트 스킬 [`.claude/skills/game-factory/SKILL.md`](../.claude/skills/game-factory/SKILL.md)로 연결되어 있습니다.
 > Claude Code에서 `/game-factory` 또는 "새 게임 만들어줘"라고 요청하면 컨셉 인터뷰 → 스펙 작성 → 생성 → QA → 확장까지 이 폴더의 생성기와 문서를 따라 자동 진행됩니다.
@@ -51,9 +55,9 @@ npm run build
 고품질 1차 프로덕션급 데모 완료 게이트:
 
 ```bash
-npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
+npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920
 ```
 
 
@@ -75,9 +79,9 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 | `npm run asset-qa` | 이미지 manifest, SVG 안전성/크기, WAV duration/peak/silence/용량, `--no-sfx` 오디오 미생성 검증 |
 | `npm run browser-smoke` | 생성 게임 install/build/preview 후 모바일 viewport에서 canvas 렌더와 PLAY 진입 검증 |
 | `npm run qa` | Foundation 검증 전체 실행. 이 명령만으로 production-demo 완료가 아님 |
-| `npm --prefix dev_game run factory:production-demo-qa -- --project <dir>` | `qualityTier`, stage backgrounds 3종, 주요 에셋 quality, 필수 문서, layout registry 계약 검증 |
-| `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir>` | Playwright로 390×844/430×932/1080×1920에서 canvas 중앙 정렬, UI safe-area, bounds overlap 검증 |
-| `npm --prefix dev_game run factory:production-gate -- --project <dir>` | `qa` + `production-demo-qa` + `visual-layout-qa` 통합 완료 게이트 |
+| `npm --prefix dev_game run factory:production-demo-qa -- --project <dir> --require-gpt-imagegen` | `qualityTier`, stage backgrounds 3종, 주요 에셋 quality, imagegen provenance, 필수 문서, layout registry 계약 검증 |
+| `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir> --viewports 390x844,430x932,1080x1920` | Playwright로 Loading/Home/Game/Pause/GameOver canvas 중앙 정렬, UI safe-area, bounds overlap 검증 |
+| `npm --prefix dev_game run factory:production-gate -- --project <dir> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920` | `qa` + `production-demo-qa` + `visual-layout-qa` 통합 완료 게이트 |
 
 `browser-smoke`는 Playwright를 사용하므로 처음에는 `npm --prefix dev_game install` 후 실행합니다.
 
@@ -99,7 +103,7 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 
 - 백엔드, 서버 랭킹, 로그인
 - 광고 SDK, 결제/IAP
-- AI 이미지 API 직접 연동
+- 외부 이미지 서비스 직접 연동
 - 네이티브 앱 빌드 자동화
 - 멀티플레이, 레벨 에디터, 대형 ECS/라이브옵스
 
