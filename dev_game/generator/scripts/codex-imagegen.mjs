@@ -98,7 +98,9 @@ function codexGenerate(codex, outFile, prompt, timeoutSec) {
 function removeChroma(codexHome, file) {
   const helper = path.join(codexHome, 'skills/.system/imagegen/scripts/remove_chroma_key.py');
   if (!fs.existsSync(helper)) return false;
-  const r = spawnSync('python3', [helper, file, '--output', file], { encoding: 'utf8', timeout: 60000 });
+  // helper API: --input/--out; --auto-key border auto-detects the key color from the
+  // image border (robust vs assuming an exact magenta), --despill cleans color fringing.
+  const r = spawnSync('python3', [helper, '--input', file, '--out', file, '--auto-key', 'border', '--despill', '--force'], { encoding: 'utf8', timeout: 60000 });
   return r.status === 0;
 }
 
