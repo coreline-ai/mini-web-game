@@ -360,13 +360,13 @@ export function publishLayout(scene, entries) {
     const o = e && e.obj;
     if (!o || o.visible === false || typeof o.getBounds !== 'function') continue;
     const r = o.getBounds();
-    out.push({ id: e.id, x: b.left + r.x * sx, y: b.top + r.y * sy, width: r.width * sx, height: r.height * sy });
+    out.push({ id: e.id, x: b.left + r.x * sx, y: b.top + r.y * sy, width: r.width * sx, height: r.height * sy, visible: true });
   }
-  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = out;
+  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: (scene.scene && scene.scene.key) || '', items: out };
 }
 
 export function clearLayout() {
-  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = [];
+  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: '', items: [] };
 }
 `);
 
@@ -433,7 +433,7 @@ export const Juice = {
 
   files.set('src/game/scenes/BootScene.js', `import Phaser from 'phaser';\nimport { SCENES } from '../data/spec.js';\nimport { SaveData } from '../systems/SaveData.js';\n\nexport default class BootScene extends Phaser.Scene {\n  constructor() { super(SCENES.BOOT); }\n  create() {\n    SaveData.getSettings();\n    this.scene.start(SCENES.LOADING);\n  }\n}\n`);
 
-  files.set('src/game/scenes/LoadingScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport LoadingUI from '../ui/LoadingUI.js';\n\nexport default class LoadingScene extends Phaser.Scene {\n  constructor() { super(SCENES.LOADING); }\n  preload() {\n    const ui = new LoadingUI(this);\n    this.load.on('progress', (v) => ui.setProgress(v));\n    this.load.image(ASSET_KEYS.player, 'images/player.svg');\n    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');\n    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');\n    if (SPEC.audio?.enabled) {\n      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);\n      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);\n      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);\n      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);\n      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);\n    }\n  }\n  create() {\n    this.time.delayedCall(250, () => this.scene.start(SCENES.HOME));\n  }\n}\n`);
+  files.set('src/game/scenes/LoadingScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport LoadingUI from '../ui/LoadingUI.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';\n\nexport default class LoadingScene extends Phaser.Scene {\n  constructor() { super(SCENES.LOADING); }\n  preload() {\n    this.loadingUI = new LoadingUI(this);\n    this.load.on('progress', (v) => this.loadingUI.setProgress(v));\n    this.load.image(ASSET_KEYS.player, 'images/player.svg');\n    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');\n    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');\n    if (SPEC.audio?.enabled) {\n      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);\n      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);\n      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);\n      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);\n      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);\n    }\n  }\n  create() {\n    const items = (this.loadingUI && this.loadingUI.title) ? [{ id: 'loading', obj: this.loadingUI.title }] : [];\n    publishLayout(this, items);\n    const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');\n    if (hold) { if (typeof window !== 'undefined') window.__RELEASE_LOADING__ = () => this.scene.start(SCENES.HOME); } else { this.time.delayedCall(250, () => this.scene.start(SCENES.HOME)); }\n  }\n}\n`);
 
   files.set('src/game/scenes/HomeScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport { SaveData } from '../systems/SaveData.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';
 
