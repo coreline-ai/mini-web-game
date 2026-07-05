@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
 const productionDemoQa = path.join(__dirname, 'production-demo-qa.mjs');
 const visualLayoutQa = path.join(__dirname, 'visual-layout-qa.mjs');
+const imageQualityQa = path.join(__dirname, 'image-quality-qa.mjs');
 
 function usage() {
   console.log(`Usage:
@@ -19,6 +20,7 @@ Runs:
   3. visual-layout-qa browser overlap/safe-area gate
 
 Selected options are routed to the gate that understands them:
+  --require-gpt-imagegen/--require-imagegen-skill -> production-demo-qa only
   --port/--viewports/--safe-margin/--aspect-tolerance -> visual-layout-qa only`);
 }
 
@@ -43,6 +45,8 @@ function splitArgs(argv) {
     } else if (a === '--min-stage-backgrounds') {
       productionArgs.push(a, argv[++i]);
     } else if (a === '--allow-svg-backgrounds') {
+      productionArgs.push(a);
+    } else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill' || a === '--require-gpt-image2-skill' || a === '--require-gpt-image2') {
       productionArgs.push(a);
     } else if (['--port', '--viewports', '--safe-margin', '--aspect-tolerance'].includes(a)) {
       visualArgs.push(a, argv[++i]);
@@ -76,5 +80,12 @@ try {
 }
 
 run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
-run(process.execPath, [productionDemoQa, ...split.productionArgs], { cwd: workspaceRoot });
+// imagegen 스킬 provenance는 상시 강제 (임의/API/절차적 생성 금지 정책)
+const prodArgs = split.productionArgs.includes('--require-gpt-imagegen')
+  ? split.productionArgs
+  : [...split.productionArgs, '--require-gpt-imagegen'];
+run(process.execPath, [productionDemoQa, ...prodArgs], { cwd: workspaceRoot });
+// 본 게임(똥 피하기) 기준 픽셀 레벨 품질 게이트 (해상도/색수/디테일/placeholder 차단)
+const projIdx = split.productionArgs.indexOf('--project');
+run(process.execPath, [imageQualityQa, '--project', split.productionArgs[projIdx + 1]], { cwd: workspaceRoot });
 run(process.execPath, [visualLayoutQa, ...split.visualArgs], { cwd: workspaceRoot });

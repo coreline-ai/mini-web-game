@@ -197,20 +197,27 @@ function promoteExisting(projectDir, plan, manifest) {
   manifest.images = manifest.images || [];
   const gid = plan.gameId;
   if (gid) manifest.assetIsolation = manifest.assetIsolation || { mode: 'per-game', generatedFor: gid, noSharedRuntimeAssets: true };
-  const basicProv = () => ({ source: 'generated-for-game', generatedFor: gid });
   for (const bg of plan.backgrounds || []) {
     if (!fs.existsSync(path.join(projectDir, bg.path))) continue;
     let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
     if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
     e.path = bg.path; e.quality = 'production-demo';
-    e.provenance = e.provenance?.method ? e.provenance : basicProv();
+    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, bg.id, bg.prompt);
   }
   for (const sp of plan.sprites || []) {
     if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
     let e = manifest.images.find((x) => x.id === sp.id);
     if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
     e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
-    e.provenance = e.provenance?.method ? e.provenance : basicProv();
+    if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
+    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, sp.id, sp.prompt);
+  }
+  for (const it of [...(plan.ui || []), ...(plan.fx || [])]) {
+    if (!fs.existsSync(path.join(projectDir, it.path))) continue;
+    let e = manifest.images.find((x) => x.id === it.id);
+    if (!e) { e = { id: it.id, type: (plan.ui || []).includes(it) ? 'ui' : 'fx' }; manifest.images.push(e); }
+    e.path = it.path; e.role = it.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, it.id, it.prompt);
   }
 }
 
@@ -254,7 +261,8 @@ function main() {
       process.stdout.write(`bg ${bg.id} … `);
       const ok = codexGenerate(codex, out, bg.prompt, args.timeoutSec);
       const size = ok ? pngSize(out) : null;
-      const good = !!size && size.width >= plan.canvas.width && size.height >= plan.canvas.height;
+      const minW = Math.max(1080, bg.width || 0), minH = Math.max(1920, bg.height || 0);
+      const good = !!size && size.width >= minW && size.height >= minH;
       console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${good ? '' : ' (TOO SMALL)'}` : '✗ FAILED');
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {

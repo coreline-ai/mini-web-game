@@ -329,10 +329,10 @@ function buildAssetPlan(spec, themes) {
   const backgrounds = themes.map((t) => ({
     id: `stage-${t.index}`,
     path: `assets/backgrounds/stage-${t.index}.png`,
-    width: w,
-    height: h,
+    width: Math.max(1080, w),
+    height: Math.max(1920, h),
     theme: t.name,
-    prompt: `Ultra-detailed vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. ${styleGuide.mood}. Render at the image tool's MAXIMUM native resolution (portrait, at least 1024x1536, larger is better) — do NOT shrink or fit to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: ${styleGuide.palette}.`,
+    prompt: `Ultra-detailed vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. ${styleGuide.mood}. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: ${styleGuide.palette}.`,
   }));
   const sprites = [
     { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, frameSize: 512, prompt: `A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME ${title} hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${styleGuide.mood}.` },
