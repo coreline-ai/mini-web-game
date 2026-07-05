@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // codex-imagegen.mjs — dev_game AI ART STEP.
 // Reads a generated game's asset-plan.json and produces production-grade raster art
-// by driving Codex's BUILT-IN image_gen tool via `codex exec` (ChatGPT auth, no
-// OPENAI_API_KEY needed). Backgrounds are generated directly; sprites are generated on
+// by driving Codex's BUILT-IN imagegen skill / image_gen tool via `codex exec`.
+// No image SDK runner is generated. Backgrounds are generated directly; sprites are generated on
 // a flat chroma-key background and made transparent with the imagegen skill's
 // remove_chroma_key.py helper. Generated entries are promoted to quality:"production-demo"
 // in asset-manifest.json, and qualityTier flips to "production-demo" once every core
@@ -15,6 +15,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { globSync } from 'node:fs';
 
@@ -38,7 +39,7 @@ function usage() {
   console.log(`Usage:
   node generator/scripts/codex-imagegen.mjs --project <generated-game-dir> [--only all|backgrounds|sprites]
 
-Drives Codex built-in image_gen (via 'codex exec', ChatGPT auth, no OPENAI_API_KEY) to
+Drives Codex built-in imagegen skill / image_gen tool (via 'codex exec') to
 generate production art declared in <project>/asset-plan.json, then promotes matching
 asset-manifest.json entries to quality:"production-demo".
 
@@ -72,6 +73,23 @@ function findCodex(override) {
 
 function readJson(f) { return JSON.parse(fs.readFileSync(f, 'utf8')); }
 function writeJson(f, o) { fs.writeFileSync(f, JSON.stringify(o, null, 2) + '\n'); }
+function promptHash(id, prompt = '') {
+  return crypto.createHash('sha256').update(`${id}|${prompt}`).digest('hex').slice(0, 16);
+}
+function imagegenProvenance(gameId, id, prompt = '', extra = {}) {
+  return {
+    source: 'generated-for-game',
+    generatedFor: gameId,
+    generator: 'dev_game/generator/scripts/codex-imagegen.mjs',
+    method: 'codex-gpt-imagegen-skill',
+    model: 'gpt-image-2',
+    sourceSkill: 'imagegen',
+    toolMode: 'built-in-image_gen',
+    promptHash: promptHash(id, prompt),
+    quality: 'high',
+    ...extra,
+  };
+}
 
 function pngSize(file) {
   try {
@@ -86,7 +104,7 @@ function codexGenerate(codex, outFile, prompt, timeoutSec) {
   const outDir = path.dirname(outFile);
   const base = path.basename(outFile);
   fs.mkdirSync(outDir, { recursive: true });
-  const full = `Use your BUILT-IN image_gen tool (the default imagegen skill mode that does NOT require OPENAI_API_KEY). Do NOT use the gpt-image2 CLI or any API key path. Generate ONE image, then copy the final result to the current working directory as '${base}'. Prompt: ${prompt} No text, no watermark, no UI, no border. When done print 'SAVED ${base}'.`;
+  const full = `Use the built-in imagegen skill / image_gen tool. Do not create or run external image-service generation scripts. Generate ONE high-quality image, then copy the final result to the current working directory as '${base}'. Prompt: ${prompt} No text, no watermark, no UI, no border. When done print 'SAVED ${base}'.`;
   const r = spawnSync(codex, [
     'exec', '--sandbox', 'workspace-write', '-C', outDir, '--skip-git-repo-check',
     '-c', 'model_reasoning_effort="low"', full,
@@ -98,7 +116,7 @@ function codexGenerate(codex, outFile, prompt, timeoutSec) {
 function removeChroma(codexHome, file) {
   const helper = path.join(codexHome, 'skills/.system/imagegen/scripts/remove_chroma_key.py');
   if (!fs.existsSync(helper)) return false;
-  // helper API: --input/--out; --auto-key border auto-detects the key color from the
+  // helper options: --input/--out; --auto-key border auto-detects the key color from the
   // image border (robust vs assuming an exact magenta), --despill cleans color fringing.
   const r = spawnSync('python3', [helper, '--input', file, '--out', file, '--auto-key', 'border', '--despill', '--force'], { encoding: 'utf8', timeout: 60000 });
   return r.status === 0;
@@ -154,7 +172,7 @@ function wireGameToAssets(projectDir, plan) {
   }
 
   if (bgs.length) {
-    const bgImage = `this.add.image(0, 0, 'bg_0').setOrigin(0).setDisplaySize(SPEC.canvas.width, SPEC.canvas.height).setDepth(-10);`;
+    const bgImage = `{ const bg = this.add.image(SPEC.canvas.width / 2, SPEC.canvas.height / 2, 'bg_0').setDepth(-10); bg.setScale(Math.max(SPEC.canvas.width / bg.width, SPEC.canvas.height / bg.height)); }`;
     const gameFile = path.join(projectDir, 'src/game/scenes/GameScene.js');
     if (fs.existsSync(gameFile)) {
       let t = fs.readFileSync(gameFile, 'utf8');
@@ -166,7 +184,7 @@ function wireGameToAssets(projectDir, plan) {
     if (fs.existsSync(homeFile)) {
       let t = fs.readFileSync(homeFile, 'utf8');
       const before = t;
-      t = t.replace(/this\.add\.rectangle\(0, 0, width, height, 0x0b1024\)\.setOrigin\(0\);/, `this.add.image(0, 0, 'bg_0').setOrigin(0).setDisplaySize(width, height).setDepth(-10);`);
+      t = t.replace(/this\.add\.rectangle\(0, 0, width, height, 0x0b1024\)\.setOrigin\(0\);/, `{ const bg = this.add.image(width / 2, height / 2, 'bg_0').setDepth(-10); bg.setScale(Math.max(width / bg.width, height / bg.height)); }`);
       if (t !== before) { fs.writeFileSync(homeFile, t); patched.push('HomeScene'); }
     }
   }
@@ -178,19 +196,21 @@ function promoteExisting(projectDir, plan, manifest) {
   manifest.stageBackgrounds = manifest.stageBackgrounds || [];
   manifest.images = manifest.images || [];
   const gid = plan.gameId;
-  const prov = () => ({ source: 'generated-for-game', generatedFor: gid });
   if (gid) manifest.assetIsolation = manifest.assetIsolation || { mode: 'per-game', generatedFor: gid, noSharedRuntimeAssets: true };
+  const basicProv = () => ({ source: 'generated-for-game', generatedFor: gid });
   for (const bg of plan.backgrounds || []) {
     if (!fs.existsSync(path.join(projectDir, bg.path))) continue;
     let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
     if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
-    e.path = bg.path; e.quality = 'production-demo'; e.provenance = prov();
+    e.path = bg.path; e.quality = 'production-demo';
+    e.provenance = e.provenance?.method ? e.provenance : basicProv();
   }
   for (const sp of plan.sprites || []) {
     if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
     let e = manifest.images.find((x) => x.id === sp.id);
     if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
-    e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true; e.provenance = prov();
+    e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+    e.provenance = e.provenance?.method ? e.provenance : basicProv();
   }
 }
 
@@ -239,7 +259,7 @@ function main() {
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {
         const e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
-        if (e) { e.quality = 'production-demo'; e.source = 'ai-image_gen'; }
+        if (e) { e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt); }
       }
     }
   }
@@ -265,6 +285,7 @@ function main() {
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
         e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
         if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
+        e.provenance = imagegenProvenance(plan.gameId, sp.id, sp.prompt);
       }
     }
   }
@@ -290,7 +311,8 @@ function main() {
       let e = manifest.images.find((x) => x.id === it.id);
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
       e.path = it.path; e.role = it.role; e.requiresAlpha = true;
-      e.provenance = { source: 'generated-for-game', generatedFor: plan.gameId };
+      e.quality = 'production-demo';
+      e.provenance = imagegenProvenance(plan.gameId, it.id, it.prompt);
     }
   }
 
@@ -304,6 +326,17 @@ function main() {
   const coreImgs = (manifest.images || []).filter((im) => coreRoles.has(String(im.role || '').toLowerCase()));
   const coreAll = coreImgs.length > 0 && coreImgs.every((im) => im.quality === 'production-demo');
   if (bgAll && coreAll) manifest.qualityTier = 'production-demo';
+  const hasImagegenEntries = [...(manifest.stageBackgrounds || []), ...(manifest.images || [])]
+    .some((e) => e?.provenance?.method === 'codex-gpt-imagegen-skill');
+  if (hasImagegenEntries) {
+    manifest.imagegen = {
+      model: 'gpt-image-2',
+      method: 'codex-gpt-imagegen-skill',
+      sourceSkill: 'imagegen',
+      toolMode: 'built-in-image_gen',
+      lastRunAt: new Date().toISOString(),
+    };
+  }
 
   writeJson(manifestFile, manifest);
 
