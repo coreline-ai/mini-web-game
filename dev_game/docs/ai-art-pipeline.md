@@ -43,7 +43,7 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 | 1. 스캐폴드 | `cli.mjs` | Phaser/Vite Foundation(씬·시스템·SVG 플레이스홀더) |
 | 2. 프로덕션화 | `factory:productionize -- --project <dir>` | 기획문서 01~05 + `asset-plan.json`(에셋별 생성 프롬프트+스타일가이드) + 래스터 배경 골격 + manifest(stageBackgrounds·assetIsolation·provenance) |
 | 3. **AI 아트 생성** | `factory:imagegen -- --project <dir> [--only all\|backgrounds\|sprites\|wire]` | `asset-plan.json` 프롬프트로 실제 배경·스프라이트 PNG 생성, manifest 품질 승격, 게임 코드가 에셋을 로드/표시하도록 배선 |
-| 4. 완료 게이트 | `factory:production-gate -- --project <dir>` | validate·smoke·asset-qa·browser-smoke·production-demo-qa·visual-layout-qa 전부 |
+| 4. 완료 게이트 | `factory:production-gate -- --project <dir>` | validate·smoke·asset-qa·browser-smoke·production-demo-qa·image-quality-qa·visual-layout-qa·scene-composite-qa 전부 |
 
 ## 3단계: codex-imagegen (핵심)
 
@@ -62,6 +62,32 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 - StageManager: `bg_0..N` 텍스처로 배경 표시 + 난이도 레벨↑ 시 크로스페이드 전환
 - HomeScene: 단색 → `bg_0` 이미지
 
+
+## Scene-first Artboard Workflow — 전체 화면 먼저, 분리 후 검증
+
+고품질 게임 에셋은 개별 아이콘을 흩어서 만든 뒤 화면에 맞추는 방식만으로는 부족하다. 신규 게임은 먼저 대표 장면을 완성된 화면으로 설계하고, 그 화면에서 필요한 에셋을 분리해 runtime에 재조합한다.
+
+필수 절차:
+
+1. **장면 아트보드 생성**: Loading/Home/Game/Pause/GameOver를 게임 해상도 기준으로 먼저 만든다. 배경, playfield, HUD, 버튼, 결과 패널이 동시에 보이는 기준 이미지를 둔다.
+2. **분리 계획 작성**: `asset-plan.json`에 `artboard`, `cropBox`, `role`, `displaySize`, `safePadding`, `sliceMode(plain/9-slice/sprite-sheet)`를 기록한다.
+3. **에셋 분리/투명화**: crop 원본(`rawPath`)과 production PNG를 모두 남긴다. gameplay 오브젝트는 내부 면적이 사라지지 않도록 alpha coverage를 검사한다.
+4. **런타임 재조합**: Phaser scene이 아트보드의 의도와 같은 배치·비율로 표시하는지 `__GAME_LAYOUT_BOUNDS__`에 registry를 남긴다.
+5. **장면 캡처 QA**: `factory:scene-composite-qa`로 실제 브라우저 화면을 캡처해 버튼 라인, 잘린 stamp, 투명 박스, 끊긴 컨베이어, 외부 tooltip overlay를 자동 검사한다.
+
+필수 QA 산출물:
+
+```text
+assets/artboards/home.png
+assets/artboards/game.png
+assets/artboards/pause.png
+assets/artboards/gameover.png
+assets/artboards/slice-map.json
+assets/qa/contact-sheets/<scene>-comparison.png
+dev_game/.tmp/scene-composite-qa/<game-id>/*.png
+```
+
+이 과정을 생략하면 파일별 QA는 통과했는데 실제 화면에서 박스/버튼/패널이 깨지는 문제가 다시 발생한다.
 
 ## 🔒 이미지 품질 강제 규정 (MANDATORY)
 

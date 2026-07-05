@@ -65,7 +65,9 @@ npm run build
 완료 보고 전 production-demo gate:
 
 ```bash
-npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/my-new-game
+npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/my-new-game
+npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/my-new-game --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/my-new-game --require-gpt-imagegen --viewports 390x844,430x932,1080x1920
 ```
 
 ## 3. Custom-loop 구현 기준
@@ -120,7 +122,10 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 - [ ] browser smoke에서 canvas 렌더와 PLAY 진입 확인
 - [ ] 장르별 핵심 액션이 실제로 동작함
 - [ ] 에셋이 검은 박스/깨진 이미지/비율 왜곡 없이 보임
-- [ ] `factory:production-demo-qa`와 `factory:visual-layout-qa` 통과
+- [ ] scene-first artboard/slice-map 또는 contact-sheet 기준으로 runtime 재조합 화면을 비교함
+- [ ] 이미지 에셋은 Codex `imagegen` 스킬 경로로 생성되고 manifest에 `method: codex-gpt-imagegen-skill`, `model: gpt-image-2`, `sourceSkill: imagegen`, `promptHash`가 있음
+- [ ] 생성물에 이미지 SDK/key runner나 서비스 호출 스크립트가 없음
+- [ ] `factory:production-demo-qa -- --require-gpt-imagegen`, `factory:image-quality-qa`, `factory:visual-layout-qa -- --viewports 390x844,430x932,1080x1920`, `factory:scene-composite-qa -- --viewports 390x844,430x932,1080x1920` 통과
 - [ ] `window.__GAME_LAYOUT_BOUNDS__`로 UI bounds를 노출함
 - [ ] 스테이지/테마 배경 3종 이상이 canvas 기준 크기 이상으로 존재함
 - [ ] `assets/asset-manifest.json`에 `qualityTier: "production-demo"`가 있음

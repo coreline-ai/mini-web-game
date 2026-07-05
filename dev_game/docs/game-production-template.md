@@ -20,7 +20,7 @@
 npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id>
 ```
 
-`factory:qa`만 통과한 Foundation starter는 완료물이 아니라 구현 출발점이다. production-demo 완료 전에는 stage/theme 배경 3종, 주요 에셋 quality 필드, per-game asset isolation, layout bounds registry, UI overlap 검증이 필요하다. 공통 에셋 풀은 두지 않는다. 새 게임의 런타임 에셋은 항상 해당 게임 전용으로 신규 생성한다.
+`factory:qa`만 통과한 Foundation starter는 완료물이 아니라 구현 출발점이다. production-demo 완료 전에는 stage/theme 배경 3종, 주요 에셋 quality 필드, Codex imagegen skill provenance, per-game asset isolation, layout bounds registry, UI overlap 검증이 필요하다. 공통 에셋 풀은 두지 않는다. 새 게임의 런타임 에셋은 항상 해당 게임 전용으로 신규 생성한다.
 
 ## 1. 왜 이 템플릿이 필요한가
 
@@ -116,6 +116,10 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 - OGG/PNG/SVG 등 런타임 포맷이 결정됨
 - 이미지 에셋은 Asset QA Gate와 Production Demo QA Gate를 통과함
 - 사운드 에셋은 Audio QA Gate를 통과하고 pause/home/background 상태 제어가 확인됨
+
+### Phase 3.0 Codex imagegen skill asset rule
+
+최종 production-demo 이미지는 Codex `imagegen` 스킬 built-in 경로로 생성한다. 생성물에는 이미지 SDK/key runner를 두지 않으며, `$CODEX_HOME/generated_images/**`의 결과를 프로젝트 `assets/**`로 복사/통합한다. manifest provenance는 `method: codex-gpt-imagegen-skill`, `model: gpt-image-2`, `sourceSkill: imagegen`, `promptHash`를 가져야 한다. 품질 미달 이미지는 재생성한다.
 
 ### Phase 3.1 이미지 에셋 QA Gate
 
@@ -238,7 +242,7 @@ MVP 완료 조건:
 | Mobile Layout | 9:16, 노치/안전영역, 터치 영역, 텍스트 겹침 |
 | Performance | 60 FPS 목표, 오브젝트 풀링, 메모리 증가 없음 |
 | Balance | 30초 쉬움, 1분 도전, 5분 극한 난이도 |
-| Asset QA | 배경 크기, 투명 배경, 프레임 간 크기, 색/외곽선 일관성 |
+| Asset QA | 배경 크기, imagegen provenance, 투명 배경, 프레임 간 크기, 색/외곽선 일관성 |
 | Audio QA | 중복 재생 과다 없음, 음소거/일시정지 동작, 볼륨 밸런스 |
 
 ### Phase 8. 배포/릴리즈
@@ -312,6 +316,7 @@ Round 6: 릴리즈 + 운영 계획
 - [ ] 애니메이션 프롬프트
 - [ ] 실제 게임 크기 contact sheet
 - [ ] Asset QA Agent PASS/FIX/REJECT 리포트
+- [ ] Codex imagegen skill provenance + no SDK/key runner 확인
 - [ ] 오디오 목록과 트리거
 - [ ] 최소 Audio Pack 생성(UI/수집/경고/피격/게임오버/BGM)
 - [ ] Audio QA Agent 리포트

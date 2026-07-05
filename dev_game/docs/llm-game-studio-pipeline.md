@@ -17,8 +17,10 @@ Archetype은 빠르게 출발하기 위한 참고 패턴이다.
 
 ```bash
 npm --prefix dev_game run factory:qa
-npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
+npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
 ```
 
 강제 항목:
@@ -27,8 +29,10 @@ npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generat
 - 런타임 에셋은 모두 해당 게임 전용으로 신규 생성, `assetIsolation.mode: "per-game"` 명시
 - 스테이지/테마 배경 최소 3종, PNG/WebP/JPG, canvas 기준 크기 이상
 - 주요 gameplay 에셋은 `quality: "production-demo"`; 핵심 에셋 SVG placeholder 금지
+- 이미지 에셋은 Codex `imagegen` 스킬 provenance(`method: codex-gpt-imagegen-skill`, `sourceSkill: imagegen`)를 가져야 함
 - runtime에 `window.__GAME_LAYOUT_BOUNDS__` 노출
 - UI safe-area/overlap 자동 QA 통과
+- scene-first artboard/slice-map 기준으로 runtime 화면 재조합 QA 통과
 
 이 항목이 없으면 “완료”가 아니라 “production-demo 미통과”로 보고한다.
 
@@ -172,13 +176,17 @@ MVP 진행 중 placeholder는 허용될 수 있지만, **완료 보고 대상 pr
 
 - 스테이지/테마 배경 최소 3종, PNG/WebP/JPG, 1080×1920 기준 이상
 - 모든 런타임 에셋은 `dev_game/generated/<game-id>/assets/**` 내부에 존재하고 `provenance.source: generated-for-game`을 가진다
+- 이미지는 Codex `imagegen` 스킬 built-in 경로로 생성하고, `method: codex-gpt-imagegen-skill`, `model: gpt-image-2`, `sourceSkill: imagegen`, `promptHash`를 manifest에 남긴다
+- 생성물 안에 이미지 SDK/key runner나 서비스 호출 스크립트를 두지 않는다
 - 주요 gameplay 에셋은 `quality: production-demo`로 manifest에 명시
 - 플레이어/위험/보상 실루엣이 0.2초 안에 구분됨
-- SVG/PNG 원본 비율 유지
-- 투명 배경
+- SVG/PNG 원본 비율 유지, 버튼/패널 비율 왜곡 금지
+- 투명 배경 또는 검증된 chroma-key 제거 결과
+- 전체 장면 아트보드 기준으로 분리한 crop/slice provenance 보존
 - 모바일 축소 화면에서 판독 가능
+- 배경은 stage/theme 최소 3종, canvas 이상이며 Loading/Home/Game/Pause/GameOver에서 자연스럽게 보임
 - SFX: 버튼, 수집, 피격, 경고, 게임오버
-- BGM: 홈/게임 또는 최소 게임 루프 1개
+- BGM: 홈/게임 또는 최소 게임 루프 1개, gameplay 중에만 재생되고 pause/home/background에서 정지
 
 ### Phase G. QA & Completion Audit
 
@@ -192,7 +200,8 @@ MVP 진행 중 placeholder는 허용될 수 있지만, **완료 보고 대상 pr
 | genre smoke | 그 장르로 보이게 하는 핵심 시스템이 동작 |
 | asset QA | 깨진 이미지, 검은 박스, 비율 왜곡, 누락 없음 |
 | production-demo QA | 품질 tier, 배경 3종, 주요 에셋 quality, 문서, layout registry 계약 통과 |
-| visual-layout QA | canvas 중앙 정렬, safe-area, HUD/button/text overlap 자동 검출 통과 |
+| visual-layout QA | Loading/Home/Game/Pause/GameOver canvas 중앙 정렬, safe-area, HUD/button/text/card overlap 자동 검출 통과 |
+| scene-composite QA | 최종 스크린샷에서 버튼 슬롯, 잘린 stamp, 투명/끊긴 runtime 에셋, 외부 overlay 없음 |
 | audio QA | 무음/과피크/트리거 누락 없음 |
 | adversarial review | “스킨만 바꾼 기존 게임” 지적을 통과 |
 

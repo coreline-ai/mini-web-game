@@ -17,7 +17,7 @@
 
 - 백엔드, 서버 랭킹, 로그인
 - 광고 SDK, 결제/IAP
-- AI 이미지 API 직접 호출
+- 외부 이미지 서비스 직접 호출
 - 네이티브 앱 패키징 자동화
 - 멀티플레이, 레벨 에디터, ECS 대형 구조
 
@@ -77,7 +77,9 @@ npm run build
 - `npm run smoke`가 starter 파일을 생성하고 필수 파일, Phaser import, config 순환 import 방지, `--no-sfx` 출력을 확인합니다.
 - `npm run asset-qa`가 이미지 manifest, SVG 안전성/크기, WAV duration/peak/silence/용량을 확인합니다.
 - `npm run browser-smoke`가 생성된 프로젝트를 install/build/preview한 뒤 모바일 viewport에서 canvas 렌더와 PLAY 진입 console/page error를 확인합니다.
-- `npm run qa`는 validate → smoke → asset-qa → browser-smoke 전체 게이트입니다.
+- `npm run qa`는 validate → smoke → asset-qa → browser-smoke 전체 Foundation 게이트입니다.
+- production-demo 완료 전에는 루트에서 `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920`를 실행합니다. 이 통합 게이트는 `production-demo-qa`, `image-quality-qa`, `visual-layout-qa`, `scene-composite-qa`까지 포함합니다.
+- `factory:scene-composite-qa`는 실제 브라우저 화면을 캡처해 버튼 상단 깨짐, 잘린 stamp/warning 아이콘, 투명/끊긴 박스·컨베이어, 외부 tooltip overlay 같은 파일 단위 QA가 놓치는 화면 결함을 검사합니다.
 
 ## 안전 규칙
 

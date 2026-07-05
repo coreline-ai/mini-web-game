@@ -221,6 +221,13 @@ async function inspectCurrentPage(page, phase, viewport, args, screenshotDir, er
     if (!args.allowMissingRegistry) errors.push(`${viewportLabel(viewport)} ${phase}: window.__GAME_LAYOUT_BOUNDS__ missing or empty`);
   } else {
     const visible = bounds.filter((item) => item.visible && item.width > 0 && item.height > 0);
+    const declaredRequiredIds = Array.isArray(rawBounds?.requiredIds) ? rawBounds.requiredIds.map(String).filter(Boolean) : [];
+    if (declaredRequiredIds.length) {
+      const visibleIds = new Set(visible.map((item) => item.id));
+      for (const id of declaredRequiredIds) {
+        if (!visibleIds.has(id)) errors.push(`${viewportLabel(viewport)} ${phase}: required layout item missing or invisible: ${id}`);
+      }
+    }
     for (const item of visible) {
       if (item.x < args.safeMargin) errors.push(`${viewportLabel(viewport)} ${phase}: ${item.id} too close/outside left (${item.x.toFixed(1)}px)`);
       if (item.y < args.safeMargin) errors.push(`${viewportLabel(viewport)} ${phase}: ${item.id} too close/outside top (${item.y.toFixed(1)}px)`);

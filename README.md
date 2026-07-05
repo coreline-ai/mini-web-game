@@ -240,9 +240,11 @@ game-dd/
 | [docs/design-spec-supplement.md](docs/design-spec-supplement.md) | 상세 기획 보강(판정·경제·밸런스 수치) |
 | [docs/impl-plan-mvp.md](docs/impl-plan-mvp.md) | MVP 구현 계획서 |
 | [skills/game-factory/SKILL.md](skills/game-factory/SKILL.md) | Codex/Claude에서 재사용 가능한 Game Factory 스킬 |
+| [dev_game/docs/llm-game-studio-pipeline.md](dev_game/docs/llm-game-studio-pipeline.md) | 아이디어 → 기획 → 기술설계 → 커스텀 구현 → QA 파이프라인 |
+| [dev_game/docs/production-demo-quality-contract.md](dev_game/docs/production-demo-quality-contract.md) | 고품질 1차 프로덕션급 데모 강제 계약 · 에셋/배경/UI QA 게이트 |
 | [dev_game/docs/reference-analysis-4-games.md](dev_game/docs/reference-analysis-4-games.md) | Crossy Road · Jetpack Joyride · Survivor.io · Super Hexagon 병렬 분석 |
 | [dev_game/docs/game-production-template.md](dev_game/docs/game-production-template.md) | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
-| [dev_game/docs/game-archetype-recipes.md](dev_game/docs/game-archetype-recipes.md) | 4개 레퍼런스 구조를 재사용 가능한 제작 레시피로 변환 |
+| [dev_game/docs/game-archetype-recipes.md](dev_game/docs/game-archetype-recipes.md) | archetype을 제한이 아닌 참고 패턴으로 사용하는 제작 레시피 |
 | [dev_game/docs/common-game-systems-checklist.md](dev_game/docs/common-game-systems-checklist.md) | 로딩 화면 · 공통 씬 · 저장 · 오디오 · QA Foundation 체크리스트 |
 
 ---

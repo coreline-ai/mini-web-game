@@ -109,8 +109,8 @@ assets/asset-manifest.json
 
 | 스크립트 | 실패로 잡아야 하는 것 |
 |---|---|
-| `factory:production-demo-qa` | 배경 3종 누락, SVG placeholder 주요 에셋, qualityTier 누락, 필수 문서 누락, layout registry 누락 |
-| `factory:visual-layout-qa` | canvas 치우침, HUD/버튼/텍스트 겹침, safe-area 밖 배치 |
+| `factory:production-demo-qa -- --require-gpt-imagegen` | 배경 3종 누락, SVG placeholder 주요 에셋, imagegen provenance 누락, qualityTier 누락, 필수 문서 누락, layout registry 누락 |
+| `factory:visual-layout-qa` | Loading/Home/Game/Pause/GameOver canvas 치우침, HUD/버튼/텍스트/카드 겹침, safe-area 밖 배치 |
 
 ## 5. 완료 검증
 
@@ -125,11 +125,11 @@ assets/asset-manifest.json
 
 ## 6. 명확히 제외할 것
 
-- 백엔드 API 서버
+- 백엔드 서비스 서버
 - 로그인/계정/클라우드 저장
 - 서버 랭킹
 - 광고 SDK, IAP, 결제
-- AI 이미지 생성 API 직접 호출
+- 외부 이미지 서비스 직접 호출
 - 멀티플레이
 - Capacitor/Cordova/Tauri 자동 패키징
 - 레벨 에디터

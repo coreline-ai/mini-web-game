@@ -29,6 +29,7 @@ import { spawnSync } from 'node:child_process';
 
 const REQUIRED_METHOD = 'codex-gpt-imagegen-skill';
 const CORE_ROLES = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'projectile', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'target', 'goal', 'scanner', 'conveyor']);
+const UI_ROLES = new Set(['ui-icon', 'ui-panel', 'button', 'panel']);
 const GAMEPLAY_OBJECT_LIKE = new Set(['hazard', 'obstacle', 'enemy', 'boss', 'target', 'goal', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile', 'scanner', 'conveyor']);
 const COLLECT_LIKE = new Set(['collectible', 'reward']);
 
@@ -103,10 +104,44 @@ for p in json.load(sys.stdin):
         lap=g.filter(ImageFilter.Kernel((3,3),[0,-1,0,-1,4,-1,0,-1,0],1,0))
         hf=ImageStat.Stat(lap).mean[0]
         alpha=False
+        bbox=None
+        pads=None
+        semiratio=0
+        comp_small_ratio=0
+        comp_count=0
+        max_comp=0
+        alpha_fill_ratio=1
         if im.mode in ('RGBA','LA','PA'):
             a=im.convert('RGBA').getchannel('A')
             mn,_=a.getextrema(); alpha = mn < 250
-        out.append({'p':p,'w':w,'h':h,'colors':colors,'edge':round(edge,1),'hf':round(hf,2),'alpha':alpha})
+            bbox=a.getbbox()
+            if bbox:
+                pads=[bbox[0],bbox[1],w-bbox[2],h-bbox[3]]
+            data=list(a.getdata())
+            semiratio=sum(1 for v in data if 0 < v < 230)/len(data)
+            if bbox:
+                crop=a.crop(bbox)
+                cdata=list(crop.getdata())
+                alpha_fill_ratio=sum(1 for v in cdata if v >= 24)/len(cdata)
+            # Connected alpha components catch bad slicing: stray crop fragments, broken
+            # badge shards, and detached button/box pieces that are visually obvious but
+            # can still pass color/edge metrics.
+            pix=a.load(); seen=set(); comps=[]
+            for yy in range(h):
+                for xx in range(w):
+                    if (xx,yy) in seen or pix[xx,yy] < 8: continue
+                    stack=[(xx,yy)]; seen.add((xx,yy)); count=0
+                    while stack:
+                        qx,qy=stack.pop(); count+=1
+                        for nx,ny in ((qx+1,qy),(qx-1,qy),(qx,qy+1),(qx,qy-1)):
+                            if nx<0 or ny<0 or nx>=w or ny>=h or (nx,ny) in seen or pix[nx,ny] < 8: continue
+                            seen.add((nx,ny)); stack.append((nx,ny))
+                    comps.append(count)
+            comps=sorted(comps, reverse=True)
+            comp_count=len(comps)
+            max_comp=comps[0] if comps else 0
+            comp_small_ratio=(sum(c for c in comps[1:] if c >= max(64, max_comp*0.006))/max_comp) if max_comp else 0
+        out.append({'p':p,'w':w,'h':h,'colors':colors,'edge':round(edge,1),'hf':round(hf,2),'alpha':alpha,'bbox':bbox,'pads':pads,'semiratio':round(semiratio,4),'alphaFillRatio':round(alpha_fill_ratio,4),'compSmallRatio':round(comp_small_ratio,4),'compCount':comp_count,'maxComp':max_comp})
     except Exception as e:
         out.append({'p':p,'err':str(e)})
 print(json.dumps(out))
@@ -164,7 +199,7 @@ function main() {
   for (const e of imgs) {
     const role = roleOf(e);
     if (CORE_ROLES.has(role)) push(e, 'core');
-    else if (e.id === 'btn-frame' || e.id === 'btn-pause' || role === 'ui-icon' || e.type === 'ui') push(e, 'ui');
+    else if (e.id === 'btn-frame' || e.id === 'btn-pause' || UI_ROLES.has(role) || e.type === 'ui') push(e, 'ui');
     else if (String(e.id || '').startsWith('fx-') || e.type === 'fx' || role === 'feedback') push(e, 'fx');
   }
 
@@ -206,6 +241,36 @@ function main() {
       if (r.edge < t.edge) errors.push(`${m.label} edgeVar ${r.edge} < ${t.edge}`);
       if (t.hfMax && r.hf > t.hfMax) errors.push(`${m.label} hf ${r.hf} > ${t.hfMax} — too noisy/oversharpened for production-demo (재생성 필요)`);
       if (t.alpha && !r.alpha) errors.push(`${m.label} has no transparency (alpha required)`);
+      const pads = Array.isArray(r.pads) ? r.pads.map(Number) : null;
+      const minPadPx = pads ? Math.min(...pads) : Infinity;
+      const minPadRatio = pads ? Math.min(pads[0] / r.w, pads[2] / r.w, pads[1] / r.h, pads[3] / r.h) : 1;
+      const id = String(m.entry.id || '');
+      if (m.kind === 'core' && GAMEPLAY_OBJECT_LIKE.has(role)) {
+        if (minPadPx < 3 || minPadRatio < 0.012) {
+          errors.push(`${m.label} touches crop edge (pads=${pads?.join('/') || 'none'}) — likely clipped sliced asset`);
+        }
+        if (r.alphaFillRatio < 0.58) {
+          errors.push(`${m.label} looks hollow/over-transparent inside bbox (alphaFillRatio=${r.alphaFillRatio})`);
+        }
+        if (r.semiratio > 0.28) {
+          errors.push(`${m.label} has excessive semi-transparent residue (semiratio=${r.semiratio})`);
+        }
+        if (r.compSmallRatio > 0.05) {
+          errors.push(`${m.label} has detached alpha fragments (compSmallRatio=${r.compSmallRatio}, components=${r.compCount})`);
+        }
+      }
+      if (/stamp|result|warning|warn|badge/i.test(id)) {
+        const aspect = r.w / Math.max(1, r.h);
+        if (aspect < 0.78 || aspect > 1.28) {
+          errors.push(`${m.label} result/warning stamp is not square enough (${r.w}x${r.h})`);
+        }
+        if (minPadRatio < 0.035) {
+          errors.push(`${m.label} result/warning stamp padding too small (pads=${pads?.join('/') || 'none'}) — likely clipped icon`);
+        }
+      }
+      if (role === 'ui-panel' && minPadRatio < 0.006) {
+        errors.push(`${m.label} UI panel touches crop edge (pads=${pads?.join('/') || 'none'}) — panel border may clip/vanish in-scene`);
+      }
     }
   }
 

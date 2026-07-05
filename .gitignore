@@ -5,3 +5,6 @@ dist/
 tmp_game_*.png
 
 .tmp_audio_build/
+
+# Playwright/QA 테스트 산출물·서버 로그 (재생성 가능, 히스토리에 넣지 않음)
+output/

@@ -8,6 +8,7 @@ const workspaceRoot = path.resolve(__dirname, '..', '..');
 const productionDemoQa = path.join(__dirname, 'production-demo-qa.mjs');
 const visualLayoutQa = path.join(__dirname, 'visual-layout-qa.mjs');
 const imageQualityQa = path.join(__dirname, 'image-quality-qa.mjs');
+const sceneCompositeQa = path.join(__dirname, 'scene-composite-qa.mjs');
 
 function usage() {
   console.log(`Usage:
@@ -17,11 +18,13 @@ function usage() {
 Runs:
   1. factory:qa foundation gate
   2. production-demo-qa asset/docs/manifest contract gate
-  3. visual-layout-qa browser overlap/safe-area gate
+  3. image-quality-qa role-aware pixel/alpha gate
+  4. visual-layout-qa browser overlap/safe-area gate
+  5. scene-composite-qa rendered art-direction gate
 
 Selected options are routed to the gate that understands them:
   --require-gpt-imagegen/--require-imagegen-skill -> production-demo-qa only
-  --port/--viewports/--safe-margin/--aspect-tolerance -> visual-layout-qa only`);
+  --port/--viewports/--safe-margin/--aspect-tolerance -> browser visual gates`);
 }
 
 function npmCommand() {
@@ -36,19 +39,31 @@ function run(cmd, args, opts = {}) {
 function splitArgs(argv) {
   const productionArgs = [];
   const visualArgs = [];
+  const sceneArgs = [];
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--project') {
       const value = argv[++i];
       productionArgs.push(a, value);
       visualArgs.push(a, value);
+      sceneArgs.push(a, value);
     } else if (a === '--min-stage-backgrounds') {
       productionArgs.push(a, argv[++i]);
     } else if (a === '--allow-svg-backgrounds') {
       productionArgs.push(a);
     } else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill' || a === '--require-gpt-image2-skill' || a === '--require-gpt-image2') {
       productionArgs.push(a);
-    } else if (['--port', '--viewports', '--safe-margin', '--aspect-tolerance'].includes(a)) {
+    } else if (a === '--port') {
+      const value = argv[++i];
+      visualArgs.push(a, value);
+      // Keep scene-composite on a neighboring port so both gates can be run independently.
+      const n = Number(value);
+      sceneArgs.push(a, Number.isFinite(n) ? String(n + 1) : value);
+    } else if (a === '--viewports') {
+      const value = argv[++i];
+      visualArgs.push(a, value);
+      sceneArgs.push(a, value);
+    } else if (['--safe-margin', '--aspect-tolerance'].includes(a)) {
       visualArgs.push(a, argv[++i]);
     } else if (a === '--allow-missing-registry' || a === '--keep-server') {
       visualArgs.push(a);
@@ -56,7 +71,7 @@ function splitArgs(argv) {
       throw new Error(`Unknown production-gate argument: ${a}`);
     }
   }
-  return { productionArgs, visualArgs };
+  return { productionArgs, visualArgs, sceneArgs };
 }
 
 const args = process.argv.slice(2);
@@ -89,3 +104,4 @@ run(process.execPath, [productionDemoQa, ...prodArgs], { cwd: workspaceRoot });
 const projIdx = split.productionArgs.indexOf('--project');
 run(process.execPath, [imageQualityQa, '--project', split.productionArgs[projIdx + 1]], { cwd: workspaceRoot });
 run(process.execPath, [visualLayoutQa, ...split.visualArgs], { cwd: workspaceRoot });
+run(process.execPath, [sceneCompositeQa, ...split.sceneArgs], { cwd: workspaceRoot });
