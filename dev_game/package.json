@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "factory:make": "node generator/scripts/make-game.mjs",
     "factory:validate": "node generator/src/cli.mjs --validate-only --spec generator/examples/poop-dodge.spec.json",
     "factory:dry-run": "node generator/src/cli.mjs --dry-run --spec generator/examples/poop-dodge.spec.json --out generated/poop-dodge-demo",
     "factory:smoke": "node generator/scripts/smoke-generate.mjs",

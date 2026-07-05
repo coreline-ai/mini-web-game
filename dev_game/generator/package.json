@@ -8,6 +8,7 @@
     "dev-game": "src/cli.mjs"
   },
   "scripts": {
+    "make": "node scripts/make-game.mjs",
     "validate": "node src/cli.mjs --validate-only --spec examples/poop-dodge.spec.json",
     "dry-run": "node src/cli.mjs --dry-run --spec examples/poop-dodge.spec.json --out ../generated/poop-dodge-demo",
     "smoke": "node scripts/smoke-generate.mjs",

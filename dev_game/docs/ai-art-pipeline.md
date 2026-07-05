@@ -2,6 +2,21 @@
 
 `dev_game`가 "고품질 1차 프로덕션급 데모"를 실제로 **생산**하는 핵심 단계다. 게이트(`production-demo-qa`)가 검사만 하던 것을, 이 파이프라인이 진짜 AI 아트로 채운다.
 
+## 한 번에 만들기 (make-game) — 권장
+
+아이디어/스펙 하나로 스캐폴드→기획문서→AI 아트→검증까지 한 명령에 끝낸다:
+
+```bash
+# 스펙으로
+npm --prefix dev_game run factory:make -- --spec generator/examples/poop-dodge.spec.json --out dev_game/generated/poop-dodge
+# 이름만으로 (기본 스펙 + AI 아트)
+npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/generated/meteor-dash
+
+# 옵션: --stages N | --skip-art(구조만) | --gate none|demo|full | --with-pwa | --no-sfx
+```
+
+`make-game.mjs`가 아래 4단계를 순서대로 실행하고, 각 단계 실패 시 중단한다. 세부 제어가 필요하면 아래 개별 스크립트를 직접 쓴다.
+
 ## 전체 흐름
 
 ```
@@ -38,7 +53,7 @@
 
 cli.mjs가 생성하는 모든 게임은 아래를 **기본 포함**한다(단일 스프라이트만으로도 "살아있는" 느낌):
 
-- **플레이어 이동 피드백(필수):** 이동 시 진행 방향으로 기울기(±16°, 속도 비례) + 부드러운 부양 바운스, 정지 시 원위치. 스프라이트시트 없이 단일 이미지로 이동 애니 효과를 낸다.
+- **플레이어 이동 애니(필수):** AI 4프레임 가로 스프라이트시트(런/호버 사이클)를 Phaser `player_run` 애니로 재생 — 이동 시 프레임 순환 + 진행 방향 기울기(±16°) + 부양 바운스, 정지 시 프레임0 복귀. (스프라이트시트가 없으면 기울기·바운스만으로 폴백.) 정적 스프라이트 금지.
 - **Juice:** 피격 화면 흔들림·플래시, 획득/피격 시 AI FX 버스트(fx_collect/fx_hit).
 - **StageManager:** 난이도 레벨↑에 따라 스테이지 배경 크로스페이드 전환.
 - **버튼 피드백:** 누름 시 살짝 축소 후 복귀. AI 프레임 버튼은 `setDisplaySize`로 크기를 유지해야 하며, `setScale` 절대값을 쓰면 텍스처 원본 크기로 튀므로 금지.
