@@ -4,7 +4,13 @@
 
 **중요:** 이 영역의 목표는 단순 실행 데모가 아니라 **고품질 1차 프로덕션급 데모**입니다. Foundation starter는 출발점일 뿐이며, 완료 판정은 `production-demo-qa --require-gpt-imagegen`와 `visual-layout-qa`까지 통과해야 합니다. 공통 런타임 에셋을 재사용하지 않습니다. 새 게임의 이미지/오디오/배경은 항상 해당 게임 전용으로 신규 생성해 generated 프로젝트 내부에 포함합니다. 이미지는 Codex `imagegen` 스킬 built-in 경로를 사용합니다.
 
-> ⚠️ **이미지는 Claude가 아니라 Codex가 만든다.** Claude(에이전트)에는 네이티브 이미지 생성 도구가 없어, 단독 산출물은 플레이스홀더(**2D/저품질**)에 그친다. 원본("Don't Get Pooped!") 수준의 **3D 글로시 카툰 프로덕션 에셋**은 **Codex 내장 `image_gen`**(ChatGPT 인증, API 키 불필요)으로만 나온다. → **완성도 높은 게임 = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).** Codex 단계를 건너뛰면 `image-quality-qa` 게이트(고주파 hf 상한·해상도·색수)에서 FAIL한다. 자세히: [`docs/ai-art-pipeline.md`](docs/ai-art-pipeline.md).
+> ⚠️ **게임 완성도 티어 — 무엇으로 개발하나.** Claude(에이전트)에는 네이티브 이미지 생성 도구가 없다. 프로덕션급 이미지 에셋은 **Codex 내장 `image_gen`**(ChatGPT 인증, API 키 불필요)으로만 나온다.
+>
+> - **⭐ 추천 — Codex 전용 개발 → 프로덕션 MVP (최고 완성도):** 게임 코드와 프로덕션 이미지를 모두 Codex 한 환경에서 네이티브로 생산. 크로스툴 핸드오프가 없어 완성도가 가장 높다. 아트 완성도 최우선이면 이 경로.
+> - **완성도 높은 게임 (하이브리드) = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
+> - **Claude 단독 = 2D 플레이스홀더 / 저품질 (비추천).** Codex 단계를 건너뛰면 `image-quality-qa`에서 FAIL.
+>
+> 자세히: [`docs/ai-art-pipeline.md`](docs/ai-art-pipeline.md).
 
 <!-- -->
 

@@ -18,21 +18,26 @@ Archetype is not the limit of what can be made.
 Archetype is only a reference pattern to start faster.
 ```
 
-## 이미지 에셋: Claude(2D) vs Codex(프로덕션급) — 명확한 구분 (필독)
+## 게임 완성도 티어 — 무엇으로 개발하나 (필독)
 
-**Claude(이 에이전트)에는 네이티브 이미지 생성 도구가 없다.** Claude 단독으로 만든 게임 아트는
-절차적 PNG·SVG·코드 도형 수준의 플레이스홀더(플랫한 **2D / 저품질**)에 머문다. Claude가 담당하는 것은
-게임 로직·시스템·씬·물리·경제·오케스트레이션·QA, 그리고 **아트 프롬프트 작성**이다.
+**전제:** Claude(이 에이전트)에는 네이티브 이미지 생성 도구가 없다. 프로덕션급 이미지 에셋은 Codex의
+내장 `image_gen`(= `codex exec` → `.system/imagegen`, ChatGPT 로그인 인증, OpenAI API 키 불필요)으로만
+나온다. 본 게임("Don't Get Pooped!") 수준의 **3D 글로시 모바일 카툰**은 이 경로 전용이다.
 
-**프로덕션급 이미지 에셋은 Codex의 내장 `image_gen` 도구로 생성한다** — `codex exec` → `.system/imagegen`
-스킬, ChatGPT 로그인 인증, OpenAI API 키 불필요. 본 게임("Don't Get Pooped!") 수준의 **3D 글로시
-모바일 카툰** 화풍은 이 경로로만 나온다. (모델 버전은 내장 도구가 노출하지 않아 opaque이며, 원본은
-마젠타 크로마키 위에 생성 후 로컬에서 배경 제거·리사이즈한다.)
+> ### ⭐ 추천 — Codex 전용으로 게임 개발 → 프로덕션 MVP (최고 완성도)
+>
+> 게임 코드와 프로덕션급 이미지 에셋을 **모두 Codex 한 환경에서 네이티브로 생산**한다. 코드 작성과
+> 내장 `image_gen` 이미지 생성이 같은 도구 안에서 이어져 **크로스툴 핸드오프가 없고**, 가장 높은 완성도의
+> **프로덕션 MVP**가 나온다. 아트 완성도를 최우선으로 한다면 이 경로를 권장한다.
 
-> **완성도 높은 게임 = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
-> Codex `image_gen` 단계를 건너뛰면(`--skip-art` 또는 codex 미가용) 결과물은 플레이스홀더 2D 품질에
-> 머물고, `factory:image-quality-qa`(고주파 hf 상한·해상도·색수) 게이트에서 FAIL하여 production-demo로
-> 출시할 수 없다. 아트 방향은 `productionize`의 `ART_BIBLE`(3D 글로시 카툰 강제)이 모든 프롬프트에 주입한다.
+**완성도 높은 게임 (하이브리드) = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
+Claude가 게임 로직·시스템·물리·경제·QA·오케스트레이션과 **아트 프롬프트 작성**을 맡고, 실제 프로덕션
+픽셀은 Codex `image_gen`이 채운다.
+
+**Claude 단독 = 플레이스홀더(플랫 2D / 저품질) — 비추천.** 절차적 PNG·SVG·코드 도형 수준에 그친다.
+Codex `image_gen` 단계를 건너뛰면(`--skip-art` 또는 codex 미가용) `factory:image-quality-qa`(provenance·
+해상도·색수·고주파 hf 상한) 게이트에서 **FAIL**하여 production-demo로 출시할 수 없다. 아트 방향은
+`productionize`의 `ART_BIBLE`(3D 글로시 카툰 강제)이 모든 프롬프트에 주입한다.
 
 If the user's idea does not fit an existing pattern, do not force it into the dodge starter. Design a custom loop and implement game-specific systems.
 
