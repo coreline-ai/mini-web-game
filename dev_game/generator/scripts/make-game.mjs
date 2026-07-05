@@ -75,15 +75,18 @@ function main() {
   if (args.help) { usage(); process.exit(0); }
 
   const node = process.execPath;
+  // derive the game id (production-demo-qa requires out-dir basename === spec.game.id)
+  let id = 'new-game';
+  if (args.spec) { try { id = JSON.parse(fs.readFileSync(path.resolve(args.spec), 'utf8'))?.game?.id || id; } catch {} }
+  else if (args.name) id = String(args.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || id;
+
   // resolve output dir
-  let out = args.out;
-  if (!out) {
-    let id = 'new-game';
-    if (args.spec) { try { id = JSON.parse(fs.readFileSync(path.resolve(args.spec), 'utf8'))?.game?.id || id; } catch {} }
-    else if (args.name) id = String(args.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || id;
-    out = path.join(DEFAULT_OUT_ROOT, id);
+  let out = args.out ? path.resolve(args.out) : path.join(DEFAULT_OUT_ROOT, id);
+  if (path.basename(out) !== id) {
+    const fixed = path.join(path.dirname(out), id);
+    console.log(`⚠ --out 폴더명 "${path.basename(out)}" ≠ game.id "${id}" — production-demo-qa가 일치를 요구하므로 ${fixed} 로 자동 조정합니다.`);
+    out = fixed;
   }
-  out = path.resolve(out);
 
   console.log(`make-game → ${out}`);
 
