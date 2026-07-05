@@ -333,7 +333,17 @@ import { SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constant
   files.set('src/game/ui/LoadingUI.js', `import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';\n\nexport default class LoadingUI {\n  constructor(scene) {\n    this.scene = scene;\n    const { width, height } = SPEC.canvas;\n    scene.add.rectangle(0, 0, width, height, 0x0b1024).setOrigin(0);\n    this.title = scene.add.text(width / 2, height * 0.34, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '34px', color: '#ffffff', align: 'center', stroke: '#000000', strokeThickness: 5 }).setOrigin(0.5);\n    this.tip = scene.add.text(width / 2, height * 0.47, 'Loading assets...', { fontFamily: 'Arial', fontSize: '16px', color: '#b9d7ff', align: 'center' }).setOrigin(0.5);\n    this.barBack = scene.add.rectangle(width / 2, height * 0.58, width * 0.72, 18, 0xffffff, 0.18).setOrigin(0.5);\n    this.bar = scene.add.rectangle(width * 0.14, height * 0.58, 4, 18, 0x39e98a, 1).setOrigin(0, 0.5);\n    this.percent = scene.add.text(width / 2, height * 0.63, '0%', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff' }).setOrigin(0.5);\n  }\n  setProgress(v) {\n    const { width } = SPEC.canvas;\n    const p = Phaser.Math.Clamp(v, 0, 1);\n    this.bar.width = Math.max(4, width * 0.72 * p);\n    this.percent.setText(Math.round(p * 100) + '%');\n  }\n}\n`);
 
-  files.set('src/game/ui/MobileButton.js', `export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58) {\n  const bg = scene.add.rectangle(x, y, width, height, 0x24cc58, 1).setStrokeStyle(3, 0xffffff, 0.8);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { bg.setScale(0.97); onClick?.(); });\n  bg.on('pointerup', () => bg.setScale(1));\n  bg.on('pointerout', () => bg.setScale(1));\n  return { bg, txt, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
+  files.set('src/game/ui/MobileButton.js', `export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58) {\n  const _k = 'btnui_' + width + 'x' + height;
+    if (!scene.textures.exists(_k)) {
+      const g = scene.make.graphics({ add: false });
+      const r = Math.min(22, height / 2);
+      g.fillStyle(0x0a3d1f, 1); g.fillRoundedRect(0, 0, width, height, r);
+      g.fillStyle(0x22b357, 1); g.fillRoundedRect(2, 2, width - 4, height - 6, r);
+      g.fillStyle(0x46e07e, 0.85); g.fillRoundedRect(4, 3, width - 8, Math.max(3, height * 0.42), r);
+      g.lineStyle(2.5, 0xffffff, 0.9); g.strokeRoundedRect(1, 1, width - 2, height - 2, r);
+      g.generateTexture(_k, width, height); g.destroy();
+    }
+    const bg = scene.add.image(x, y, _k);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { bg.setScale(0.97); onClick?.(); });\n  bg.on('pointerup', () => bg.setScale(1));\n  bg.on('pointerout', () => bg.setScale(1));\n  return { bg, txt, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
 
   files.set('src/game/systems/LayoutRegistry.js', `// Publishes visible UI bounds (in CSS/viewport pixels) to window.__GAME_LAYOUT_BOUNDS__
 // so visual-layout-qa can detect HUD overlap and safe-area violations.
