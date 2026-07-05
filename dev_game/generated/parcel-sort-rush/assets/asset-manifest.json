@@ -1,0 +1,1088 @@
+{
+  "assetsVersion": "2.1.0",
+  "qualityTier": "production-demo",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "parcel-sort-rush",
+    "noSharedRuntimeAssets": true,
+    "runtimeRoot": "assets/",
+    "forbidden": [
+      "root-project-assets",
+      "shared-assets",
+      "symlinks",
+      "copied-from-other-game"
+    ]
+  },
+  "imagePolicy": {
+    "allowedFormats": [
+      "png",
+      "webp",
+      "jpg",
+      "jpeg"
+    ],
+    "maxSpriteKB": 8192,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "ogg",
+      "wav",
+      "mp3"
+    ],
+    "maxSfxKB": 600,
+    "maxBgmKB": 4096,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "stageBackgrounds": [
+    {
+      "id": "warehouse_day",
+      "label": "warehouse day",
+      "path": "assets/images/production/backgrounds/warehouse_day.png",
+      "type": "stage-background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_day.png",
+        "cropBox": [
+          0,
+          0,
+          542,
+          968
+        ],
+        "promptHash": "0839e774b9597f0c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      },
+      "requiresAlpha": false
+    },
+    {
+      "id": "warehouse_night",
+      "label": "warehouse night",
+      "path": "assets/images/production/backgrounds/warehouse_night.png",
+      "type": "stage-background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_night.png",
+        "cropBox": [
+          1084,
+          0,
+          1625,
+          968
+        ],
+        "promptHash": "185136d8e31f0a0c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      },
+      "requiresAlpha": false
+    },
+    {
+      "id": "warehouse_rush",
+      "label": "warehouse rush",
+      "path": "assets/images/production/backgrounds/warehouse_rush.png",
+      "type": "stage-background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_rush.png",
+        "cropBox": [
+          542,
+          0,
+          1084,
+          968
+        ],
+        "promptHash": "8f4fad62ffe978d6",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      },
+      "requiresAlpha": false
+    }
+  ],
+  "images": [
+    {
+      "id": "warehouse_day",
+      "path": "assets/images/production/backgrounds/warehouse_day.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "requiresAlpha": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_day.png",
+        "cropBox": [
+          0,
+          0,
+          542,
+          968
+        ],
+        "promptHash": "0839e774b9597f0c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      }
+    },
+    {
+      "id": "warehouse_night",
+      "path": "assets/images/production/backgrounds/warehouse_night.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "requiresAlpha": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_night.png",
+        "cropBox": [
+          1084,
+          0,
+          1625,
+          968
+        ],
+        "promptHash": "185136d8e31f0a0c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      }
+    },
+    {
+      "id": "warehouse_rush",
+      "path": "assets/images/production/backgrounds/warehouse_rush.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "requiresAlpha": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/backgrounds_sheet.png",
+        "rawPath": "assets/imagegen/raw/backgrounds/warehouse_rush.png",
+        "cropBox": [
+          542,
+          0,
+          1084,
+          968
+        ],
+        "promptHash": "8f4fad62ffe978d6",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "cover"
+      }
+    },
+    {
+      "id": "parcel_cold",
+      "path": "assets/images/production/parcels/parcel_cold.png",
+      "type": "sprite",
+      "role": "parcel",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 230,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/parcels/parcel_cold.png",
+        "cropBox": [
+          344,
+          402,
+          665,
+          682
+        ],
+        "promptHash": "6b5a9a450455a868",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "parcel_fragile",
+      "path": "assets/images/production/parcels/parcel_fragile.png",
+      "type": "sprite",
+      "role": "parcel",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 230,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/parcels/parcel_fragile.png",
+        "cropBox": [
+          696,
+          390,
+          995,
+          675
+        ],
+        "promptHash": "72c39d73df198a6a",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "parcel_heavy",
+      "path": "assets/images/production/parcels/parcel_heavy.png",
+      "type": "sprite",
+      "role": "parcel",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 230,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/parcels/parcel_heavy.png",
+        "cropBox": [
+          696,
+          62,
+          980,
+          360
+        ],
+        "promptHash": "37bf43504a55e9fb",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "parcel_standard",
+      "path": "assets/images/production/parcels/parcel_standard.png",
+      "type": "sprite",
+      "role": "parcel",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 230,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/parcels/parcel_standard.png",
+        "cropBox": [
+          380,
+          102,
+          655,
+          336
+        ],
+        "promptHash": "4d4c9dd2067e92f6",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "chute_a",
+      "path": "assets/images/production/chutes/chute_a.png",
+      "type": "sprite",
+      "role": "sort-bin",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 360,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/chutes/chute_a.png",
+        "cropBox": [
+          45,
+          700,
+          252,
+          955
+        ],
+        "promptHash": "e1c7be4c024fc830",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "chute_b",
+      "path": "assets/images/production/chutes/chute_b.png",
+      "type": "sprite",
+      "role": "sort-bin",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 360,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/chutes/chute_b.png",
+        "cropBox": [
+          300,
+          700,
+          506,
+          955
+        ],
+        "promptHash": "daa08a93c62ee10e",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "chute_cold",
+      "path": "assets/images/production/chutes/chute_cold.png",
+      "type": "sprite",
+      "role": "sort-bin",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 360,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/chutes/chute_cold.png",
+        "cropBox": [
+          550,
+          700,
+          765,
+          955
+        ],
+        "promptHash": "bf454f8c5f73c7bb",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "chute_fragile",
+      "path": "assets/images/production/chutes/chute_fragile.png",
+      "type": "sprite",
+      "role": "sort-bin",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 360,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/chutes/chute_fragile.png",
+        "cropBox": [
+          800,
+          700,
+          1008,
+          955
+        ],
+        "promptHash": "d1fc122fe07bb2ef",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "conveyor_tile",
+      "path": "assets/images/production/machines/conveyor_tile.png",
+      "type": "texture",
+      "role": "conveyor",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 768,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/machines/conveyor_tile.png",
+        "cropBox": [
+          570,
+          1015,
+          1000,
+          1495
+        ],
+        "promptHash": "d3c631bf1a3a6a18",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "scanner_gate",
+      "path": "assets/images/production/machines/scanner_gate.png",
+      "type": "sprite",
+      "role": "scanner",
+      "quality": "production-demo",
+      "minWidth": 680,
+      "minHeight": 180,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/machines/scanner_gate.png",
+        "cropBox": [
+          50,
+          1020,
+          500,
+          1495
+        ],
+        "promptHash": "e40fb996c9a70e51",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "combo_perfect",
+      "path": "assets/images/production/feedback/combo_perfect.png",
+      "type": "sprite",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 360,
+      "minHeight": 160,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/feedback_sheet.png",
+        "rawPath": "assets/imagegen/raw/feedback/combo_perfect.png",
+        "cropBox": [
+          850,
+          30,
+          1235,
+          380
+        ],
+        "promptHash": "dfefdbc089e79e47",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "stamp_correct",
+      "path": "assets/images/production/feedback/stamp_correct.png",
+      "type": "sprite",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 300,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/feedback_sheet.png",
+        "rawPath": "assets/imagegen/raw/feedback/stamp_correct.png",
+        "cropBox": [
+          50,
+          70,
+          365,
+          375
+        ],
+        "promptHash": "adcd0b7d44eafaef",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "stamp_wrong",
+      "path": "assets/images/production/feedback/stamp_wrong.png",
+      "type": "sprite",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 300,
+      "minHeight": 300,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/feedback_sheet.png",
+        "rawPath": "assets/imagegen/raw/feedback/stamp_wrong.png",
+        "cropBox": [
+          445,
+          70,
+          765,
+          375
+        ],
+        "promptHash": "b9e8d92690b2af9d",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "button_home",
+      "path": "assets/images/production/ui/button_home.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 560,
+      "minHeight": 132,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/button_home.png",
+        "cropBox": [
+          52,
+          615,
+          502,
+          746
+        ],
+        "promptHash": "0726aa307e7ae785",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "button_pause",
+      "path": "assets/images/production/ui/button_pause.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 180,
+      "minHeight": 180,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/button_pause.png",
+        "cropBox": [
+          42,
+          52,
+          238,
+          242
+        ],
+        "promptHash": "80b551a04cc47df4",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "button_play",
+      "path": "assets/images/production/ui/button_play.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 620,
+      "minHeight": 144,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/button_play.png",
+        "cropBox": [
+          52,
+          279,
+          502,
+          424
+        ],
+        "promptHash": "c06d727060eb677f",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "button_resume",
+      "path": "assets/images/production/ui/button_resume.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 560,
+      "minHeight": 132,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/button_resume.png",
+        "cropBox": [
+          52,
+          454,
+          502,
+          586
+        ],
+        "promptHash": "14a83514f102cc88",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "button_sound",
+      "path": "assets/images/production/ui/button_sound.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 480,
+      "minHeight": 108,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/button_sound.png",
+        "cropBox": [
+          52,
+          775,
+          398,
+          899
+        ],
+        "promptHash": "ddaf45e62602f72b",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "hud_panel",
+      "path": "assets/images/production/ui/hud_panel.png",
+      "type": "sprite",
+      "role": "ui-panel",
+      "quality": "production-demo",
+      "minWidth": 620,
+      "minHeight": 190,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/hud_panel.png",
+        "cropBox": [
+          275,
+          52,
+          973,
+          244
+        ],
+        "promptHash": "5eb86daae718501c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "hud_panel_compact",
+      "path": "assets/images/production/ui/hud_panel_compact.png",
+      "type": "sprite",
+      "role": "ui-panel",
+      "quality": "production-demo",
+      "minWidth": 380,
+      "minHeight": 168,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/hud_panel_compact.png",
+        "cropBox": [
+          543,
+          281,
+          963,
+          422
+        ],
+        "promptHash": "1cb2ac5398dfc43f",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "panel_card",
+      "path": "assets/images/production/ui/panel_card.png",
+      "type": "sprite",
+      "role": "ui-panel",
+      "quality": "production-demo",
+      "minWidth": 470,
+      "minHeight": 282,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/panel_card.png",
+        "cropBox": [
+          543,
+          454,
+          963,
+          748
+        ],
+        "promptHash": "08579caf481d6a38",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "panel_gameover",
+      "path": "assets/images/production/ui/panel_gameover.png",
+      "type": "sprite",
+      "role": "ui-panel",
+      "quality": "production-demo",
+      "minWidth": 900,
+      "minHeight": 1080,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/panel_gameover.png",
+        "cropBox": [
+          432,
+          785,
+          960,
+          1480
+        ],
+        "promptHash": "205548e13c9b39fd",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "panel_modal",
+      "path": "assets/images/production/ui/panel_modal.png",
+      "type": "sprite",
+      "role": "ui-panel",
+      "quality": "production-demo",
+      "minWidth": 900,
+      "minHeight": 820,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/ui_sheet.png",
+        "rawPath": "assets/imagegen/raw/ui/panel_modal.png",
+        "cropBox": [
+          52,
+          932,
+          380,
+          1312
+        ],
+        "promptHash": "e7b70f06e540103c",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    },
+    {
+      "id": "player_supervisor",
+      "path": "assets/images/production/characters/player_supervisor.png",
+      "type": "sprite",
+      "role": "player",
+      "quality": "production-demo",
+      "minWidth": 360,
+      "minHeight": 520,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/integrate_gpt_imagegen_skill_sheets.py",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "sourceSheet": "assets/imagegen/sheets/sprites_sheet.png",
+        "rawPath": "assets/imagegen/raw/characters/player_supervisor.png",
+        "cropBox": [
+          32,
+          36,
+          315,
+          585
+        ],
+        "promptHash": "0709cc5bb7df4d2d",
+        "quality": "high",
+        "generatedAt": "2026-07-05T11:05:31+00:00",
+        "postprocess": "alpha"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "button_click",
+      "path": "assets/audio/production/ui/button_click.ogg",
+      "type": "ui",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 1000
+    },
+    {
+      "id": "parcel_miss_thud",
+      "path": "assets/audio/production/sfx/parcel_miss_thud.ogg",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 3000
+    },
+    {
+      "id": "rush_warning_alarm",
+      "path": "assets/audio/production/sfx/rush_warning_alarm.ogg",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 3000
+    },
+    {
+      "id": "shift_over_jingle",
+      "path": "assets/audio/production/sfx/shift_over_jingle.ogg",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 3000
+    },
+    {
+      "id": "sort_success_ding",
+      "path": "assets/audio/production/sfx/sort_success_ding.ogg",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 3000
+    },
+    {
+      "id": "sort_wrong_buzz",
+      "path": "assets/audio/production/sfx/sort_wrong_buzz.ogg",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "maxDurationMs": 3000
+    },
+    {
+      "id": "parcel_factory_loop",
+      "path": "assets/audio/production/music/parcel_factory_loop.ogg",
+      "type": "bgm",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "parcel-sort-rush",
+        "generator": "scripts/generate_production_assets.py",
+        "method": "procedural-local-fallback",
+        "generatedAt": "2026-07-05"
+      },
+      "loopable": true
+    }
+  ],
+  "imagegen": {
+    "model": "gpt-image-2",
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "requiredImageCount": 27,
+    "lastFullIntegrationAt": "2026-07-05T11:05:31+00:00",
+    "sheets": {
+      "ui": "assets/imagegen/sheets/ui_sheet.png",
+      "backgrounds": "assets/imagegen/sheets/backgrounds_sheet.png",
+      "sprites": "assets/imagegen/sheets/sprites_sheet.png",
+      "feedback": "assets/imagegen/sheets/feedback_sheet.png"
+    }
+  }
+}

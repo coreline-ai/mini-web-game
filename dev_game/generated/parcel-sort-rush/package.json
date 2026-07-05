@@ -1,0 +1,22 @@
+{
+  "name": "parcel-sort-rush",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "assets:imagegen:integrate-sheets": "python3 scripts/integrate_gpt_imagegen_skill_sheets.py",
+    "assets:imagegen:verify": "python3 scripts/verify_gpt_imagegen_assets.py"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
