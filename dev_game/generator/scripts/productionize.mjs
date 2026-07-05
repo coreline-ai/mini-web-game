@@ -332,10 +332,10 @@ function buildAssetPlan(spec, themes) {
     width: w,
     height: h,
     theme: t.name,
-    prompt: `Vertical mobile game background, ${w}x${h}, theme "${t.name}" for ${title}. ${styleGuide.mood}. Layered parallax depth, empty readable center/bottom for gameplay, no characters, no text, no UI. Cohesive with palette: ${styleGuide.palette}.`,
+    prompt: `Ultra-detailed vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. ${styleGuide.mood}. Render at the image tool's MAXIMUM native resolution (portrait, at least 1024x1536, larger is better) — do NOT shrink or fit to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: ${styleGuide.palette}.`,
   }));
   const sprites = [
-    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, prompt: `A HORIZONTAL SPRITE SHEET: exactly 4 equal-width cells in ONE row, each cell containing THE SAME ${title} hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${styleGuide.mood}.` },
+    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, frameSize: 512, prompt: `A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME ${title} hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${styleGuide.mood}.` },
     { id: 'hazard', role: 'hazard', path: 'assets/enemies/hazard.png', width: 256, height: 256, prompt: `Primary "${spec.hazards?.label || 'hazard'}" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, ${styleGuide.mood}.` },
     { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `"${spec.collectibles?.label || 'reward'}" pickup sprite, transparent, inviting/positive, distinct from hazard color, ${styleGuide.mood}.` },
   ];
