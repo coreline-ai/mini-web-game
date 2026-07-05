@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Factory"
-  short_description: "Create and QA mobile arcade game starters"
-  default_prompt: "Use $game-factory to create a new mobile portrait Phaser/Vite arcade game starter from my idea."
+  short_description: "Idea-first LLM game studio for high-quality first production-grade mobile/web demos"
+  default_prompt: "Use $game-factory to turn this game idea into a planned, implemented, and QA-verified Phaser/Vite high-quality first production-demo. Treat archetypes as references, not limits. Do not report completion until production-demo QA and visual-layout QA pass. Generate new per-game assets only; do not reuse shared/root runtime assets."

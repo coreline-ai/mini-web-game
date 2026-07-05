@@ -1,6 +1,20 @@
 # Automation Scope Proposals — Parallel Agent Findings
 
-> 목적: `dev_game` 자동 생성기를 현재 `Don't Get Pooped!` 수준의 게임 제작에만 맞추고, 목적을 벗어난 기능을 명확히 제외한다.
+> 목적: `dev_game` 자동 생성기를 단일 dodge 템플릿이 아니라, LLM이 아이디어를 기획·설계·구현·검증하는 게임 제작 파이프라인으로 확장하기 위한 자동화 범위를 정의한다.
+
+## 0. v2 자동화 방향
+
+현재 CLI는 검증 가능한 Foundation 생성기이며, 그 자체만으로 임의 장르를 완성하지 않는다. v2 자동화의 기준은 아래와 같다.
+
+| 원칙 | 내용 |
+|---|---|
+| Idea-first | 자연어 아이디어를 먼저 GDD/기술설계/QA 기준으로 변환 |
+| Archetype-as-reference | archetype은 제한이 아니라 참고 패턴 |
+| Custom gameplay allowed | 기존 패턴이 맞지 않으면 새 엔티티/시스템/씬을 생성 |
+| Spec-code traceability | 스펙에 적힌 기능은 실제 코드나 명시적 미지원 목록으로 연결 |
+| Quality gates | build 성공 외에 장르별 핵심 액션 smoke를 요구 |
+
+정적 CLI만으로 불가능한 판단은 LLM 에이전트가 담당한다. CLI는 공통 shell, 안전한 생성, manifest, QA 도구를 제공하고, LLM은 게임 고유 loop를 구현한다.
 
 ## 1. 자동 생성기 필수 CLI
 
@@ -8,7 +22,7 @@
 |---|---|
 | `--name` / `--title` | 프로젝트 ID와 화면 제목 생성 |
 | `--out` | 생성 위치 지정, 기본 `dev_game/generated/<game-id>` |
-| `--template arcade-vertical` | 범위를 모바일 세로형 아케이드 하나로 제한 |
+| `--template arcade-vertical` | 현재 공통 Foundation 생성용. 장르 제한으로 해석하지 않음 |
 | `--spec game-spec.json` | 게임 규칙/테마/난이도 입력 |
 | `--controls drag|tap-lane|swipe` | 한 손 조작 방식 선택 |
 | `--width` / `--height` | 기준 해상도 지정 |
@@ -70,12 +84,13 @@ assets/asset-manifest.json
 | 체크 | 기준 |
 |---|---|
 | 파일 존재 | manifest의 required image 100% 존재 |
-| 포맷 | starter는 SVG 허용, 실제 릴리즈는 PNG/WebP 권장 |
+| 포맷 | starter는 SVG 허용, production-demo 주요 에셋/배경은 PNG/WebP/JPG 강제 |
 | 해상도/터치 | UI 최소 44px, sprite 최소 64px 기준 |
 | 투명도 | sprite 계열은 alpha/투명 배경 필요 |
 | 빈 이미지 | 완전 투명/단색/깨진 이미지 REJECT |
 | 용량 | sprite 512KB 이하 권장 |
 | contact sheet | 사람이 최종 확인할 미리보기 생성 권장 |
+| production tier | `qualityTier: production-demo`, stageBackgrounds 3종, 주요 에셋 quality 필드 필수 |
 
 ### 오디오 QA
 
@@ -87,6 +102,15 @@ assets/asset-manifest.json
 | 무음 | 완전 무음 REJECT |
 | 클리핑 | peak 과도하면 FIX/REJECT |
 | 상태 제어 | home/pause/background에서 BGM pause/stop |
+
+### Production Demo 자동 게이트
+
+완료 보고용 자동화는 아래 두 스크립트를 추가로 실행한다.
+
+| 스크립트 | 실패로 잡아야 하는 것 |
+|---|---|
+| `factory:production-demo-qa` | 배경 3종 누락, SVG placeholder 주요 에셋, qualityTier 누락, 필수 문서 누락, layout registry 누락 |
+| `factory:visual-layout-qa` | canvas 치우침, HUD/버튼/텍스트 겹침, safe-area 밖 배치 |
 
 ## 5. 완료 검증
 

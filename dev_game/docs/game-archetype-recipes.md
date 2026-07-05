@@ -1,6 +1,23 @@
-# Game Archetype Recipes — 4 Reference Games → Reusable Production Tracks
+# Game Archetype Recipes — Reference Patterns, Not Limits
 
-> 목적: 레퍼런스 게임을 그대로 복제하지 않고, 그 구조를 재사용 가능한 “제작 레시피”로 변환한다. 각 레시피는 `게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포` 순서를 따른다.
+> 목적: 레퍼런스 게임을 그대로 복제하지 않고, 그 구조를 재사용 가능한 “제작 레시피”로 변환한다. 단, archetype은 가능한 게임의 한계가 아니라 빠르게 시작하기 위한 참고 패턴이다.
+
+## 0. 사용 원칙 — Archetype은 제한이 아니다
+
+```text
+Archetype은 가능한 게임의 한계가 아니다.
+Archetype은 빠르게 시작하기 위한 참고 패턴이다.
+```
+
+사용자의 아이디어가 아래 레시피와 맞지 않으면 억지로 끼워 넣지 않는다. 먼저 `llm-game-studio-pipeline.md`에 따라 핵심 재미와 조작을 분석하고, 필요한 경우 `custom-loop`로 새 구조를 설계한다.
+
+| 판단 | 처리 |
+|---|---|
+| 기존 레시피와 거의 동일 | 해당 레시피를 시작점으로 사용 |
+| 일부만 유사 | 공통 시스템만 차용하고 gameplay는 새로 구현 |
+| 전혀 다름 | 새 GDD/기술설계/QA를 작성하고 custom-loop로 제작 |
+
+완료 판정은 “해당 archetype 이름을 붙였는가”가 아니라 “아이디어의 핵심 액션이 실제 브라우저에서 동작하는가”로 한다.
 
 ## 1. 공통 제작 레시피
 

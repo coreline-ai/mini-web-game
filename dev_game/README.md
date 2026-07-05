@@ -1,6 +1,8 @@
 # dev_game — Game Production Template & Factory
 
-`dev_game`는 현재 `Don't Get Pooped!` 프로젝트 수준의 모바일 세로형 웹 아케이드 게임을 반복 제작하기 위한 **분리된 개발 템플릿/자동 생성기 영역**입니다.
+`dev_game`는 모바일/웹 게임을 반복 제작하기 위한 **LLM Game Studio형 개발 템플릿/자동 생성기 영역**입니다. 고정 archetype만 찍어내는 도구가 아니라, 아이디어를 기획·설계·구현·검증하는 제작 파이프라인입니다.
+
+**중요:** 이 영역의 목표는 단순 실행 데모가 아니라 **고품질 1차 프로덕션급 데모**입니다. Foundation starter는 출발점일 뿐이며, 완료 판정은 `production-demo-qa`와 `visual-layout-qa`까지 통과해야 합니다. 공통 런타임 에셋을 재사용하지 않습니다. 새 게임의 이미지/오디오/배경은 항상 해당 게임 전용으로 신규 생성해 generated 프로젝트 내부에 포함합니다.
 
 > 🤖 **Claude Code 스킬로 사용하기:** 이 팩토리는 프로젝트 스킬 [`.claude/skills/game-factory/SKILL.md`](../.claude/skills/game-factory/SKILL.md)로 연결되어 있습니다.
 > Claude Code에서 `/game-factory` 또는 "새 게임 만들어줘"라고 요청하면 컨셉 인터뷰 → 스펙 작성 → 생성 → QA → 확장까지 이 폴더의 생성기와 문서를 따라 자동 진행됩니다.
@@ -9,7 +11,9 @@
 
 | 경로 | 역할 |
 |---|---|
-| `docs/new-game-start-guide.md` | 신규 아이디어를 starter로 만들고 실제 프로젝트 형식으로 확장하는 절차 |
+| `docs/new-game-start-guide.md` | 아이디어 우선 신규 게임 제작 절차 |
+| `docs/llm-game-studio-pipeline.md` | LLM 게임 전문 개발팀형 기획→설계→구현→QA 파이프라인 |
+| `docs/production-demo-quality-contract.md` | 고품질 1차 프로덕션급 데모 강제 계약, 배경/에셋/UI QA 기준 |
 | `docs/game-production-template.md` | 게임 선정 → 시나리오 → 에셋 → 구현 → 테스트 → 배포 표준 프로세스 |
 | `docs/reference-analysis-4-games.md` | Crossy Road / Jetpack Joyride / Survivor.io / Super Hexagon 분석 |
 | `docs/game-archetype-recipes.md` | 레퍼런스 구조를 제작 레시피로 변환 |
@@ -44,6 +48,23 @@ npm run dev
 npm run build
 ```
 
+고품질 1차 프로덕션급 데모 완료 게이트:
+
+```bash
+npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id>
+```
+
+
+## Archetype 정책
+
+```text
+Archetype은 가능한 게임의 한계가 아니다.
+Archetype은 빠르게 시작하기 위한 참고 패턴이다.
+```
+
+고정 템플릿으로 맞지 않는 아이디어는 `docs/llm-game-studio-pipeline.md`에 따라 GDD와 기술설계를 먼저 만들고, 공통 shell만 재사용한 뒤 gameplay 시스템을 custom 구현합니다.
 
 ## 정식 검증 스크립트
 
@@ -53,21 +74,26 @@ npm run build
 | `npm run smoke` | starter 파일 생성, 필수 파일, Phaser import, 순환 import, `--no-sfx` 출력 검증 |
 | `npm run asset-qa` | 이미지 manifest, SVG 안전성/크기, WAV duration/peak/silence/용량, `--no-sfx` 오디오 미생성 검증 |
 | `npm run browser-smoke` | 생성 게임 install/build/preview 후 모바일 viewport에서 canvas 렌더와 PLAY 진입 검증 |
-| `npm run qa` | 위 검증을 모두 순서대로 실행 |
+| `npm run qa` | Foundation 검증 전체 실행. 이 명령만으로 production-demo 완료가 아님 |
+| `npm --prefix dev_game run factory:production-demo-qa -- --project <dir>` | `qualityTier`, stage backgrounds 3종, 주요 에셋 quality, 필수 문서, layout registry 계약 검증 |
+| `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir>` | Playwright로 390×844/430×932/1080×1920에서 canvas 중앙 정렬, UI safe-area, bounds overlap 검증 |
+| `npm --prefix dev_game run factory:production-gate -- --project <dir>` | `qa` + `production-demo-qa` + `visual-layout-qa` 통합 완료 게이트 |
 
 `browser-smoke`는 Playwright를 사용하므로 처음에는 `npm --prefix dev_game install` 후 실행합니다.
 
 ## 범위 제한
 
-이 factory는 `Don't Get Pooped!`급 MVP를 빠르게 만드는 것이 목적입니다.
+이 factory의 목표는 자연어 게임 아이디어를 **고품질 1차 프로덕션급 데모** 수준의 작은 웹 게임으로 만드는 것입니다. 기존 archetype은 가능한 게임의 한계가 아니라 빠르게 시작하기 위한 참고 패턴입니다.
 
 포함:
 
 - Phaser/Vite 2D 모바일 portrait starter
 - Boot/Loading/Home/Game/Pause/GameOver
-- 한 손 조작, 낙하 장애물, 수집물, 점수, 최고점 저장
-- 기본 이미지/사운드 플레이스홀더
-- 에셋/오디오 QA 기준 문서 + 자동 검사 스크립트
+- 공통 Foundation: Boot/Loading/Home/Game/Pause/GameOver
+- 아이디어 분석용 GDD/기술설계/QA 문서화 흐름
+- 기존 archetype 참고 + 필요 시 custom-loop 구현
+- 게임별 신규 생성 에셋, production-demo 배경/주요 에셋 manifest 계약과 에셋/오디오 QA 기준
+- build/browser smoke, 장르별 gameplay smoke, production-demo QA, visual-layout QA 기준
 
 제외:
 
@@ -79,7 +105,7 @@ npm run build
 
 ## CI
 
-`.github/workflows/dev-game-factory.yml`에서 `dev_game` 변경 시 `npm --prefix dev_game run factory:qa`를 실행합니다. Playwright Chromium도 CI에서 명시적으로 설치합니다.
+`.github/workflows/dev-game-factory.yml`에서 `dev_game` 변경 시 `npm --prefix dev_game run factory:qa`를 실행합니다. 개별 게임을 완료 보고할 때는 별도로 `factory:production-gate -- --project ...`를 실행해야 합니다. Playwright Chromium도 CI에서 명시적으로 설치합니다.
 
 ## Game Factory Skill 설치
 

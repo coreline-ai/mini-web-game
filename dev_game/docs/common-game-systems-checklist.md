@@ -79,6 +79,21 @@ P0 Foundation은 아래가 모두 되어야 “구현 시작 가능”으로 본
 - [ ] `npm run browser-smoke`로 실제 브라우저 canvas 렌더/PLAY 진입 통과
 - [ ] 로딩/홈/게임/게임오버 smoke flow 통과
 
+## 4.1 Production Demo 강제 완료 기준
+
+Foundation QA는 “구현 시작 가능” 기준이다. 새 게임을 완료 보고하려면 추가로 아래가 필요하다.
+
+- [ ] `assets/asset-manifest.json`에 `qualityTier: "production-demo"`
+- [ ] `assetIsolation.mode: "per-game"`, `generatedFor: <game-id>`, `noSharedRuntimeAssets: true`
+- [ ] 모든 런타임 에셋이 해당 게임 폴더의 `assets/**` 안에 있고 symlink가 아님
+- [ ] 모든 manifest entry에 `provenance.source: "generated-for-game"`
+- [ ] `stageBackgrounds` 3종 이상, PNG/WebP/JPG, canvas 기준 크기 이상
+- [ ] 주요 gameplay 에셋(`player`, `hazard`, `obstacle`, `collectible`, `enemy`, `boss`, `sort-bin` 등)에 `quality: "production-demo"`
+- [ ] 핵심 배경/플레이 에셋이 SVG placeholder가 아님
+- [ ] runtime에서 `window.__GAME_LAYOUT_BOUNDS__`를 노출
+- [ ] `factory:production-demo-qa` 통과
+- [ ] `factory:visual-layout-qa` 통과
+
 ## 5. 자동 QA 스크립트 표준
 
 | 명령 | 자동 확인 항목 | 실패 예시 |
@@ -86,6 +101,24 @@ P0 Foundation은 아래가 모두 되어야 “구현 시작 가능”으로 본
 | `npm run smoke` | 생성 파일 목록, Phaser import, config 순환 import 방지, normal/`--no-sfx` 출력, force 삭제 안전성, invalid spec 실패 경로 | Scene이 `Phaser.Scene`을 쓰지만 import 없음 |
 | `npm run asset-qa` | manifest 파일 존재, SVG viewBox/외부 리소스/스크립트, sprite 용량, WAV duration/peak/silence, audio disabled 일관성 | `--no-sfx`인데 WAV가 생성됨 |
 | `npm run browser-smoke` | generated app install/build/preview, 모바일 viewport canvas 생성, PLAY 클릭 후 console/page error 없음 | 순환 import로 canvas가 안 뜸 |
-| `npm run qa` | 위 검증 전체 실행 | 릴리즈 전 통합 게이트 실패 |
+| `npm run qa` | Foundation 검증 전체 실행 | 릴리즈 전 통합 게이트 실패 |
+| `npm --prefix dev_game run factory:production-demo-qa -- --project <dir>` | qualityTier, per-game asset isolation, stageBackgrounds, 주요 에셋 quality/provenance, 필수 문서, layout registry 계약 | 공통 에셋 참조, 배경 3종 누락, 핵심 에셋 SVG placeholder |
+| `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir>` | 실제 브라우저 viewport별 canvas 중앙 정렬, safe-area, UI overlap | pause 버튼과 HUD 텍스트 겹침 |
+| `npm --prefix dev_game run factory:production-gate -- --project <dir>` | Foundation + production-demo + visual-layout 전체 완료 게이트 | production-demo 완료 보고 불가 |
 
 문서 기준은 사람이 확인할 항목을 정의하고, 위 스크립트는 반복 가능한 최소 자동 검증을 담당한다. 둘 중 하나만 있으면 부족하며, 신규 게임 템플릿에는 둘 다 포함한다.
+
+## 6. 장르/아이디어별 Gameplay Smoke 기준
+
+공통 Foundation QA가 통과해도 게임이 완성된 것은 아니다. 신규 아이디어 게임은 `llm-game-studio-pipeline.md`의 판단에 따라 장르별 smoke를 추가해야 한다.
+
+| 체크 | 통과 기준 |
+|---|---|
+| Core input | 사용자의 핵심 입력이 좌표/상태/판정에 실제 영향을 줌 |
+| Core loop | 30초 안에 위험/행동/보상/실패 또는 재시작 루프가 보임 |
+| Genre identity | 해당 게임을 설명하는 고유 시스템이 런타임에서 동작 |
+| Feedback | 성공/실패/보상/위험이 시각·사운드로 구분됨 |
+| Fairness | 랜덤 즉사나 읽을 수 없는 위험이 MVP 기본값으로 나오지 않음 |
+| Not a reskin | 기존 starter의 이름/에셋만 바꾼 상태가 아님 |
+
+예: 레이싱 게임이면 도로 스크롤, 차선/차량 움직임, 속도감, 니트로/충돌이 smoke 대상이어야 한다. 단순 낙하물 회피에 자동차 이미지만 얹으면 실패다.

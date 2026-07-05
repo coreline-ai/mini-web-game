@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "parcel-sort-rush",
+    "title": "Parcel Sort Rush",
+    "description": "A one-hand parcel factory sorting game: drag incoming packages to the correct destination chute before the conveyor overwhelms the dock.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "backgroundColor": "#101923",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 900,
+    "hitbox": {
+      "width": 96,
+      "height": 96
+    }
+  },
+  "hazards": {
+    "type": "sorting-pressure",
+    "label": "Incoming Parcels",
+    "spawnRateStart": 1250,
+    "spawnRateMax": 420,
+    "fallSpeedStart": 210,
+    "fallSpeedMax": 680,
+    "damage": 1,
+    "poolSize": 96
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Correct Sort",
+    "spawnRate": 0.2,
+    "scoreValue": 100
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 4,
+    "collectiblePoints": 100,
+    "highScoreLocalStorageKey": "parcel_sort_rush_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 18,
+    "maxLevel": 16
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "warehouse-sort",
+    "colors": {
+      "background": "#101923",
+      "player": "#ffb84a",
+      "hazard": "#b8793b",
+      "collectible": "#38e88b",
+      "ui": "#f7fbff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "sorting": {
+    "decision": "custom-loop",
+    "lives": 3,
+    "conveyor": {
+      "x": 540,
+      "topY": 390,
+      "gateY": 1250,
+      "missY": 1510,
+      "speedStart": 210,
+      "speedMax": 680,
+      "spawnStartMs": 1250,
+      "spawnMinMs": 420
+    },
+    "bins": [
+      {
+        "id": "north",
+        "label": "A권역",
+        "short": "A",
+        "color": "#3ca7ff",
+        "x": 165,
+        "y": 1665
+      },
+      {
+        "id": "south",
+        "label": "B권역",
+        "short": "B",
+        "color": "#39d98a",
+        "x": 415,
+        "y": 1665
+      },
+      {
+        "id": "cold",
+        "label": "냉장",
+        "short": "COLD",
+        "color": "#44e6ff",
+        "x": 665,
+        "y": 1665
+      },
+      {
+        "id": "fragile",
+        "label": "취급주의",
+        "short": "FRAG",
+        "color": "#ff8b42",
+        "x": 915,
+        "y": 1665
+      }
+    ],
+    "parcelTypes": [
+      {
+        "id": "north",
+        "label": "A권역",
+        "icon": "A",
+        "color": "#3ca7ff",
+        "weight": 32
+      },
+      {
+        "id": "south",
+        "label": "B권역",
+        "icon": "B",
+        "color": "#39d98a",
+        "weight": 30
+      },
+      {
+        "id": "cold",
+        "label": "냉장",
+        "icon": "❄",
+        "color": "#44e6ff",
+        "weight": 22
+      },
+      {
+        "id": "fragile",
+        "label": "취급주의",
+        "icon": "!",
+        "color": "#ff8b42",
+        "weight": 16
+      }
+    ],
+    "scoring": {
+      "correct": 100,
+      "comboStep": 8,
+      "perfectStreak": 10,
+      "wrongPenalty": 1,
+      "missPenalty": 1
+    },
+    "events": {
+      "rushEverySeconds": 35,
+      "rushDurationSeconds": 8,
+      "rushSpawnMultiplier": 0.62,
+      "rushSpeedMultiplier": 1.22
+    }
+  }
+}

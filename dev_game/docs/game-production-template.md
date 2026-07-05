@@ -1,6 +1,26 @@
 # Game Production Template — Concept → Scenario → Assets → Build → Test → Deploy
 
-> 목적: `Don't Get Pooped!`처럼 작은 모바일/웹 아케이드 게임을 반복 제작할 수 있도록, 아이디어 선정부터 배포/운영까지의 과정을 표준화한다.
+> 목적: 임의의 작은 모바일/웹 게임 아이디어를 LLM 게임 전문 개발팀 방식으로 기획·설계·구현·검증할 수 있도록, 아이디어 선정부터 배포/운영까지의 과정을 표준화한다.
+
+## 0. 제작 철학 — 아이디어가 먼저, archetype은 참고
+
+`dev_game`은 몇 가지 고정 장르만 찍어내는 도구가 아니다. 사용자가 자연어로 던진 아이디어를 먼저 게임 디렉터 관점에서 해석하고, 기존 archetype이 맞으면 빠르게 출발점으로 사용하며, 맞지 않으면 새 게임 루프를 설계한다.
+
+완료 기준은 “템플릿이 생성되었는가”가 아니라 “해당 아이디어의 핵심 재미가 실제 플레이에서 검증되었는가”이다.
+
+권장 세부 절차는 [`llm-game-studio-pipeline.md`](llm-game-studio-pipeline.md)를 따른다.
+
+## 0.1 Production Demo Quality Contract
+
+이 템플릿의 완료 목표는 단순 데모가 아니라 **고품질 1차 프로덕션급 데모**다. 세부 강제 기준은 [`production-demo-quality-contract.md`](production-demo-quality-contract.md)를 따른다.
+
+필수 완료 게이트:
+
+```bash
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id>
+```
+
+`factory:qa`만 통과한 Foundation starter는 완료물이 아니라 구현 출발점이다. production-demo 완료 전에는 stage/theme 배경 3종, 주요 에셋 quality 필드, per-game asset isolation, layout bounds registry, UI overlap 검증이 필요하다. 공통 에셋 풀은 두지 않는다. 새 게임의 런타임 에셋은 항상 해당 게임 전용으로 신규 생성한다.
 
 ## 1. 왜 이 템플릿이 필요한가
 
@@ -30,7 +50,7 @@
 |---|---|---|---|
 | 0 | 게임 정하기 | 레퍼런스/시장 분석, 타깃 플레이어, 차별점 | “비슷한 게임”과 비교해야 중복/약점을 줄일 수 있음 |
 | 1 | 시나리오 만들기 | 30초 코어 루프, 조작 검증, 실패/보상 루프 | 시나리오보다 먼저 “재미가 반복되는가”를 검증해야 함 |
-| 2 | 시나리오에 맞는 에셋 | 아트 디렉션, 스타일가이드, 에셋 목록, 네이밍 규칙, 라이선스 | 에셋 품질/일관성이 게임 품질을 좌우함 |
+| 2 | 시나리오에 맞는 신규 에셋 | 아트 디렉션, 스타일가이드, 게임별 에셋 목록, 네이밍 규칙, 라이선스/생성 출처 | 에셋 품질/일관성/독립성이 게임 품질을 좌우함 |
 | 3 | 구현 시작 | 기술 선택, 상태 흐름, 데이터 스키마, 저장/세이브, CI | 구현 중 구조가 흔들리지 않게 함 |
 | 4 | 테스트 | 자동 빌드, 수동 QA 시나리오, 성능/FPS/메모리, 모바일 화면 검증 | “실행됨”과 “플레이 가능함”은 다름 |
 | 5 | 배포 | 배포 환경, 버전, 릴리즈 노트, 롤백, 스토어/웹 메타 | 외부 유저에게 안정적으로 전달해야 함 |
@@ -90,11 +110,12 @@
 
 완료 조건:
 - 모든 에셋에 사용처가 있음
-- 배경은 기준 해상도와 일치함
+- 배경은 기준 해상도 이상이며 stage/theme 최소 3종 존재함
+- 에셋은 기존 프로젝트/다른 게임을 참조하지 않고 해당 게임 패키지 안에 독립 존재함
 - UI와 게임 오브젝트 스타일이 섞이지 않음
 - OGG/PNG/SVG 등 런타임 포맷이 결정됨
-- 이미지 에셋은 Asset QA Gate를 통과함
-- 사운드 에셋은 Audio QA Gate를 통과함
+- 이미지 에셋은 Asset QA Gate와 Production Demo QA Gate를 통과함
+- 사운드 에셋은 Audio QA Gate를 통과하고 pause/home/background 상태 제어가 확인됨
 
 ### Phase 3.1 이미지 에셋 QA Gate
 
@@ -152,9 +173,9 @@ Audio QA 기준:
 | 상태 제어 | pause/home/background에서 음악 정지 또는 pause | runtime QA |
 | manifest | key/path/category/trigger/volume/duration 기록 | audio manifest 검사 |
 
-### Phase 3.3 공통 에셋 팩
+### Phase 3.3 게임별 필수 에셋 팩
 
-새 게임마다 최소한 아래 공통 에셋을 먼저 만든다.
+아래 항목은 파일을 공유하라는 뜻이 아니다. 새 게임마다 같은 종류의 역할 에셋을 **해당 게임 전용으로 신규 생성**한다. 런타임 공통 에셋 풀, 루트 에셋 참조, 다른 generated 게임 에셋 재사용은 금지한다.
 
 | 팩 | 포함 항목 |
 |---|---|
