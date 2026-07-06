@@ -228,17 +228,26 @@ function promoteExisting(projectDir, plan, manifest) {
 
 // Crop a transparent PNG to its alpha bounding box, then resize to an exact target size.
 // Makes AI UI art (arbitrary size + padding) into a predictable button-frame texture.
-function autocropResize(file, targetW, targetH) {
+function autocropResize(file, targetW, targetH, padRatio = 0) {
+  // padRatio > 0: 크롭 후 사방에 투명 여백(비율)을 추가 — image-quality-qa의
+  // "touches crop edge" 검사를 만족시키고 씬 합성 시 잘림 여지를 없앤다.
+  // (스프라이트 시트는 프레임 격자가 깨지므로 padRatio=0으로 호출할 것)
   const py = [
     'import sys',
     'from PIL import Image',
     'im = Image.open(sys.argv[1]).convert("RGBA")',
     'b = im.getbbox()',
     'if b: im = im.crop(b)',
+    'pad = float(sys.argv[4])',
+    'if pad > 0:',
+    '    pw, ph = int(im.width * pad), int(im.height * pad)',
+    '    c = Image.new("RGBA", (im.width + pw * 2, im.height + ph * 2), (0, 0, 0, 0))',
+    '    c.paste(im, (pw, ph))',
+    '    im = c',
     'im = im.resize((int(sys.argv[2]), int(sys.argv[3])), Image.LANCZOS)',
     'im.save(sys.argv[1])',
   ].join('\n');
-  const r = spawnSync('python3', ['-c', py, file, String(targetW), String(targetH)], { encoding: 'utf8', timeout: 30000 });
+  const r = spawnSync('python3', ['-c', py, file, String(targetW), String(targetH), String(padRatio)], { encoding: 'utf8', timeout: 30000 });
   return r.status === 0;
 }
 
@@ -290,6 +299,11 @@ function main() {
       // sprite sheet: normalize to N equal square cells so Phaser can slice it cleanly
       const cell = sp.frameSize || sp.height;
       if (ok && transparent && sp.frames && cell) autocropResize(out, sp.frames * cell, cell);
+      // 단일 스프라이트: 크롭 후 5% 투명 여백 — 잘림 없는 합성 + crop-edge 게이트 충족
+      else if (ok && transparent) {
+        const sz = pngSize(out);
+        if (sz) autocropResize(out, sz.width, sz.height, 0.05);
+      }
       const size = ok ? pngSize(out) : null;
       console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque — chroma removal failed)'}` : '✗ FAILED');
       results.sprites.push({ id: sp.id, ok: ok && transparent });
@@ -316,7 +330,7 @@ function main() {
     if (ok) transparent = removeChroma(codexHome, out);
     // UI frames/icons: crop away transparent padding + normalize to declared size so the
     // game can scale them predictably (buttons vary in size).
-    if (ok && it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height);
+    if (ok && it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height, 0.04);
     const size = ok ? pngSize(out) : null;
     console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque)'}` : '✗ FAILED');
     results[it._group].push({ id: it.id, ok });

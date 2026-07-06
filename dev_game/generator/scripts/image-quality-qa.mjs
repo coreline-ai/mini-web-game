@@ -46,7 +46,10 @@ const COLLECT_LIKE = new Set(['collectible', 'reward']);
 const T = {
   background: { minW: 1080, minH: 1920, colors: 8000, edge: 60, hfMax: 3.6 },
   core: { minSide: 256, colors: 3000, edge: 150, alpha: true, hfMax: 8.0 },
-  ui: { minSide: 96, colors: 1500, edge: 100, alpha: true, hfMax: 6.0 },
+  // ui hfMax 7.0: 소형(256²) 아이콘은 굵은 외곽선/림이 프레임 평균에서 차지하는 비율이 커서
+  // hf가 구조적으로 높게 측정된다 (실측: 대형 버튼 2.6-3.8 vs 깨끗한 256² 하트 6.2).
+  // 7.0은 이 오탐을 없애면서 페인터리/노이즈(9+)는 여전히 차단한다.
+  ui: { minSide: 96, colors: 1500, edge: 100, alpha: true, hfMax: 7.0 },
   fx: { minSide: 128, colors: 3000, edge: 200, alpha: true, hfMax: 6.0 },
   placeholder: { colors: 2000, edge: 60 },
 };
@@ -249,8 +252,13 @@ function main() {
         if (minPadPx < 3 || minPadRatio < 0.012) {
           errors.push(`${m.label} touches crop edge (pads=${pads?.join('/') || 'none'}) — likely clipped sliced asset`);
         }
-        if (r.alphaFillRatio < 0.58) {
-          errors.push(`${m.label} looks hollow/over-transparent inside bbox (alphaFillRatio=${r.alphaFillRatio})`);
+        // bbox 채움비 하한은 role-aware: 상자형 구조물(택배/차량/빈)은 속이 비면 결함이지만,
+        // 생물형(고블린 귀·팔다리 벌린 실루엣 ~0.35-0.45)과 투사체(화살 ~0.10-0.15)는
+        // 형태 특성상 채움비가 낮은 게 정상이다. (실측: goblin 0.44, shield-goblin 0.35, arrow 0.12)
+        const FILL_FLOOR = { projectile: 0.08, hazard: 0.28, enemy: 0.28, obstacle: 0.28, boss: 0.28, target: 0.28, item: 0.28, powerup: 0.28 };
+        const fillFloor = FILL_FLOOR[role] ?? 0.58;
+        if (r.alphaFillRatio < fillFloor) {
+          errors.push(`${m.label} looks hollow/over-transparent inside bbox (alphaFillRatio=${r.alphaFillRatio} < ${fillFloor})`);
         }
         if (r.semiratio > 0.28) {
           errors.push(`${m.label} has excessive semi-transparent residue (semiratio=${r.semiratio})`);

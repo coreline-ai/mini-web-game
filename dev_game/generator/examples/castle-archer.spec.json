@@ -1,0 +1,56 @@
+{
+  "game": {
+    "id": "castle-archer",
+    "title": "Castle Archer",
+    "shortName": "Castle",
+    "lang": "en",
+    "description": "Defend the castle gate! Drag to aim, release to snipe the raiders before they reach the wall."
+  },
+  "canvas": { "width": 390, "height": 844 },
+  "theme": {
+    "preset": "kingdom-defense",
+    "colors": {
+      "background": "#87b7e8",
+      "player": "#3f7fd6",
+      "hazard": "#7bc44e",
+      "collectible": "#ff6b81",
+      "text": "#ffffff"
+    }
+  },
+  "player": {
+    "label": "Royal Archer",
+    "speed": 340
+  },
+  "hazards": {
+    "label": "Goblin Raider",
+    "spawnEveryMs": 1150,
+    "spawnAcceleration": 0.985,
+    "fallSpeed": { "min": 70, "max": 150 },
+    "maxConcurrent": 7
+  },
+  "collectibles": {
+    "label": "Healing Potion",
+    "spawnEveryMs": 6200,
+    "fallSpeed": 120,
+    "scoreValue": 50
+  },
+  "scoring": {
+    "survivalPerSecond": 1,
+    "levelUpEverySeconds": 18
+  },
+  "controls": {
+    "type": "drag",
+    "leftRightOnly": true
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": { "gameplay": "audio/game_loop.wav" }
+  },
+  "pwa": false
+}
