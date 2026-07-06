@@ -1,0 +1,810 @@
+{
+  "assetsVersion": "1.0.0",
+  "imagePolicy": {
+    "allowedFormats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 2048,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav",
+      "ogg",
+      "mp3"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "images": [
+    {
+      "id": "player",
+      "path": "assets/characters/player.png",
+      "type": "sprite",
+      "role": "player",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 8,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "694120bc4394da72",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "enemy-basic",
+      "path": "assets/enemies/goblin-basic-sheet.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "67b50aeb9aef5235",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "enemy-shield",
+      "path": "assets/enemies/goblin-shield-sheet.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "e2c2d4043462710b",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "enemy-runner",
+      "path": "assets/enemies/goblin-runner-sheet.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "c3d32dba4fa40a92",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "enemy-brute",
+      "path": "assets/enemies/orc-brute-sheet.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "a894130473aa29ba",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "hazard",
+      "path": "assets/enemies/hazard.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "db22fad289fede4e",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "shield-goblin",
+      "path": "assets/enemies/shield-goblin.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "5269d9e3889f0285",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "runner-goblin",
+      "path": "assets/enemies/runner-goblin.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "78fa334c176dd6da",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "brute-orc",
+      "path": "assets/enemies/brute-orc.png",
+      "type": "sprite",
+      "role": "enemy",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "d9e0cbd20ac96121",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "collectible",
+      "path": "assets/items/collectible.png",
+      "type": "sprite",
+      "role": "collectible",
+      "minWidth": 192,
+      "minHeight": 192,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "dc68483a75245495",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "arrow",
+      "path": "assets/items/arrow.png",
+      "type": "sprite",
+      "role": "projectile",
+      "minWidth": 192,
+      "minHeight": 192,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "2ac53edb08cf5cda",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-frame",
+      "type": "ui",
+      "path": "assets/ui/btn-frame.png",
+      "role": "button",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "265c151c8085aea0",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "cc7bda82498089a0",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "heart",
+      "type": "ui",
+      "path": "assets/ui/heart.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "8cf336a44b153545",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-sound-on",
+      "type": "ui",
+      "path": "assets/ui/icon-sound-on.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "6cfcdfece7ec52c8",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-sound-off",
+      "type": "ui",
+      "path": "assets/ui/icon-sound-off.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "78e7322591625cce",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-settings",
+      "type": "ui",
+      "path": "assets/ui/icon-settings.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "5a503686da7ab71f",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-home",
+      "type": "ui",
+      "path": "assets/ui/icon-home.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "8b49090d9ff7dbe3",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-retry",
+      "type": "ui",
+      "path": "assets/ui/icon-retry.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "9f12c8db2ed18d6f",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "icon-close",
+      "type": "ui",
+      "path": "assets/ui/icon-close.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "aec3dfe0e2c951c6",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-hit",
+      "type": "fx",
+      "path": "assets/effects/fx-hit.png",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "63ea4531b611967d",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-collect",
+      "type": "fx",
+      "path": "assets/effects/fx-collect.png",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "591079c1c41bf244",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-sparkle",
+      "type": "fx",
+      "path": "assets/effects/fx-sparkle.png",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "76e8a574d6000fec",
+        "quality": "high"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "required": true,
+      "maxDurationMs": 1000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer"
+      }
+    }
+  ],
+  "qualityTier": "production-demo",
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.png",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "ed8667a97f29f694",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.png",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "76d70de0e5894aae",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.png",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "castle-archer",
+        "generator": "codex-imagegen-skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "modelVerified": true,
+        "postProcessing": [
+          "scene-artboard-slicing",
+          "checker-background-alpha-removal",
+          "autocrop-center-pad",
+          "runtime-size-normalization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "44cb3bc6ebde8a5c",
+        "quality": "high"
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "castle-archer",
+    "noSharedRuntimeAssets": true
+  },
+  "imagegen": {
+    "model": "gpt-image-2",
+    "modelVerified": true,
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-07-06T15:17:58Z"
+  }
+}

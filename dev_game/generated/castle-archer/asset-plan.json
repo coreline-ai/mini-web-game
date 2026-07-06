@@ -1,0 +1,153 @@
+{
+  "gameId": "castle-archer",
+  "title": "Castle Archer",
+  "canvas": {
+    "width": 390,
+    "height": 844
+  },
+  "styleGuide": {
+    "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
+    "palette": "anchored on #87b7e8 bg, #3f7fd6 hero, #ff6b81 reward",
+    "outline": "clean bold silhouettes, high readability at small size",
+    "lighting": "soft top light, glossy specular highlight, gentle ambient occlusion",
+    "camera": "clean 2.5D game render, portrait, gameplay reads in the bottom 60%",
+    "characterStyle": "CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation.",
+    "mood": "retro-arcade, glossy 3D mobile-arcade"
+  },
+  "backgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.png",
+      "width": 1080,
+      "height": 1920,
+      "theme": "Castle Meadow Dawn",
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center. Vertical PORTRAIT mobile game background, theme \"Castle Meadow Dawn\" for Castle Archer: a bright sunny fantasy kingdom seen from the castle wall: rolling green meadows and a winding dirt path leading from the top of the frame down toward the castle, distant blue mountains and a storybook castle town, fluffy clouds. IMPORTANT: a clean STONE CASTLE BATTLEMENT PARAPET STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), simple crenellated stone blocks, occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.png",
+      "width": 1080,
+      "height": 1920,
+      "theme": "Sunset Siege",
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center. Vertical PORTRAIT mobile game background, theme \"Sunset Siege\" for Castle Archer: the same fantasy kingdom at warm golden sunset: orange-pink sky, long soft shadows over the meadow path, banners fluttering on distant towers. IMPORTANT: a clean STONE CASTLE BATTLEMENT PARAPET STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), simple crenellated stone blocks, occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.png",
+      "width": 1080,
+      "height": 1920,
+      "theme": "Torchlit Night",
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center. Vertical PORTRAIT mobile game background, theme \"Torchlit Night\" for Castle Archer: the same fantasy kingdom at night: deep blue starry sky, the meadow path lit by warm torchlight and lanterns, cozy glowing castle town windows in the distance. IMPORTANT: a clean STONE CASTLE BATTLEMENT PARAPET STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), simple crenellated stone blocks, occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+    }
+  ],
+  "sprites": [
+    {
+      "id": "player",
+      "role": "player",
+      "path": "assets/characters/player.png",
+      "width": 256,
+      "height": 256,
+      "frames": 4,
+      "frameSize": 512,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation. A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi ROYAL ARCHER mascot for Castle Archer \u2014 cheerful boy archer in blue-and-gold royal tunic with a small quiver, holding a wooden recurve bow, front-facing 3/4 view \u2014 in a slightly different ARCHERY SHOOTING pose per cell (frame1 relaxed idle holding bow, frame2 nocking an arrow, frame3 full draw aiming slightly upward, frame4 just-released follow-through). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    },
+    {
+      "id": "hazard",
+      "role": "hazard",
+      "path": "assets/enemies/hazard.png",
+      "width": 256,
+      "height": 256,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single cute-but-menacing green GOBLIN RAIDER game sprite for Castle Archer: chibi proportions, front view walking TOWARD the viewer, mischievous grin with tiny fangs, simple leather vest, holding a small wooden club, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    },
+    {
+      "id": "collectible",
+      "role": "collectible",
+      "path": "assets/items/collectible.png",
+      "width": 192,
+      "height": 192,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single magic HEALING POTION pickup sprite: rounded glass bottle with glowing pink-red liquid and a small cork, tiny sparkle highlights, inviting glossy 3D-cartoon icon, bold simple silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    },
+    {
+      "id": "shield-goblin",
+      "role": "enemy",
+      "path": "assets/enemies/shield-goblin.png",
+      "width": 256,
+      "height": 256,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single ARMORED GOBLIN RAIDER game sprite for Castle Archer: same chibi green goblin but wearing a simple iron helmet and holding a LARGE ROUND WOODEN SHIELD with an iron boss in front of its body (shield covers most of the torso), front view walking toward the viewer, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    },
+    {
+      "id": "arrow",
+      "role": "projectile",
+      "path": "assets/items/arrow.png",
+      "width": 128,
+      "height": 256,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single vertical wooden ARROW projectile pointing straight UP: glossy 3D-cartoon style, simple tapered steel arrowhead at top, slim wooden shaft, small red-and-white fletching at bottom, bold readable silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    }
+  ],
+  "ui": [
+    {
+      "id": "btn-frame",
+      "role": "ui-icon",
+      "path": "assets/ui/btn-frame.png",
+      "width": 768,
+      "height": 256,
+      "prompt": "A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur \u2014 the area outside the pill must be flat solid pure magenta right up to the crisp button edge."
+    },
+    {
+      "id": "btn-pause",
+      "role": "ui-icon",
+      "path": "assets/ui/btn-pause.png",
+      "width": 256,
+      "height": 256,
+      "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow \u2014 flat solid pure magenta right up to the circle edge, centered and filling the frame."
+    },
+    {
+      "id": "heart",
+      "role": "ui-icon",
+      "path": "assets/ui/heart.png",
+      "width": 256,
+      "height": 256,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single glossy RED HEART icon for a castle gate health HUD: rounded 3D-cartoon heart with a bright specular highlight and thin gold rim, centered, filling most of the frame. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    }
+  ],
+  "fx": [
+    {
+      "id": "fx-hit",
+      "role": "feedback",
+      "path": "assets/effects/fx-hit.png",
+      "width": 256,
+      "height": 256,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon impact/hit burst effect (energetic star/spark shape), bold and readable. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    },
+    {
+      "id": "fx-collect",
+      "role": "feedback",
+      "path": "assets/effects/fx-collect.png",
+      "width": 192,
+      "height": 192,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon sparkle/collect burst effect (positive twinkle shape), bright and cheerful. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "type": "ui"
+    },
+    {
+      "id": "collect",
+      "type": "sfx"
+    },
+    {
+      "id": "hit",
+      "type": "sfx"
+    },
+    {
+      "id": "game_over",
+      "type": "sfx"
+    },
+    {
+      "id": "game_loop",
+      "type": "bgm"
+    }
+  ]
+}

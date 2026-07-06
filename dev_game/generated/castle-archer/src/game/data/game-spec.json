@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "castle-archer",
+    "title": "Castle Archer",
+    "description": "Defend the castle gate! Drag to aim, release to snipe the raiders before they reach the wall.",
+    "orientation": "portrait",
+    "target": "mobile-web",
+    "shortName": "Castle",
+    "lang": "en"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#0b1024",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 340,
+    "hitbox": {
+      "width": 42,
+      "height": 42
+    },
+    "label": "Royal Archer"
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Goblin Raider",
+    "spawnRateStart": 900,
+    "spawnRateMax": 240,
+    "fallSpeedStart": 260,
+    "fallSpeedMax": 760,
+    "damage": 1,
+    "poolSize": 60,
+    "spawnEveryMs": 1150,
+    "spawnAcceleration": 0.985,
+    "fallSpeed": {
+      "min": 70,
+      "max": 150
+    },
+    "maxConcurrent": 6
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Healing Potion",
+    "spawnRate": 0.25,
+    "scoreValue": 50,
+    "spawnEveryMs": 6200,
+    "fallSpeed": 120
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 10,
+    "collectiblePoints": 50,
+    "highScoreLocalStorageKey": "castle-archer_best",
+    "survivalPerSecond": 1,
+    "levelUpEverySeconds": 18
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 15,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 3,
+    "max": 3
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#87b7e8",
+      "player": "#3f7fd6",
+      "hazard": "#7bc44e",
+      "collectible": "#ff6b81",
+      "ui": "#ffffff",
+      "text": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "controls": {
+    "type": "drag",
+    "leftRightOnly": true
+  },
+  "pwa": false
+}
