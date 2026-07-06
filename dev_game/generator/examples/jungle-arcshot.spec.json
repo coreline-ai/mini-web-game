@@ -1,0 +1,47 @@
+{
+  "game": {
+    "id": "jungle-arcshot",
+    "title": "Jungle Arc Shot",
+    "shortName": "ArcShot",
+    "lang": "en",
+    "description": "Read the wind, bend the arc — pierce every fruit and balloon in the jungle with one perfect trick shot!"
+  },
+  "canvas": { "width": 390, "height": 844 },
+  "theme": {
+    "preset": "jungle-expedition",
+    "colors": {
+      "background": "#7fd0a8",
+      "player": "#f0a95a",
+      "hazard": "#ff5d4f",
+      "collectible": "#58c7f2",
+      "text": "#ffffff"
+    }
+  },
+  "player": { "label": "Jungle Hunter", "speed": 340 },
+  "hazards": {
+    "label": "Jungle Fruit",
+    "spawnEveryMs": 1200,
+    "spawnAcceleration": 0.99,
+    "fallSpeed": { "min": 70, "max": 140 },
+    "maxConcurrent": 6
+  },
+  "collectibles": {
+    "label": "Drift Balloon",
+    "spawnEveryMs": 7000,
+    "fallSpeed": 110,
+    "scoreValue": 25
+  },
+  "scoring": { "survivalPerSecond": 0, "levelUpEverySeconds": 18 },
+  "controls": { "type": "drag", "leftRightOnly": true },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": { "gameplay": "audio/game_loop.wav" }
+  },
+  "pwa": false
+}

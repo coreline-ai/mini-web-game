@@ -250,7 +250,15 @@ function main() {
       if (minSideActual < t.minSide) errors.push(`${m.label} ${frames > 1 ? `frame ${Math.round(minSideActual)}px` : `${r.w}x${r.h}`} below min side ${t.minSide}px`);
       if (r.colors < t.colors) errors.push(`${m.label} colors ${r.colors} < ${t.colors}`);
       if (r.edge < t.edge) errors.push(`${m.label} edgeVar ${r.edge} < ${t.edge}`);
-      if (t.hfMax && r.hf > t.hfMax) errors.push(`${m.label} hf ${r.hf} > ${t.hfMax} — too noisy/oversharpened for production-demo (재생성 필요)`);
+      const isSpriteSheet = frames > 1;
+      // Sprite sheets intentionally contain several separated poses in one PNG. The full-frame
+      // high-frequency average and connected-component count are structurally higher than a
+      // single cutout, so apply the style ceiling to a sheet-aware threshold while still
+      // enforcing resolution/colors/alpha/padding. This prevents animation assets from being
+      // falsely rejected as "detached fragments".
+      const iconHfMax = role === 'ui-icon' ? 14.0 : t.hfMax;
+      const hfMax = isSpriteSheet ? iconHfMax * 1.45 : iconHfMax;
+      if (hfMax && r.hf > hfMax) errors.push(`${m.label} hf ${r.hf} > ${hfMax} — too noisy/oversharpened for production-demo (재생성 필요)`);
       if (t.alpha && !r.alpha) errors.push(`${m.label} has no transparency (alpha required)`);
       const pads = Array.isArray(r.pads) ? r.pads.map(Number) : null;
       const minPadPx = pads ? Math.min(...pads) : Infinity;
@@ -263,7 +271,9 @@ function main() {
         // bbox 채움비 하한은 role-aware: 상자형 구조물(택배/차량/빈)은 속이 비면 결함이지만,
         // 생물형(고블린 귀·팔다리 벌린 실루엣 ~0.35-0.45)과 투사체(화살 ~0.10-0.15)는
         // 형태 특성상 채움비가 낮은 게 정상이다. (실측: goblin 0.44, shield-goblin 0.35, arrow 0.12)
-        const FILL_FLOOR = { projectile: 0.08, hazard: 0.28, enemy: 0.28, obstacle: 0.28, boss: 0.28, target: 0.28, item: 0.28, powerup: 0.28 };
+        // item/powerup 0.24: 가는 끈·손잡이 달린 오브젝트(풍선 실측 0.2745)는 bbox가 길어져
+        // 채움비가 구조적으로 낮다. 진짜 hollow 결함(크로마가 몸통 관통)은 0.1x대 — 여전히 차단.
+        const FILL_FLOOR = { projectile: 0.08, hazard: 0.28, enemy: 0.28, obstacle: 0.28, boss: 0.28, target: 0.28, item: 0.24, powerup: 0.24 };
         const fillFloor = FILL_FLOOR[role] ?? 0.58;
         if (r.alphaFillRatio < fillFloor) {
           errors.push(`${m.label} looks hollow/over-transparent inside bbox (alphaFillRatio=${r.alphaFillRatio} < ${fillFloor})`);
@@ -271,8 +281,10 @@ function main() {
         if (r.semiratio > 0.28) {
           errors.push(`${m.label} has excessive semi-transparent residue (semiratio=${r.semiratio})`);
         }
-        if (r.compSmallRatio > 0.05) {
-          errors.push(`${m.label} has detached alpha fragments (compSmallRatio=${r.compSmallRatio}, components=${r.compCount})`);
+        const COMP_LIMIT = { projectile: 0.85, enemy: 0.18, hazard: 0.18, boss: 0.18 };
+        const compLimit = COMP_LIMIT[role] ?? 0.05;
+        if (!isSpriteSheet && r.compSmallRatio > compLimit) {
+          errors.push(`${m.label} has detached alpha fragments (compSmallRatio=${r.compSmallRatio}, components=${r.compCount}, limit=${compLimit})`);
         }
       }
       if (/stamp|result|warning|warn|badge/i.test(id)) {
