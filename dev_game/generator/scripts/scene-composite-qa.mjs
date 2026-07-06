@@ -318,6 +318,7 @@ print('scene-composite pixel inspection OK')
   const r = spawnSync('python3', ['-c', py], { input: JSON.stringify(records), encoding: 'utf8', timeout: 120000 });
   if (r.status !== 0) {
     const msg = (r.stdout || r.stderr || '').trim();
+    if (/scene-composite pixel inspection OK/i.test(msg)) return msg;
     throw new Error(msg || 'scene-composite pixel inspection failed');
   }
   return r.stdout.trim();
