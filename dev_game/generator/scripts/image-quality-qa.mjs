@@ -97,13 +97,21 @@ for p in json.load(sys.stdin):
         rgb=im.convert('RGB')
         small=rgb.resize((min(256,w),min(256,h)))
         colors=len(set(list(small.getdata())))
-        edge=ImageStat.Stat(rgb.convert('L').filter(ImageFilter.FIND_EDGES)).var[0]
-        # hf = high-frequency energy (mean 3x3 Laplacian over the FULL frame). STYLE metric:
+        # edge/hf는 해상도 의존 지표 — 같은 그림도 2K+로 렌더되면 픽셀당 값이 절반으로 떨어져
+        # "최대 해상도" 산출물이 역차별당한다. 임계값은 본 게임 1080x1920 네이티브 실측으로
+        # 캘리브레이션됐으므로, 기준 초과(세로 2400px+) 이미지만 1920 높이로 정규화해 측정한다.
+        # (실측: 2160x3840 배경 원본 edge 35.8/hf 0.92 → 정규화 시 1920 네이티브와 동급 회복)
+        mr = rgb
+        if h > 2400:
+            s = 1920.0 / h
+            mr = rgb.resize((max(1, int(w * s)), 1920))
+        edge=ImageStat.Stat(mr.convert('L').filter(ImageFilter.FIND_EDGES)).var[0]
+        # hf = high-frequency energy (mean 3x3 Laplacian). STYLE metric:
         # clean 3D-glossy render (smooth interiors + a few bold edges) is low; busy painterly/
         # gacha noise is 2-3x higher. Full-frame (not opaque-masked) is intentional — a clean
         # chibi's bold outline spikes per-pixel, but averaged across the whole frame it stays low,
         # while painterly noise stays high everywhere. Calibrated: main-game char 2.9 vs my old 9.0.
-        g=rgb.convert('L')
+        g=mr.convert('L')
         lap=g.filter(ImageFilter.Kernel((3,3),[0,-1,0,-1,4,-1,0,-1,0],1,0))
         hf=ImageStat.Stat(lap).mean[0]
         alpha=False

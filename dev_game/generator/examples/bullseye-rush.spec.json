@@ -1,0 +1,56 @@
+{
+  "game": {
+    "id": "bullseye-rush",
+    "title": "Bullseye Rush",
+    "shortName": "Bullseye",
+    "lang": "en",
+    "description": "The aim line sweeps on its own — tap at the perfect moment to nail the bullseye and clear every round!"
+  },
+  "canvas": { "width": 390, "height": 844 },
+  "theme": {
+    "preset": "archery-festival",
+    "colors": {
+      "background": "#8fd0f0",
+      "player": "#e05b4b",
+      "hazard": "#e8433f",
+      "collectible": "#ffd54a",
+      "text": "#ffffff"
+    }
+  },
+  "player": {
+    "label": "Festival Archer",
+    "speed": 340
+  },
+  "hazards": {
+    "label": "Bullseye Target",
+    "spawnEveryMs": 1200,
+    "spawnAcceleration": 0.99,
+    "fallSpeed": { "min": 70, "max": 140 },
+    "maxConcurrent": 6
+  },
+  "collectibles": {
+    "label": "Bonus Star",
+    "spawnEveryMs": 7000,
+    "fallSpeed": 110,
+    "scoreValue": 50
+  },
+  "scoring": {
+    "survivalPerSecond": 0,
+    "levelUpEverySeconds": 18
+  },
+  "controls": {
+    "type": "drag",
+    "leftRightOnly": true
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": { "gameplay": "audio/game_loop.wav" }
+  },
+  "pwa": false
+}
