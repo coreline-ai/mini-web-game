@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "bullseye-rush",
+    "title": "Bullseye Rush",
+    "description": "The aim line sweeps on its own — tap at the perfect moment to nail the bullseye and clear every round!",
+    "orientation": "portrait",
+    "target": "mobile-web",
+    "shortName": "Bullseye",
+    "lang": "en"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#0b1024",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 340,
+    "hitbox": {
+      "width": 42,
+      "height": 42
+    },
+    "label": "Festival Archer"
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Bullseye Target",
+    "spawnRateStart": 900,
+    "spawnRateMax": 240,
+    "fallSpeedStart": 260,
+    "fallSpeedMax": 760,
+    "damage": 1,
+    "poolSize": 60,
+    "spawnEveryMs": 1200,
+    "spawnAcceleration": 0.99,
+    "fallSpeed": {
+      "min": 70,
+      "max": 140
+    },
+    "maxConcurrent": 6
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Bonus Star",
+    "spawnRate": 0.25,
+    "scoreValue": 50,
+    "spawnEveryMs": 7000,
+    "fallSpeed": 110
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 10,
+    "collectiblePoints": 50,
+    "highScoreLocalStorageKey": "new-game_best",
+    "survivalPerSecond": 0,
+    "levelUpEverySeconds": 18
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 15,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#8fd0f0",
+      "player": "#e05b4b",
+      "hazard": "#e8433f",
+      "collectible": "#ffd54a",
+      "ui": "#ffffff",
+      "text": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "controls": {
+    "type": "drag",
+    "leftRightOnly": true
+  },
+  "pwa": false
+}
