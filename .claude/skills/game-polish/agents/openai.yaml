@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Polish"
+  short_description: "Iterative post-production fix loop for existing generated games: symptom → defect class → fix → re-capture"
+  default_prompt: "Use $game-polish to run a post-production fix pass on the existing generated game. Translate every reported or capture-found symptom into a defect class from dev_game/docs/post-production-qa-contract.md, reproduce it under the original conditions, fix per the class rules, re-capture under the same repro conditions with a machine-assertable state-sample JSON, and re-run production gates. Never downgrade a capture-found defect to a known gap. Do not create a new game — route creation to game-factory."

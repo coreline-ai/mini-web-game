@@ -1,6 +1,6 @@
 ---
 name: game-factory
-description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game."
+description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, post-production captured gameplay QA/fix passes, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, post-production game QA, or wants an idea converted into a playable game."
 ---
 
 # Game Factory
@@ -17,27 +17,6 @@ Every new game gets newly generated, self-contained assets.
 Archetype is not the limit of what can be made.
 Archetype is only a reference pattern to start faster.
 ```
-
-## 게임 완성도 티어 — 무엇으로 개발하나 (필독)
-
-**전제:** Claude(이 에이전트)에는 네이티브 이미지 생성 도구가 없다. 프로덕션급 이미지 에셋은 Codex의
-내장 `image_gen`(= `codex exec` → `.system/imagegen`, ChatGPT 로그인 인증, OpenAI API 키 불필요)으로만
-나온다. 본 게임("Don't Get Pooped!") 수준의 **3D 글로시 모바일 카툰**은 이 경로 전용이다.
-
-> ### ⭐ 추천 — Codex 전용으로 게임 개발 → 프로덕션 MVP (최고 완성도)
->
-> 게임 코드와 프로덕션급 이미지 에셋을 **모두 Codex 한 환경에서 네이티브로 생산**한다. 코드 작성과
-> 내장 `image_gen` 이미지 생성이 같은 도구 안에서 이어져 **크로스툴 핸드오프가 없고**, 가장 높은 완성도의
-> **프로덕션 MVP**가 나온다. 아트 완성도를 최우선으로 한다면 이 경로를 권장한다.
-
-**완성도 높은 게임 (하이브리드) = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
-Claude가 게임 로직·시스템·물리·경제·QA·오케스트레이션과 **아트 프롬프트 작성**을 맡고, 실제 프로덕션
-픽셀은 Codex `image_gen`이 채운다.
-
-**Claude 단독 = 플레이스홀더(플랫 2D / 저품질) — 비추천.** 절차적 PNG·SVG·코드 도형 수준에 그친다.
-Codex `image_gen` 단계를 건너뛰면(`--skip-art` 또는 codex 미가용) `factory:image-quality-qa`(provenance·
-해상도·색수·고주파 hf 상한) 게이트에서 **FAIL**하여 production-demo로 출시할 수 없다. 아트 방향은
-`productionize`의 `ART_BIBLE`(3D 글로시 카툰 강제)이 모든 프롬프트에 주입한다.
 
 If the user's idea does not fit an existing pattern, do not force it into the dodge starter. Design a custom loop and implement game-specific systems.
 
@@ -64,6 +43,10 @@ If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 | `dev_game/generator/examples/poop-dodge.spec.json` | known-good Foundation spec |
 | `dev_game/generator/scripts/production-demo-qa.mjs` | production-demo docs/assets/manifest/layout-contract gate |
 | `dev_game/generator/scripts/visual-layout-qa.mjs` | browser visual layout, safe-area, overlap gate |
+| `dev_game/generator/scripts/scene-composite-qa.mjs` | rendered scene art-direction gate for broken button highlights, clipped stamps, transparent/hollow sprites, conveyor/road breaks, and external overlays |
+| `dev_game/generator/scripts/image-quality-qa.mjs` | role-aware pixel/alpha/bbox gate for high-quality imagegen assets |
+| `dev_game/docs/post-production-qa-contract.md` | defect-class contract for post-production fix passes: lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis independence, progression completeness, machine-assertable evidence, fix→re-capture loop |
+| `dev_game/docs/qa-evidence/` | tracked summaries for generated-game QA evidence when `dev_game/generated/**` is gitignored |
 | `dev_game/generated/<game-id>/` | generated/custom game output, gitignored by default |
 | `src/`, `assets/`, `docs/DEV-GUIDE.md` | shipped game reference for expansion patterns |
 
@@ -81,10 +64,12 @@ A game may be reported as complete only after it satisfies the production-demo c
 - Main gameplay assets are not simple SVG placeholders. Core roles such as `player`, `hazard`, `obstacle`, `enemy`, `boss`, `collectible`, `vehicle`, `parcel`, `sort-bin` need `quality: "production-demo"`.
 - Runtime exposes `window.__GAME_LAYOUT_BOUNDS__` so browser QA can catch HUD/button/text overlap and safe-area violations.
 - Audio exists and state control works: gameplay music only during gameplay, paused/stopped on pause/home/background.
-- `factory:production-demo-qa` and `factory:visual-layout-qa` pass for the generated project.
+- `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, and `factory:scene-composite-qa` pass for the generated project.
 - Image assets are produced through the Codex `imagegen` skill path, then copied into the generated game. Manifest provenance for imagegen assets uses `method: "codex-gpt-imagegen-skill"`, `model: "gpt-image-2"`, `sourceSkill: "imagegen"`, and a `promptHash`.
 - No generated game may include external image SDK runners, image-key setup steps, or service-backed asset-generation commands.
 - Visual QA covers Loading, Home, Game, Pause, and GameOver at 390×844, 430×932, and 1080×1920. It must catch canvas off-centering, HUD/pause overlap, coin/text baseline mismatch, stretched buttons, item-card clipping, panel overflow, required layout item omissions, and missing safe-area margins. Scenes should declare `requiredIds` for HUD text, buttons, panels, game playfield, hit zones, and result stamps.
+- Scene-first composite QA is mandatory: create representative full-scene artboards or equivalent contact sheets before slicing assets, then verify runtime recomposition with `factory:scene-composite-qa`. It must catch clipped warning/stamp icons, broken button top bars, transparent parcel/vehicle faces, hollow chutes/bins, broken conveyor/road strips, invisible panel borders, and browser/OS overlay contamination.
+- Captured gameplay-state QA is mandatory for post-production and completion: record or screenshot Loading, Home, active Game, Pause, GameOver or win states, and representative moving/animated gameplay frames, then inspect GUI icons, layout placement, asset motion, background/entity/UI layering, icon/sprite direction, animation asset application, and runtime exceptions.
 - Imagegen integration must run role-specific alpha/bbox QA: gameplay structures must not become hollow/over-transparent, parcels/vehicles must not lose internal faces, feedback stamps must be square with padding, and buttons/panels must not touch edges or stretch.
 - If AI art is blurry, low-resolution, style-inconsistent, clipped, distorted, over-transparent, leaves chroma/gray residue, has unreadable text, or is below canvas size for backgrounds, regenerate with a stricter high-quality prompt before integration.
 
@@ -148,7 +133,7 @@ Minimum required content:
 - GDD: pitch, loop, controls, scoring, difficulty, fail/retry, content list
 - Tech design: scenes, entities, systems, config/data, collision, state flow
 - Asset/audio plan: required newly generated per-game sprites, UI, stage/theme backgrounds, SFX/BGM triggers, provenance, and isolation rules
-- QA plan: common smoke plus genre-specific gameplay assertions plus production-demo gates
+- QA plan: common smoke plus genre-specific gameplay assertions plus production-demo gates plus a captured-state visual QA matrix for every major scene and moving gameplay state
 - Adversarial review: why this is not just a reskinned existing template
 
 ### 4. Use the generator only as Foundation when appropriate
@@ -219,7 +204,9 @@ Production-demo completion gates:
 
 ```bash
 npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
+npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
 npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
 npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920
 ```
 
@@ -232,9 +219,31 @@ Also run or create a browser smoke that proves:
 - The genre-defining action works
 - UI elements do not overlap in target mobile viewports
 
-Asset/audio QA must catch obvious broken output: missing files, black boxes, ratio distortion, silence, wrong trigger, UI overlap, missing production backgrounds, placeholder-only core assets, shared/common asset references, symlinked assets, and missing per-game provenance.
+Post-production defect fixing follows `dev_game/docs/post-production-qa-contract.md`: classify each capture/user-reported symptom into a defect class (entity-lifecycle race, visual-singularity violation, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness), apply that class's fix rules, then re-capture under the original repro conditions. Iterative post-launch fix passes on an existing generated game can also run through the dedicated `game-polish` skill.
 
-Imagegen asset QA must additionally inspect the generated sheet/runtime screenshot before delivery and enforce role-specific alpha/bbox contracts. Regenerate rather than patch around bad art when: background is smaller than the canvas, a subject is squashed/stretched, chroma-key removal leaves a visible box, sprites become hollow/over-transparent, UI panels scale non-uniformly, feedback stamps are banner-squashed, buttons duplicate text/icons, or any scene looks like a placeholder prompt demo.
+Post-production captured-state QA must prove:
+
+- Capture real browser screenshots or video for Loading, Home, active Game, Pause, GameOver or win states, plus representative gameplay progression such as stage advancement, rewards/options, failure/retry, and all-clear when those states exist.
+- GUI icons are visible, semantically correct, not missing/placeholders, and oriented correctly for their role. Directional sprites and icons must face the correct movement, input, lane/path, enemy flow, or animation frame.
+- Layout placement keeps HUD, buttons, panels, meters, score text, hit zones, result stamps, and safe-area items inside intended bounds without overlap, off-screen drift, or text clipping.
+- Moving assets remain readable during motion, stay in the intended playfield/lane/path, and do not pass behind HUD or unrelated UI unless that is intentional and documented.
+- Backgrounds, foregrounds, entities, effects, and UI layer in the correct order. Background art must not cover gameplay assets, and gameplay assets must not hide required UI.
+- Animation assets are actually applied at runtime for idle, move, hit, collect, fail, reward, and feedback states. Do not silently fall back to static placeholders when animated assets exist.
+- Runtime entity lifecycles are reset after hits, misses, despawns, stage changes, and respawns: clear stale tweens/timers, restore alpha/visible/active/body state, and prevent hidden or inactive entities from scoring or colliding.
+- Genre-specific visual conflicts are checked and fixed: no duplicate player/shooter/control icons, no reticle/cursor that can be mistaken for a target or hazard, no lingering shot/impact graphics, no stale reward or result stamp, and no debug/playfield rectangles in final captures.
+- Captured runs report no console errors, page errors, unhandled promise rejections, missing asset errors, or recoverable exceptions hidden behind a playable-looking screen.
+- If any capture reveals a GUI, layering, motion, animation, lifecycle, or exception issue, patch the code/assets and repeat capture plus gates. Do not downgrade it to a known gap for a production-demo completion report.
+
+Asset/audio QA must catch obvious broken output: missing files, black boxes, ratio distortion, silence, wrong trigger, UI overlap, missing production backgrounds, placeholder-only core assets, shared/common asset references, symlinked assets, missing per-game provenance, and final screenshot recomposition defects.
+
+Imagegen asset QA must additionally inspect the generated sheet/runtime screenshot before delivery and enforce role-specific alpha/bbox/scene-composite contracts. Regenerate rather than patch around bad art when: background is smaller than the canvas, a subject is squashed/stretched, chroma-key removal leaves a visible box, sprites become hollow/over-transparent, UI panels scale non-uniformly, feedback stamps are banner-squashed/clipped, buttons duplicate text/icons or show gray slot lines, conveyors/roads are visually broken, or any scene looks like a placeholder prompt demo.
+
+Evidence handling:
+
+- Save final screenshots, contact sheets, browser videos, and gameplay samples under `dev_game/generated/<game-id>/qa-captures/` or another per-game evidence folder.
+- Add or update `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` with capture paths, custom assertions, production-gate results, fixes made after capture review, and remaining non-blocking expansion ideas.
+- Seed `dev_game/generated/<game-id>/docs/07-REGRESSION-CHECKLIST.md` with the repro scenario (input pattern, scene/stage, viewport, assert values) of every defect fixed during capture review, so later `game-polish` sessions re-run them first.
+- Because `dev_game/generated/**` is gitignored by default, mirror a concise durable summary under `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md` or clearly tell the user which generated artifacts are untracked and must be force-added/preserved if they want them committed.
 
 ### 7. Completion standard
 
@@ -250,6 +259,8 @@ A game is complete only when current evidence proves:
 - All runtime assets are newly generated for this game and self-contained inside the generated project
 - Browser smoke verifies the gameplay action, not just scene entry
 - Visual layout QA catches no safe-area or overlap failures
+- Captured gameplay-state evidence confirms icons, layout, movement, layering, directionality, animation application, runtime entity lifecycle, stage/reward/end-state flow, and exception-free behavior
+- Post-production issues found in screenshots or video were fixed and re-captured instead of only documented
 - Adversarial review does not identify it as a simple reskin
 
 If production-demo gates fail, give a blocker list and next fix plan instead of claiming completion.
@@ -269,4 +280,6 @@ End with:
 - Output path
 - Key systems actually implemented
 - Commands run and exact QA result, including production-demo gates
+- Captured QA evidence paths, including screenshots/video/contact sheets and any durable `dev_game/docs/qa-evidence/` summary
+- Post-production fixes applied after capture review
 - Known gaps or next expansion recommendations
