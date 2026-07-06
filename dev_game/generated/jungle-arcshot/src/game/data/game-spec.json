@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "jungle-arcshot",
+    "title": "Jungle Arc Shot",
+    "description": "Read the wind, bend the arc — pierce every fruit and balloon in the jungle with one perfect trick shot!",
+    "orientation": "portrait",
+    "target": "mobile-web",
+    "shortName": "ArcShot",
+    "lang": "en"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#0b1024",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 340,
+    "hitbox": {
+      "width": 42,
+      "height": 42
+    },
+    "label": "Jungle Hunter"
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Jungle Fruit",
+    "spawnRateStart": 900,
+    "spawnRateMax": 240,
+    "fallSpeedStart": 260,
+    "fallSpeedMax": 760,
+    "damage": 1,
+    "poolSize": 60,
+    "spawnEveryMs": 1200,
+    "spawnAcceleration": 0.99,
+    "fallSpeed": {
+      "min": 70,
+      "max": 140
+    },
+    "maxConcurrent": 6
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Drift Balloon",
+    "spawnRate": 0.25,
+    "scoreValue": 25,
+    "spawnEveryMs": 7000,
+    "fallSpeed": 110
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 10,
+    "collectiblePoints": 50,
+    "highScoreLocalStorageKey": "new-game_best",
+    "survivalPerSecond": 0,
+    "levelUpEverySeconds": 18
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 15,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#7fd0a8",
+      "player": "#f0a95a",
+      "hazard": "#ff5d4f",
+      "collectible": "#58c7f2",
+      "ui": "#ffffff",
+      "text": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "controls": {
+    "type": "drag",
+    "leftRightOnly": true
+  },
+  "pwa": false
+}
