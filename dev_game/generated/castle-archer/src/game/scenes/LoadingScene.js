@@ -18,10 +18,10 @@ export default class LoadingScene extends Phaser.Scene {
       console.warn('[Castle Archer] asset load failed', key);
     });
     this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.spritesheet(ASSET_KEYS.enemyBasic, 'enemies/goblin-basic-sheet.png', { frameWidth: 256, frameHeight: 256 });
-    this.load.spritesheet(ASSET_KEYS.enemyShield, 'enemies/goblin-shield-sheet.png', { frameWidth: 256, frameHeight: 256 });
-    this.load.spritesheet(ASSET_KEYS.enemyRunner, 'enemies/goblin-runner-sheet.png', { frameWidth: 256, frameHeight: 256 });
-    this.load.spritesheet(ASSET_KEYS.enemyBrute, 'enemies/orc-brute-sheet.png', { frameWidth: 256, frameHeight: 256 });
+    this.load.spritesheet(ASSET_KEYS.enemyBasic, 'enemies/goblin-basic-sheet.png', { frameWidth: 512, frameHeight: 512 });
+    this.load.spritesheet(ASSET_KEYS.enemyShield, 'enemies/goblin-shield-sheet.png', { frameWidth: 512, frameHeight: 512 });
+    this.load.spritesheet(ASSET_KEYS.enemyRunner, 'enemies/goblin-runner-sheet.png', { frameWidth: 512, frameHeight: 512 });
+    this.load.spritesheet(ASSET_KEYS.enemyBrute, 'enemies/orc-brute-sheet.png', { frameWidth: 512, frameHeight: 512 });
     this.load.image(ASSET_KEYS.hazard, 'enemies/hazard.png');
     this.load.image(ASSET_KEYS.collectible, 'items/collectible.png');
     this.load.image('arrow', 'items/arrow.png');

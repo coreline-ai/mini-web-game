@@ -10,7 +10,8 @@
     "sourceOfTruth": "assets/asset-manifest.json",
     "notes": [
       "Runtime player sheet is assets/characters/player.png at 4096x512 with 8 frames of 512x512.",
-      "Runtime enemy sheets are goblin-basic-sheet.png, goblin-shield-sheet.png, goblin-runner-sheet.png, and orc-brute-sheet.png at 1024x256 with 4 frames of 256x256.",
+      "Runtime enemy sheets are goblin-basic-sheet.png, goblin-shield-sheet.png, goblin-runner-sheet.png, and orc-brute-sheet.png at 2048x512 with 4 frames of 512x512.",
+      "UI control assets were re-inset so button/icon art no longer touches source image edges at DPR2 display sizes.",
       "Gameplay sprites were edge-cleaned to remove detached alpha fragments; player/enemy sheets now target one alpha component per frame.",
       "collectible.png was rebuilt as a single clean potion pickup component; sparkle/noise detail should live in FX assets, not the pickup silhouette.",
       "The runtime canvas now uses DPR-aware physical sizing while preserving the 390x844 logical coordinate system.",

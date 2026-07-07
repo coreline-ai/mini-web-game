@@ -7,11 +7,11 @@ export default class HudUI {
     this.scoreText = scene.add.text(18, 18, 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setDepth(20);
     this.levelText = scene.add.text(18, 44, 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: '14px', color: '#b9d7ff', stroke: '#000000', strokeThickness: 3 }).setDepth(20);
     if (scene.textures.exists('ui_pause')) {
-      const img = scene.add.image(width - 46, 42, 'ui_pause').setDisplaySize(56, 56).setInteractive({ useHandCursor: true });
+      const img = scene.add.image(width - 50, 48, 'ui_pause').setDisplaySize(64, 64).setInteractive({ useHandCursor: true });
       let pressed = false;
-      img.on('pointerdown', () => { pressed = true; img.setDisplaySize(52, 52); });
-      img.on('pointerup', () => { const run = pressed; pressed = false; img.setDisplaySize(56, 56); if (run) onPause && onPause(); });
-      img.on('pointerout', () => { pressed = false; img.setDisplaySize(56, 56); });
+      img.on('pointerdown', () => { pressed = true; img.setDisplaySize(60, 60); });
+      img.on('pointerup', () => { const run = pressed; pressed = false; img.setDisplaySize(64, 64); if (run) onPause && onPause(); });
+      img.on('pointerout', () => { pressed = false; img.setDisplaySize(64, 64); });
       this.pause = { bg: img, txt: img, destroy: () => img.destroy() };
     } else {
       this.pause = makeTextButton(scene, width - 54, 38, 'Ⅱ', onPause, 58, 48);
