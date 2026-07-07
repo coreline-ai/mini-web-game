@@ -179,6 +179,68 @@ Runtime and edge metrics:
 | production-demo-qa | PASS |
 | Manual DPR2 before/after capture | PASS — screenshots + runtime JSON + edge metrics |
 
+## 2026-07-07 UI clipping and monster resolution pass
+
+User-reported symptoms:
+
+- Home sound icon still looked clipped on the right.
+- PLAY button lower edge looked clipped.
+- Gameplay pause icon looked clipped.
+- Monsters looked lower-resolution than the rest of the scene.
+
+Classification:
+
+| Symptom | Class | Severity | Root cause |
+|---|---|---:|---|
+| Sound icon right edge clipping | L. Asset Fidelity | 3 | Source alpha bbox was too close to the PNG edge; displayed safety padding was only about 2.66 CSS px. |
+| PLAY lower frame clipping | L. Asset Fidelity | 3 | Button frame bottom alpha padding was only about 3.84 CSS px at runtime display size. |
+| Gameplay pause icon clipping | L. Asset Fidelity | 3 | Pause source padding and HUD placement were too tight; source had a 1px detached alpha speckle. |
+| Monster low-resolution impression | L. Asset Fidelity | 3 | Enemy animation sheets were 256px frames while player frames were 512px and backgrounds were 1080x1920. |
+
+Fixes applied:
+
+- Re-inset `btn-frame.png`, `icon-sound-on.png`, `icon-sound-off.png`, `btn-pause.png`, and `icon-settings.png` to add source alpha safety padding.
+- Increased Home PLAY display to `230x82`, moved it slightly upward, and enlarged/centered sound/settings controls to `68x68`.
+- Moved gameplay pause icon to `(width - 50, 48)` and displayed it at `64x64` with safer internal padding.
+- Removed the 1px detached alpha speckle from `btn-pause.png`.
+- Rebuilt runtime enemy sheets from the 512px high-resolution single-sprite sources:
+  - `goblin-basic-sheet.png`
+  - `goblin-runner-sheet.png`
+  - `goblin-shield-sheet.png`
+  - `orc-brute-sheet.png`
+- Updated `LoadingScene` spritesheet frame sizes from `256x256` to `512x512`.
+
+Fresh evidence:
+
+```text
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/before/
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/01-home-after-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/02-game-after-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/03-pause-after-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/04-ui-monster-contact-sheet.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/runtime-samples.json
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/ui-monster-metrics.json
+```
+
+Metric highlights:
+
+- `btn-frame` min displayed source padding: `3.84px -> 9.58px`.
+- `icon-sound-on` min displayed source padding: `2.66px -> 7.97px`.
+- `btn-pause` min displayed source padding: `3.5px -> 7.5px`; max components `2 -> 1`, tiny components `0`.
+- Enemy frame width: `256px -> 512px` for all four runtime enemy sheets.
+- Runtime sample: page/console errors `0`; enemies visible with `frameWidth: 512`; pause button bounds `x=308..372`, `y=16..80`.
+
+2026-07-07 UI/monster-pass verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 26 assets at role-aware production-demo bar |
+| visual-layout-qa | PASS — 390x844, 430x932, 1080x1920 |
+| scene-composite-qa | PASS — 390x844, 430x932, 1080x1920 |
+| production-demo-qa | PASS |
+| Manual before/after DPR2 capture | PASS — screenshots + runtime JSON + source-padding metrics |
+
 ## Remaining expansion ideas
 
 - Add true hand-drawn per-enemy death frames.

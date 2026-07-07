@@ -15,11 +15,11 @@ the final demo. Machine-readable prompts live in `asset-plan.json`.
 This section is authoritative for the current playable build after the 2026-07-07 polish pass.
 
 - Player: `assets/characters/player.png`, 4096×512, 8 frames at 512×512. Runtime animations: `archer_idle`, `archer_aim`, `archer_shoot`, `archer_hit`.
-- Enemy sheets: `goblin-basic-sheet.png`, `goblin-shield-sheet.png`, `goblin-runner-sheet.png`, `orc-brute-sheet.png`, each 1024×256, 4 frames at 256×256. Runtime animations: `enemy_basic_walk`, `enemy_shield_walk`, `enemy_runner_walk`, `enemy_brute_walk`.
+- Enemy sheets: `goblin-basic-sheet.png`, `goblin-shield-sheet.png`, `goblin-runner-sheet.png`, `orc-brute-sheet.png`, each 2048×512, 4 frames at 512×512. Runtime animations: `enemy_basic_walk`, `enemy_shield_walk`, `enemy_runner_walk`, `enemy_brute_walk`.
 - Single enemy source sprites: `shield-goblin.png`, `runner-goblin.png`, `brute-orc.png`, retained for provenance/reference and normalized to transparent RGB.
 - Projectile: `assets/items/arrow.png`, 256×512, cleaned to a single visible arrow component with no detached source fragment.
 - Collectible: `assets/items/collectible.png`, 512×512, rebuilt as a single clean pickup component; decorative sparkle noise belongs in FX, not the pickup silhouette.
-- UI: `btn-frame.png` 768×256, `btn-pause.png`, `heart.png`, `icon-sound-on.png`, `icon-sound-off.png`, `icon-settings.png`, `icon-home.png`, `icon-retry.png`, `icon-close.png`.
+- UI: `btn-frame.png` 768×256, `btn-pause.png`, `heart.png`, `icon-sound-on.png`, `icon-sound-off.png`, `icon-settings.png`, `icon-home.png`, `icon-retry.png`, `icon-close.png`. Primary controls use source alpha safety padding so visible art does not touch the source edge at DPR2.
 - FX: `fx-hit.png`, `fx-collect.png`, `fx-sparkle.png`, transparent RGB normalized and runtime burst placement clamped away from viewport edges.
 - Backgrounds: `stage-1.png`, `stage-2.png`, `stage-3.png`, each 1080×1920 with baked lower battlement. Runtime breach cleanup removes enemies before they visually sit on this battlement.
 - Runtime render: DPR-aware physical canvas sizing keeps the logical game at 390×844 while rendering 780×1688 on DPR2 captures for cleaner sprite edges.

@@ -18,3 +18,6 @@
 14. **캐릭터 외곽 조각 회귀**: `assets/characters/player.png`의 8개 프레임은 각 프레임당 alpha component 1개, tiny component 0개여야 한다. 발 밑에 분리된 검은 선이 보이면 실패.
 15. **물약 외곽 조각 회귀**: `assets/items/collectible.png`는 alpha component 1개, tiny component 0개여야 한다. 별도 먼지/스파클 조각은 pickup 소스가 아니라 FX에서만 표현한다.
 16. **전후 크롭 증거 회귀**: 후보정 후 `05-edge-crops-contact-sheet.png`, `edge-metrics.json`, `runtime-samples.json`을 함께 갱신한다. 화면상 개선만 보고 수치 증거를 생략하지 않는다.
+17. **UI 소스 패딩 회귀**: `btn-frame`, `icon-sound-on/off`, `btn-pause`, `icon-settings`는 DPR2 표시 기준 최소 source-alpha padding 7px 이상이어야 한다. PLAY 하단, 사운드 오른쪽, pause 상단/오른쪽이 프레임 끝에 붙으면 실패.
+18. **몬스터 해상도 회귀**: runtime enemy sheets는 4프레임 `2048x512`, frame size `512x512`여야 한다. `LoadingScene`도 동일한 `frameWidth/frameHeight=512`로 로드해야 한다.
+19. **UI/몬스터 전후 증거 회귀**: 홈 버튼/아이콘, gameplay pause, 몬스터 비교용 `04-ui-monster-contact-sheet.png`, `ui-monster-metrics.json`, `runtime-samples.json`을 같은 세션에서 갱신한다.

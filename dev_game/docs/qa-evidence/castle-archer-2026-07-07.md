@@ -38,6 +38,49 @@ npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/gener
 
 Result: all PASS.
 
+## UI clipping and monster resolution pass
+
+사용자 재지적: 홈 사운드 아이콘 오른쪽, PLAY 버튼 하단, gameplay pause 아이콘이 아직 잘려 보이고 몬스터 해상도가 낮아 보임.
+
+### Root causes
+
+- UI source alpha bbox가 PNG 가장자리에 너무 가까웠다. DPR2 표시 기준 padding이 사운드 약 2.66px, PLAY frame 약 3.84px, pause 약 3.5px뿐이었다.
+- 몬스터 애니메이션 시트는 256px 프레임이었고, 플레이어 512px 프레임/1080x1920 배경과 품질 계층이 달랐다.
+
+### Fixed defects
+
+- `btn-frame`, `icon-sound-on/off`, `btn-pause`, `icon-settings`에 source alpha safety padding 적용.
+- Home PLAY, sound/settings, gameplay pause 표시 크기/위치 조정.
+- `btn-pause`의 1px detached alpha speckle 제거.
+- 적 4종 runtime sprite sheet를 2048x512, 512px frames로 재빌드하고 `LoadingScene` 로더도 512px frame으로 갱신.
+
+### Evidence
+
+- Before/after: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/`
+- Contact sheet: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/04-ui-monster-contact-sheet.png`
+- Runtime JSON: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/runtime-samples.json`
+- Metrics: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after/ui-monster-metrics.json`
+
+Metric highlights:
+
+- `btn-frame` min displayed padding `3.84px -> 9.58px`.
+- `icon-sound-on` min displayed padding `2.66px -> 7.97px`.
+- `btn-pause` min displayed padding `3.5px -> 7.5px`, tiny components `0`.
+- Enemy runtime frame width `256px -> 512px`.
+- Browser/page errors: 0.
+
+### Verification
+
+```bash
+npm --prefix dev_game/generated/castle-archer run build
+npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/castle-archer
+npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/castle-archer --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/castle-archer --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/castle-archer --require-gpt-imagegen
+```
+
+Result: all PASS.
+
 ## DPR/edge fidelity pass
 
 두 번째 후보정 패스는 사용자가 지적한 홈 버튼 짤림, 물약/캐릭터 외곽 노이즈, 모바일 밀도 화면의 선명도 문제를 대상으로 진행했다.
