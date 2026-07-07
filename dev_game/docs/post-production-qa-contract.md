@@ -290,9 +290,9 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 - 2분 이상 자동 플레이 + retry 5회 반복 중 `activeTweens`/타이머 수/displayList 크기/FPS를 주기 샘플링.
 - 정상 상태 기준 대비 단조 증가(누수 신호)가 없는지 assert.
 
-### L. Asset Fidelity Contract — 최종 화면 에셋 품질
+### L. Asset Fidelity Contract — 최종 화면 에셋 품질 / DPR 정합성
 
-**문제 클래스**: 파일 단위 에셋은 존재하지만 최종 렌더 화면이 저해상도, 흐릿한 배경, 평면 런타임 사각형, 임시 UI 조합처럼 보이는 품질 불일치.
+**문제 클래스**: 파일 단위 에셋은 존재하지만 최종 렌더 화면이 저해상도, 흐릿한 배경, 평면 런타임 사각형, 임시 UI 조합처럼 보이는 품질 불일치. 특히 논리 캔버스(`390x844` 등), 브라우저 CSS 크기, 실제 캔버스 backing store, 원본 이미지 픽셀, 디스플레이 DPR이 서로 맞지 않아 다운샘플링 후 다시 업스케일되는 구조.
 
 **증상 시그니처**:
 
@@ -301,23 +301,34 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 - 전체 화면 상태(Loading/Home/Game/Pause/GameOver) 중 일부가 고화질 배경과 어울리지 않는 임시 패널/버튼만 사용
 - 뉴스/카드/버튼 등 반복 UI가 고해상도 DPR 캡처에서 픽셀/압축/스케일링 결함을 보임
 - 일부 HUD만 DOM으로 보정하고 뉴스/카드/버튼은 캔버스 텍스트나 저해상도 생성 텍스처로 남아 화면 품질이 섞여 보임
+- 원본 배경은 커 보이지만 Phaser 내부에서 작은 논리 캔버스로 축소된 뒤 CSS로 다시 확대되어 전체가 흐려짐
+- 버튼/사운드/일시정지 아이콘이 소스 알파 박스나 런타임 스케일 기준을 넘어서 잘림
+- 몬스터/적/캐릭터가 원본 프레임보다 크게 표시되거나 비정수 스케일로 흔들려 선명도가 떨어짐
 
 **수정 규칙**:
 
 1. **화면 단위 기준**: 파일 해상도만 보지 말고 최종 캡처에서 Loading, Home, Game, Pause, GameOver의 화면 단위 품질을 판정한다.
-2. **배경 기준**: 전면 배경/스크린 셸은 모바일 세로 기준 최소 `1080x1920` 이상이며, 실제 사용 크기에 맞춰 왜곡 없이 cover-fit 한다.
-3. **UI 에셋 기준**: 반복 패널, 카드, 액션 버튼은 DPR2 캡처에서도 선명한 고해상도 텍스처 또는 동등한 코드 네이티브 벡터/그래픽 시스템으로 구현한다.
-4. **UI 소유권 일관성**: 한 화면의 주요 읽기/입력 UI는 같은 렌더링 계층으로 통일한다. HUD만 DOM이고 뉴스/카드/버튼은 캔버스처럼 섞인 상태는 최종 품질 미통과로 본다.
-5. **프롬프트 예방**: 배경 imagegen 프롬프트에는 플레이어/적/카드/버튼/텍스트 같은 런타임 UI가 구워지지 않도록 명시한다.
-6. **과선명/노이즈 제어**: image-quality 게이트가 과도한 고주파 노이즈로 실패하면 원본을 보존하고 최소 보정으로 스타일 기준 안에 맞춘다.
-7. **뉴스/콘텐츠 밀도**: 같은 화면 품질 결함이 콘텐츠 반복감에서 오면 이벤트 데이터 쿼터와 중복 검사를 함께 적용한다.
+2. **논리 캔버스와 물리 캔버스 분리**: 논리 캔버스는 좌표계일 뿐 품질 승인 해상도가 아니다. `asset-manifest.json` 또는 QA 샘플에 `logicalCanvas`, `maxTargetDpr`(모바일 기본값 3), `physicalCanvasTarget = logicalCanvas * maxTargetDpr`를 선언한다.
+3. **DPR backing store 보장**: 작은 논리 캔버스를 CSS로 늘리는 구조만으로 완료 처리하지 않는다. Phaser `resolution`/scale 설정 또는 고해상도 논리 캔버스 전략으로 실제 `canvas.width/height`가 목표 DPR 물리 크기를 충족해야 한다. 고해상도 논리 캔버스(`1080x1920` 등)로 전환할 경우 좌표, 폰트, 물리 속도, hit zone, safe-area 수치를 함께 스케일링하고 문서화한다.
+4. **배경 기준**: 전면 배경/스크린 셸 원본은 cover-fit 후에도 물리 캔버스를 업스케일 없이 덮어야 한다. 예: `390x844` 논리 캔버스 DPR3 목표는 최소 `1170x2532`; `430x932` DPR3 목표는 최소 `1290x2796`. 가능하면 `1440x3120` 이상처럼 여유 있는 세로형 소스를 생성한다. `1080x1920`은 모든 모바일 DPR3 상황의 만능 기준이 아니다.
+5. **역할별 소스 픽셀 기준**: 중요한 런타임 에셋은 `sourcePixels >= renderedLogicalPixels * maxTargetDpr`를 만족해야 한다. 적/캐릭터가 모바일에서 90~130 logical px로 보이면 프레임은 최소 384px, 권장 512px 이상이다. HUD/아이콘은 최소 256px, 권장 512px 이상 소스나 동등한 코드 네이티브 벡터/그래픽으로 구현한다.
+6. **UI 에셋 기준**: 반복 패널, 카드, 액션 버튼은 고해상도 9-slice/코드 네이티브 그래픽/안전 패딩 텍스처로 만든다. 텍스트 버튼은 소스 텍스처 내부에 글자를 굽지 말고 런타임 텍스트와 안정적인 배경 구조를 분리한다. 아이콘은 알파 bbox와 여백을 검사해 오른쪽/하단/상단 잘림을 금지한다.
+7. **UI 소유권 일관성**: 한 화면의 주요 읽기/입력 UI는 같은 렌더링 계층과 품질 정책으로 통일한다. DOM/CSS를 쓰는 것은 가능하지만, 일부 HUD만 DOM으로 땜질하고 뉴스/카드/버튼은 저해상도 캔버스 텍스트로 남기는 혼합 품질은 미통과다. 각 UI의 `renderOwner`(`phaser`, `dom-css`, `generated-texture`)를 샘플에 기록한다.
+8. **프롬프트 예방**: 배경 imagegen 프롬프트에는 플레이어/적/카드/버튼/텍스트 같은 런타임 UI가 구워지지 않도록 명시한다. 런타임 스프라이트와 겹칠 가능성이 있으면 배경을 재생성하거나 런타임 소유권을 제거한다.
+9. **재생성 우선 판단**: 소스 자체가 저해상도, 잘림, 과투명, 알파 박스 오염, 압축 잔여물, 잘못된 방향을 포함하면 CSS 필터/샤픈/임시 확대가 아니라 신규 생성 또는 소스 수정으로 해결한다. 런타임 스케일/크롭/anchor가 원인이면 코드에서 고친다.
+10. **뉴스/콘텐츠 밀도**: 같은 화면 품질 결함이 콘텐츠 반복감에서 오면 이벤트 데이터 쿼터와 중복 검사를 함께 적용한다.
+11. **원인 분류 후 수정**: L 결함은 최소한 `source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership` 중 하나로 원인을 분류한 뒤 수정한다.
+12. **에셋 품질 상승 루프**: 역할별 목표 표시 크기와 DPR 기준을 먼저 계산하고, 생성/수정 프롬프트에 방향·패딩·투명 배경·텍스트 금지·배경 내 런타임 오브젝트 금지를 명시한다. 통합 후에는 source/crop/runtime contact sheet로 확인한다.
 
 **기계 검증**:
 
 - 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다.
-- `390x844`, `430x932`, `1080x1920` 캡처에서 레이아웃 겹침과 픽셀 컴포지트 이상이 없는지 확인한다.
-- before/after 캡처를 같은 화면 상태로 보존하고, 최종 캡처의 핵심 텍스처 키를 상태 샘플에 기록한다.
-- DOM/CSS UI를 쓰는 경우 상태 샘플에 `textOverflow: []`, `outOfBounds: []`, UI 소유권(`dom-css`/`phaser`)을 기록한다.
+- `390x844`, `430x932`, `1080x1920` 캡처에서 레이아웃 겹침과 픽셀 컴포지트 이상이 없는지 확인한다. 흐림/잘림 지적이 DPR 문제라면 같은 repro DPR에서 before/after를 남긴다.
+- 상태 샘플에 `devicePixelRatio`, `maxTargetDpr`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`, `logicalCanvas`, `physicalCanvasTarget`을 기록하고 `backingScale >= min(devicePixelRatio, maxTargetDpr)` 또는 문서화된 고해상도 논리 캔버스 전략을 assert한다.
+- 핵심 배경은 cover-fit 계산 후 `sourceWidth/sourceHeight >= requiredCoverSourceSize`를 assert한다. 런타임 sprites/UI/icons/buttons는 `sourceFrameSize >= renderedLogicalSize * sampledTargetDpr`를 assert하고 업스케일 항목을 실패로 기록한다.
+- 아이콘/버튼/스탬프는 `sourceAlphaBbox`, `runtimeBounds`, `safePadding`, `clippedEdges: []`, `outOfBounds: []`를 샘플에 기록한다. `getBounds()`만 통과하고 실제 알파가 잘린 경우는 실패다.
+- before/after 캡처를 같은 화면 상태로 보존하고, 최종 캡처의 핵심 텍스처 키와 렌더 소유권(`phaser`, `dom-css`, `generated-texture`)을 상태 샘플에 기록한다.
+- DOM/CSS UI를 쓰는 경우 상태 샘플에 `textOverflow: []`, `outOfBounds: []`, `fontLoaded: true`, UI 소유권을 기록한다.
 
 ## 3. 파이프라인 배치
 
