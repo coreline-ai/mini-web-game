@@ -181,7 +181,7 @@ export function makeIconButton(scene, x, y, key, onClick, size = 58) {
   drawIconSymbol(symbol, key, size);
   container.add([frame, symbol]);
   container.setSize(size, size);
-  container.setInteractive(new Phaser.Geom.Rectangle(-size / 2, -size / 2, size, size), Phaser.Geom.Rectangle.Contains, { useHandCursor: true });
+  container.setInteractive({ useHandCursor: true });
 
   let pressed = false;
   const setPressed = (value) => container.setScale(value ? 0.94 : 1);
