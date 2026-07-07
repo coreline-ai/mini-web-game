@@ -52,10 +52,9 @@
         "postprocess": [
           "chroma-key-removal",
           "autocrop-pad-resize",
-          "foreground-cannon-crop-remask"
-        ],
-        "derivedFromBackground": "assets/images/production/backgrounds/gallery_day.png",
-        "derivedRawPath": "assets/imagegen/raw/sprites/player_blaster_postprocess_source_crop.png"
+          "edge-key-despeckle",
+          "near-transparent-normalize"
+        ]
       }
     },
     {
@@ -87,7 +86,9 @@
         ],
         "postprocess": [
           "chroma-key-removal",
-          "autocrop-pad-resize"
+          "autocrop-pad-resize",
+          "edge-key-despeckle",
+          "stand-bridge-connect"
         ]
       }
     },
@@ -120,7 +121,9 @@
         ],
         "postprocess": [
           "chroma-key-removal",
-          "autocrop-pad-resize"
+          "autocrop-pad-resize",
+          "edge-key-despeckle",
+          "near-transparent-normalize"
         ]
       }
     },
@@ -153,7 +156,35 @@
         ],
         "postprocess": [
           "chroma-key-removal",
-          "autocrop-pad-resize"
+          "autocrop-pad-resize",
+          "edge-key-despeckle",
+          "near-transparent-normalize"
+        ]
+      }
+    },
+    {
+      "id": "crosshair-artifact",
+      "path": "assets/images/production/ui/crosshair.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 192,
+      "minHeight": 192,
+      "requiresAlpha": true,
+      "runtimeActive": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "retained-crosshair-artifact",
+        "quality": "high",
+        "postprocess": [
+          "edge-key-despeckle",
+          "near-transparent-normalize"
         ]
       }
     }

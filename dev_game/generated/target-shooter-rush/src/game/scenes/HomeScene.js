@@ -15,13 +15,15 @@ export default class HomeScene extends Phaser.Scene {
     const bg = this.add.image(width / 2, height / 2, ASSET_KEYS.bg0).setDepth(-10);
     bg.setScale(Math.max(width / bg.width, height / bg.height));
     this.add.rectangle(0, 0, width, height, 0x07121d, 0.18).setOrigin(0);
+    this.demoPlate = this.add.ellipse(width / 2, height * 0.38, 188, 188, 0x07121d, 0.7)
+      .setStrokeStyle(3, 0x57d8ff, 0.82);
     this.demoTarget = this.add.image(width / 2, height * 0.38, ASSET_KEYS.target).setDisplaySize(146, 146);
     this.titleText = this.add.text(width / 2, height * 0.17, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '28px', color: '#fff', align: 'center', stroke: '#000', strokeThickness: 6, wordWrap: { width: width - 48 } }).setOrigin(0.5);
     this.bestText = this.add.text(width / 2, height * 0.55, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: '22px', color: '#ffd54a', stroke: '#000', strokeThickness: 4 }).setOrigin(0.5);
     this.playBtn = makeTextButton(this, width / 2, height * 0.68, 'PLAY', () => { AudioManager.unlock(this); AudioManager.playSfx(this, ASSET_KEYS.sfxStart, 0.55); this.scene.start(SCENES.GAME); }, 220, 64);
     this.soundBtn = makeTextButton(this, width / 2, height * 0.78, AudioManager.mute ? 'SOUND OFF' : 'SOUND ON', () => { AudioManager.setMute(this, !AudioManager.mute); this.scene.restart(); }, 220, 52);
-    this.tweens.add({ targets: this.demoTarget, x: width * 0.68, yoyo: true, repeat: -1, duration: 1250, ease: 'Sine.easeInOut' });
-    this._homeLayout = [{ id: 'home-title', obj: this.titleText }, { id: 'home-demo-target', obj: this.demoTarget, allowOverlap: true }, { id: 'home-best', obj: this.bestText }, { id: 'play-button', obj: this.playBtn.bg }, { id: 'sound-button', obj: this.soundBtn.bg }];
+    this.tweens.add({ targets: [this.demoTarget, this.demoPlate], x: width * 0.68, yoyo: true, repeat: -1, duration: 1250, ease: 'Sine.easeInOut' });
+    this._homeLayout = [{ id: 'home-title', obj: this.titleText }, { id: 'home-demo-plate', obj: this.demoPlate, allowOverlap: true }, { id: 'home-demo-target', obj: this.demoTarget, allowOverlap: true }, { id: 'home-best', obj: this.bestText }, { id: 'play-button', obj: this.playBtn.bg }, { id: 'sound-button', obj: this.soundBtn.bg }];
     const pub = () => publishLayout(this, this._homeLayout, { requiredIds: ['home-title', 'home-demo-target', 'play-button', 'sound-button'] });
     pub();
     this.time.delayedCall(60, pub);

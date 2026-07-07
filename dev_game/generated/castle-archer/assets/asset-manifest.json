@@ -45,7 +45,11 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize",
+          "frame-largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -76,7 +80,11 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize",
+          "frame-largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -107,7 +115,11 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize",
+          "frame-largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -138,7 +150,12 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "neighbor-frame-fragment-removal",
+          "transparent-rgb-normalize",
+          "frame-largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -169,7 +186,12 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "lower-strip-fragment-removal",
+          "transparent-rgb-normalize",
+          "frame-largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -197,7 +219,11 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize",
+          "largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -225,7 +251,11 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize",
+          "largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -253,7 +283,12 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "detached-component-removal",
+          "transparent-rgb-normalize",
+          "largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -281,7 +316,12 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "lower-strip-fragment-removal",
+          "transparent-rgb-normalize",
+          "largest-component-cleanup",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -309,7 +349,13 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "source-sliver-removal",
+          "transparent-rgb-normalize",
+          "single-component-pickup-redraw",
+          "sparkle-fx-separation",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -337,7 +383,12 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "source-fragment-removal",
+          "largest-component-isolation",
+          "transparent-rgb-normalize",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -363,7 +414,13 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "runtime-padding-restore",
+          "transparent-rgb-normalize",
+          "button-source-padding-restore",
+          "home-display-ratio-padding",
+          "near-transparent-normalize",
+          "dpr-edge-pass"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -389,7 +446,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -415,7 +473,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -441,7 +500,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -467,7 +527,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -493,7 +554,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -519,7 +581,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -545,7 +608,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -571,7 +635,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -597,7 +662,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -623,7 +689,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -649,7 +716,8 @@
           "scene-artboard-slicing",
           "checker-background-alpha-removal",
           "autocrop-center-pad",
-          "runtime-size-normalization"
+          "runtime-size-normalization",
+          "transparent-rgb-normalize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",

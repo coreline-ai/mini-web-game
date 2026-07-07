@@ -52,6 +52,17 @@ export default class GameScene extends Phaser.Scene {
       SPEC.canvas.width - 36,
       SHOOTING.galleryBottom - SHOOTING.galleryTop,
     );
+    this.focusVeil = this.add.graphics().setDepth(4);
+    this.focusVeil.fillStyle(0x06131d, 0.34);
+    this.focusVeil.fillRoundedRect(24, SHOOTING.galleryTop + 18, SPEC.canvas.width - 48, SHOOTING.galleryBottom - SHOOTING.galleryTop - 34, 18);
+    this.focusVeil.lineStyle(2, 0x57d8ff, 0.16);
+    this.focusVeil.strokeRoundedRect(24, SHOOTING.galleryTop + 18, SPEC.canvas.width - 48, SHOOTING.galleryBottom - SHOOTING.galleryTop - 34, 18);
+    this.focusVeilBounds = this.add.zone(
+      SPEC.canvas.width / 2,
+      SHOOTING.galleryTop + 18 + (SHOOTING.galleryBottom - SHOOTING.galleryTop - 34) / 2,
+      SPEC.canvas.width - 48,
+      SHOOTING.galleryBottom - SHOOTING.galleryTop - 34,
+    );
     this.targetSystem = new TargetSystem(this, ASSET_KEYS.target);
 
     this.shooter = this.add.circle(SPEC.canvas.width / 2, SHOOTING.muzzleY, 8, 0x57d8ff, 0.8)
@@ -73,6 +84,7 @@ export default class GameScene extends Phaser.Scene {
     this.hud = new HudUI(this, () => this.openPause());
     this.layoutItems = [
       { id: 'game-playfield', obj: this.gallery, allowOverlap: true },
+      { id: 'game-focus-veil', obj: this.focusVeilBounds, allowOverlap: true },
       { id: 'game-target', obj: this.targetSystem.target.getLayoutObject(), allowOverlap: true },
       { id: 'game-crosshair', obj: this.crosshair, allowOverlap: true },
       { id: 'game-shooter', obj: this.shooter, allowOverlap: true },

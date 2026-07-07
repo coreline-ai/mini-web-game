@@ -10,6 +10,15 @@ After generation, set the matching asset-manifest entry `quality:"production-dem
 - camera: clean 2.5D game render, portrait, gameplay reads in the bottom 60%
 - mood: retro-arcade, glossy 3D mobile-arcade
 
+## Current runtime notes
+
+The prompt text below is generation history. For the current build, use these runtime facts:
+
+- `assets/characters/player.png` is an 8-frame 4096×512 archer sheet, not a 4-frame 256×256 sprite.
+- Runtime enemy sheets are `goblin-basic-sheet.png`, `goblin-shield-sheet.png`, `goblin-runner-sheet.png`, and `orc-brute-sheet.png`, each 1024×256 with 4 frames.
+- `arrow.png`, `goblin-runner-sheet.png`, `runner-goblin.png`, `orc-brute-sheet.png`, `brute-orc.png`, `collectible.png`, and `btn-frame.png` received a 2026-07-07 fragment/padding cleanup pass.
+- `assets/asset-manifest.json` is the source of truth for current production-demo provenance and post-processing notes.
+
 ## Stage backgrounds
 ### stage-1 (Origin)
 - path: `assets/backgrounds/stage-1.png`

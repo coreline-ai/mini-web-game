@@ -31,6 +31,7 @@ const REQUIRED_METHOD = 'codex-gpt-imagegen-skill';
 const CORE_ROLES = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'projectile', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'target', 'goal', 'scanner', 'conveyor']);
 const UI_ROLES = new Set(['ui-icon', 'ui-panel', 'button', 'panel']);
 const GAMEPLAY_OBJECT_LIKE = new Set(['hazard', 'obstacle', 'enemy', 'boss', 'target', 'goal', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile', 'scanner', 'conveyor']);
+const CROP_SAFE_ROLES = new Set([...GAMEPLAY_OBJECT_LIKE, 'player', 'collectible', 'reward']);
 const COLLECT_LIKE = new Set(['collectible', 'reward']);
 
 // hfMax = STYLE ceiling on high-frequency energy (mean 3x3 Laplacian, full frame).
@@ -264,10 +265,12 @@ function main() {
       const minPadPx = pads ? Math.min(...pads) : Infinity;
       const minPadRatio = pads ? Math.min(pads[0] / r.w, pads[2] / r.w, pads[1] / r.h, pads[3] / r.h) : 1;
       const id = String(m.entry.id || '');
-      if (m.kind === 'core' && GAMEPLAY_OBJECT_LIKE.has(role)) {
+      if (m.kind === 'core' && CROP_SAFE_ROLES.has(role)) {
         if (minPadPx < 3 || minPadRatio < 0.012) {
           errors.push(`${m.label} touches crop edge (pads=${pads?.join('/') || 'none'}) — likely clipped sliced asset`);
         }
+      }
+      if (m.kind === 'core' && GAMEPLAY_OBJECT_LIKE.has(role)) {
         // bbox 채움비 하한은 role-aware: 상자형 구조물(택배/차량/빈)은 속이 비면 결함이지만,
         // 생물형(고블린 귀·팔다리 벌린 실루엣 ~0.35-0.45)과 투사체(화살 ~0.10-0.15)는
         // 형태 특성상 채움비가 낮은 게 정상이다. (실측: goblin 0.44, shield-goblin 0.35, arrow 0.12)

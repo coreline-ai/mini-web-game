@@ -11,6 +11,7 @@ import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import AimShotSystem from '../systems/AimShotSystem.js';
 import WaveGateSystem from '../systems/WaveGateSystem.js';
+import { applyLogicalCamera } from '../constants/renderScale.js';
 
 // Castle Archer — 성벽 방어 저격. dodge와 달리 궁수는 성벽 중앙에 고정되고,
 // 드래그는 이동이 아니라 "조준"이다. 실패는 원힛이 아니라 성문 HP(3) 소진.
@@ -21,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
     if (!this.textures.exists('arrow')) this.load.image('arrow', 'items/arrow.png');
   }
   create() {
+    applyLogicalCamera(this);
     this.isOver = false;
     this.currentLevel = 1;
     this.score = new ScoreManager();

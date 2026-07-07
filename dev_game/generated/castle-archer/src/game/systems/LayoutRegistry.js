@@ -1,10 +1,12 @@
 // Publishes visible UI bounds (in CSS/viewport pixels) to window.__GAME_LAYOUT_BOUNDS__
 // so visual-layout-qa can detect HUD overlap and safe-area violations.
+import { SPEC } from '../data/spec.js';
+
 export function publishLayout(scene, entries) {
   const s = scene.scale;
   const b = s && s.canvasBounds;
-  const gw = s && s.gameSize && s.gameSize.width;
-  const gh = s && s.gameSize && s.gameSize.height;
+  const gw = SPEC.canvas.width;
+  const gh = SPEC.canvas.height;
   if (!b || !gw || !gh) return;
   const sx = b.width / gw;
   const sy = b.height / gh;

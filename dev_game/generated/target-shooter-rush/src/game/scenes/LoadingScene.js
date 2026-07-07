@@ -36,10 +36,14 @@ export default class LoadingScene extends Phaser.Scene {
     }
     const items = [];
     if (this.textures.exists(ASSET_KEYS.target)) {
+      this.loadingEmblemPlate = this.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.23, 124, 124, 0x07121d, 0.72)
+        .setStrokeStyle(3, 0x57d8ff, 0.82)
+        .setDepth(3);
       this.loadingEmblem = this.add.image(SPEC.canvas.width / 2, SPEC.canvas.height * 0.23, ASSET_KEYS.target)
         .setDisplaySize(92, 92)
         .setAlpha(0.96)
         .setDepth(4);
+      items.push({ id: 'loading-emblem-plate', obj: this.loadingEmblemPlate, allowOverlap: true });
       items.push({ id: 'loading-emblem', obj: this.loadingEmblem });
     }
     if (this.loadingUI && this.loadingUI.title) items.push({ id: 'loading-title', obj: this.loadingUI.title });

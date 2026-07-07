@@ -3,6 +3,7 @@ import { SPEC } from '../data/spec.js';
 import { TUNING } from '../constants/tuning.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { AudioManager } from '../systems/AudioManager.js';
+import { pointerToLogical } from '../constants/renderScale.js';
 
 // Castle Archer 고유 시스템 ①: 드래그 조준 → 놓으면 발사 (수동 저격).
 // - pointerdown/move: 궁수 위치에서 손가락 방향으로 점선 조준선 + 레티클 표시
@@ -13,7 +14,26 @@ export const CASTLE = {
   fireCooldownMs: 170,
   aimMinAngleDeg: -168, // 위쪽 반구로 클램프 (수평선 아래로는 못 쏨)
   aimMaxAngleDeg: -12,
+  aimGuideLength: 560,
+  aimGuideMargin: 22,
 };
+
+function rayLengthToSafeBounds(px, py, ang, maxLen) {
+  const dx = Math.cos(ang);
+  const dy = Math.sin(ang);
+  const bounds = {
+    left: CASTLE.aimGuideMargin,
+    right: SPEC.canvas.width - CASTLE.aimGuideMargin,
+    top: TUNING.safeTop + CASTLE.aimGuideMargin,
+    bottom: TUNING.playerY - 44,
+  };
+  let len = maxLen;
+  if (dx < -0.001) len = Math.min(len, (bounds.left - px) / dx);
+  if (dx > 0.001) len = Math.min(len, (bounds.right - px) / dx);
+  if (dy < -0.001) len = Math.min(len, (bounds.top - py) / dy);
+  if (dy > 0.001) len = Math.min(len, (bounds.bottom - py) / dy);
+  return Phaser.Math.Clamp(len, 72, maxLen);
+}
 
 export default class AimShotSystem {
   constructor(scene) {
@@ -36,7 +56,7 @@ export default class AimShotSystem {
     this.aimLine = scene.add.graphics().setDepth(9);
     this.reticle = scene.add.circle(0, 0, 13, 0xffffff, 0).setStrokeStyle(3, 0xffe066, 0.95).setDepth(9).setVisible(false);
 
-    this.onDown = (p) => { if (scene.isOver || p.y < 82) return; this.aiming = true; this.updateAim(p); };
+    this.onDown = (p) => { const lp = pointerToLogical(scene, p); if (scene.isOver || lp.y < 82) return; this.aiming = true; this.updateAim(p); };
     this.onMove = (p) => { if (this.aiming) this.updateAim(p); };
     this.onUp = (p) => {
       if (!this.aiming || scene.isOver) { this.aiming = false; this.clearAim(); return; }
@@ -51,6 +71,7 @@ export default class AimShotSystem {
   }
 
   updateAim(pointer) {
+    pointer = pointerToLogical(this.scene, pointer);
     const px = this.scene.player.x, py = this.scene.player.y - 14;
     let ang = Math.atan2(pointer.y - py, pointer.x - px);
     const min = Phaser.Math.DegToRad(CASTLE.aimMinAngleDeg);
@@ -62,7 +83,7 @@ export default class AimShotSystem {
     // 점선 조준선
     this.aimLine.clear();
     this.aimLine.lineStyle(3, 0xffe066, 0.85);
-    const len = 560;
+    const len = rayLengthToSafeBounds(px, py, ang, CASTLE.aimGuideLength);
     const steps = 14;
     for (let i = 0; i < steps; i += 1) {
       const t0 = i / steps, t1 = (i + 0.55) / steps;

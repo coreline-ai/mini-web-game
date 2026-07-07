@@ -151,7 +151,7 @@ export default class WaveGateSystem {
   update() {
     this.configureNewMonsters();
     // 성벽 돌파 판정
-    const landY = TUNING.playerY - 6;
+    const landY = TUNING.playerY - Math.max(68, TUNING.hazardSize * 0.78);
     this.scene.spawner.hazards.children.each((m) => {
       if (m.active && m.y > landY) this.damageGate(m);
     });

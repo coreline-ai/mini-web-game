@@ -17,6 +17,8 @@ export const SHOOTING = {
   targetSpeedMax: shooting.targetSpeedMax || 310,
   targetSizeStart: shooting.targetSizeStart || 92,
   targetSizeMin: shooting.targetSizeMin || 58,
+  targetEdgeMargin: shooting.targetEdgeMargin || 88,
+  hitBurstPeakRadius: shooting.hitBurstPeakRadius || 84,
   comboWindowMs: shooting.comboWindowMs || 1400,
   perfectScore: shooting.perfectScore || 180,
   hitScore: shooting.hitScore || 100,

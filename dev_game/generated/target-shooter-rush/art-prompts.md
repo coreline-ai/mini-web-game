@@ -41,7 +41,7 @@ under `assets/imagegen/raw/`.
 
 - Runtime path: `assets/images/production/characters/player_blaster.png`
 - Raw source: `assets/imagegen/raw/sprites/player_blaster.png`
-- Postprocess source crop: `assets/imagegen/raw/sprites/player_blaster_postprocess_source_crop.png`
+- Final postprocess: chroma-key cleanup, edge-key despeckle, near-transparent normalization, and padding restore from the raw sprite.
 - Note: loaded for the per-game asset contract, but final gameplay does not draw
   this as a separate player image over the baked cannon composition.
 
@@ -66,8 +66,8 @@ under `assets/imagegen/raw/`.
 ### Crosshair Artifact
 
 - Runtime file path: `assets/images/production/ui/crosshair.png`
-- Note: retained as generated asset evidence, but active gameplay creates and
-  uses `reticle_ui`, a thin Phaser-generated cyan/white reticle.
+- Note: retained in `asset-manifest.json` with `runtimeActive: false`, but active
+  gameplay creates and uses `reticle_ui`, a thin Phaser-generated cyan/white reticle.
 
 ## Final Runtime Composition
 
@@ -75,6 +75,7 @@ The active game screen recomposes:
 
 - stage background (`bg_0`, `bg_1`, `bg_2`)
 - moving `bullseye_target.png`
+- loading/home/game target focus plates and subtle gameplay focus veil
 - runtime `reticle_ui`
 - baked cannon background plus small muzzle-flash anchor
 - HUD text/panel

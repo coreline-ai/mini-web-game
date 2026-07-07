@@ -2,12 +2,14 @@ import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
+import { applyLogicalCamera } from '../constants/renderScale.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
 
 export default class LoadingScene extends Phaser.Scene {
   constructor() { super(SCENES.LOADING); }
   preload() {
+    applyLogicalCamera(this);
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
     this.load.on('loaderror', (file) => {
@@ -47,6 +49,7 @@ export default class LoadingScene extends Phaser.Scene {
     }
   }
   create() {
+    applyLogicalCamera(this);
     const items = (this.loadingUI && this.loadingUI.title) ? [{ id: 'loading', obj: this.loadingUI.title }] : [];
     publishLayout(this, items);
     const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');

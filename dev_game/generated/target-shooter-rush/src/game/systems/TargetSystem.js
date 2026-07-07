@@ -19,9 +19,10 @@ export default class TargetSystem {
     const row = SHOOTING.targetRows[this.spawnIndex % SHOOTING.targetRows.length];
     const y = Math.round(SPEC.canvas.height * row);
     const fromLeft = this.spawnIndex % 2 === 0;
-    const x = fromLeft ? size + 22 : SPEC.canvas.width - size - 22;
+    const edgeMargin = Math.max(SHOOTING.targetEdgeMargin, SHOOTING.hitBurstPeakRadius, size * 0.5 + 24);
+    const x = fromLeft ? edgeMargin : SPEC.canvas.width - edgeMargin;
     this.spawnIndex += 1;
-    this.target.reset({ x, y, size, speed, direction: fromLeft ? 1 : -1 });
+    this.target.reset({ x, y, size, speed, direction: fromLeft ? 1 : -1, edgeMargin });
   }
 
   update(delta) {
