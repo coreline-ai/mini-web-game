@@ -7,3 +7,8 @@ generated/*
 generated/market-panic/node_modules/
 generated/market-panic/dist/
 generated/market-panic/qa-captures/
+!generated/target-shooter-rush/
+!generated/target-shooter-rush/**
+generated/target-shooter-rush/node_modules/
+generated/target-shooter-rush/dist/
+generated/target-shooter-rush/qa-captures/

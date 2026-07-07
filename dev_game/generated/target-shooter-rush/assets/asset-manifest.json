@@ -1,0 +1,295 @@
+{
+  "assetsVersion": "1.0.0",
+  "imagePolicy": {
+    "allowedFormats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 512,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav",
+      "ogg",
+      "mp3"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "images": [
+    {
+      "id": "player",
+      "path": "assets/images/production/characters/player_blaster.png",
+      "type": "sprite",
+      "role": "player",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 320,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "25117d58398fe9d2",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/sprites/player_blaster.png",
+        "sourceSheet": "assets/imagegen/raw/sheets/target_shooter_assets_sheet.png",
+        "cropBox": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "postprocess": [
+          "chroma-key-removal",
+          "autocrop-pad-resize",
+          "foreground-cannon-crop-remask"
+        ],
+        "derivedFromBackground": "assets/images/production/backgrounds/gallery_day.png",
+        "derivedRawPath": "assets/imagegen/raw/sprites/player_blaster_postprocess_source_crop.png"
+      }
+    },
+    {
+      "id": "target-bullseye",
+      "path": "assets/images/production/targets/bullseye_target.png",
+      "type": "sprite",
+      "role": "target",
+      "quality": "production-demo",
+      "minWidth": 320,
+      "minHeight": 320,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "c6c8f0fc4dc39af2",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/sprites/bullseye_target.png",
+        "sourceSheet": "assets/imagegen/raw/sheets/target_shooter_assets_sheet.png",
+        "cropBox": [
+          627,
+          0,
+          1254,
+          627
+        ],
+        "postprocess": [
+          "chroma-key-removal",
+          "autocrop-pad-resize"
+        ]
+      }
+    },
+    {
+      "id": "hit-burst",
+      "path": "assets/images/production/effects/hit_burst.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 192,
+      "minHeight": 192,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "1b332d8dc6367eda",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/sprites/hit_burst.png",
+        "sourceSheet": "assets/imagegen/raw/sheets/target_shooter_assets_sheet.png",
+        "cropBox": [
+          0,
+          627,
+          627,
+          1254
+        ],
+        "postprocess": [
+          "chroma-key-removal",
+          "autocrop-pad-resize"
+        ]
+      }
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/images/production/ui/button_pause.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 192,
+      "minHeight": 192,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "8a726b04eafe729f",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/sprites/button_pause.png",
+        "sourceSheet": "assets/imagegen/raw/sheets/target_shooter_assets_sheet.png",
+        "cropBox": [
+          627,
+          627,
+          1254,
+          1254
+        ],
+        "postprocess": [
+          "chroma-key-removal",
+          "autocrop-pad-resize"
+        ]
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "required": true,
+      "maxDurationMs": 1000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush"
+      }
+    }
+  ],
+  "qualityTier": "production-demo",
+  "stageBackgrounds": [
+    {
+      "id": "gallery-day",
+      "stage": 1,
+      "path": "assets/images/production/backgrounds/gallery_day.png",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "8d7f4b824f2e54c7",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/backgrounds/gallery_day.png"
+      }
+    },
+    {
+      "id": "gallery-night",
+      "stage": 2,
+      "path": "assets/images/production/backgrounds/gallery_night.png",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "3da9bf26d02db4ef",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/backgrounds/gallery_night.png"
+      }
+    },
+    {
+      "id": "gallery-rush",
+      "stage": 3,
+      "path": "assets/images/production/backgrounds/gallery_rush.png",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "target-shooter-rush",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "0d7202cccb721eac",
+        "quality": "high",
+        "rawPath": "assets/imagegen/raw/backgrounds/gallery_rush.png"
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "target-shooter-rush",
+    "noSharedRuntimeAssets": true
+  },
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-07-06T02:25:46.780Z"
+  }
+}

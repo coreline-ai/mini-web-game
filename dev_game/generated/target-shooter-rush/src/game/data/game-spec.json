@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "target-shooter-rush",
+    "title": "Target Shooter Rush",
+    "description": "A one-hand mobile shooting arcade game: tap to fire at moving bullseye targets that sweep left and right across the gallery before the timer runs out.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#14202a",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 860,
+    "hitbox": {
+      "width": 44,
+      "height": 44
+    }
+  },
+  "hazards": {
+    "type": "moving-targets",
+    "label": "Bullseye Target",
+    "spawnRateStart": 1100,
+    "spawnRateMax": 430,
+    "fallSpeedStart": 150,
+    "fallSpeedMax": 420,
+    "damage": 1,
+    "poolSize": 48
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Perfect Shot",
+    "spawnRate": 0.18,
+    "scoreValue": 120
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 4,
+    "collectiblePoints": 120,
+    "highScoreLocalStorageKey": "target_shooter_rush_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 14,
+    "maxLevel": 14
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#14202a",
+      "player": "#57d8ff",
+      "hazard": "#ff5b5b",
+      "collectible": "#ffd54a",
+      "ui": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "shooting": {
+    "decision": "custom-loop",
+    "sessionSeconds": 45,
+    "missPenaltySeconds": 3,
+    "hitBonusSeconds": 1.2,
+    "perfectRadiusRatio": 0.32,
+    "targetRows": [
+      0.26,
+      0.38,
+      0.5,
+      0.62
+    ],
+    "targetSpeedStart": 120,
+    "targetSpeedMax": 310,
+    "targetSizeStart": 92,
+    "targetSizeMin": 58,
+    "comboWindowMs": 1400,
+    "perfectScore": 180,
+    "hitScore": 100,
+    "missScorePenalty": 30,
+    "stages": [
+      {
+        "name": "DAY",
+        "goalHits": 4,
+        "rewardSeconds": 4,
+        "rewardScore": 250,
+        "levelBonus": 0
+      },
+      {
+        "name": "NIGHT",
+        "goalHits": 6,
+        "rewardSeconds": 3,
+        "rewardScore": 400,
+        "levelBonus": 3
+      },
+      {
+        "name": "RUSH",
+        "goalHits": 8,
+        "rewardSeconds": 0,
+        "rewardScore": 650,
+        "levelBonus": 6
+      }
+    ]
+  }
+}

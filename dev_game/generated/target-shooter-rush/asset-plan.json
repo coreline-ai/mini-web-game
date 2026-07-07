@@ -1,0 +1,132 @@
+{
+  "gameId": "target-shooter-rush",
+  "title": "Target Shooter Rush",
+  "status": "production-demo-final",
+  "authoritativeManifest": "assets/asset-manifest.json",
+  "canvas": {
+    "width": 390,
+    "height": 844
+  },
+  "styleGuide": {
+    "palette": "teal/gold/red arcade highlights on dark shooting-gallery backgrounds",
+    "outline": "clean bold silhouettes, high readability at phone size",
+    "lighting": "glossy 3D mobile-cartoon with soft top light and smooth gradients",
+    "camera": "portrait shooting-gallery composition with clear center play space",
+    "mood": "retro arcade, polished production-demo"
+  },
+  "stageBackgrounds": [
+    {
+      "id": "gallery-day",
+      "stage": 1,
+      "runtimeKey": "bg_0",
+      "path": "assets/images/production/backgrounds/gallery_day.png",
+      "rawPath": "assets/imagegen/raw/backgrounds/gallery_day.png",
+      "width": 1080,
+      "height": 1920,
+      "usage": "DAY stage, Home, Loading"
+    },
+    {
+      "id": "gallery-night",
+      "stage": 2,
+      "runtimeKey": "bg_1",
+      "path": "assets/images/production/backgrounds/gallery_night.png",
+      "rawPath": "assets/imagegen/raw/backgrounds/gallery_night.png",
+      "width": 1080,
+      "height": 1920,
+      "usage": "NIGHT stage"
+    },
+    {
+      "id": "gallery-rush",
+      "stage": 3,
+      "runtimeKey": "bg_2",
+      "path": "assets/images/production/backgrounds/gallery_rush.png",
+      "rawPath": "assets/imagegen/raw/backgrounds/gallery_rush.png",
+      "width": 1080,
+      "height": 1920,
+      "usage": "RUSH stage and GameOver"
+    }
+  ],
+  "images": [
+    {
+      "id": "player",
+      "role": "player-contract",
+      "path": "assets/images/production/characters/player_blaster.png",
+      "rawPath": "assets/imagegen/raw/sprites/player_blaster.png",
+      "runtimeUsage": "loaded for manifest completeness; active GameScene uses baked cannon plus muzzle anchor"
+    },
+    {
+      "id": "target-bullseye",
+      "role": "target",
+      "runtimeKey": "target",
+      "path": "assets/images/production/targets/bullseye_target.png",
+      "rawPath": "assets/imagegen/raw/sprites/bullseye_target.png",
+      "runtimeUsage": "active moving target"
+    },
+    {
+      "id": "hit-burst",
+      "role": "feedback",
+      "runtimeKey": "hit_burst",
+      "path": "assets/images/production/effects/hit_burst.png",
+      "rawPath": "assets/imagegen/raw/sprites/hit_burst.png",
+      "runtimeUsage": "hit and perfect feedback"
+    },
+    {
+      "id": "btn-pause",
+      "role": "ui-icon",
+      "runtimeKey": "ui_pause",
+      "path": "assets/images/production/ui/button_pause.png",
+      "rawPath": "assets/imagegen/raw/sprites/button_pause.png",
+      "runtimeUsage": "pause button"
+    },
+    {
+      "id": "crosshair-artifact",
+      "role": "reticle-artifact",
+      "path": "assets/images/production/ui/crosshair.png",
+      "runtimeUsage": "file exists, but active gameplay uses runtime-generated reticle_ui"
+    }
+  ],
+  "runtimeGeneratedVisuals": [
+    {
+      "id": "reticle_ui",
+      "owner": "src/game/scenes/GameScene.js",
+      "usage": "thin cyan/white reticle generated with Phaser graphics"
+    },
+    {
+      "id": "muzzle-anchor",
+      "owner": "src/game/scenes/GameScene.js",
+      "usage": "small cyan muzzle flash anchor over baked cannon"
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "runtimeUsage": "start/UI feedback"
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "runtimeUsage": "hit/perfect feedback"
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "runtimeUsage": "miss feedback"
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "runtimeUsage": "round over/all-clear transition"
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "runtimeUsage": "looping gameplay music"
+    }
+  ],
+  "qaEvidence": {
+    "video": "qa-captures/final-video/target-shooter-rush-final-playthrough.webm",
+    "samples": "qa-captures/final-video/final-playthrough-samples.json",
+    "contactSheet": "qa-captures/final-gui/contact-sheet.png"
+  }
+}

@@ -1,0 +1,17 @@
+export const ASSET_KEYS = {
+  player: 'player',
+  hazard: 'hazard',
+  collectible: 'collectible',
+  target: 'target',
+  crosshair: 'crosshair',
+  hitBurst: 'hit_burst',
+  missBurst: 'miss_burst',
+  bg0: 'bg_0',
+  bg1: 'bg_1',
+  bg2: 'bg_2',
+  sfxStart: 'sfx_start',
+  sfxHit: 'sfx_hit',
+  sfxCollect: 'sfx_collect',
+  sfxGameOver: 'sfx_game_over',
+  musicGameplay: 'music_gameplay',
+};
