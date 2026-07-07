@@ -50,6 +50,69 @@ Result: all PASS.
 
 V2 verification: build, image-quality-qa, visual-layout-qa, scene-composite-qa, production-demo-qa all PASS.
 
+## HQ asset regeneration pass
+
+사용자 요청에 따라 방패병/적군/아이콘 버튼 이미지 에셋을 imagegen 기반으로 새로 생성하고 현재 1080x1920 런타임 기준에 맞춰 최적화했다.
+
+### Fixed defects
+
+- 적 4종 source sheet 신규 생성: basic goblin, runner goblin, shield goblin, brute orc.
+- 각 적 cell에서 largest alpha component만 남겨 옆 프레임/무기 조각이 섞이지 않도록 정리.
+- runtime enemy sheets를 `3072x768`, 4프레임 `768x768`로 업그레이드.
+- `LoadingScene` spritesheet frame size를 `768x768`로 갱신.
+- UI icon button source sheet 신규 생성 후 `btn-pause`, `icon-sound-on/off`, `icon-settings`, `icon-home`, `icon-retry`, `icon-close`를 `512x512` PNG로 교체.
+- `makeIconButton()`은 새 PNG 아이콘 버튼을 직접 렌더하고, 이미지가 없을 때만 procedural fallback을 사용한다.
+- `asset-manifest.json`, `asset-plan.json`, `03-ASSET-AUDIO-PLAN.md`, `07-REGRESSION-CHECKLIST.md`를 새 기준으로 갱신.
+
+### Evidence
+
+- Before/after and contact sheet: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/`
+- Contact sheet: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/04-hq-asset-contact-sheet.png`
+- Runtime JSON: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/runtime-asset-fidelity-samples.json`
+- Split metrics: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/source-split-metrics.json`
+
+Metric highlights:
+
+- Enemy sheets: `2048x512 / 512px frame -> 3072x768 / 768px frame`.
+- Runtime sample: enemy 4종 모두 `frameWidth=768`, `frameHeight=768`.
+- UI pause source: `512x512`.
+- Browser/page errors: 0.
+
+Verification: build, image-quality-qa, visual-layout-qa, scene-composite-qa, production-demo-qa, production-gate all PASS.
+
+## Brute / potion / pause-button correction pass
+
+사용자 재지적: 4번째 방망이 든 적의 오른쪽이 깨져 보이고, pause 버튼을 누르면 버튼이 커지며, 물약 에셋이 현재 해상도와 맞지 않음.
+
+### Root causes
+
+- 브루트 적 시트는 프레임 경계 근처에 몸/무기가 붙어 있어 방망이와 오른쪽 외곽이 깨져 보일 수 있었다.
+- `makeIconButton()`이 `setDisplaySize(128)` 이후 눌림 상태에 `setScale(0.94)`를 적용해, 표시 크기 128 기준이 아니라 원본 512 기준으로 버튼이 커졌다.
+- 물약은 1024px 원본이었지만 검은 배경과 라벨 텍스트가 박힌 이미지라 런타임 pickup sprite 품질 정책과 맞지 않았다.
+
+### Fixed defects
+
+- 브루트 오크+방망이 원본을 imagegen으로 새로 생성하고 green chroma-key 제거 후 `brute-orc.png`, `orc-brute-sheet.png`를 재빌드.
+- 브루트 시트는 `3072x768`, 4프레임 `768x768` 유지, 프레임별 오른쪽 padding 최소 59px 확보.
+- 물약을 no-label transparent healing potion으로 새로 생성하고 `assets/items/collectible.png`를 `1024x1024`로 교체.
+- pause 아이콘 눌림 효과는 source-relative scale이 아니라 display-size-relative `setDisplaySize()`로 수정.
+
+### Evidence
+
+- Contact sheet: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/04-brute-potion-button-contact-sheet.png`
+- Runtime sample: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/runtime-brute-potion-button-samples.json`
+- Direct sprite sample: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/runtime-brute-direct-sprite-samples.json`
+- Metrics: `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/asset-fix-metrics.json`
+
+Metric highlights:
+
+- Brute frame right padding: `[79, 64, 59, 65]`.
+- Potion alpha padding: `L310 R309 T155 B154`.
+- Pause button: `128px -> 120.32px` while pressed, no source-scale enlargement.
+- Browser/page errors: 0.
+
+Verification: build, image-quality-qa, visual-layout-qa, scene-composite-qa, production-demo-qa, production-gate all PASS.
+
 ## UI clipping and monster resolution pass
 
 사용자 재지적: 홈 사운드 아이콘 오른쪽, PLAY 버튼 하단, gameplay pause 아이콘이 아직 잘려 보이고 몬스터 해상도가 낮아 보임.

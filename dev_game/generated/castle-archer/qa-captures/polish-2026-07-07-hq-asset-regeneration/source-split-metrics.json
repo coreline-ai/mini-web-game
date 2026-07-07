@@ -1,0 +1,261 @@
+{
+  "generatedAt": "2026-07-07T09:41:26.611Z",
+  "enemyMetrics": [
+    {
+      "id": "basic",
+      "sheet": "goblin-basic-sheet.png",
+      "single": "hazard.png",
+      "frameSize": 768,
+      "sourceCell": {
+        "x": 0,
+        "y": 0,
+        "w": 543,
+        "h": 724
+      },
+      "sourceComponents": [
+        119525
+      ],
+      "singleBbox": {
+        "x": 80,
+        "y": 69,
+        "w": 610,
+        "h": 631,
+        "right": 78,
+        "bottom": 68
+      },
+      "sheetBbox": {
+        "x": 80,
+        "y": 62,
+        "w": 2919,
+        "h": 643,
+        "right": 73,
+        "bottom": 63
+      }
+    },
+    {
+      "id": "runner",
+      "sheet": "goblin-runner-sheet.png",
+      "single": "runner-goblin.png",
+      "frameSize": 768,
+      "sourceCell": {
+        "x": 543,
+        "y": 0,
+        "w": 543,
+        "h": 724
+      },
+      "sourceComponents": [
+        95645,
+        1345
+      ],
+      "singleBbox": {
+        "x": 176,
+        "y": 75,
+        "w": 416,
+        "h": 621,
+        "right": 176,
+        "bottom": 72
+      },
+      "sheetBbox": {
+        "x": 176,
+        "y": 68,
+        "w": 2727,
+        "h": 633,
+        "right": 169,
+        "bottom": 67
+      }
+    },
+    {
+      "id": "shield",
+      "sheet": "goblin-shield-sheet.png",
+      "single": "shield-goblin.png",
+      "frameSize": 768,
+      "sourceCell": {
+        "x": 1086,
+        "y": 0,
+        "w": 543,
+        "h": 724
+      },
+      "sourceComponents": [
+        143548,
+        29689,
+        2
+      ],
+      "singleBbox": {
+        "x": 144,
+        "y": 40,
+        "w": 465,
+        "h": 690,
+        "right": 159,
+        "bottom": 38
+      },
+      "sheetBbox": {
+        "x": 144,
+        "y": 32,
+        "w": 2776,
+        "h": 703,
+        "right": 152,
+        "bottom": 33
+      }
+    },
+    {
+      "id": "brute",
+      "sheet": "orc-brute-sheet.png",
+      "single": "brute-orc.png",
+      "frameSize": 768,
+      "sourceCell": {
+        "x": 1629,
+        "y": 0,
+        "w": 543,
+        "h": 724
+      },
+      "sourceComponents": [
+        189879
+      ],
+      "singleBbox": {
+        "x": 116,
+        "y": 25,
+        "w": 523,
+        "h": 720,
+        "right": 129,
+        "bottom": 23
+      },
+      "sheetBbox": {
+        "x": 116,
+        "y": 18,
+        "w": 2833,
+        "h": 731,
+        "right": 123,
+        "bottom": 19
+      }
+    }
+  ],
+  "iconMetrics": [
+    {
+      "id": "icon-sound-on.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 0,
+        "y": 0,
+        "w": 272,
+        "h": 724
+      },
+      "bbox": {
+        "x": 49,
+        "y": 41,
+        "w": 427,
+        "h": 431,
+        "right": 36,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "icon-sound-off.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 272,
+        "y": 0,
+        "w": 271,
+        "h": 724
+      },
+      "bbox": {
+        "x": 46,
+        "y": 41,
+        "w": 427,
+        "h": 431,
+        "right": 39,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "icon-settings.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 543,
+        "y": 0,
+        "w": 272,
+        "h": 724
+      },
+      "bbox": {
+        "x": 43,
+        "y": 41,
+        "w": 428,
+        "h": 431,
+        "right": 41,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "btn-pause.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 815,
+        "y": 0,
+        "w": 271,
+        "h": 724
+      },
+      "bbox": {
+        "x": 42,
+        "y": 41,
+        "w": 428,
+        "h": 431,
+        "right": 42,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "icon-home.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 1086,
+        "y": 0,
+        "w": 272,
+        "h": 724
+      },
+      "bbox": {
+        "x": 42,
+        "y": 41,
+        "w": 429,
+        "h": 431,
+        "right": 41,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "icon-retry.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 1358,
+        "y": 0,
+        "w": 271,
+        "h": 724
+      },
+      "bbox": {
+        "x": 42,
+        "y": 41,
+        "w": 428,
+        "h": 431,
+        "right": 42,
+        "bottom": 40
+      }
+    },
+    {
+      "id": "icon-close.png",
+      "frameSize": 512,
+      "sourceCell": {
+        "x": 1629,
+        "y": 0,
+        "w": 272,
+        "h": 724
+      },
+      "bbox": {
+        "x": 39,
+        "y": 41,
+        "w": 429,
+        "h": 431,
+        "right": 44,
+        "bottom": 40
+      }
+    }
+  ],
+  "regeneratedAt": "2026-07-07T09:42:54.509Z"
+}

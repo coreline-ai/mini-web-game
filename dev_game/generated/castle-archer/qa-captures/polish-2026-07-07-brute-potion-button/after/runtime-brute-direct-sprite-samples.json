@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-07-07T10:20:22.705Z",
+  "errors": [],
+  "warnings": [
+    "[.WebGL-0x11c004d4800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x11c004d0600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x11c004d0600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x11c004d0600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "sample": {
+    "frameKeys": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "__BASE"
+    ],
+    "frame0": {
+      "width": 768,
+      "height": 768,
+      "cutX": 0,
+      "cutY": 0,
+      "cutWidth": 768,
+      "cutHeight": 768
+    },
+    "bruteBounds": {
+      "x": 390,
+      "y": 470,
+      "width": 300,
+      "height": 300,
+      "displayWidth": 300,
+      "displayHeight": 300,
+      "frameName": 0,
+      "textureKey": "enemy_brute"
+    },
+    "potionBounds": {
+      "x": 710,
+      "y": 530,
+      "width": 160,
+      "height": 160,
+      "displayWidth": 160,
+      "displayHeight": 160
+    },
+    "layout": {
+      "scene": "Game",
+      "items": [
+        {
+          "id": "score",
+          "x": 18.055555555555554,
+          "y": 93.055419921875,
+          "width": 87.75,
+          "height": 22.738544464111328,
+          "visible": true
+        },
+        {
+          "id": "level",
+          "x": 18.055555555555554,
+          "y": 116.5274658203125,
+          "width": 32.5,
+          "height": 16.437485027313233,
+          "visible": true
+        },
+        {
+          "id": "pause",
+          "x": 330.77777777777777,
+          "y": 87.99990234375,
+          "width": 46.22222222222222,
+          "height": 46.221875,
+          "visible": true
+        },
+        {
+          "id": "gate-hp",
+          "x": 144.44444444444443,
+          "y": 96.66650390625,
+          "width": 28.88888888888889,
+          "height": 28.888671875,
+          "visible": true
+        },
+        {
+          "id": "wave",
+          "x": 164.48611111111111,
+          "y": 127.37270770072936,
+          "width": 61.02777777777778,
+          "height": 18.031440067291257,
+          "visible": true
+        }
+      ]
+    },
+    "canvas": {
+      "backing": {
+        "width": 1080,
+        "height": 1920
+      },
+      "css": {
+        "x": 0,
+        "y": 75,
+        "width": 390,
+        "height": 693.328125
+      },
+      "dpr": 2
+    }
+  }
+}

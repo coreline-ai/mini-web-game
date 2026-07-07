@@ -2,19 +2,19 @@
   "gameId": "castle-archer",
   "title": "Castle Archer",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920
   },
   "currentRuntimeManifest": {
     "updated": "2026-07-07",
     "sourceOfTruth": "assets/asset-manifest.json",
     "notes": [
       "Runtime player sheet is assets/characters/player.png at 4096x512 with 8 frames of 512x512.",
-      "Runtime enemy sheets are goblin-basic-sheet.png, goblin-shield-sheet.png, goblin-runner-sheet.png, and orc-brute-sheet.png at 2048x512 with 4 frames of 512x512.",
-      "UI control assets were re-inset so button/icon art no longer touches source image edges at DPR2 display sizes.",
-      "Gameplay sprites were edge-cleaned to remove detached alpha fragments; player/enemy sheets now target one alpha component per frame.",
-      "collectible.png was rebuilt as a single clean potion pickup component; sparkle/noise detail should live in FX assets, not the pickup silhouette.",
-      "The runtime canvas now uses DPR-aware physical sizing while preserving the 390x844 logical coordinate system.",
+      "Runtime enemy sheets are goblin-basic-sheet.png, goblin-shield-sheet.png, goblin-runner-sheet.png, and orc-brute-sheet.png at 3072x768 with 4 frames of 768x768.",
+      "The shield goblin, runner goblin, and basic goblin use the HQ enemy sheet; the brute orc was regenerated again from a full-body club source and rebuilt into a 4-frame padded 768px sheet to eliminate right-edge clipping.",
+      "Healing potion collectible is a regenerated transparent no-label 1024x1024 source, displayed at 160x160 in the high-resolution logical canvas.",
+      "Home sound/settings and gameplay pause controls now display regenerated 512x512 PNG button icons directly, with procedural frame+symbol only as a missing-texture fallback.",
+      "Castle Archer currently uses a 1080x1920 high-resolution logical canvas strategy; assets are sized to avoid runtime upscaling inside that canvas and browser-downscale cleanly to mobile CSS viewports.",
       "The prompt lists below are generation history and may include earlier requested sizes."
     ],
     "runtimeAssets": [
@@ -81,25 +81,27 @@
       "id": "hazard",
       "role": "hazard",
       "path": "assets/enemies/hazard.png",
-      "width": 256,
-      "height": 256,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single cute-but-menacing green GOBLIN RAIDER game sprite for Castle Archer: chibi proportions, front view walking TOWARD the viewer, mischievous grin with tiny fangs, simple leather vest, holding a small wooden club, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "width": 768,
+      "height": 768,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single cute-but-menacing green GOBLIN RAIDER game sprite for Castle Archer: chibi proportions, front view walking TOWARD the viewer, mischievous grin with tiny fangs, simple leather vest, holding a small wooden club, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject.",
+      "frameSize": 768
     },
     {
       "id": "collectible",
       "role": "collectible",
       "path": "assets/items/collectible.png",
-      "width": 192,
-      "height": 192,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single magic HEALING POTION pickup sprite: rounded glass bottle with glowing pink-red liquid and a small cork, tiny sparkle highlights, inviting glossy 3D-cartoon icon, bold simple silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "width": 1024,
+      "height": 1024,
+      "prompt": "A high-quality transparent healing potion collectible: red-pink magical liquid in a glass bottle with cork and gold rim, no text, no label, centered with safe padding, generated on green chroma-key then alpha processed."
     },
     {
       "id": "shield-goblin",
       "role": "enemy",
       "path": "assets/enemies/shield-goblin.png",
-      "width": 256,
-      "height": 256,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single ARMORED GOBLIN RAIDER game sprite for Castle Archer: same chibi green goblin but wearing a simple iron helmet and holding a LARGE ROUND WOODEN SHIELD with an iron boss in front of its body (shield covers most of the torso), front view walking toward the viewer, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "width": 768,
+      "height": 768,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single ARMORED GOBLIN RAIDER game sprite for Castle Archer: same chibi green goblin but wearing a simple iron helmet and holding a LARGE ROUND WOODEN SHIELD with an iron boss in front of its body (shield covers most of the torso), front view walking toward the viewer, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject.",
+      "frameSize": 768
     },
     {
       "id": "arrow",
@@ -123,8 +125,8 @@
       "id": "btn-pause",
       "role": "ui-icon",
       "path": "assets/ui/btn-pause.png",
-      "width": 256,
-      "height": 256,
+      "width": 512,
+      "height": 512,
       "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow — flat solid pure magenta right up to the circle edge, centered and filling the frame."
     },
     {

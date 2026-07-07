@@ -12,17 +12,17 @@ the final demo. Machine-readable prompts live in `asset-plan.json`.
 
 ## Current runtime asset manifest
 
-This section is authoritative for the current playable build after the 2026-07-07 polish pass.
+This section is authoritative for the current playable build after the 2026-07-07 HQ asset regeneration pass.
 
 - Player: `assets/characters/player.png`, 4096×512, 8 frames at 512×512. Runtime animations: `archer_idle`, `archer_aim`, `archer_shoot`, `archer_hit`.
-- Enemy sheets: `goblin-basic-sheet.png`, `goblin-shield-sheet.png`, `goblin-runner-sheet.png`, `orc-brute-sheet.png`, each 2048×512, 4 frames at 512×512. Runtime animations: `enemy_basic_walk`, `enemy_shield_walk`, `enemy_runner_walk`, `enemy_brute_walk`.
-- Single enemy source sprites: `shield-goblin.png`, `runner-goblin.png`, `brute-orc.png`, retained for provenance/reference and normalized to transparent RGB.
+- Enemy sheets: `goblin-basic-sheet.png`, `goblin-shield-sheet.png`, `goblin-runner-sheet.png`, `orc-brute-sheet.png`, each 3072×768, 4 frames at 768×768. Runtime animations: `enemy_basic_walk`, `enemy_shield_walk`, `enemy_runner_walk`, `enemy_brute_walk`.
+- Single enemy source sprites: `hazard.png`, `shield-goblin.png`, `runner-goblin.png`, `brute-orc.png`. The brute source was regenerated again as a full-body club/bat enemy and rebuilt with right-edge-safe padding.
 - Projectile: `assets/items/arrow.png`, 256×512, cleaned to a single visible arrow component with no detached source fragment.
-- Collectible: `assets/items/collectible.png`, 512×512, rebuilt as a single clean pickup component; decorative sparkle noise belongs in FX, not the pickup silhouette.
-- UI: `btn-frame.png` 768×256, `btn-pause.png`, `heart.png`, `icon-sound-on.png`, `icon-sound-off.png`, `icon-settings.png`, `icon-home.png`, `icon-retry.png`, `icon-close.png`. Primary controls use source alpha safety padding so visible art does not touch the source edge at DPR2.
+- Collectible: `assets/items/collectible.png`, 1024×1024, regenerated as a transparent no-label healing potion with a single clean pickup component; decorative sparkle noise belongs in FX, not the pickup silhouette.
+- UI: `btn-frame.png` 768×256, `btn-pause.png` 512×512, `heart.png` 256×256, `icon-sound-on.png`, `icon-sound-off.png`, `icon-settings.png`, `icon-home.png`, `icon-retry.png`, `icon-close.png` at 512×512. Home sound/settings and gameplay pause render the regenerated PNG button images directly; procedural frame+symbol rendering remains only as missing-texture fallback.
 - FX: `fx-hit.png`, `fx-collect.png`, `fx-sparkle.png`, transparent RGB normalized and runtime burst placement clamped away from viewport edges.
 - Backgrounds: `stage-1.png`, `stage-2.png`, `stage-3.png`, each 1080×1920 with baked lower battlement. Runtime breach cleanup removes enemies before they visually sit on this battlement.
-- Runtime render: DPR-aware physical canvas sizing keeps the logical game at 390×844 while rendering 780×1688 on DPR2 captures for cleaner sprite edges.
+- Runtime render: Castle Archer now uses a 1080×1920 high-resolution logical canvas. On 390×844 DPR2 captures the canvas backing store is 1080×1920 and CSS-displays at 390×693.33, so the browser downscales rather than upscales the rendered game.
 
 The older prompt blocks below are kept as generation history; use `assets/asset-manifest.json` plus this section for current QA and runtime expectations.
 

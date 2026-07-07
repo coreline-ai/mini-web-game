@@ -273,6 +273,131 @@ V2 verification:
 | scene-composite-qa | PASS |
 | production-demo-qa | PASS |
 
+## 2026-07-07 HQ asset regeneration pass
+
+User-reported symptoms:
+
+- Shield-bearing enemy image asset and enemy sheets did not feel optimized for the current resolution.
+- Icon/button image assets needed to be regenerated and optimized rather than only protected by procedural fallback.
+
+Classification:
+
+| Symptom | Class | Severity | Root cause |
+|---|---|---:|---|
+| Shield enemy / enemy resolution mismatch | L. Asset Fidelity | 3 | Previous enemy runtime sheets were 512px frames; current Castle Archer canvas is 1080x1920, so more source headroom was appropriate. |
+| Icon button source quality | L. Asset Fidelity | 3 | Home/pause controls were using procedural symbols after earlier clipping fixes; the requested image assets themselves needed HQ regeneration. |
+
+Fixes applied:
+
+- Generated a new imagegen enemy source sheet with basic goblin, runner goblin, shield goblin, and brute orc.
+- Removed chroma key locally, isolated the largest alpha component per enemy cell, and rebuilt:
+  - `goblin-basic-sheet.png`
+  - `goblin-runner-sheet.png`
+  - `goblin-shield-sheet.png`
+  - `orc-brute-sheet.png`
+- Upgraded runtime enemy sheets to `3072x768`, 4 frames at `768x768`.
+- Generated a new imagegen UI icon source sheet and rebuilt 512x512 PNG button images:
+  - `btn-pause.png`
+  - `icon-sound-on.png`
+  - `icon-sound-off.png`
+  - `icon-settings.png`
+  - `icon-home.png`
+  - `icon-retry.png`
+  - `icon-close.png`
+- Updated `LoadingScene` enemy spritesheet frame sizes to `768x768`.
+- Updated `MobileButton.makeIconButton()` so available PNG icon button assets render directly; procedural frame+symbol is now only fallback.
+- Updated `asset-manifest.json` and `asset-plan.json` with new source sheets, frame sizes, display requirements, and provenance.
+
+Fresh evidence:
+
+```text
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/before/
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/01-home-hq-icons-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/02-game-hq-enemies-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/03-pause-hq-icon-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/04-hq-asset-contact-sheet.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/after/runtime-asset-fidelity-samples.json
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-hq-asset-regeneration/source-split-metrics.json
+```
+
+Metric highlights:
+
+- Enemy runtime sheets: `2048x512 / 512px frame -> 3072x768 / 768px frame`.
+- Runtime sample: `enemy_basic`, `enemy_runner`, `enemy_shield`, `enemy_brute` all loaded with `frameWidth=768`, `frameHeight=768`.
+- UI icon buttons: regenerated PNG sources are `512x512`; runtime `ui_pause` source is `512x512`.
+- Static alpha check: single enemy source sprites have one connected alpha component; new icon button images have one connected alpha component and safe edge padding.
+- Browser/page errors: 0. WebGL warnings were capture-time `ReadPixels` performance warnings only.
+
+2026-07-07 HQ asset regeneration verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 26 assets at role-aware production-demo bar |
+| visual-layout-qa | PASS — 390x844, 430x932, 1080x1920 |
+| scene-composite-qa | PASS — 390x844, 430x932, 1080x1920 |
+| production-demo-qa | PASS |
+| production-gate | PASS |
+| Manual runtime asset-fidelity capture | PASS — screenshots + JSON + contact sheet |
+
+## 2026-07-07 Brute / potion / pause-button correction pass
+
+User-reported symptoms:
+
+- The 4th club/bat enemy asset looked broken on the right side.
+- Pressing the pause button made the button grow.
+- The potion asset looked wrong and was not optimized for the current resolution.
+
+Classification:
+
+| Symptom | Class | Severity | Root cause |
+|---|---|---:|---|
+| Brute/club enemy right-side breakage | L. Asset Fidelity | 3 | The brute sheet frames placed the body/weapon too close to frame boundaries; the right-side weapon could read as clipped/broken in motion. |
+| Pause button grows on press | I. Input Robustness | 3 | `makeIconButton()` used `setScale(0.94)` after `setDisplaySize(128)`, so the 512px source texture jumped to source-relative scale instead of staying display-size-relative. |
+| Potion looks wrong at runtime | L. Asset Fidelity | 3 | The potion source had a black baked background and label text; it was high-resolution but not a clean transparent pickup sprite. |
+
+Fixes applied:
+
+- Generated a new full-body brute orc holding a wooden club/bat on green chroma key, removed the background, and rebuilt:
+  - `assets/enemies/brute-orc.png`
+  - `assets/enemies/orc-brute-sheet.png`
+- Rebuilt the brute sheet as `3072x768`, 4 frames at `768x768`; right-edge frame padding is now at least 59px.
+- Generated a new no-label healing potion, removed the green chroma key, and rebuilt `assets/items/collectible.png` as a transparent `1024x1024` pickup.
+- Fixed `MobileButton.makeIconButton()` pressed state to use `setDisplaySize()` relative to the intended displayed size instead of `setScale()` relative to the source texture.
+- Updated `asset-manifest.json`, `asset-plan.json`, `03-ASSET-AUDIO-PLAN.md`, and this regression checklist.
+
+Fresh evidence:
+
+```text
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/before/
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/01-game-brute-potion-after-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/02-pause-after-press-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/03-game-brute-direct-sprite-after-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/04-brute-potion-button-contact-sheet.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/asset-fix-metrics.json
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/runtime-brute-potion-button-samples.json
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-brute-potion-button/after/runtime-brute-direct-sprite-samples.json
+```
+
+Metric highlights:
+
+- Brute sheet: `3072x768`, 4 frames at `768x768`; per-frame right padding `[79, 64, 59, 65]`.
+- Potion source: `1024x1024`; alpha padding `left=310`, `right=309`, `top=155`, `bottom=154`.
+- Pause button runtime sample: normal display `128px`, pressed display `120.32px`, `pausePressedWithinExpected=true`.
+- Browser/page errors: 0. WebGL warnings were capture-time `ReadPixels` performance warnings only.
+
+2026-07-07 brute / potion / pause-button verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 26 assets at role-aware production-demo bar |
+| visual-layout-qa | PASS — 390x844, 430x932, 1080x1920 |
+| scene-composite-qa | PASS — 390x844, 430x932, 1080x1920 |
+| production-demo-qa | PASS |
+| production-gate | PASS |
+| Manual DPR2 runtime capture | PASS — screenshots + JSON + contact sheet |
+
 ## Remaining expansion ideas
 
 - Add true hand-drawn per-enemy death frames.

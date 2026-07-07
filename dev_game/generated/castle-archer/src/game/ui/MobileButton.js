@@ -175,17 +175,41 @@ export function makeTextButton(scene, x, y, label, onClick, width = 190, height 
 }
 
 export function makeIconButton(scene, x, y, key, onClick, size = 58) {
-  const container = scene.add.container(x, y);
-  const frame = scene.add.image(0, 0, ensureIconFrameTexture(scene, iconVariant(key))).setDisplaySize(size, size);
-  const symbol = scene.add.graphics();
-  drawIconSymbol(symbol, key, size);
-  container.add([frame, symbol]);
-  container.setSize(size, size);
-  container.setInteractive({ useHandCursor: true });
+  if (!scene.textures.exists(key)) {
+    const container = scene.add.container(x, y);
+    const frame = scene.add.image(0, 0, ensureIconFrameTexture(scene, iconVariant(key))).setDisplaySize(size, size);
+    const symbol = scene.add.graphics();
+    drawIconSymbol(symbol, key, size);
+    container.add([frame, symbol]);
+    container.setSize(size, size);
+    container.setInteractive({ useHandCursor: true });
+
+    let fallbackPressed = false;
+    const setFallbackPressed = (value) => container.setScale(value ? 0.94 : 1);
+    container.on('pointerdown', () => {
+      if (fallbackPressed) return;
+      fallbackPressed = true;
+      setFallbackPressed(true);
+      scene.time.delayedCall(70, () => {
+        fallbackPressed = false;
+        setFallbackPressed(false);
+        onClick?.();
+      });
+    });
+    container.on('pointerup', () => setFallbackPressed(false));
+    container.on('pointerout', () => { if (!fallbackPressed) setFallbackPressed(false); });
+    return { bg: container, txt: container, destroy: () => container.destroy(true) };
+  }
+
+  const bg = scene.add.image(x, y, key).setDisplaySize(size, size);
+  bg.setInteractive({ useHandCursor: true });
 
   let pressed = false;
-  const setPressed = (value) => container.setScale(value ? 0.94 : 1);
-  container.on('pointerdown', () => {
+  const setPressed = (value) => {
+    const nextSize = value ? size * 0.94 : size;
+    bg.setDisplaySize(nextSize, nextSize);
+  };
+  bg.on('pointerdown', () => {
     if (pressed) return;
     pressed = true;
     setPressed(true);
@@ -195,7 +219,7 @@ export function makeIconButton(scene, x, y, key, onClick, size = 58) {
       onClick?.();
     });
   });
-  container.on('pointerup', () => setPressed(false));
-  container.on('pointerout', () => { if (!pressed) setPressed(false); });
-  return { bg: container, txt: container, destroy: () => container.destroy(true) };
+  bg.on('pointerup', () => setPressed(false));
+  bg.on('pointerout', () => { if (!pressed) setPressed(false); });
+  return { bg, txt: bg, destroy: () => bg.destroy() };
 }

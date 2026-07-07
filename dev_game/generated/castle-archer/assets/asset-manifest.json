@@ -62,13 +62,13 @@
       "path": "assets/enemies/goblin-basic-sheet.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 512,
-      "minHeight": 512,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512,
+      "frameWidth": 768,
+      "frameHeight": 768,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "castle-archer",
@@ -87,12 +87,28 @@
           "dpr-edge-pass",
           "runtime-512-frame-upgrade",
           "single-sprite-highres-sheet-rebuild",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-enemy-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "largest-alpha-component-isolation",
+          "768-frame-sheet-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "67b50aeb9aef5235",
-        "quality": "high"
+        "promptHash": "d095759cb17f0a3f",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+      },
+      "sourceWidth": 3072,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 220,
+        "logicalHeight": 220,
+        "requiredSourceWidthAtDpr3": 220,
+        "requiredSourceHeightAtDpr3": 220,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -100,13 +116,13 @@
       "path": "assets/enemies/goblin-shield-sheet.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 512,
-      "minHeight": 512,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512,
+      "frameWidth": 768,
+      "frameHeight": 768,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "castle-archer",
@@ -125,12 +141,28 @@
           "dpr-edge-pass",
           "runtime-512-frame-upgrade",
           "single-sprite-highres-sheet-rebuild",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-enemy-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "largest-alpha-component-isolation",
+          "768-frame-sheet-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "e2c2d4043462710b",
-        "quality": "high"
+        "promptHash": "d095759cb17f0a3f",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+      },
+      "sourceWidth": 3072,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 220,
+        "logicalHeight": 220,
+        "requiredSourceWidthAtDpr3": 220,
+        "requiredSourceHeightAtDpr3": 220,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -138,13 +170,13 @@
       "path": "assets/enemies/goblin-runner-sheet.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 512,
-      "minHeight": 512,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512,
+      "frameWidth": 768,
+      "frameHeight": 768,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "castle-archer",
@@ -164,12 +196,28 @@
           "dpr-edge-pass",
           "runtime-512-frame-upgrade",
           "single-sprite-highres-sheet-rebuild",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-enemy-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "largest-alpha-component-isolation",
+          "768-frame-sheet-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "c3d32dba4fa40a92",
-        "quality": "high"
+        "promptHash": "d095759cb17f0a3f",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+      },
+      "sourceWidth": 3072,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 220,
+        "logicalHeight": 220,
+        "requiredSourceWidthAtDpr3": 220,
+        "requiredSourceHeightAtDpr3": 220,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -177,13 +225,13 @@
       "path": "assets/enemies/orc-brute-sheet.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 512,
-      "minHeight": 512,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512,
+      "frameWidth": 768,
+      "frameHeight": 768,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "castle-archer",
@@ -203,12 +251,34 @@
           "dpr-edge-pass",
           "runtime-512-frame-upgrade",
           "single-sprite-highres-sheet-rebuild",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-enemy-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "largest-alpha-component-isolation",
+          "768-frame-sheet-rebuild",
+          "safe-padding-normalization",
+          "brute-club-imagegen-regeneration-20260707",
+          "single-source-to-4-frame-sheet-rebuild",
+          "768-frame-safe-padding-normalization",
+          "right-edge-clipping-elimination"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "a894130473aa29ba",
-        "quality": "high"
+        "promptHash": "6e4aa003ae56860e",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
+        "sourceImage": "assets/_source/castle-archer-brute-club-20260707.png",
+        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png"
+      },
+      "sourceWidth": 3072,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 270,
+        "logicalHeight": 270,
+        "requiredSourceWidthInHighResCanvas": 270,
+        "requiredSourceHeightInHighResCanvas": 270,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -216,8 +286,8 @@
       "path": "assets/enemies/hazard.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 256,
-      "minHeight": 256,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
@@ -235,12 +305,27 @@
           "transparent-rgb-normalize",
           "largest-component-cleanup",
           "near-transparent-normalize",
-          "dpr-edge-pass"
+          "dpr-edge-pass",
+          "hq-enemy-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "largest-alpha-component-isolation",
+          "768-single-source-rebuild"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "db22fad289fede4e",
-        "quality": "high"
+        "promptHash": "d095759cb17f0a3f",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+      },
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 220,
+        "logicalHeight": 220,
+        "requiredSourceWidthAtDpr3": 220,
+        "requiredSourceHeightAtDpr3": 220,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -313,8 +398,8 @@
       "path": "assets/enemies/brute-orc.png",
       "type": "sprite",
       "role": "enemy",
-      "minWidth": 256,
-      "minHeight": 256,
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
@@ -333,12 +418,27 @@
           "transparent-rgb-normalize",
           "largest-component-cleanup",
           "near-transparent-normalize",
-          "dpr-edge-pass"
+          "dpr-edge-pass",
+          "brute-club-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "768-single-source-safe-padding-normalization",
+          "right-edge-clipping-elimination"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "d9e0cbd20ac96121",
-        "quality": "high"
+        "promptHash": "6e4aa003ae56860e",
+        "quality": "high",
+        "sourceImage": "assets/_source/castle-archer-brute-club-20260707.png",
+        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png"
+      },
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 270,
+        "logicalHeight": 270,
+        "requiredSourceWidthInHighResCanvas": 270,
+        "requiredSourceHeightInHighResCanvas": 270,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -346,8 +446,8 @@
       "path": "assets/items/collectible.png",
       "type": "sprite",
       "role": "collectible",
-      "minWidth": 192,
-      "minHeight": 192,
+      "minWidth": 1024,
+      "minHeight": 1024,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
@@ -367,12 +467,28 @@
           "single-component-pickup-redraw",
           "sparkle-fx-separation",
           "near-transparent-normalize",
-          "dpr-edge-pass"
+          "dpr-edge-pass",
+          "healing-potion-imagegen-regeneration-20260707",
+          "green-chroma-key-alpha-removal",
+          "transparent-no-label-potion-rebuild",
+          "1024-source-safe-padding-normalization",
+          "black-background-removal"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "dc68483a75245495",
-        "quality": "high"
+        "promptHash": "956f8f57757412fe",
+        "quality": "high",
+        "sourceImage": "assets/_source/castle-archer-healing-potion-20260707.png",
+        "alphaSourceImage": "assets/_source/castle-archer-healing-potion-20260707-alpha.png"
+      },
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 160,
+        "logicalHeight": 160,
+        "requiredSourceWidthInHighResCanvas": 160,
+        "requiredSourceHeightInHighResCanvas": 160,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -465,12 +581,29 @@
           "transparent-rgb-normalize",
           "source-alpha-safety-padding",
           "no-edge-touch-ui-pass",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "cc7bda82498089a0",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 128,
+        "logicalHeight": 128,
+        "requiredSourceWidthAtDpr3": 128,
+        "requiredSourceHeightAtDpr3": 128,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -522,12 +655,29 @@
           "transparent-rgb-normalize",
           "source-alpha-safety-padding",
           "no-edge-touch-ui-pass",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "6cfcdfece7ec52c8",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -552,12 +702,29 @@
           "transparent-rgb-normalize",
           "source-alpha-safety-padding",
           "no-edge-touch-ui-pass",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "78e7322591625cce",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -582,12 +749,29 @@
           "transparent-rgb-normalize",
           "source-alpha-safety-padding",
           "no-edge-touch-ui-pass",
-          "ui-monster-polish-pass"
+          "ui-monster-polish-pass",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "5a503686da7ab71f",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -609,12 +793,29 @@
           "checker-background-alpha-removal",
           "autocrop-center-pad",
           "runtime-size-normalization",
-          "transparent-rgb-normalize"
+          "transparent-rgb-normalize",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "8b49090d9ff7dbe3",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -636,12 +837,29 @@
           "checker-background-alpha-removal",
           "autocrop-center-pad",
           "runtime-size-normalization",
-          "transparent-rgb-normalize"
+          "transparent-rgb-normalize",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "9f12c8db2ed18d6f",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -663,12 +881,29 @@
           "checker-background-alpha-removal",
           "autocrop-center-pad",
           "runtime-size-normalization",
-          "transparent-rgb-normalize"
+          "transparent-rgb-normalize",
+          "hq-ui-icon-imagegen-regeneration-20260707",
+          "magenta-chroma-key-alpha-removal",
+          "512-icon-button-rebuild",
+          "safe-padding-normalization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "aec3dfe0e2c951c6",
-        "quality": "high"
+        "promptHash": "3f7c1a450bc06b42",
+        "quality": "high",
+        "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+      },
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "display": {
+        "logicalWidth": 140,
+        "logicalHeight": 140,
+        "requiredSourceWidthAtDpr3": 140,
+        "requiredSourceHeightAtDpr3": 140,
+        "sourcePixelsOk": true
       }
     },
     {
@@ -901,5 +1136,22 @@
     "sourceSkill": "imagegen",
     "toolMode": "built-in-image_gen",
     "lastRunAt": "2026-07-06T15:17:58Z"
+  },
+  "assetFidelity": {
+    "strategy": "high-resolution-logical-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "maxTargetDpr": 3,
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "referenceCssViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "notes": "Castle Archer uses a 1080x1920 logical/high-resolution canvas, then browser-downscales to mobile CSS viewports. Runtime assets must not be upscaled inside that 1080x1920 canvas."
   }
 }

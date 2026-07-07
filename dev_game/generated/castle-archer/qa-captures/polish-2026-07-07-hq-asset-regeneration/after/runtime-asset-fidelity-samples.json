@@ -1,0 +1,356 @@
+{
+  "generatedAt": "2026-07-07T09:56:52.878Z",
+  "errors": [],
+  "warnings": [
+    "[.WebGL-0x12c004e3c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12c004e3c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12c004e3c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12c004e3c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "homeLayout": {
+    "scene": "Home",
+    "items": [
+      {
+        "id": "title",
+        "x": 70.59722222222221,
+        "y": 179.3393095111847,
+        "width": 248.80555555555554,
+        "height": 40.919505977630614,
+        "visible": true
+      },
+      {
+        "id": "best",
+        "x": 156,
+        "y": 444.1642189979553,
+        "width": 78,
+        "height": 24.332499504089355,
+        "visible": true
+      },
+      {
+        "id": "play",
+        "x": 108.33333333333333,
+        "y": 500.24125000000004,
+        "width": 173.33333333333334,
+        "height": 57.77734375,
+        "visible": true
+      },
+      {
+        "id": "sound",
+        "x": 126.38888888888889,
+        "y": 583.585068359375,
+        "width": 50.55555555555556,
+        "height": 50.55517578125,
+        "visible": true
+      },
+      {
+        "id": "settings",
+        "x": 213.05555555555554,
+        "y": 583.585068359375,
+        "width": 50.55555555555556,
+        "height": 50.55517578125,
+        "visible": true
+      }
+    ]
+  },
+  "gameSample": {
+    "devicePixelRatio": 2,
+    "canvasCssSize": {
+      "width": 390,
+      "height": 693.33,
+      "x": 0,
+      "y": 75
+    },
+    "canvasBackingStoreSize": {
+      "width": 1080,
+      "height": 1920
+    },
+    "homeLayout": {
+      "scene": "Game",
+      "items": [
+        {
+          "id": "score",
+          "x": 18.055555555555554,
+          "y": 93.055419921875,
+          "width": 87.75,
+          "height": 22.738544464111328,
+          "visible": true
+        },
+        {
+          "id": "level",
+          "x": 18.055555555555554,
+          "y": 116.5274658203125,
+          "width": 32.5,
+          "height": 16.437485027313233,
+          "visible": true
+        },
+        {
+          "id": "pause",
+          "x": 330.77777777777777,
+          "y": 87.99990234375,
+          "width": 46.22222222222222,
+          "height": 46.221875,
+          "visible": true
+        },
+        {
+          "id": "gate-hp",
+          "x": 144.44444444444443,
+          "y": 96.66650390625,
+          "width": 28.88888888888889,
+          "height": 28.888671875,
+          "visible": true
+        },
+        {
+          "id": "wave",
+          "x": 164.48611111111111,
+          "y": 127.37270770072936,
+          "width": 61.02777777777778,
+          "height": 18.031440067291257,
+          "visible": true
+        }
+      ]
+    },
+    "textures": {
+      "enemy_basic": {
+        "sourceWidth": 3072,
+        "sourceHeight": 768,
+        "frameCount": 4,
+        "frames": [
+          {
+            "key": "0",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "1",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "2",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "3",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "enemy_runner": {
+        "sourceWidth": 3072,
+        "sourceHeight": 768,
+        "frameCount": 4,
+        "frames": [
+          {
+            "key": "0",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "1",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "2",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "3",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "enemy_shield": {
+        "sourceWidth": 3072,
+        "sourceHeight": 768,
+        "frameCount": 4,
+        "frames": [
+          {
+            "key": "0",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "1",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "2",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "3",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "enemy_brute": {
+        "sourceWidth": 3072,
+        "sourceHeight": 768,
+        "frameCount": 4,
+        "frames": [
+          {
+            "key": "0",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "1",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "2",
+            "width": 768,
+            "height": 768
+          },
+          {
+            "key": "3",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "ui_pause": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_sound_on": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_sound_off": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_settings": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_home": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_retry": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      },
+      "icon_close": {
+        "sourceWidth": 512,
+        "sourceHeight": 512,
+        "frameCount": 0,
+        "frames": []
+      }
+    },
+    "qaSprites": [
+      {
+        "texture": "enemy_basic",
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bounds": {
+          "type": 5,
+          "x": 120,
+          "y": 280,
+          "width": 220,
+          "height": 220
+        },
+        "anim": "enemy_basic_walk"
+      },
+      {
+        "texture": "enemy_runner",
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bounds": {
+          "type": 5,
+          "x": 345,
+          "y": 425,
+          "width": 190,
+          "height": 190
+        },
+        "anim": "enemy_runner_walk"
+      },
+      {
+        "texture": "enemy_shield",
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bounds": {
+          "type": 5,
+          "x": 532.5,
+          "y": 532.5,
+          "width": 235,
+          "height": 235
+        },
+        "anim": "enemy_shield_walk"
+      },
+      {
+        "texture": "enemy_brute",
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bounds": {
+          "type": 5,
+          "x": 715,
+          "y": 655,
+          "width": 270,
+          "height": 270
+        },
+        "anim": "enemy_brute_walk"
+      }
+    ],
+    "activeScenes": [
+      "Game"
+    ]
+  },
+  "pauseSample": {
+    "layout": {
+      "scene": "Pause",
+      "items": [
+        {
+          "id": "paused",
+          "x": 112.30555555555556,
+          "y": 260.54624071121214,
+          "width": 165.38888888888889,
+          "height": 44.90439357757568,
+          "visible": true
+        },
+        {
+          "id": "resume",
+          "x": 108.33333333333333,
+          "y": 384.32545410156246,
+          "width": 173.33333333333334,
+          "height": 46.944091796875,
+          "visible": true
+        },
+        {
+          "id": "home",
+          "x": 108.33333333333333,
+          "y": 460.59154785156244,
+          "width": 173.33333333333334,
+          "height": 46.944091796875,
+          "visible": true
+        }
+      ]
+    },
+    "activeScenes": [
+      "Pause"
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "generatedAt": "2026-07-07T10:15:02.303Z",
+  "defects": {
+    "brute": "replaced clipped frame-boundary brute sheet with centered club brute source and 4 padded frames",
+    "potion": "replaced black-background text-heavy potion with transparent no-text collectible",
+    "pauseButton": "code fix: pressed state preserves display size instead of resetting image scale to source-relative scale"
+  },
+  "bruteSingle": {
+    "source": {
+      "width": 1254,
+      "height": 1254,
+      "bbox": {
+        "minX": 132,
+        "minY": 93,
+        "maxX": 1140,
+        "maxY": 1111,
+        "width": 1009,
+        "height": 1019,
+        "count": 565976,
+        "edge": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        },
+        "pad": {
+          "left": 132,
+          "top": 93,
+          "right": 113,
+          "bottom": 142
+        }
+      }
+    },
+    "crop": {
+      "x": 128,
+      "y": 89,
+      "w": 1017,
+      "h": 1027
+    },
+    "resized": {
+      "width": 644,
+      "height": 650,
+      "x": 62,
+      "y": 67
+    },
+    "final": {
+      "minX": 64,
+      "minY": 70,
+      "maxX": 703,
+      "maxY": 714,
+      "width": 640,
+      "height": 645,
+      "count": 228135,
+      "edge": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "pad": {
+        "left": 64,
+        "top": 70,
+        "right": 64,
+        "bottom": 53
+      }
+    }
+  },
+  "bruteSheet": {
+    "width": 3072,
+    "height": 768,
+    "frameWidth": 768,
+    "frameHeight": 768,
+    "frames": [
+      {
+        "frame": 0,
+        "variant": {
+          "scale": 0.985,
+          "x": -10,
+          "y": 5
+        },
+        "bbox": {
+          "minX": 59,
+          "minY": 79,
+          "maxX": 688,
+          "maxY": 714,
+          "width": 630,
+          "height": 636,
+          "count": 222185,
+          "edge": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "pad": {
+            "left": 59,
+            "top": 79,
+            "right": 79,
+            "bottom": 53
+          }
+        }
+      },
+      {
+        "frame": 1,
+        "variant": {
+          "scale": 1,
+          "x": 0,
+          "y": -3
+        },
+        "bbox": {
+          "minX": 64,
+          "minY": 67,
+          "maxX": 703,
+          "maxY": 711,
+          "width": 640,
+          "height": 645,
+          "count": 228135,
+          "edge": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "pad": {
+            "left": 64,
+            "top": 67,
+            "right": 64,
+            "bottom": 56
+          }
+        }
+      },
+      {
+        "frame": 2,
+        "variant": {
+          "scale": 0.985,
+          "x": 10,
+          "y": 5
+        },
+        "bbox": {
+          "minX": 79,
+          "minY": 79,
+          "maxX": 708,
+          "maxY": 714,
+          "width": 630,
+          "height": 636,
+          "count": 222185,
+          "edge": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "pad": {
+            "left": 79,
+            "top": 79,
+            "right": 59,
+            "bottom": 53
+          }
+        }
+      },
+      {
+        "frame": 3,
+        "variant": {
+          "scale": 0.995,
+          "x": 0,
+          "y": 0
+        },
+        "bbox": {
+          "minX": 66,
+          "minY": 71,
+          "maxX": 702,
+          "maxY": 713,
+          "width": 637,
+          "height": 643,
+          "count": 226950,
+          "edge": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "pad": {
+            "left": 66,
+            "top": 71,
+            "right": 65,
+            "bottom": 54
+          }
+        }
+      }
+    ],
+    "fullBbox": {
+      "minX": 59,
+      "minY": 67,
+      "maxX": 3006,
+      "maxY": 714,
+      "width": 2948,
+      "height": 648,
+      "count": 899455,
+      "edge": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "pad": {
+        "left": 59,
+        "top": 67,
+        "right": 65,
+        "bottom": 53
+      }
+    }
+  },
+  "potion": {
+    "width": 1024,
+    "height": 1024,
+    "source": {
+      "width": 1254,
+      "height": 1254,
+      "bbox": {
+        "minX": 336,
+        "minY": 122,
+        "maxX": 911,
+        "maxY": 1140,
+        "width": 576,
+        "height": 1019,
+        "count": 396644,
+        "edge": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        },
+        "pad": {
+          "left": 336,
+          "top": 122,
+          "right": 342,
+          "bottom": 113
+        }
+      }
+    },
+    "crop": {
+      "x": 332,
+      "y": 118,
+      "w": 584,
+      "h": 1027
+    },
+    "resized": {
+      "width": 409,
+      "height": 720,
+      "x": 308,
+      "y": 152
+    },
+    "final": {
+      "minX": 310,
+      "minY": 155,
+      "maxX": 714,
+      "maxY": 869,
+      "width": 405,
+      "height": 715,
+      "count": 195353,
+      "edge": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "pad": {
+        "left": 310,
+        "top": 155,
+        "right": 309,
+        "bottom": 154
+      }
+    }
+  },
+  "pauseIcon": {
+    "width": 512,
+    "height": 512,
+    "bbox": {
+      "minX": 42,
+      "minY": 41,
+      "maxX": 469,
+      "maxY": 471,
+      "width": 428,
+      "height": 431,
+      "count": 180268,
+      "edge": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "pad": {
+        "left": 42,
+        "top": 41,
+        "right": 42,
+        "bottom": 40
+      }
+    },
+    "runtimeDisplaySize": {
+      "normal": 128,
+      "pressed": 120.32
+    }
+  }
+}
