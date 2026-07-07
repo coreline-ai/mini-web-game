@@ -38,6 +38,18 @@ npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/gener
 
 Result: all PASS.
 
+### Follow-up V2
+
+사용자 재확인 결과 첫 UI padding pass가 화면상 충분히 해결되지 않은 것으로 보고되어, 버튼 렌더 구조를 더 강하게 변경했다.
+
+- Text buttons no longer stretch `ui_frame`; they use runtime-generated `safe_text_button_*` textures.
+- Home sound/settings and gameplay pause are frame+symbol containers, not full PNG icon images.
+- Same-condition evidence:
+  - `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/04-safe-ui-v2-contact-sheet.png`
+  - `dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/runtime-samples.json`
+
+V2 verification: build, image-quality-qa, visual-layout-qa, scene-composite-qa, production-demo-qa all PASS.
+
 ## UI clipping and monster resolution pass
 
 사용자 재지적: 홈 사운드 아이콘 오른쪽, PLAY 버튼 하단, gameplay pause 아이콘이 아직 잘려 보이고 몬스터 해상도가 낮아 보임.

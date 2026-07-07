@@ -12,9 +12,9 @@ export default class PauseScene extends Phaser.Scene {
     applyLogicalCamera(this);
     const { width, height } = SPEC.canvas;
     this.add.rectangle(0, 0, width, height, 0x000000, 0.62).setOrigin(0);
-    this.pausedText = this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '46px', color: '#fff', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);
-    this.resumeBtn = makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 230, 62);
-    this.pHomeBtn = makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 230, 62);
+    this.pausedText = this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '100px', color: '#fff', stroke: '#000', strokeThickness: 14 }).setOrigin(0.5);
+    this.resumeBtn = makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 480, 130);
+    this.pHomeBtn = makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 480, 130);
     this._pauseLayout = [{ id: 'paused', obj: this.pausedText }, { id: 'resume', obj: this.resumeBtn.bg }, { id: 'home', obj: this.pHomeBtn.bg }];
     const pub = () => publishLayout(this, this._pauseLayout);
     pub();

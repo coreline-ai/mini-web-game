@@ -10,12 +10,12 @@ import { pointerToLogical } from '../constants/renderScale.js';
 // - pointerup: 조준 방향으로 화살 1발 발사 (쿨다운 CASTLE.fireCooldownMs)
 // - 화살 풀 재사용, 텍스처 없으면 폴백 텍스처 생성(아트 전에도 항상 동작)
 export const CASTLE = {
-  arrowSpeed: 1080,
+  arrowSpeed: 2400,
   fireCooldownMs: 170,
   aimMinAngleDeg: -168, // 위쪽 반구로 클램프 (수평선 아래로는 못 쏨)
   aimMaxAngleDeg: -12,
-  aimGuideLength: 560,
-  aimGuideMargin: 22,
+  aimGuideLength: 1500,
+  aimGuideMargin: 60,
 };
 
 function rayLengthToSafeBounds(px, py, ang, maxLen) {
@@ -54,7 +54,7 @@ export default class AimShotSystem {
     this.arrows = scene.physics.add.group({ maxSize: 24, allowGravity: false });
 
     this.aimLine = scene.add.graphics().setDepth(9);
-    this.reticle = scene.add.circle(0, 0, 13, 0xffffff, 0).setStrokeStyle(3, 0xffe066, 0.95).setDepth(9).setVisible(false);
+    this.reticle = scene.add.circle(0, 0, 36, 0xffffff, 0).setStrokeStyle(8, 0xffe066, 0.95).setDepth(9).setVisible(false);
 
     this.onDown = (p) => { const lp = pointerToLogical(scene, p); if (scene.isOver || lp.y < 82) return; this.aiming = true; this.updateAim(p); };
     this.onMove = (p) => { if (this.aiming) this.updateAim(p); };
@@ -82,7 +82,7 @@ export default class AimShotSystem {
     this.aimAngle = ang;
     // 점선 조준선
     this.aimLine.clear();
-    this.aimLine.lineStyle(3, 0xffe066, 0.85);
+    this.aimLine.lineStyle(8, 0xffe066, 0.85);
     const len = rayLengthToSafeBounds(px, py, ang, CASTLE.aimGuideLength);
     const steps = 14;
     for (let i = 0; i < steps; i += 1) {
@@ -115,7 +115,7 @@ export default class AimShotSystem {
     if (!a) return;
     this.cooldown = CASTLE.fireCooldownMs;
     a.enableBody(true, px, py, true, true);
-    a.setDepth(8).setDisplaySize(26, 56);
+    a.setDepth(8).setDisplaySize(60, 130);
     a.body.setAllowGravity(false);
     a.body.setSize(a.width * 0.34, a.height * 0.85, true);
     a.setRotation(this.aimAngle + Math.PI / 2);

@@ -21,3 +21,4 @@
 17. **UI 소스 패딩 회귀**: `btn-frame`, `icon-sound-on/off`, `btn-pause`, `icon-settings`는 DPR2 표시 기준 최소 source-alpha padding 7px 이상이어야 한다. PLAY 하단, 사운드 오른쪽, pause 상단/오른쪽이 프레임 끝에 붙으면 실패.
 18. **몬스터 해상도 회귀**: runtime enemy sheets는 4프레임 `2048x512`, frame size `512x512`여야 한다. `LoadingScene`도 동일한 `frameWidth/frameHeight=512`로 로드해야 한다.
 19. **UI/몬스터 전후 증거 회귀**: 홈 버튼/아이콘, gameplay pause, 몬스터 비교용 `04-ui-monster-contact-sheet.png`, `ui-monster-metrics.json`, `runtime-samples.json`을 같은 세션에서 갱신한다.
+20. **런타임 안전 UI 회귀**: PLAY/RESUME/HOME은 `safe_text_button_*` 텍스처를 사용해야 하고, 홈 sound/settings 및 gameplay pause는 `Container` 기반 frame+symbol UI여야 한다. `ui_frame` 또는 full PNG icon을 직접 표시해 다시 가장자리 짤림이 생기면 실패.

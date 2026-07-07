@@ -31,21 +31,21 @@ export default class WaveGateSystem {
     if (!scene.textures.exists('ui_heart')) {
       const g = scene.add.graphics();
       g.fillStyle(0xff5b6e, 1);
-      g.fillCircle(9, 9, 9); g.fillCircle(23, 9, 9);
-      g.fillTriangle(1, 13, 31, 13, 16, 32);
-      g.generateTexture('ui_heart', 32, 32);
+      g.fillCircle(27, 27, 27); g.fillCircle(69, 27, 27);
+      g.fillTriangle(3, 39, 93, 39, 48, 96);
+      g.generateTexture('ui_heart', 96, 96);
       g.destroy();
     }
     this.hearts = [];
     const cx = SPEC.canvas.width / 2;
     for (let i = 0; i < GATE.maxHp; i += 1) {
-      const h = scene.add.image(cx + (i - (GATE.maxHp - 1) / 2) * 40, 44, 'ui_heart').setDepth(20).setDisplaySize(30, 30);
+      const h = scene.add.image(cx + (i - (GATE.maxHp - 1) / 2) * 100, 100, 'ui_heart').setDepth(20).setDisplaySize(80, 80);
       this.hearts.push(h);
     }
 
-    this.waveText = scene.add.text(cx, 44, 'WAVE 1', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '16px', color: '#ffffff', stroke: '#1b2a4a', strokeThickness: 4,
-    }).setOrigin(0.5).setDepth(20).setY(74);
+    this.waveText = scene.add.text(cx, 100, 'WAVE 1', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: '38px', color: '#ffffff', stroke: '#1b2a4a', strokeThickness: 8,
+    }).setOrigin(0.5).setDepth(20).setY(170);
   }
 
   // 새로 스폰된 몬스터 구성. 새 Spawner는 타입을 직접 넣지만,
@@ -162,7 +162,7 @@ export default class WaveGateSystem {
       this.scene.score.score += GATE.waveBonus * (this.wave - 1);
       this.waveText.setText('WAVE ' + this.wave);
       const banner = this.scene.add.text(SPEC.canvas.width / 2, SPEC.canvas.height * 0.4, 'WAVE ' + this.wave, {
-        fontFamily: 'Arial Black, sans-serif', fontSize: '42px', color: '#ffe066', stroke: '#1b2a4a', strokeThickness: 8,
+        fontFamily: 'Arial Black, sans-serif', fontSize: '96px', color: '#ffe066', stroke: '#1b2a4a', strokeThickness: 18,
       }).setOrigin(0.5).setDepth(30).setAlpha(0);
       this.scene.tweens.add({
         targets: banner, alpha: 1, scale: { from: 0.6, to: 1 }, duration: 260, yoyo: true, hold: 620,

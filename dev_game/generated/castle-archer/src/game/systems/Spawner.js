@@ -7,7 +7,7 @@ function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
 
 const ENEMY_TYPES = [
   { id: 'basic', texture: ASSET_KEYS.enemyBasic, hp: 1, speed: 1.0, size: 0.98, points: 30, weight: (level) => (level >= 1 ? 60 : 0) },
-  { id: 'runner', texture: ASSET_KEYS.enemyRunner, hp: 1, speed: 1.38, size: 0.86, points: 42, weight: (level) => (level >= 2 ? 20 + level * 2 : 0), sway: 42 },
+  { id: 'runner', texture: ASSET_KEYS.enemyRunner, hp: 1, speed: 1.38, size: 0.86, points: 42, weight: (level) => (level >= 2 ? 20 + level * 2 : 0), sway: 120 },
   { id: 'shield', texture: ASSET_KEYS.enemyShield, hp: 2, speed: 0.86, size: 1.05, points: 55, weight: (level) => (level >= 3 ? 18 + level : 0), shielded: true },
   { id: 'brute', texture: ASSET_KEYS.enemyBrute, hp: 3, speed: 0.68, size: 1.22, points: 90, weight: (level) => (level >= 5 ? 10 + level : 0), heavy: true },
 ];

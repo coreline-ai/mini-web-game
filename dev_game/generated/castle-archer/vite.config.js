@@ -2,6 +2,10 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   publicDir: 'assets',
-  server: { host: '0.0.0.0' },
+  server: {
+    host: '0.0.0.0',
+    port: 5189,
+    strictPort: true
+  },
   build: { chunkSizeWarningLimit: 2048 },
 });

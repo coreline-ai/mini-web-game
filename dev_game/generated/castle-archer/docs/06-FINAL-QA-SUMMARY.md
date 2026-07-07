@@ -241,6 +241,38 @@ Metric highlights:
 | production-demo-qa | PASS |
 | Manual before/after DPR2 capture | PASS — screenshots + runtime JSON + source-padding metrics |
 
+Follow-up correction after user re-check:
+
+- The first UI source-padding pass still did not visibly resolve the clipping impression strongly enough.
+- Text buttons now use runtime-generated high-resolution safe button textures instead of stretching `ui_frame`.
+- Home sound/settings and gameplay pause buttons now render as frame + symbol containers, so no source PNG edge can clip the icon art.
+- Evidence was refreshed under the same 390x844 DPR2 condition:
+
+```text
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/01-home-safe-ui-v2-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/02-game-safe-ui-v2-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/03-pause-safe-ui-v2-390x844-dpr2.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/04-safe-ui-v2-contact-sheet.png
+dev_game/generated/castle-archer/qa-captures/polish-2026-07-07-ui-monster-pass/after-runtime-safe-ui-v2/runtime-samples.json
+```
+
+V2 runtime sample highlights:
+
+- PLAY texture: `safe_text_button_230x82`.
+- Sound/settings/pause UI type: `Container`.
+- Enemy frame widths: `[512, 512, 512, 512]`.
+- Browser/page errors: 0.
+
+V2 verification:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS |
+| visual-layout-qa | PASS |
+| scene-composite-qa | PASS |
+| production-demo-qa | PASS |
+
 ## Remaining expansion ideas
 
 - Add true hand-drawn per-enemy death frames.
