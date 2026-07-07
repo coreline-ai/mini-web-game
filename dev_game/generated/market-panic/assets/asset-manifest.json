@@ -1,0 +1,502 @@
+{
+  "assetsVersion": "1.0.0",
+  "imagePolicy": {
+    "allowedFormats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 512,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav",
+      "ogg",
+      "mp3"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "images": [
+    {
+      "id": "player",
+      "path": "assets/characters/player.webp",
+      "type": "sprite",
+      "role": "player",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize",
+          "spritesheet-repack",
+          "webp-quality-96"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "afe5de8d7e5e565b",
+        "quality": "high"
+      },
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "hqQuality": "webp-compressed-hq"
+    },
+    {
+      "id": "hazard",
+      "path": "assets/enemies/hazard.webp",
+      "type": "sprite",
+      "role": "hazard",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize",
+          "webp-quality-96"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "643778687a760cfe",
+        "quality": "high"
+      },
+      "quality": "production-demo",
+      "hqQuality": "webp-compressed-hq"
+    },
+    {
+      "id": "collectible",
+      "path": "assets/items/collectible.webp",
+      "type": "sprite",
+      "role": "collectible",
+      "minWidth": 44,
+      "minHeight": 44,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize",
+          "webp-quality-96"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "5dbada27c1c250f3",
+        "quality": "high"
+      },
+      "quality": "production-demo",
+      "hqQuality": "webp-compressed-hq"
+    },
+    {
+      "id": "btn-frame",
+      "type": "ui",
+      "path": "assets/ui/btn-frame.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "61c1d999fc92fdf6",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "76e2fd802d3f767a",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-hit",
+      "type": "fx",
+      "path": "assets/effects/fx-hit.webp",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize",
+          "webp-quality-96"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "cabd372e66c8b852",
+        "quality": "high"
+      },
+      "hqQuality": "webp-compressed-hq"
+    },
+    {
+      "id": "fx-collect",
+      "type": "fx",
+      "path": "assets/effects/fx-collect.webp",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize",
+          "webp-quality-96"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "fc3e5f9e90be1279",
+        "quality": "high"
+      },
+      "hqQuality": "webp-compressed-hq"
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "required": true,
+      "maxDurationMs": 1000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic"
+      }
+    }
+  ],
+  "qualityTier": "production-demo",
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "quality": "production-demo",
+      "source": "generated-for-game",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "built-in image_gen via Codex imagegen skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "source-preserved",
+          "cover-resize-1080x1920",
+          "lanczos-resample",
+          "webp-quality-94"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "hq-stage-opening-bell-20260706",
+        "quality": "high"
+      },
+      "hqQuality": "hq-screen-refresh"
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "quality": "production-demo",
+      "source": "generated-for-game",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "built-in image_gen via Codex imagegen skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "source-preserved",
+          "cover-resize-1080x1920",
+          "lanczos-resample",
+          "webp-quality-94"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "hq-stage-earnings-storm-20260706",
+        "quality": "high"
+      },
+      "hqQuality": "hq-screen-refresh"
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "quality": "production-demo",
+      "source": "generated-for-game",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "built-in image_gen via Codex imagegen skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "source-preserved",
+          "cover-resize-1080x1920",
+          "lanczos-resample",
+          "webp-quality-94"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "hq-stage-rumor-spiral-20260706",
+        "quality": "high"
+      },
+      "hqQuality": "hq-screen-refresh"
+    },
+    {
+      "id": "stage-4",
+      "path": "assets/backgrounds/stage-4.webp",
+      "quality": "production-demo",
+      "source": "generated-for-game",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "market-panic",
+        "generator": "built-in image_gen via Codex imagegen skill",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "source-preserved",
+          "cover-resize-1080x1920",
+          "lanczos-resample",
+          "webp-quality-94"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "hq-stage-circuit-breaker-20260706",
+        "quality": "high"
+      },
+      "hqQuality": "hq-screen-refresh"
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "market-panic",
+    "noSharedRuntimeAssets": true
+  },
+  "imagegen": {
+    "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-07-06T09:52:00Z"
+  },
+  "hqScreenAssets": [
+    {
+      "id": "menu-panel",
+      "path": "assets/ui/menu-panel.png",
+      "role": "screen-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 1164,
+      "requiresAlpha": true
+    },
+    {
+      "id": "modal-panel",
+      "path": "assets/ui/modal-panel.png",
+      "role": "screen-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 1080,
+      "requiresAlpha": true
+    },
+    {
+      "id": "hud-panel",
+      "path": "assets/ui/hud-panel.png",
+      "role": "game-ui-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1098,
+      "minHeight": 348,
+      "requiresAlpha": true
+    },
+    {
+      "id": "news-panel",
+      "path": "assets/ui/news-panel.png",
+      "role": "game-ui-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 306,
+      "requiresAlpha": true
+    },
+    {
+      "id": "goal-strip",
+      "path": "assets/ui/goal-strip.png",
+      "role": "game-ui-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 132,
+      "requiresAlpha": true
+    },
+    {
+      "id": "stock-card",
+      "path": "assets/ui/stock-card.png",
+      "role": "game-ui-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 222,
+      "requiresAlpha": true
+    },
+    {
+      "id": "stock-card-selected",
+      "path": "assets/ui/stock-card-selected.png",
+      "role": "game-ui-shell",
+      "source": "code-native-hq-ui",
+      "minWidth": 1068,
+      "minHeight": 222,
+      "requiresAlpha": true
+    },
+    {
+      "id": "action-buy",
+      "path": "assets/ui/action-buy.png",
+      "role": "action-button",
+      "source": "code-native-hq-ui",
+      "minWidth": 450,
+      "minHeight": 168,
+      "requiresAlpha": true
+    },
+    {
+      "id": "action-sell",
+      "path": "assets/ui/action-sell.png",
+      "role": "action-button",
+      "source": "code-native-hq-ui",
+      "minWidth": 450,
+      "minHeight": 168,
+      "requiresAlpha": true
+    },
+    {
+      "id": "action-hedge",
+      "path": "assets/ui/action-hedge.png",
+      "role": "action-button",
+      "source": "code-native-hq-ui",
+      "minWidth": 450,
+      "minHeight": 168,
+      "requiresAlpha": true
+    },
+    {
+      "id": "action-cash",
+      "path": "assets/ui/action-cash.png",
+      "role": "action-button",
+      "source": "code-native-hq-ui",
+      "minWidth": 450,
+      "minHeight": 168,
+      "requiresAlpha": true
+    }
+  ],
+  "hqRefresh": {
+    "createdAt": "2026-07-06T09:52:00Z",
+    "sourceFolder": "qa-captures/asset-sources/hq-refresh-2026-07-06",
+    "requirement": "full-screen high-quality visual refresh with Korean playability UI"
+  }
+}

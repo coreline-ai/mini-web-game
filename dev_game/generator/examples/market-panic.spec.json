@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "market-panic",
+    "title": "마켓 패닉",
+    "description": "실시간 시장 뉴스를 읽고 종목 선택, 매수, 매도, 헤지, 현금 대응으로 마감 종까지 살아남는 모바일 세로형 전략 아케이드 게임.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#111827",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "tap-lane",
+    "speed": 620,
+    "hitbox": {
+      "width": 44,
+      "height": 44
+    }
+  },
+  "hazards": {
+    "type": "market-shock-cards",
+    "label": "Market Shock",
+    "spawnRateStart": 1400,
+    "spawnRateMax": 540,
+    "fallSpeedStart": 120,
+    "fallSpeedMax": 420,
+    "damage": 1,
+    "poolSize": 36
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Alpha Signal",
+    "spawnRate": 0.22,
+    "scoreValue": 100
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 3,
+    "collectiblePoints": 100,
+    "highScoreLocalStorageKey": "market_panic_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 12,
+    "maxLevel": 16
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "panic-trading-desk",
+    "colors": {
+      "background": "#111827",
+      "player": "#38bdf8",
+      "hazard": "#ef4444",
+      "collectible": "#facc15",
+      "ui": "#f8fafc"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "marketPanic": {
+    "decision": "custom-loop",
+    "initialPortfolio": 100,
+    "initialRisk": 28,
+    "initialConfidence": 72,
+    "riskFailure": 100,
+    "confidenceFailure": 0,
+    "actions": [
+      "BUY",
+      "SELL",
+      "HEDGE",
+      "CASH"
+    ],
+    "tickers": [
+      {
+        "id": "NOVA",
+        "name": "NOVA AI",
+        "sector": "Growth",
+        "beta": 1.35
+      },
+      {
+        "id": "VOLT",
+        "name": "GREEN VOLT",
+        "sector": "Energy",
+        "beta": 0.85
+      },
+      {
+        "id": "BIOZ",
+        "name": "BIOZEN",
+        "sector": "Biotech",
+        "beta": 1.55
+      },
+      {
+        "id": "GRID",
+        "name": "IRON GRID",
+        "sector": "Industrial",
+        "beta": 0.75
+      },
+      {
+        "id": "SAFE",
+        "name": "SAFEFOOD",
+        "sector": "Defensive",
+        "beta": 0.55
+      },
+      {
+        "id": "CBNK",
+        "name": "CRYPTOBANK",
+        "sector": "Finance",
+        "beta": 1.85
+      }
+    ],
+    "stages": [
+      {
+        "name": "OPENING BELL",
+        "durationSeconds": 45,
+        "activeTickers": [
+          "NOVA",
+          "VOLT"
+        ],
+        "returnTarget": 5,
+        "portfolioFloor": 70,
+        "riskCeiling": 80,
+        "confidenceFloor": 35,
+        "eventIntervalMs": 4600,
+        "volatility": 0.65,
+        "fakeSignals": 0
+      },
+      {
+        "name": "EARNINGS STORM",
+        "durationSeconds": 60,
+        "activeTickers": [
+          "NOVA",
+          "BIOZ",
+          "GRID"
+        ],
+        "returnTarget": 10,
+        "portfolioFloor": 65,
+        "riskCeiling": 75,
+        "confidenceFloor": 30,
+        "eventIntervalMs": 3900,
+        "volatility": 0.95,
+        "fakeSignals": 1,
+        "requiresGoodHedge": true
+      },
+      {
+        "name": "RUMOR SPIRAL",
+        "durationSeconds": 75,
+        "activeTickers": [
+          "NOVA",
+          "BIOZ",
+          "CBNK",
+          "SAFE"
+        ],
+        "returnTarget": 15,
+        "portfolioFloor": 60,
+        "riskCeiling": 70,
+        "confidenceFloor": 24,
+        "eventIntervalMs": 3300,
+        "volatility": 1.25,
+        "fakeSignals": 3,
+        "fakeSignalLimit": 2
+      },
+      {
+        "name": "CIRCUIT BREAKER",
+        "durationSeconds": 90,
+        "activeTickers": [
+          "NOVA",
+          "BIOZ",
+          "CBNK",
+          "SAFE"
+        ],
+        "returnTarget": 20,
+        "portfolioWin": 120,
+        "portfolioFloor": 55,
+        "riskCeiling": 85,
+        "confidenceFloor": 25,
+        "eventIntervalMs": 2600,
+        "volatility": 1.65,
+        "fakeSignals": 2,
+        "finalRushSeconds": 15,
+        "masterTraderReturn": 25,
+        "masterTraderRisk": 50
+      }
+    ]
+  }
+}

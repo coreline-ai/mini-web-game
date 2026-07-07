@@ -17,6 +17,7 @@
     "factory:visual-layout-qa": "node generator/scripts/visual-layout-qa.mjs",
     "factory:scene-composite-qa": "node generator/scripts/scene-composite-qa.mjs",
     "factory:image-quality-qa": "node generator/scripts/image-quality-qa.mjs",
+    "factory:hq-screen-quality-qa": "node generator/scripts/hq-screen-quality-qa.mjs",
     "factory:production-gate": "node generator/scripts/production-gate.mjs"
   },
   "devDependencies": {

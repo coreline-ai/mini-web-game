@@ -1,0 +1,21 @@
+{
+  "name": "market-panic",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0",
+    "pretendard": "^1.3.9"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

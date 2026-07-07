@@ -2,3 +2,8 @@ node_modules/
 .tmp/
 generated/*
 !generated/.gitkeep
+!generated/market-panic/
+!generated/market-panic/**
+generated/market-panic/node_modules/
+generated/market-panic/dist/
+generated/market-panic/qa-captures/
