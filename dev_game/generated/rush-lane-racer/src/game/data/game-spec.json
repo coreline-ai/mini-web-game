@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "rush-lane-racer",
+    "title": "Rush Lane Racer",
+    "description": "A one-hand vertical arcade racing survival game: drag left/right, dodge traffic, collect coins and nitro, survive escalating highway chaos.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "backgroundColor": "#101827",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 1850,
+    "hitbox": {
+      "width": 118,
+      "height": 118
+    }
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Traffic Pack",
+    "spawnRateStart": 780,
+    "spawnRateMax": 115,
+    "fallSpeedStart": 430,
+    "fallSpeedMax": 1940,
+    "damage": 1,
+    "poolSize": 128
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Coin / Nitro",
+    "spawnRate": 0.34,
+    "scoreValue": 50
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 10,
+    "collectiblePoints": 50,
+    "highScoreLocalStorageKey": "rush_lane_racer_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 12,
+    "maxLevel": 18
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "arcade-racing",
+    "colors": {
+      "background": "#101827",
+      "player": "#ff334e",
+      "hazard": "#ff8a24",
+      "collectible": "#ffd54a",
+      "ui": "#eaf6ff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "racing": {
+    "lanes": 4,
+    "playerZone": {
+      "minYRatio": 0.78,
+      "maxYRatio": 0.92,
+      "defaultYRatio": 0.84
+    },
+    "road": {
+      "leftRatio": 0.12,
+      "rightRatio": 0.88,
+      "stripeSpeedMultiplier": 1
+    },
+    "warningEverySeconds": 30,
+    "warningDurationSeconds": 6,
+    "nearMissDistance": 92
+  },
+  "hazardCatalog": [
+    {
+      "id": "traffic-car",
+      "label": "일반 차량",
+      "assetKey": "trafficCar",
+      "unlockStage": 1,
+      "weight": 52,
+      "width": 158,
+      "height": 144,
+      "speedMultiplier": 1,
+      "scoreAvoid": 5
+    },
+    {
+      "id": "cone",
+      "label": "공사 콘",
+      "assetKey": "cone",
+      "unlockStage": 2,
+      "weight": 18,
+      "width": 78,
+      "height": 96,
+      "speedMultiplier": 0.96,
+      "scoreAvoid": 5
+    },
+    {
+      "id": "truck",
+      "label": "대형 트럭",
+      "assetKey": "truck",
+      "unlockStage": 3,
+      "weight": 20,
+      "width": 178,
+      "height": 205,
+      "speedMultiplier": 0.88,
+      "scoreAvoid": 8
+    },
+    {
+      "id": "motorcycle",
+      "label": "오토바이",
+      "assetKey": "motorcycle",
+      "unlockStage": 3,
+      "weight": 16,
+      "width": 134,
+      "height": 150,
+      "speedMultiplier": 1.22,
+      "scoreAvoid": 7
+    },
+    {
+      "id": "oil",
+      "label": "오일 웅덩이",
+      "assetKey": "oil",
+      "unlockStage": 4,
+      "weight": 18,
+      "width": 150,
+      "height": 88,
+      "speedMultiplier": 0.9,
+      "scoreAvoid": 5
+    },
+    {
+      "id": "roadblock",
+      "label": "도로 블록",
+      "assetKey": "roadblock",
+      "unlockStage": 5,
+      "weight": 12,
+      "width": 178,
+      "height": 112,
+      "speedMultiplier": 0.86,
+      "scoreAvoid": 8
+    },
+    {
+      "id": "police-car",
+      "label": "경찰차 이벤트",
+      "assetKey": "policeCar",
+      "unlockStage": 6,
+      "weight": 8,
+      "width": 158,
+      "height": 138,
+      "speedMultiplier": 1.08,
+      "scoreAvoid": 10,
+      "siren": true
+    },
+    {
+      "id": "fake-coin",
+      "label": "가짜 코인",
+      "assetKey": "fakeCoin",
+      "unlockStage": 9,
+      "weight": 8,
+      "width": 74,
+      "height": 74,
+      "speedMultiplier": 1.02,
+      "scoreAvoid": 12,
+      "fake": true
+    },
+    {
+      "id": "boss-truck",
+      "label": "거대 트럭 보스",
+      "assetKey": "bossTruck",
+      "unlockStage": 10,
+      "weight": 3,
+      "width": 282,
+      "height": 272,
+      "speedMultiplier": 0.72,
+      "scoreAvoid": 25,
+      "boss": true
+    }
+  ],
+  "collectibleCatalog": [
+    {
+      "id": "coin",
+      "label": "코인",
+      "assetKey": "coin",
+      "unlockStage": 1,
+      "weight": 62,
+      "width": 66,
+      "height": 66,
+      "score": 50
+    },
+    {
+      "id": "nitro",
+      "label": "니트로",
+      "assetKey": "nitro",
+      "unlockStage": 5,
+      "weight": 12,
+      "width": 72,
+      "height": 90,
+      "score": 80,
+      "effect": "nitro",
+      "durationMs": 5000
+    },
+    {
+      "id": "shield",
+      "label": "방패",
+      "assetKey": "shield",
+      "unlockStage": 4,
+      "weight": 9,
+      "width": 76,
+      "height": 78,
+      "score": 30,
+      "effect": "shield"
+    },
+    {
+      "id": "magnet",
+      "label": "자석",
+      "assetKey": "magnet",
+      "unlockStage": 5,
+      "weight": 8,
+      "width": 78,
+      "height": 78,
+      "score": 30,
+      "effect": "magnet",
+      "durationMs": 7000
+    },
+    {
+      "id": "slow",
+      "label": "시계",
+      "assetKey": "slow",
+      "unlockStage": 4,
+      "weight": 7,
+      "width": 76,
+      "height": 76,
+      "score": 30,
+      "effect": "slow",
+      "durationMs": 5000
+    },
+    {
+      "id": "repair",
+      "label": "수리 키트",
+      "assetKey": "repair",
+      "unlockStage": 6,
+      "weight": 4,
+      "width": 78,
+      "height": 78,
+      "score": 40,
+      "effect": "repair"
+    }
+  ],
+  "stages": [
+    {
+      "stage": 1,
+      "name": "City Warmup",
+      "notes": "느린 속도, 일반 차량만 등장"
+    },
+    {
+      "stage": 2,
+      "name": "Cone Zone",
+      "notes": "공사 콘 등장"
+    },
+    {
+      "stage": 3,
+      "name": "Heavy Traffic",
+      "notes": "트럭과 오토바이 등장"
+    },
+    {
+      "stage": 4,
+      "name": "Oil Panic",
+      "notes": "오일 웅덩이와 슬로우 아이템 등장"
+    },
+    {
+      "stage": 5,
+      "name": "Nitro Rush",
+      "notes": "니트로/자석 등장, 도로 속도 상승"
+    },
+    {
+      "stage": 6,
+      "name": "Police Chase",
+      "notes": "경찰차 추격 이벤트"
+    },
+    {
+      "stage": 7,
+      "name": "Traffic Frenzy",
+      "notes": "트래픽 폭주"
+    },
+    {
+      "stage": 8,
+      "name": "Narrow Lanes",
+      "notes": "좁은 차선 패턴"
+    },
+    {
+      "stage": 9,
+      "name": "Fake Coin",
+      "notes": "가짜 코인 페이크"
+    },
+    {
+      "stage": 10,
+      "name": "Boss Truck",
+      "notes": "거대 트럭 보스 패턴"
+    }
+  ]
+}

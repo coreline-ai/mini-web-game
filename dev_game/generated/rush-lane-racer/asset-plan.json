@@ -1,0 +1,595 @@
+{
+  "gameId": "rush-lane-racer",
+  "qualityTier": "production-demo",
+  "canvas": {
+    "width": 1080,
+    "height": 1920
+  },
+  "styleGuide": {
+    "palette": "glossy red/blue/neon yellow arcade racing on high-contrast roads",
+    "outline": "clean dark cartoon outline",
+    "lighting": "studio-like glossy highlights, readable at mobile size",
+    "camera": "vertical runner road perspective; vehicle sprites top/front 3-quarter",
+    "mood": "fast, premium, 90s arcade"
+  },
+  "backgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.png",
+      "type": "background",
+      "role": "stage-background",
+      "theme": "Bright city highway",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceWidth": 1080,
+      "sourceHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "c33e1161abaf2ca9"
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.png",
+      "type": "background",
+      "role": "stage-background",
+      "theme": "Neon night highway",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceWidth": 1080,
+      "sourceHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "75b646b6628872f3"
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.png",
+      "type": "background",
+      "role": "stage-background",
+      "theme": "Desert canyon highway",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceWidth": 1080,
+      "sourceHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "c1133677a8313de5"
+      }
+    }
+  ],
+  "sprites": [
+    {
+      "id": "player",
+      "path": "assets/images/player.png",
+      "type": "sprite",
+      "role": "player",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 992,
+      "sourceWidth": 1024,
+      "sourceHeight": 992,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 168,
+        "logicalHeight": 162
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "traffic-car",
+      "path": "assets/images/traffic-car.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 880,
+      "minHeight": 800,
+      "sourceWidth": 880,
+      "sourceHeight": 800,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 158,
+        "logicalHeight": 144
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "truck",
+      "path": "assets/images/truck.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 900,
+      "minHeight": 1036,
+      "sourceWidth": 900,
+      "sourceHeight": 1036,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 178,
+        "logicalHeight": 205
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "motorcycle",
+      "path": "assets/images/motorcycle.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 820,
+      "minHeight": 918,
+      "sourceWidth": 820,
+      "sourceHeight": 918,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 134,
+        "logicalHeight": 150
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "police-car",
+      "path": "assets/images/police-car.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 920,
+      "minHeight": 804,
+      "sourceWidth": 920,
+      "sourceHeight": 804,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 158,
+        "logicalHeight": 138
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "boss-truck",
+      "path": "assets/images/boss-truck.png",
+      "type": "sprite",
+      "role": "boss",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 988,
+      "sourceWidth": 1024,
+      "sourceHeight": 988,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 282,
+        "logicalHeight": 272
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "cone",
+      "path": "assets/images/cone.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 640,
+      "minHeight": 788,
+      "sourceWidth": 640,
+      "sourceHeight": 788,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 78,
+        "logicalHeight": 96
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "roadblock",
+      "path": "assets/images/roadblock.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 960,
+      "minHeight": 604,
+      "sourceWidth": 960,
+      "sourceHeight": 604,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 178,
+        "logicalHeight": 112
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "oil",
+      "path": "assets/images/oil.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 900,
+      "minHeight": 528,
+      "sourceWidth": 900,
+      "sourceHeight": 528,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 150,
+        "logicalHeight": 88
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "coin",
+      "path": "assets/images/coin.png",
+      "type": "sprite",
+      "role": "collectible",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 66,
+        "logicalHeight": 66
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "nitro",
+      "path": "assets/images/nitro.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 640,
+      "sourceWidth": 512,
+      "sourceHeight": 640,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 72,
+        "logicalHeight": 90
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "shield",
+      "path": "assets/images/shield.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 76,
+        "logicalHeight": 78
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "magnet",
+      "path": "assets/images/magnet.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 78,
+        "logicalHeight": 78
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "slow",
+      "path": "assets/images/slow.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 76,
+        "logicalHeight": 76
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "repair",
+      "path": "assets/images/repair.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 78,
+        "logicalHeight": 78
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "fake-coin",
+      "path": "assets/images/fake-coin.png",
+      "type": "sprite",
+      "role": "hazard",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "display": {
+        "logicalWidth": 74,
+        "logicalHeight": 74
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5c950546c4e7f5f9"
+      }
+    },
+    {
+      "id": "btn-green",
+      "path": "assets/ui/btn-green.png",
+      "type": "ui",
+      "role": "button",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 256,
+      "sourceWidth": 1024,
+      "sourceHeight": 256,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    },
+    {
+      "id": "btn-blue",
+      "path": "assets/ui/btn-blue.png",
+      "type": "ui",
+      "role": "button",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 256,
+      "sourceWidth": 1024,
+      "sourceHeight": 256,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/ui/btn-pause.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    },
+    {
+      "id": "fx-crash",
+      "path": "assets/fx/fx-crash.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 640,
+      "minHeight": 512,
+      "sourceWidth": 640,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    },
+    {
+      "id": "fx-coin-spark",
+      "path": "assets/fx/fx-coin-spark.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 640,
+      "minHeight": 512,
+      "sourceWidth": 640,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    },
+    {
+      "id": "result-stamp-fail",
+      "path": "assets/fx/result-stamp-fail.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "sourceWidth": 512,
+      "sourceHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "rush-lane-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b534239df5f230d6"
+      }
+    }
+  ],
+  "sourceSheets": [
+    {
+      "id": "core-sheet",
+      "path": "/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0e712e7c5d748115016a4cf57e5c3c8191acd928bcc7d87f9d.png",
+      "promptHash": "5c950546c4e7f5f9"
+    },
+    {
+      "id": "ui-sheet",
+      "path": "/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_086c39089a28f04b016a4cfaea567081919d279c3961d99eaa.png",
+      "promptHash": "b534239df5f230d6"
+    }
+  ]
+}

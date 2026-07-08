@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="192" viewBox="0 0 128 192">
+<g>
+    <path d="M34 19 C39 6 89 6 94 19 L112 148 C116 170 100 185 64 185 C28 185 12 170 16 148 Z" fill="#f4f8ff" stroke="#111" stroke-width="6"/>
+    <path d="M44 39 C47 28 81 28 84 39 L94 75 C77 84 51 84 34 75 Z" fill="#1be9ff" stroke="#123" stroke-width="5"/>
+    <rect x="43" y="80" width="42" height="20" rx="6" fill="#111"/>
+    <rect x="43" y="80" width="21" height="20" rx="6" fill="#ff334e"/><rect x="64" y="80" width="21" height="20" rx="6" fill="#228dff"/>
+    <text x="64" y="134" font-size="22" font-family="Arial Black" text-anchor="middle" fill="#111">POL</text>
+    <rect x="16" y="90" width="17" height="45" rx="8" fill="#1b1b1b"/><rect x="95" y="90" width="17" height="45" rx="8" fill="#1b1b1b"/>
+    <circle cx="42" cy="25" r="7" fill="#fff36d"/><circle cx="86" cy="25" r="7" fill="#fff36d"/>
+  </g>
+
+</svg>

@@ -1,0 +1,373 @@
+{
+  "assetsVersion": "1.0.0",
+  "imagePolicy": {
+    "allowedFormats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 512,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav",
+      "ogg",
+      "mp3"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "images": [
+    {
+      "id": "player",
+      "path": "assets/characters/player.png",
+      "type": "sprite",
+      "role": "player",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "5a00efc24957f83f",
+        "quality": "high"
+      },
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 512,
+      "frameHeight": 512
+    },
+    {
+      "id": "hazard",
+      "path": "assets/enemies/hazard.png",
+      "type": "sprite",
+      "role": "hazard",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "4ff7b6ff391f3ea8",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "collectible",
+      "path": "assets/items/collectible.png",
+      "type": "sprite",
+      "role": "collectible",
+      "minWidth": 44,
+      "minHeight": 44,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "dd39363dde70eb5f",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "arrow",
+      "path": "assets/items/arrow.png",
+      "type": "sprite",
+      "role": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "3fd9cf38a2150a19",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-frame",
+      "type": "ui",
+      "path": "assets/ui/btn-frame.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "61c1d999fc92fdf6",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.png",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "76e2fd802d3f767a",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "fx-collect",
+      "type": "fx",
+      "path": "assets/effects/fx-collect.png",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "fc3e5f9e90be1279",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "fx-hit",
+      "type": "fx",
+      "path": "assets/effects/fx-hit.png",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "cabd372e66c8b852",
+        "quality": "high"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "required": true,
+      "maxDurationMs": 1000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer"
+      }
+    }
+  ],
+  "qualityTier": "production-demo",
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.png",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "d7a48145e06876ef",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.png",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "1809b09064558365",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.png",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b2717d2152556859",
+        "quality": "high"
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "sky-archer",
+    "noSharedRuntimeAssets": true
+  },
+  "imagegen": {
+    "model": "openai-builtin-image_gen (version opaque)",
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-07-05T10:03:27.142Z",
+    "modelVerified": false
+  }
+}

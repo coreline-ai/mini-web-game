@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "sky-archer",
+    "title": "Sky Archer",
+    "description": "Move the archer with one thumb while arrows auto-fire upward — pop descending balloon targets before they land. An inverted-dodge vertical shooting arcade.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#1b1030",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 860,
+    "hitbox": {
+      "width": 40,
+      "height": 40
+    }
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Balloon Target",
+    "spawnRateStart": 1000,
+    "spawnRateMax": 380,
+    "fallSpeedStart": 130,
+    "fallSpeedMax": 330,
+    "damage": 1,
+    "poolSize": 40
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Golden Bullseye",
+    "spawnRate": 0.16,
+    "scoreValue": 80
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 6,
+    "collectiblePoints": 80,
+    "highScoreLocalStorageKey": "sky_archer_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 14,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#1b1030",
+      "player": "#8be27c",
+      "hazard": "#ff6b6b",
+      "collectible": "#ffd54a",
+      "ui": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  }
+}
