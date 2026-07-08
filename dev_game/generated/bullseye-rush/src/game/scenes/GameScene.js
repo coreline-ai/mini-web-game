@@ -10,6 +10,7 @@ import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import OscillatingAimSystem from '../systems/OscillatingAimSystem.js';
 import RoundManager from '../systems/RoundManager.js';
+import { sy } from '../utils/scale.js';
 
 // Bullseye Rush — 순수 타이밍 정밀 사격 (custom-loop).
 // dodge 스포너를 쓰지 않는다: 라운드제 과녁 패턴 + 자동 왕복 조준 + 탭 발사.
@@ -79,7 +80,7 @@ export default class GameScene extends Phaser.Scene {
   update(time, delta) {
     if (this.isOver) return;
     this.score.elapsedMs += delta; // 생존 점수 없음(정밀 게임) — 시간만 추적
-    this.player.y = TUNING.playerY + Math.sin(time * 0.004) * 2;
+    this.player.y = TUNING.playerY + Math.sin(time * 0.004) * sy(2);
     this.aim.update(delta);
     this.rounds.update();
     this.hud.update(this.score.getScore(), this.rounds.round);

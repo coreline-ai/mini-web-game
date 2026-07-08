@@ -4,6 +4,7 @@ import { TUNING } from '../constants/tuning.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { AudioManager } from '../systems/AudioManager.js';
 import { Juice } from '../systems/Juice.js';
+import { fontPx, strokePx, su, sx, sy } from '../utils/scale.js';
 
 // Bullseye Rush 고유 시스템 ②: 라운드/과녁 패턴/콤보/미스 판정.
 // 라운드마다 과녁 1~3개(정지→왕복→상하→축소 패턴 진화), 제한 화살로 전부 파괴하면 클리어.
@@ -24,9 +25,9 @@ export const RUSH = {
 function roundConfig(n) {
   const targets = Math.min(3, 1 + Math.floor((n - 1) / 2));      // 1,1,2,2,3,3,...
   const arrows = targets * 2 + 3 - Math.min(2, Math.floor(n / 5)); // 여유 화살 점감
-  const sweep = 240 + (n - 1) * 26;                               // 조준 스윕 가속
+  const sweep = sx(240 + (n - 1) * 26);                            // 조준 스윕 가속
   const scale = Math.max(0.72, 1 - (n - 1) * 0.035);              // 과녁 축소
-  const moveSpeed = n < 3 ? 0 : 40 + (n - 3) * 14;                // R3부터 이동
+  const moveSpeed = n < 3 ? 0 : sx(40 + (n - 3) * 14);            // R3부터 이동
   const bob = n >= 5;                                             // R5부터 상하 바운스
   const starChance = n >= 3 ? 0.5 : 0;
   return { targets, arrows, sweep, scale, moveSpeed, bob, starChance };
@@ -46,14 +47,14 @@ export default class RoundManager {
 
     // HUD: 남은 화살(우상단 pause 아래) / 미스 X / 콤보 배지
     const w = SPEC.canvas.width;
-    this.arrowText = scene.add.text(w - 18, 92, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '17px', color: '#ffe066', stroke: '#1b2a4a', strokeThickness: 4,
+    this.arrowText = scene.add.text(w - su(18), sy(92), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(17), color: '#ffe066', stroke: '#1b2a4a', strokeThickness: strokePx(4),
     }).setOrigin(1, 0).setDepth(20);
-    this.missText = scene.add.text(18, 92, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '17px', color: '#ff6b6b', stroke: '#1b2a4a', strokeThickness: 4,
+    this.missText = scene.add.text(su(18), sy(92), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(17), color: '#ff6b6b', stroke: '#1b2a4a', strokeThickness: strokePx(4),
     }).setOrigin(0, 0).setDepth(20);
-    this.comboText = scene.add.text(w / 2, 96, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '19px', color: '#7bffb0', stroke: '#1b2a4a', strokeThickness: 5,
+    this.comboText = scene.add.text(w / 2, sy(96), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(19), color: '#7bffb0', stroke: '#1b2a4a', strokeThickness: strokePx(5),
     }).setOrigin(0.5, 0).setDepth(20);
     this.refreshHud();
   }
@@ -70,7 +71,7 @@ export default class RoundManager {
     const w = SPEC.canvas.width;
     const xs = cfg.targets === 1 ? [w / 2] : cfg.targets === 2 ? [w * 0.32, w * 0.68] : [w * 0.22, w * 0.5, w * 0.78];
     xs.forEach((x, i) => {
-      const y = 190 + (i % 2) * 74;
+      const y = sy(190) + (i % 2) * sy(74);
       const t = this.targets.get(x, y, 'target');
       if (!t) return;
       t.enableBody(true, x, y, true, true);
@@ -83,17 +84,17 @@ export default class RoundManager {
     });
     // 보너스 별 (확률): 맞히면 화살 +1
     if (Math.random() < cfg.starChance) {
-      const s = this.stars.get(Phaser.Math.Between(70, w - 70), 132, 'star');
+      const s = this.stars.get(Phaser.Math.Between(sx(70), w - sx(70)), sy(132), 'star');
       if (s) {
-        s.enableBody(true, s.x, 132, true, true);
-        s.setDepth(5).setDisplaySize(52, 52);
+        s.enableBody(true, s.x, sy(132), true, true);
+        s.setDepth(5).setDisplaySize(su(52), su(52));
         s.body.setCircle((Math.min(s.width, s.height) / 2) * 0.8, s.width * 0.1, s.height * 0.1);
-        s.setVelocityX(70 * (Math.random() < 0.5 ? 1 : -1));
+        s.setVelocityX(sx(70) * (Math.random() < 0.5 ? 1 : -1));
       }
     }
     // ROUND 배너
     const banner = this.scene.add.text(w / 2, SPEC.canvas.height * 0.4, 'ROUND ' + n, {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '42px', color: '#ffe066', stroke: '#1b2a4a', strokeThickness: 8,
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(42), color: '#ffe066', stroke: '#1b2a4a', strokeThickness: strokePx(8),
     }).setOrigin(0.5).setDepth(30).setAlpha(0);
     this.scene.aim.locked = true;
     this.scene.tweens.add({
@@ -157,7 +158,7 @@ export default class RoundManager {
     this.misses += 1;
     this.stats.missShots += 1;
     this.combo = 1;
-    Juice.scorePop(this.scene, x, TUNING.safeTop + 44, 'MISS');
+    Juice.scorePop(this.scene, x, TUNING.safeTop + sy(44), 'MISS');
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxHit, 0.4);
     this.refreshHud();
     if (this.misses >= RUSH.maxMisses) return this.gameOver('misses');
@@ -193,18 +194,18 @@ export default class RoundManager {
     this.targets.children.each((t) => {
       if (!t.active) return;
       if (this.cfg?.moveSpeed) {
-        if (t.x < 58) t.setVelocityX(Math.abs(t.body.velocity.x));
-        if (t.x > w - 58) t.setVelocityX(-Math.abs(t.body.velocity.x));
+        if (t.x < sx(58)) t.setVelocityX(Math.abs(t.body.velocity.x));
+        if (t.x > w - sx(58)) t.setVelocityX(-Math.abs(t.body.velocity.x));
       }
       if (this.cfg?.bob) {
         t._t += 0.03;
-        t.y = t._baseY + Math.sin(t._t) * 26;
+        t.y = t._baseY + Math.sin(t._t) * sy(26);
       }
     });
     this.stars.children.each((s) => {
       if (!s.active) return;
-      if (s.x < 46) s.setVelocityX(Math.abs(s.body.velocity.x));
-      if (s.x > w - 46) s.setVelocityX(-Math.abs(s.body.velocity.x));
+      if (s.x < sx(46)) s.setVelocityX(Math.abs(s.body.velocity.x));
+      if (s.x > w - sx(46)) s.setVelocityX(-Math.abs(s.body.velocity.x));
     });
     this.checkExhausted();
   }

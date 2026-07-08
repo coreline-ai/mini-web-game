@@ -10,10 +10,17 @@
     "lang": "en"
   },
   "canvas": {
-    "width": 390,
-    "height": 844,
+    "width": 1080,
+    "height": 1920,
     "backgroundColor": "#0b1024",
     "scaleMode": "fit"
+  },
+  "assetFidelity": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": { "width": 1080, "height": 1920 },
+    "baseCompositionCanvas": { "width": 390, "height": 844 },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": { "width": 1080, "height": 1920 }
   },
   "player": {
     "moveMode": "drag",

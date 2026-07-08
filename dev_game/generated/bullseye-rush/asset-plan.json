@@ -2,8 +2,8 @@
   "gameId": "bullseye-rush",
   "title": "Bullseye Rush",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920
   },
   "styleGuide": {
     "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
@@ -21,7 +21,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Meadow Training Range",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Meadow Training Range\" for Bullseye Rush: a bright sunny archery training range in a green meadow: neat rows of wooden target stands in the far distance, a simple wooden fence, colorful practice banners, fluffy clouds, distant hills. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Meadow Training Range\" for Bullseye Rush: a bright sunny archery training range in a green meadow: neat rows of wooden target stands in the far distance, a simple wooden fence, colorful practice banners, fluffy clouds, distant hills. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     },
     {
       "id": "stage-2",
@@ -29,7 +29,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Sunset Tournament Arena",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Sunset Tournament Arena\" for Bullseye Rush: a festive archery tournament arena at golden sunset: bunting flags strung between poles, cheering-crowd stands blurred far in the background, warm orange-pink sky. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Sunset Tournament Arena\" for Bullseye Rush: a festive archery tournament arena at golden sunset: bunting flags strung between poles, cheering-crowd stands blurred far in the background, warm orange-pink sky. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     },
     {
       "id": "stage-3",
@@ -37,7 +37,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Lantern Night Festival",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Lantern Night Festival\" for Bullseye Rush: a cozy night archery festival: deep blue starry sky, glowing paper lanterns strung overhead, warm string lights along a wooden fence, soft moonlight. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Lantern Night Festival\" for Bullseye Rush: a cozy night archery festival: deep blue starry sky, glowing paper lanterns strung overhead, warm string lights along a wooden fence, soft moonlight. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     }
   ],
   "sprites": [
@@ -45,19 +45,29 @@
       "id": "player",
       "role": "player",
       "path": "assets/characters/player.png",
-      "width": 256,
-      "height": 256,
+      "width": 2048,
+      "height": 512,
       "frames": 4,
       "frameSize": 512,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation. A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi FESTIVAL ARCHER mascot for Bullseye Rush \u2014 a cheerful girl archer with a brown ponytail, red-and-cream festival tunic with a small yellow scarf, holding a wooden recurve bow, front-facing 3/4 view \u2014 in a slightly different ARCHERY SHOOTING pose per cell (frame1 relaxed idle holding bow, frame2 nocking an arrow, frame3 full draw aiming straight up, frame4 just-released follow-through). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation. A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi FESTIVAL ARCHER mascot for Bullseye Rush — a cheerful girl archer with a brown ponytail, red-and-cream festival tunic with a small yellow scarf, holding a wooden recurve bow, front-facing 3/4 view — in a slightly different ARCHERY SHOOTING pose per cell (frame1 relaxed idle holding bow, frame2 nocking an arrow, frame3 full draw aiming straight up, frame4 just-released follow-through). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject.",
+      "runtimeDisplayWorldSize": {
+        "width": 277,
+        "height": 277
+      },
+      "qaNote": "Cleaned native-FHD runtime sprite sheet: low-alpha/magenta matte removed, transparent RGB edge bleed applied, 512px frames preserved."
     },
     {
       "id": "target",
       "role": "target",
       "path": "assets/enemies/target.png",
-      "width": 256,
-      "height": 256,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single classic archery BULLSEYE TARGET game sprite, perfectly round and FACING THE VIEWER flat-on: concentric rings of red and white with a small GOLD CENTER dot, thin wooden rim, glossy 3D-cartoon finish, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "width": 1024,
+      "height": 1024,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single classic archery BULLSEYE TARGET game sprite, perfectly round and FACING THE VIEWER flat-on: concentric rings of red and white with a small GOLD CENTER dot, thin wooden rim, glossy 3D-cartoon finish, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject.",
+      "runtimeDisplayWorldSize": {
+        "width": 294,
+        "height": 294
+      },
+      "qaNote": "Rebuilt as crisp antialiased native-FHD target PNG with transparent alpha and no magenta fringe."
     },
     {
       "id": "star",
@@ -83,7 +93,7 @@
       "path": "assets/ui/btn-frame.png",
       "width": 768,
       "height": 256,
-      "prompt": "A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur \u2014 the area outside the pill must be flat solid pure magenta right up to the crisp button edge."
+      "prompt": "A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur — the area outside the pill must be flat solid pure magenta right up to the crisp button edge."
     },
     {
       "id": "btn-pause",
@@ -91,7 +101,7 @@
       "path": "assets/ui/btn-pause.png",
       "width": 256,
       "height": 256,
-      "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow \u2014 flat solid pure magenta right up to the circle edge, centered and filling the frame."
+      "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow — flat solid pure magenta right up to the circle edge, centered and filling the frame."
     }
   ],
   "fx": [
@@ -133,5 +143,21 @@
       "id": "game_loop",
       "type": "bgm"
     }
-  ]
+  ],
+  "assetFidelity": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "baseCompositionCanvas": {
+      "width": 390,
+      "height": 844
+    },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
 }

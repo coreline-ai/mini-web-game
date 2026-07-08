@@ -17,3 +17,18 @@ factory:qa OK · production-demo-qa(--require-gpt-imagegen) OK · image-quality-
 
 ## 남은 확장 아이디어 (non-blocking)
 승리 전용 결과 화면 · 과녁 궤도(원형/8자) 패턴 · 2연발 파워샷 아이템 · 데일리 챌린지 시드
+
+## 2026-07-08 Native-FHD asset fidelity polish
+- 증상: 390×844 논리 캔버스에서 1080×1920 배경과 대형 PNG가 축소된 뒤 다시 CSS 확대되어, 캐릭터 외곽과 목표물 아이콘이 흐리거나 깨져 보임.
+- 원인 분류: `asset-fidelity/DPR mismatch`, `runtime-stretch`, `dirty-alpha-matte`, `oversized-resample-edge`.
+- 수정: Phaser 기본 캔버스를 1080×1920으로 격상하고 기존 390×844 기준 좌표/폰트/속도/버튼 크기를 스케일 유틸로 변환. 데스크톱 landscape는 9:16 모바일 셸로 제한.
+- 에셋: `assets/enemies/target.png`를 1024×1024 native-FHD 타깃으로 재제작, `assets/characters/player.png`는 2048×512 시트의 magenta/low-alpha 매트 제거 및 edge bleed 후처리.
+- 증거: `qa-captures/native-fhd-2026-07-08/{390x844,1080x1920,1280x900}-{home,game}.png` 및 각 viewport `*-sample.json`.
+- 검증: `npm run build` PASS, `factory:production-demo-qa --require-gpt-imagegen` PASS, `factory:visual-layout-qa --viewports 390x844,430x932,1080x1920,1280x900` PASS. `factory:image-quality-qa`와 `factory:scene-composite-qa`는 현재 Python 환경의 `PIL` 누락으로 실행 차단됨.
+
+## 2026-07-08 Bright blurred outer-shell polish
+- 증상: 1080×1920 캔버스 바깥 영역과 desktop/mobile shell 여백이 단색이라 화면이 끊기고 덜 화사해 보임.
+- 원인 분류: visual presentation polish / native-FHD shell background mismatch.
+- 수정: `body::before`와 `#game::before`에 `stage-1.png` 기반 blur/saturate/brightness 레이어를 추가하고, 캔버스 z-index를 위로 고정. 캡처 중 발견된 오른쪽 끝 조준 시 플레이어 일부 잘림은 aim margin을 확대해 함께 수정.
+- 증거: `qa-captures/bright-blur-shell-2026-07-08/{390x844,1280x900}-{home,game}.png`, `390x844-game-right-edge.png`, 각 `*-sample.json`.
+- 검증: blur background 적용 true, browserErrors 0, playerClipPass true.
