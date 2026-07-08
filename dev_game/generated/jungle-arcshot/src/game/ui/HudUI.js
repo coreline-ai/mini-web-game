@@ -1,19 +1,35 @@
 import { SPEC } from '../data/spec.js';
+import { fontPx, strokePx, su, worldX } from '../constants/tuning.js';
 import { makeTextButton } from './MobileButton.js';
 
 export default class HudUI {
   constructor(scene, onPause) {
-    const { width } = SPEC.canvas;
-    this.scoreText = scene.add.text(18, 18, 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setDepth(20);
-    this.levelText = scene.add.text(18, 44, 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: '14px', color: '#b9d7ff', stroke: '#000000', strokeThickness: 3 }).setDepth(20);
+    this.scoreText = scene.add.text(worldX(18), su(18), 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(18), color: '#ffffff', stroke: '#000000', strokeThickness: strokePx(4) }).setDepth(20);
+    this.levelText = scene.add.text(worldX(18), su(44), 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(14), color: '#b9d7ff', stroke: '#000000', strokeThickness: strokePx(3) }).setDepth(20);
     if (scene.textures.exists('ui_pause')) {
-      const img = scene.add.image(width - 46, 42, 'ui_pause').setDisplaySize(56, 56).setInteractive({ useHandCursor: true });
-      img.on('pointerdown', () => { img.setScale(img.scaleX * 0.92, img.scaleY * 0.92); onPause && onPause(); });
-      img.on('pointerup', () => img.setDisplaySize(56, 56));
-      img.on('pointerout', () => img.setDisplaySize(56, 56));
+      const normalSize = su(56);
+      const pressedSize = su(52);
+      const img = scene.add.image(worldX(344), su(42), 'ui_pause').setDisplaySize(normalSize, normalSize).setInteractive({ useHandCursor: true });
+      let locked = false;
+      const restore = () => img.setDisplaySize(normalSize, normalSize);
+      img.on('pointerdown', (_pointer, _localX, _localY, event) => {
+        event?.stopPropagation();
+        if (locked) return;
+        locked = true;
+        img.disableInteractive();
+        img.setDisplaySize(pressedSize, pressedSize);
+        scene.time.delayedCall(50, () => {
+          restore();
+          locked = false;
+          if (img.active) img.setInteractive({ useHandCursor: true });
+          onPause && onPause();
+        });
+      });
+      img.on('pointerup', (_pointer, _localX, _localY, event) => { event?.stopPropagation(); restore(); });
+      img.on('pointerout', (_pointer, event) => { event?.stopPropagation(); restore(); });
       this.pause = { bg: img, txt: img, destroy: () => img.destroy() };
     } else {
-      this.pause = makeTextButton(scene, width - 54, 38, 'Ⅱ', onPause, 58, 48);
+      this.pause = makeTextButton(scene, worldX(336), su(38), 'II', onPause, su(58), su(48));
     }
     this.pause.bg.setDepth(20); this.pause.txt.setDepth(21);
   }

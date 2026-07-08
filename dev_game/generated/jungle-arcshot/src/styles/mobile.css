@@ -9,7 +9,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body, #game {
+html, body {
   margin: 0;
   width: 100%;
   min-width: 100%;
@@ -28,11 +28,33 @@ body {
 }
 
 #game {
+  margin: 0;
   width: 100vw;
+  min-width: 0;
   height: 100vh;
   height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
   background: #101923;
   /* Phaser Scale.CENTER_BOTH가 캔버스 중앙정렬을 담당한다. CSS flex와 중복하면 desktop에서 오른쪽/아래로 밀린다. */
+}
+
+@media (min-aspect-ratio: 1/1) {
+  html,
+  body {
+    background: #0b1118;
+  }
+
+  #game {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: min(100vw, 430px, calc(100dvh * 9 / 16));
+    height: 100vh;
+    height: 100dvh;
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 80px rgba(0, 0, 0, 0.48);
+  }
 }
 
 canvas {

@@ -6,3 +6,8 @@
 4. **새총 입력**: 아래로 당길수록 멀리(위쪽 반구 강제), 릴리즈에 1발(쿨다운 200ms), 화살 0이면 발사 거부. 발사 후 고무줄/미리보기 소거.
 5. **바람 교대**: R2 → R3에서 WIND 방향 화살표 반대 + 세기 증가, aim.wind 값과 HUD 일치.
 6. **훅 안전**: 게임오버 후 __JUNGLE_DEBUG__.get() throw 없이 {over:true, reason} 반환.
+7. **HQ 에셋/1080 캔버스**: `390×844` DPR2 캡처에서 Phaser config와 canvas backing store가 `1080×1920`, camera zoom이 `1`이어야 하며, player frame `736×736`, `fruit`=`768×768`, `balloon`=`512×768`, `arrow`=`512×1024`, `ui_pause`=`512×512`이어야 한다.
+8. **아이콘/버튼 클리핑**: Home/Game/Pause 캡처에서 pause·sound·home·retry 아이콘 알파 bbox가 source edge에 닿지 않고, pause 버튼 runtime bounds가 화면 밖으로 나가지 않는다.
+9. **입력 견고성**: PLAY/RESUME/HOME/RETRY 텍스트 버튼은 더블/트리플 탭에도 한 번만 상태 전이를 발화하고, pause 아이콘은 누른 뒤 `56×56`으로 복원되며 누적 확대/고착이 없어야 한다.
+10. **1080 안전 영역 매핑**: `390×844`, `430×932`, `1080×1920` 뷰포트에서 Home/Game/Pause 주요 UI의 `outOfViewportLayoutItems`가 0이어야 하며, `sourceFrameSize >= renderedWorldSize`가 player/fruit/balloon/arrow/pause icon에 대해 모두 참이어야 한다.
+11. **데스크톱 모바일 셸**: `1280×900` 같은 가로형 데스크톱 뷰포트에서 `#game`은 전체 창 폭을 먹지 않고 중앙 모바일 스테이지로 제한되어야 한다. 기준: `#game.width <= 430`, 수평 중앙 정렬, 모바일 `390×844`에서는 `#game.width === viewport.width`.

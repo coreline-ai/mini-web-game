@@ -2,19 +2,28 @@ import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
+import { applyHiDpiCamera } from '../config.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
 
 export default class LoadingScene extends Phaser.Scene {
   constructor() { super(SCENES.LOADING); }
   preload() {
+    applyHiDpiCamera(this);
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');
-    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');
+    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 736, frameHeight: 736 });
+    this.load.image(ASSET_KEYS.hazard, 'enemies/fruit.png');
+    this.load.image(ASSET_KEYS.collectible, 'items/balloon.png');
+    this.load.image('fruit', 'enemies/fruit.png');
+    this.load.image('balloon', 'items/balloon.png');
+    this.load.image('arrow', 'items/arrow.png');
     this.load.image('ui_frame', 'ui/btn-frame.png');
     this.load.image('ui_pause', 'ui/btn-pause.png');
+    this.load.image('ui_sound_on', 'ui/icon-sound-on.png');
+    this.load.image('ui_sound_off', 'ui/icon-sound-off.png');
+    this.load.image('ui_home', 'ui/icon-home.png');
+    this.load.image('ui_retry', 'ui/icon-retry.png');
     this.load.image('fx_hit', 'effects/fx-hit.png');
     this.load.image('fx_collect', 'effects/fx-collect.png');
     this.load.image('bg_0', 'backgrounds/stage-1.png');
@@ -29,6 +38,7 @@ export default class LoadingScene extends Phaser.Scene {
     }
   }
   create() {
+    applyHiDpiCamera(this);
     const items = (this.loadingUI && this.loadingUI.title) ? [{ id: 'loading', obj: this.loadingUI.title }] : [];
     publishLayout(this, items);
     const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');

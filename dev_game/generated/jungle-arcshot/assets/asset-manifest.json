@@ -6,9 +6,24 @@
       "png",
       "webp"
     ],
-    "maxSpriteKB": 512,
+    "maxSpriteKB": 2048,
     "requireAlphaForSprites": true,
-    "minTouchUiSize": 44
+    "minTouchUiSize": 44,
+    "assetFidelity": {
+      "logicalCanvas": {
+        "width": 1080,
+        "height": 1920
+      },
+      "maxTargetDpr": 1,
+      "physicalCanvasTarget": {
+        "width": 1080,
+        "height": 1920
+      },
+      "runtimeStrategy": "native-1080x1920-phaser-canvas-with-browser-supersampling",
+      "safeAreaStrategy": "390x844 base composition mapped into centered 1080x1920 crop-safe world area",
+      "importantRuntimeRule": "sourcePixels >= renderedWorldPixels for sprites, icons, buttons, and effects; browser downscales the 1080p canvas instead of upscaling a 390p canvas",
+      "optimizationNote": "Player and key target/projectile PNGs were rebuilt for the 1080p logical canvas; Phaser no longer renders a 390x844 backing store stretched by CSS."
+    }
   },
   "audioPolicy": {
     "allowedFormats": [
@@ -27,52 +42,72 @@
       "path": "assets/characters/player.png",
       "type": "sprite",
       "role": "player",
-      "minWidth": 64,
-      "minHeight": 64,
+      "minWidth": 736,
+      "minHeight": 736,
       "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 736,
+      "frameHeight": 736,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize",
+          "1080p-canvas-resample-to-1024px-frames",
+          "1080p-canvas-resample-to-736px-frames-under-2mb"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "7759651e4cafc6e4",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-08-1080-canvas",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-player-sheet-20260707.png",
+        "promptHash": "a5a364680fa13e87"
       },
-      "quality": "production-demo",
-      "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512
+      "sourceSize": {
+        "width": 2944,
+        "height": 736
+      }
     },
     {
       "id": "fruit",
       "path": "assets/enemies/fruit.png",
       "type": "sprite",
       "role": "target",
-      "quality": "production-demo",
+      "minWidth": 768,
+      "minHeight": 768,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize",
+          "1080p-canvas-resample-to-1024px-source",
+          "1080p-canvas-rightsized-768px-source-keeps-edgevar"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "5765c8ccab5b1603",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-08-1080-canvas",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+        "promptHash": "0880ff4a206d3aff"
+      },
+      "optimizedSourceSize": {
+        "width": 768,
+        "height": 768
       }
     },
     {
@@ -80,23 +115,34 @@
       "path": "assets/items/balloon.png",
       "type": "sprite",
       "role": "item",
-      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 768,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize",
+          "1080p-canvas-resample-to-768x1024-source",
+          "1080p-canvas-rightsized-512x768-source-keeps-edgevar"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "4d46e583d9e31b70",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-08-1080-canvas",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+        "promptHash": "8fee49d55f728202"
+      },
+      "optimizedSourceSize": {
+        "width": 512,
+        "height": 768
       }
     },
     {
@@ -104,119 +150,266 @@
       "path": "assets/items/arrow.png",
       "type": "sprite",
       "role": "projectile",
-      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 1024,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize",
+          "1080p-canvas-resample-to-768x1536-source",
+          "1080p-canvas-rightsized-512x1024-source-keeps-edgevar"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "d08b94bd3b88bdc7",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-08-1080-canvas",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+        "promptHash": "79a58bf11e7d60ae"
+      },
+      "optimizedSourceSize": {
+        "width": 512,
+        "height": 1024
       }
     },
     {
       "id": "btn-frame",
-      "type": "ui",
       "path": "assets/ui/btn-frame.png",
-      "role": "ui-icon",
+      "type": "ui",
+      "role": "ui-button-frame",
+      "minWidth": 512,
+      "minHeight": 160,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "61c1d999fc92fdf6",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "1753bbe763184beb"
       }
     },
     {
       "id": "btn-pause",
-      "type": "ui",
       "path": "assets/ui/btn-pause.png",
+      "type": "ui",
       "role": "ui-icon",
+      "minWidth": 256,
+      "minHeight": 256,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "76e2fd802d3f767a",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "ede747ca05b5358b"
+      }
+    },
+    {
+      "id": "icon-sound-on",
+      "path": "assets/ui/icon-sound-on.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "jungle-arcshot",
+        "generator": "codex built-in image_gen + local chroma-key split",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "2b15edd3ecf5a52c"
+      }
+    },
+    {
+      "id": "icon-sound-off",
+      "path": "assets/ui/icon-sound-off.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "jungle-arcshot",
+        "generator": "codex built-in image_gen + local chroma-key split",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "59b3a51e361ab4f3"
+      }
+    },
+    {
+      "id": "icon-home",
+      "path": "assets/ui/icon-home.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "jungle-arcshot",
+        "generator": "codex built-in image_gen + local chroma-key split",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "745841fbc0d22347"
+      }
+    },
+    {
+      "id": "icon-retry",
+      "path": "assets/ui/icon-retry.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "jungle-arcshot",
+        "generator": "codex built-in image_gen + local chroma-key split",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+        "promptHash": "ba010cb7b41e35e9"
       }
     },
     {
       "id": "fx-hit",
-      "type": "fx",
       "path": "assets/effects/fx-hit.png",
+      "type": "fx",
       "role": "feedback",
+      "minWidth": 512,
+      "minHeight": 512,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "cabd372e66c8b852",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+        "promptHash": "b346681672e6558a"
       }
     },
     {
       "id": "fx-collect",
-      "type": "fx",
       "path": "assets/effects/fx-collect.png",
+      "type": "fx",
       "role": "feedback",
+      "minWidth": 512,
+      "minHeight": 512,
       "requiresAlpha": true,
       "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "codex built-in image_gen + local chroma-key split",
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "alpha-bbox-recenter",
+          "safe-padding-resize"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "fc3e5f9e90be1279",
-        "quality": "high"
+        "quality": "high",
+        "session": "polish-2026-07-07-hq-assets",
+        "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+        "promptHash": "1af1a581ab8c759e"
       }
     }
   ],
@@ -364,6 +557,7 @@
     "method": "codex-gpt-imagegen-skill",
     "sourceSkill": "imagegen",
     "toolMode": "built-in-image_gen",
-    "lastRunAt": "2026-07-06T21:32:44.626Z"
+    "lastRunAt": "2026-07-08T09:00:00+09:00",
+    "polishSession": "polish-2026-07-08-1080-canvas"
   }
 }

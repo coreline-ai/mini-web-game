@@ -2,8 +2,8 @@
   "gameId": "jungle-arcshot",
   "title": "Jungle Arc Shot",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920
   },
   "styleGuide": {
     "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
@@ -21,7 +21,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Canopy Dawn",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Canopy Dawn\" for Jungle Arc Shot: a bright cheerful jungle clearing at dawn seen from the forest floor: giant leafy canopy framing the TOP corners only, soft sunbeams, distant misty jungle hills, colorful tropical flowers along the far edges. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Canopy Dawn\" for Jungle Arc Shot: a bright cheerful jungle clearing at dawn seen from the forest floor: giant leafy canopy framing the TOP corners only, soft sunbeams, distant misty jungle hills, colorful tropical flowers along the far edges. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     },
     {
       "id": "stage-2",
@@ -29,7 +29,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Waterfall Midday",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Waterfall Midday\" for Jungle Arc Shot: the same cheerful jungle at vivid midday with a soft distant waterfall and a small lagoon far in the background, lush green canopy framing the top corners, light mist. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Waterfall Midday\" for Jungle Arc Shot: the same cheerful jungle at vivid midday with a soft distant waterfall and a small lagoon far in the background, lush green canopy framing the top corners, light mist. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     },
     {
       "id": "stage-3",
@@ -37,7 +37,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Firefly Dusk",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Firefly Dusk\" for Jungle Arc Shot: the same jungle at warm violet dusk: glowing fireflies scattered sparsely, warm lantern-like light spots, canopy silhouettes framing the top corners, cozy and magical. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable OPEN SKY area through the center of the frame (the arrow arcs fly there). Vertical PORTRAIT mobile game background, theme \"Firefly Dusk\" for Jungle Arc Shot: the same jungle at warm violet dusk: glowing fireflies scattered sparsely, warm lantern-like light spots, canopy silhouettes framing the top corners, cozy and magical. IMPORTANT: a simple WOODEN JUNGLE PLATFORM STRIP with rope lashing runs along the very BOTTOM edge of the frame (the hunter stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     }
   ],
   "sprites": [
@@ -45,53 +45,91 @@
       "id": "player",
       "role": "player",
       "path": "assets/characters/player.png",
-      "width": 256,
-      "height": 256,
+      "width": 2944,
+      "height": 736,
       "frames": 4,
-      "frameSize": 512,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation. A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi JUNGLE HUNTER mascot for Jungle Arc Shot \u2014 a cheerful explorer boy with a leaf-trimmed safari hat, khaki shorts outfit with a small satchel, holding a bamboo recurve bow, front-facing 3/4 view \u2014 in a slightly different ARCHERY SHOOTING pose per cell (frame1 relaxed idle holding bow, frame2 nocking an arrow, frame3 full draw aiming diagonally up, frame4 just-released follow-through). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
+      "frameSize": 736,
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. CHARACTER MUST BE A CHIBI GAME MASCOT: about 2 to 2.5 heads tall, oversized friendly head, small rounded body, big cute expressive eyes, an extremely simple bold silhouette that still reads clearly when shrunk to 64px. Standing/idle front-facing 3/4 view, cheerful and appealing. ABSOLUTELY NOT a realistic 6-8 heads-tall adult, NOT a detailed armored warrior, NOT a side-profile action pose, NOT heavy ornamentation. A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi JUNGLE HUNTER mascot for Jungle Arc Shot — a cheerful explorer boy with a leaf-trimmed safari hat, khaki shorts outfit with a small satchel, holding a bamboo recurve bow, front-facing 3/4 view — in a slightly different ARCHERY SHOOTING pose per cell (frame1 relaxed idle holding bow, frame2 nocking an arrow, frame3 full draw aiming diagonally up, frame4 just-released follow-through). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "fruit",
       "role": "target",
       "path": "assets/enemies/fruit.png",
-      "width": 256,
-      "height": 256,
+      "width": 768,
+      "height": 768,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single plump tropical JUNGLE FRUIT game sprite (a glossy round mango-apple hybrid, warm red-orange with a tiny green leaf on top), juicy 3D-cartoon finish with a bright specular highlight, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "balloon",
       "role": "item",
       "path": "assets/items/balloon.png",
-      "width": 192,
-      "height": 192,
+      "width": 512,
+      "height": 768,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single cheerful SKY-BLUE PARTY BALLOON game sprite with a short string and a small knot, glossy 3D-cartoon finish with a large soft specular highlight, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "arrow",
       "role": "projectile",
       "path": "assets/items/arrow.png",
-      "width": 128,
-      "height": 256,
+      "width": 512,
+      "height": 1024,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single vertical bamboo ARROW projectile pointing straight UP: glossy 3D-cartoon style, simple tapered steel arrowhead at top, slim bamboo shaft with visible nodes, small green-leaf fletching at bottom, bold readable silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     }
   ],
   "ui": [
     {
       "id": "btn-frame",
-      "role": "ui-icon",
+      "role": "ui-button-frame",
       "path": "assets/ui/btn-frame.png",
-      "width": 768,
-      "height": 256,
-      "prompt": "A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur \u2014 the area outside the pill must be flat solid pure magenta right up to the crisp button edge."
+      "width": 1024,
+      "height": 320,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser-generated-texture-for-text-buttons"
     },
     {
       "id": "btn-pause",
       "role": "ui-icon",
       "path": "assets/ui/btn-pause.png",
-      "width": 256,
-      "height": 256,
-      "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow \u2014 flat solid pure magenta right up to the circle edge, centered and filling the frame."
+      "width": 512,
+      "height": 512,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser"
+    },
+    {
+      "id": "icon-sound-on",
+      "role": "ui-icon",
+      "path": "assets/ui/icon-sound-on.png",
+      "width": 512,
+      "height": 512,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser-ready"
+    },
+    {
+      "id": "icon-sound-off",
+      "role": "ui-icon",
+      "path": "assets/ui/icon-sound-off.png",
+      "width": 512,
+      "height": 512,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser-ready"
+    },
+    {
+      "id": "icon-home",
+      "role": "ui-icon",
+      "path": "assets/ui/icon-home.png",
+      "width": 512,
+      "height": 512,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser-ready"
+    },
+    {
+      "id": "icon-retry",
+      "role": "ui-icon",
+      "path": "assets/ui/icon-retry.png",
+      "width": 512,
+      "height": 512,
+      "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "runtimeOwner": "phaser-ready"
     }
   ],
   "fx": [
@@ -99,16 +137,16 @@
       "id": "fx-hit",
       "role": "feedback",
       "path": "assets/effects/fx-hit.png",
-      "width": 256,
-      "height": 256,
+      "width": 1024,
+      "height": 1024,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon impact/hit burst effect (energetic star/spark shape), bold and readable. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "fx-collect",
       "role": "feedback",
       "path": "assets/effects/fx-collect.png",
-      "width": 192,
-      "height": 192,
+      "width": 1024,
+      "height": 1024,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon sparkle/collect burst effect (positive twinkle shape), bright and cheerful. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     }
   ],
@@ -133,5 +171,20 @@
       "id": "game_loop",
       "type": "bgm"
     }
-  ]
+  ],
+  "runtimeAssetFidelity": {
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "runtimeStrategy": "Phaser base canvas = 1080x1920; browser scales down to device viewport for supersampled final output",
+    "safeAreaStrategy": "390x844 base composition is mapped into the centered crop-safe region using SCALE_Y and worldX()",
+    "updatedAt": "2026-07-08T09:00:00+09:00",
+    "note": "Class L pass replaces the previous 390x844+DPR2 backing-store strategy. Runtime coordinates, fonts, physics, player frames, and key target/projectile PNGs are scaled for the native 1080p canvas."
+  }
 }

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
-import { TUNING } from '../constants/tuning.js';
+import { SCALE, TUNING, su, sy } from '../constants/tuning.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { AudioManager } from '../systems/AudioManager.js';
 
@@ -10,10 +10,10 @@ import { AudioManager } from '../systems/AudioManager.js';
 // - release: 화살 발사 — arcade 중력(GRAV) + 라운드 바람(가속 X)을 실제로 받는다.
 // - 화살은 표적을 관통(멈추지 않음) — 관통 콤보는 JungleRoundSystem이 계산.
 export const SLING = {
-  gravity: 950,
+  gravity: sy(950),
   powerScale: 4.6,       // 드래그 px → 발사 속도 배율
-  maxSpeed: 1250,
-  minSpeed: 300,
+  maxSpeed: sy(1250),
+  minSpeed: sy(300),
   fireCooldownMs: 200,
   previewSteps: 22,
   previewDt: 0.055,
@@ -44,6 +44,7 @@ export default class SlingshotAimSystem {
 
     this.onDown = (p) => {
       if (scene.isOver || this.locked) return;
+      if (p.y < TUNING.inputTopBlock) return;
       this.dragging = true;
       this.anchor = { x: p.x, y: p.y };
     };
@@ -72,9 +73,9 @@ export default class SlingshotAimSystem {
   }
 
   renderPreview() {
-    const px = this.scene.player.x, py = this.scene.player.y - 26;
+    const px = this.scene.player.x, py = this.scene.player.y - su(26);
     this.band.clear();
-    this.band.lineStyle(3, 0x8a5a2b, 0.8);
+    this.band.lineStyle(su(3), 0x8a5a2b, 0.8);
     this.band.beginPath();
     this.band.moveTo(px, py);
     this.band.lineTo(px - this.vel.x * 0.06, py - this.vel.y * 0.06);
@@ -86,8 +87,8 @@ export default class SlingshotAimSystem {
       const t = i * SLING.previewDt;
       const x = px + this.vel.x * t + 0.5 * this.wind * t * t;
       const y = py + this.vel.y * t + 0.5 * SLING.gravity * t * t;
-      if (y > TUNING.playerY || x < -20 || x > SPEC.canvas.width + 20) break;
-      this.preview.fillCircle(x, y, Math.max(2.2, 4.6 - i * 0.12));
+      if (y > TUNING.playerY || x < -su(20) || x > SPEC.canvas.width + su(20)) break;
+      this.preview.fillCircle(x, y, Math.max(su(2.2), su(4.6) - i * (0.12 * SCALE)));
     }
   }
 
@@ -95,12 +96,12 @@ export default class SlingshotAimSystem {
     if (this.cooldown > 0 || this.locked || this.scene.isOver) return;
     if (this.scene.rounds && this.scene.rounds.arrowsLeft <= 0) return;
     this.cooldown = SLING.fireCooldownMs;
-    const px = this.scene.player.x, py = this.scene.player.y - 26;
+    const px = this.scene.player.x, py = this.scene.player.y - su(26);
     const a = this.arrows.get(px, py, 'arrow');
     if (!a) return;
     a.enableBody(true, px, py, true, true);
     a._pierce = 0;
-    a.setDepth(8).setDisplaySize(24, 52);
+    a.setDepth(8).setDisplaySize(su(24), su(52));
     a.body.setAllowGravity(true);
     a.body.setGravityY(SLING.gravity - this.scene.physics.world.gravity.y);
     a.body.setAcceleration(this.wind, 0);
@@ -110,7 +111,7 @@ export default class SlingshotAimSystem {
     this.scene.rounds?.onArrowFired();
     const pl = this.scene.player;
     if (this.scene.anims.exists('player_run')) pl.anims.play({ key: 'player_run', repeat: 0 }, true);
-    this.scene.tweens.add({ targets: pl, y: pl.y + 5, duration: 55, yoyo: true });
+    this.scene.tweens.add({ targets: pl, y: pl.y + su(5), duration: 55, yoyo: true });
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxStart, 0.35);
   }
 
@@ -120,7 +121,7 @@ export default class SlingshotAimSystem {
       if (!a.active) return;
       // 화살촉이 속도 방향을 향하도록 회전 (스프라이트는 위를 향해 그려짐)
       a.setRotation(Math.atan2(a.body.velocity.y, a.body.velocity.x) + Math.PI / 2);
-      if (a.y > SPEC.canvas.height + 60 || a.x < -80 || a.x > SPEC.canvas.width + 80) {
+      if (a.y > SPEC.canvas.height + sy(60) || a.x < -su(80) || a.x > SPEC.canvas.width + su(80)) {
         a.disableBody(true, true);
         this.scene.rounds?.onArrowDone(a._pierce);
       }

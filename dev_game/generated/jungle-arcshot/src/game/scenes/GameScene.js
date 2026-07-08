@@ -10,6 +10,8 @@ import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import SlingshotAimSystem from '../systems/SlingshotAimSystem.js';
 import JungleRoundSystem from '../systems/JungleRoundSystem.js';
+import { applyHiDpiCamera } from '../config.js';
+import { su } from '../constants/tuning.js';
 
 // Jungle Arc Shot — 포물선 트릭샷 사격 (custom-loop, Spawner 미사용).
 // 슬링샷 드래그(각도+파워) → 중력+바람을 받는 화살 → 관통 콤보.
@@ -22,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
     if (!this.textures.exists('arrow')) this.load.image('arrow', 'items/arrow.png');
   }
   create() {
+    applyHiDpiCamera(this);
     this.isOver = false;
     this.score = new ScoreManager();
     this.stage = new StageManager(this);
@@ -76,7 +79,7 @@ export default class GameScene extends Phaser.Scene {
   update(time, delta) {
     if (this.isOver) return;
     this.score.elapsedMs += delta; // 생존 점수 없음 — 명중/관통/클리어만 점수
-    this.player.y = TUNING.playerY + Math.sin(time * 0.004) * 2;
+    this.player.y = TUNING.playerY + Math.sin(time * 0.004) * su(2);
     this.aim.update(delta);
     this.rounds.update();
     this.hud.update(this.score.getScore(), this.rounds.round);

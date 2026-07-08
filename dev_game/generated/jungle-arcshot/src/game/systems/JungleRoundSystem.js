@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
-import { TUNING } from '../constants/tuning.js';
+import { SCALE, fontPx, strokePx, su, sy, worldX } from '../constants/tuning.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { AudioManager } from '../systems/AudioManager.js';
 import { Juice } from '../systems/Juice.js';
@@ -23,7 +23,7 @@ function roundConfig(n) {
   const fruits = Math.min(7, 2 + Math.floor(n * 0.8));
   const balloons = Math.min(4, Math.floor(n / 2));
   const arrows = Math.max(2, Math.ceil((fruits + balloons) / 2) + 1); // 관통을 강제하는 경제
-  const wind = n < 2 ? 0 : (n % 2 === 0 ? 1 : -1) * (30 + n * 16);   // 방향 교대, 세기 증가
+  const wind = n < 2 ? 0 : (n % 2 === 0 ? 1 : -1) * su(30 + n * 16); // 방향 교대, 세기 증가
   const drift = n >= 4;                                              // R4+ 풍선 상승 드리프트
   return { fruits, balloons, arrows, wind, drift };
 }
@@ -38,14 +38,14 @@ export default class JungleRoundSystem {
     this.targets = scene.physics.add.group({ maxSize: 16, allowGravity: false });
 
     const w = SPEC.canvas.width;
-    this.arrowText = scene.add.text(w - 18, 92, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '17px', color: '#ffe066', stroke: '#1b3a2a', strokeThickness: 4,
+    this.arrowText = scene.add.text(worldX(372), su(92), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(17), color: '#ffe066', stroke: '#1b3a2a', strokeThickness: strokePx(4),
     }).setOrigin(1, 0).setDepth(20);
-    this.windText = scene.add.text(18, 92, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '17px', color: '#bfe9ff', stroke: '#1b3a2a', strokeThickness: 4,
+    this.windText = scene.add.text(worldX(18), su(92), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(17), color: '#bfe9ff', stroke: '#1b3a2a', strokeThickness: strokePx(4),
     }).setOrigin(0, 0).setDepth(20);
-    this.roundText = scene.add.text(w / 2, 96, '', {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '16px', color: '#ffffff', stroke: '#1b3a2a', strokeThickness: 4,
+    this.roundText = scene.add.text(w / 2, su(96), '', {
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(16), color: '#ffffff', stroke: '#1b3a2a', strokeThickness: strokePx(4),
     }).setOrigin(0.5, 0).setDepth(20);
     this.refreshHud();
   }
@@ -59,34 +59,34 @@ export default class JungleRoundSystem {
     this.scene.stage.setLevel(Math.min(12, n));
     const w = SPEC.canvas.width;
     // 클러스터 배치: 세로 줄(관통 유도) + 흩뿌림
-    const cols = [w * 0.25, w * 0.5, w * 0.75];
+    const cols = [worldX(97.5), SPEC.canvas.width / 2, worldX(292.5)];
     let placed = 0;
     for (let i = 0; i < cfg.fruits; i += 1) {
-      const cx = cols[i % cols.length] + Phaser.Math.Between(-26, 26);
-      const cy = 170 + Math.floor(i / cols.length) * 92 + Phaser.Math.Between(-12, 12);
+      const cx = cols[i % cols.length] + Phaser.Math.Between(-su(26), su(26));
+      const cy = sy(170) + Math.floor(i / cols.length) * sy(92) + Phaser.Math.Between(-su(12), su(12));
       const t = this.targets.get(cx, cy, 'fruit');
       if (!t) break;
       t.enableBody(true, cx, cy, true, true);
       t._kind = 'fruit'; t._t = Math.random() * Math.PI * 2; t._baseY = cy; t._drift = 0;
-      t.setDepth(5).setDisplaySize(58, 58);
+      t.setDepth(5).setDisplaySize(su(58), su(58));
       t.body.setCircle((Math.min(t.width, t.height) / 2) * 0.8, t.width * 0.1, t.height * 0.1);
       placed += 1;
     }
     for (let i = 0; i < cfg.balloons; i += 1) {
-      const cx = Phaser.Math.Between(60, w - 60);
-      const cy = Phaser.Math.Between(150, 330);
+      const cx = worldX(Phaser.Math.Between(60, 330));
+      const cy = sy(Phaser.Math.Between(150, 330));
       const b = this.targets.get(cx, cy, 'balloon');
       if (!b) break;
       b.enableBody(true, cx, cy, true, true);
       b._kind = 'balloon'; b._t = Math.random() * Math.PI * 2; b._baseY = cy;
-      b._drift = cfg.drift ? Phaser.Math.Between(12, 26) : 0;
-      b.setDepth(5).setDisplaySize(54, 66);
+      b._drift = cfg.drift ? Phaser.Math.Between(su(12), su(26)) : 0;
+      b.setDepth(5).setDisplaySize(su(54), su(66));
       b.body.setCircle((Math.min(b.width, b.height) / 2) * 0.78, b.width * 0.11, b.height * 0.06);
       placed += 1;
     }
     // ROUND 배너 + 발사 잠금
     const banner = this.scene.add.text(w / 2, SPEC.canvas.height * 0.4, `ROUND ${n}`, {
-      fontFamily: 'Arial Black, sans-serif', fontSize: '42px', color: '#ffe066', stroke: '#1b3a2a', strokeThickness: 8,
+      fontFamily: 'Arial Black, sans-serif', fontSize: fontPx(42), color: '#ffe066', stroke: '#1b3a2a', strokeThickness: strokePx(8),
     }).setOrigin(0.5).setDepth(30).setAlpha(0);
     this.scene.aim.locked = true;
     this.scene.tweens.add({
@@ -149,14 +149,14 @@ export default class JungleRoundSystem {
       if (!t.active) return;
       t._t += 0.03;
       if (t._kind === 'fruit') {
-        t.y = t._baseY + Math.sin(t._t) * 8;
+        t.y = t._baseY + Math.sin(t._t) * su(8);
       } else {
-        t.x += Math.sin(t._t) * 0.5;
+        t.x += Math.sin(t._t) * su(0.5);
         if (t._drift) {
           t._baseY -= t._drift * (1 / 60);
-          if (t._baseY < 140) t._baseY = 340; // 위로 빠지면 아래서 재진입
+          if (t._baseY < sy(140)) t._baseY = sy(340); // 위로 빠지면 아래서 재진입
         }
-        t.y = t._baseY + Math.sin(t._t * 1.4) * 5;
+        t.y = t._baseY + Math.sin(t._t * 1.4) * su(5);
       }
     });
     this.checkExhausted();
@@ -166,7 +166,7 @@ export default class JungleRoundSystem {
     this.arrowText.setText(`ARROWS ${Math.max(0, this.arrowsLeft)}`);
     const wnd = this.cfg?.wind || 0;
     const dir = wnd === 0 ? '—' : (wnd > 0 ? '→' : '←');
-    this.windText.setText(`WIND ${dir} ${Math.abs(Math.round(wnd / 10)) / 10}`);
+    this.windText.setText(`WIND ${dir} ${Math.abs(Math.round((wnd / SCALE) / 10)) / 10}`);
     this.roundText.setText(`ROUND ${this.round}/${JUNGLE.maxRound}`);
   }
 }
