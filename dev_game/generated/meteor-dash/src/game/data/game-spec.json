@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "meteor-dash",
+    "title": "Meteor Dash",
+    "description": "Dodge falling meteors and catch stars in deep space.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#070a1c",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 820,
+    "hitbox": {
+      "width": 40,
+      "height": 40
+    }
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Meteor",
+    "spawnRateStart": 850,
+    "spawnRateMax": 220,
+    "fallSpeedStart": 280,
+    "fallSpeedMax": 820,
+    "damage": 1,
+    "poolSize": 60
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Star",
+    "spawnRate": 0.24,
+    "scoreValue": 60
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 10,
+    "collectiblePoints": 60,
+    "highScoreLocalStorageKey": "meteor_dash_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 14,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#070a1c",
+      "player": "#4fd8ff",
+      "hazard": "#ff7a45",
+      "collectible": "#ffe066",
+      "ui": "#ffffff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  }
+}
