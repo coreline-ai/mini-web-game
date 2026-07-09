@@ -3,10 +3,10 @@
 ## Verified Gates
 - `npm run build`
 - `node generator/scripts/production-demo-qa.mjs --project generated/road-stream-racer --require-gpt-imagegen`
-- `PATH=/Users/iriver/.local/cbot-tools/miniforge3/bin:$PATH node generator/scripts/image-quality-qa.mjs --project generated/road-stream-racer`
-- `PATH=/Users/iriver/.local/cbot-tools/miniforge3/bin:$PATH node generator/scripts/visual-layout-qa.mjs --project generated/road-stream-racer --viewports 390x844,430x932,1080x1920,1280x900`
-- `PATH=/Users/iriver/.local/cbot-tools/miniforge3/bin:$PATH node generator/scripts/scene-composite-qa.mjs --project generated/road-stream-racer --viewports 390x844,430x932,1080x1920`
-- `PATH=/Users/iriver/.local/cbot-tools/miniforge3/bin:$PATH npm run factory:production-gate -- --project generated/road-stream-racer --port 4305 --viewports 390x844,430x932,1080x1920,1280x900`
+- `node generator/scripts/image-quality-qa.mjs --project generated/road-stream-racer`
+- `node generator/scripts/visual-layout-qa.mjs --project generated/road-stream-racer --viewports 390x844,430x932,1080x1920,1280x900`
+- `node generator/scripts/scene-composite-qa.mjs --project generated/road-stream-racer --viewports 390x844,430x932,1080x1920`
+- `npm run factory:production-gate -- --project generated/road-stream-racer --port 4305 --viewports 390x844,430x932,1080x1920,1280x900`
 
 ## Manual Capture Evidence
 - `dev_game/.tmp/manual-road-stream-racer/01-loading.png`

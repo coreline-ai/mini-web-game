@@ -263,6 +263,8 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 
 `factory:qa`는 Foundation 품질만 본다. `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, `factory:scene-composite-qa`가 실제 production-demo 완료 기준이다.
 
+`factory:hq-screen-quality-qa`는 DPR/source-size 또는 market-event depth를 추가로 확인하는 선택형 게이트다. `marketConfig.js`가 없는 게임에서는 market-event 검증을 건너뛰며, market-event를 반드시 검사해야 할 때만 `--require-market-events`를 사용한다. Python Pillow가 필요하다.
+
 ## 5. 실패 시 보고 규칙
 
 게이트 실패 시 “완료”라고 말하지 않는다. 아래 형식으로 보고한다.

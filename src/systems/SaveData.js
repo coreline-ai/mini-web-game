@@ -91,11 +91,20 @@ class SaveDataStore {
   get mute() { return this.data.mute; }
   setMute(v) { this.data.mute = !!v; this.save(); }
 
+  // GameOver 진입 즉시 최고점 후보만 보존한다. 랭킹 기록은 정식 종료 시 recordRun에서만 수행한다.
+  recordBestCandidate(score) {
+    const normalized = Number.isFinite(score) ? Math.max(0, Math.floor(score)) : 0;
+    if (normalized <= this.data.best) return false;
+    this.data.best = normalized;
+    this.save();
+    return true;
+  }
+
   // 판 종료 시 결과 기록. 신기록 여부 반환.
   recordRun(score) {
-    const isBest = score > this.data.best;
-    if (isBest) this.data.best = score;
-    this.data.runs.push(score);
+    const normalized = Number.isFinite(score) ? Math.max(0, Math.floor(score)) : 0;
+    const isBest = this.recordBestCandidate(normalized);
+    this.data.runs.push(normalized);
     this.data.runs.sort((a, b) => b - a);
     this.data.runs = this.data.runs.slice(0, 10);
     this.save();

@@ -137,7 +137,7 @@ Phase 0 (부트스트랩)
 
 #### Testing Instructions
 ```bash
-cd /Users/hwanchoi/project_202606/game-dd
+cd /path/to/mini-web-game
 npm install
 npm run dev
 # 출력된 http://localhost:5173 을 브라우저에서 열어 확인

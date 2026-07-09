@@ -19,7 +19,9 @@
     "qa": "npm run validate && npm run smoke && npm run asset-qa && npm run browser-smoke",
     "production-demo-qa": "node scripts/production-demo-qa.mjs",
     "visual-layout-qa": "node scripts/visual-layout-qa.mjs",
+    "scene-composite-qa": "node scripts/scene-composite-qa.mjs",
     "image-quality-qa": "node scripts/image-quality-qa.mjs",
+    "hq-screen-quality-qa": "node scripts/hq-screen-quality-qa.mjs",
     "production-gate": "node scripts/production-gate.mjs"
   },
   "engines": {

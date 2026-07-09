@@ -5,14 +5,19 @@ import { fileURLToPath } from 'url';
 
 const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET_DIR = path.join(PROJECT_ROOT, 'assets/ui');
+const SOURCE_DIR = process.env.ROAD_STREAM_RACER_UI_SOURCE_DIR;
+
+if (!SOURCE_DIR) {
+  throw new Error('Set ROAD_STREAM_RACER_UI_SOURCE_DIR to the local folder containing the source UI PNG files.');
+}
 
 const SOURCES = {
-  'racer_ui_header.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_ui_header_empty_1783561550814.png',
-  'racer_ui_home.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_ui_home_1783561562152.png',
-  'racer_ui_pause.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_ui_pause_1783561574586.png',
-  'racer_icon_coin.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_icon_coin_1783561587789.png',
-  'racer_icon_speed.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_icon_speed_1783561600652.png',
-  'racer_icon_level.png': '/Users/iriver/.gemini/antigravity/brain/942b4943-369c-4abe-86e3-d157f4069871/racer_icon_level_1783561613986.png'
+  'racer_ui_header.png': path.join(SOURCE_DIR, 'racer_ui_header_empty_1783561550814.png'),
+  'racer_ui_home.png': path.join(SOURCE_DIR, 'racer_ui_home_1783561562152.png'),
+  'racer_ui_pause.png': path.join(SOURCE_DIR, 'racer_ui_pause_1783561574586.png'),
+  'racer_icon_coin.png': path.join(SOURCE_DIR, 'racer_icon_coin_1783561587789.png'),
+  'racer_icon_speed.png': path.join(SOURCE_DIR, 'racer_icon_speed_1783561600652.png'),
+  'racer_icon_level.png': path.join(SOURCE_DIR, 'racer_icon_level_1783561613986.png')
 };
 
 // 둥근 사각형 클리핑 마스크 적용 헬퍼

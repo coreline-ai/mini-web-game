@@ -115,13 +115,15 @@
 ### 💻 로컬에서 실행
 
 ```bash
-npm install       # 의존성 설치
+npm ci            # package-lock.json 기준 의존성 설치
 npm run dev       # 개발 서버 (http://localhost:5180, 핫리로드)
+npm test          # GameOver 저장 회귀 Playwright smoke
 npm run build     # dist/ 프로덕션 빌드
 npm run preview   # 빌드 결과 미리보기
 ```
 
 > Vite 개발 서버 포트는 다른 프로젝트와 충돌하지 않도록 **5180**으로 고정되어 있습니다. (`vite.config.js`)
+> 이 저장소의 공식 로컬/CI 패키지 매니저는 npm입니다. `package-lock.json`과 GitHub Actions의 `npm ci`를 기준으로 검증합니다.
 
 ---
 

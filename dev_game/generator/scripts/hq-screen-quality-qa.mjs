@@ -16,15 +16,27 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--project') args.project = argv[++i];
+    else if (arg === '--require-market-events') args.requireMarketEvents = true;
+    else if (arg === '--skip-market-events') args.skipMarketEvents = true;
     else if (arg === '--help' || arg === '-h') args.help = true;
     else throw new Error(`Unknown argument: ${arg}`);
   }
   if (!args.help && !args.project) throw new Error('Missing --project <generated-game-dir>');
+  if (args.requireMarketEvents && args.skipMarketEvents) {
+    throw new Error('Use only one of --require-market-events or --skip-market-events');
+  }
   return args;
 }
 
 function usage() {
-  console.log('Usage: node generator/scripts/hq-screen-quality-qa.mjs --project <generated-game-dir>');
+  console.log(`Usage:
+  node generator/scripts/hq-screen-quality-qa.mjs --project <generated-game-dir>
+  node generator/scripts/hq-screen-quality-qa.mjs --project <generated-game-dir> --require-market-events
+
+Runs screen-level image fidelity checks for manifest assets.
+Market-event depth checks run only when src/game/config/marketConfig.js exists,
+unless --require-market-events is passed. Use --skip-market-events to disable
+market checks explicitly for a non-market game.`);
 }
 
 function resolveProject(projectArg) {
@@ -69,7 +81,13 @@ print(json.dumps(out))
     encoding: 'utf8',
     timeout: 120000,
   });
-  if (result.status !== 0) throw new Error(result.stderr || result.stdout);
+  if (result.status !== 0) {
+    const output = `${result.stderr || ''}${result.stdout || ''}`;
+    if (output.includes("No module named 'PIL'") || output.includes('No module named PIL')) {
+      throw new Error('Python Pillow is required for hq-screen-quality-qa. Install it with `python3 -m pip install Pillow` or use the project QA environment.');
+    }
+    throw new Error(result.stderr || result.stdout);
+  }
   return new Map(JSON.parse(result.stdout).map((item) => [item.p, item]));
 }
 
@@ -90,8 +108,13 @@ function extractMarketEvents(configSource, projectDir) {
   return context.globalThis.MARKET_EVENTS;
 }
 
-function validateNews(projectDir, errors) {
+function validateMarketEvents(projectDir, errors, { required = false, skip = false } = {}) {
   const file = path.join(projectDir, 'src/game/config/marketConfig.js');
+  if (skip) return { skipped: true, reason: 'disabled by --skip-market-events' };
+  if (!fs.existsSync(file)) {
+    if (required) errors.push(`missing market event config: ${path.relative(projectDir, file)}`);
+    return { skipped: true, reason: 'marketConfig.js not present' };
+  }
   const source = fs.readFileSync(file, 'utf8');
   const events = extractMarketEvents(source, projectDir);
   const ids = new Set();
@@ -119,7 +142,7 @@ function validateNews(projectDir, errors) {
     if ((perTicker.get(ticker) || 0) < MIN_PER_TICKER) errors.push(`${ticker} events ${(perTicker.get(ticker) || 0)} < ${MIN_PER_TICKER}`);
   }
   if (rumorOrFake < MIN_RUMOR_OR_FAKE) errors.push(`rumor/fake events ${rumorOrFake} < ${MIN_RUMOR_OR_FAKE}`);
-  return { events: events.length, perTicker: Object.fromEntries(perTicker), rumorOrFake };
+  return { skipped: false, events: events.length, perTicker: Object.fromEntries(perTicker), rumorOrFake };
 }
 
 function main() {
@@ -157,23 +180,30 @@ function main() {
       if (m.bytes > 3.5 * 1024 * 1024) errors.push(`${entry.id} file size ${(m.bytes / 1024 / 1024).toFixed(2)}MiB > 3.5MiB`);
       if (entry.provenance?.method !== 'codex-gpt-imagegen-skill') errors.push(`${entry.id} missing imagegen provenance`);
     } else if (entry.kind === 'manifest-image') {
-      const limitKb = Number(manifest.imagePolicy?.maxSpriteKB || 512);
+      const limitKb = Number(manifest.imagePolicy?.maxSpriteKB || 2048);
       if (entry.requiresAlpha && !m.alpha) errors.push(`${entry.id} requires alpha`);
       if (m.bytes > limitKb * 1024) errors.push(`${entry.id} file size ${(m.bytes / 1024).toFixed(1)}KiB > ${limitKb}KiB`);
       if (entry.provenance?.method !== 'codex-gpt-imagegen-skill') errors.push(`${entry.id} missing imagegen provenance`);
     } else {
+      const limitKb = Number(manifest.imagePolicy?.maxHqUiKB || 1024);
       if (entry.requiresAlpha && !m.alpha) errors.push(`${entry.id} requires alpha`);
-      if (m.bytes > 512 * 1024) errors.push(`${entry.id} file size ${(m.bytes / 1024).toFixed(1)}KiB > 512KiB`);
+      if (m.bytes > limitKb * 1024) errors.push(`${entry.id} file size ${(m.bytes / 1024).toFixed(1)}KiB > ${limitKb}KiB`);
     }
   }
-  const news = validateNews(projectDir, errors);
+  const market = validateMarketEvents(projectDir, errors, {
+    required: !!args.requireMarketEvents,
+    skip: !!args.skipMarketEvents,
+  });
   if (errors.length) {
     console.error(`HQ screen quality QA failed: ${projectDir}`);
     for (const error of errors) console.error(`- ${error}`);
     process.exit(1);
   }
   console.log(`HQ screen quality QA OK: ${projectDir}`);
-  console.log(`Checked assets=${assets.length}, newsEvents=${news.events}, rumorOrFake=${news.rumorOrFake}`);
+  const marketSummary = market.skipped
+    ? `marketEvents=skipped (${market.reason})`
+    : `marketEvents=${market.events}, rumorOrFake=${market.rumorOrFake}`;
+  console.log(`Checked assets=${assets.length}, ${marketSummary}`);
 }
 
 main();

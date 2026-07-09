@@ -10,6 +10,7 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import os
 import shutil
 from collections import deque
 from pathlib import Path
@@ -29,12 +30,15 @@ METHOD = "codex-gpt-imagegen-skill"
 GENERATOR = "scripts/integrate_gpt_imagegen_skill_sheets.py"
 QUALITY = "production-demo"
 
-# Local sheet copies. The originals remain under ~/.codex/generated_images/...
+SOURCE_ROOT = Path(os.environ.get("PARCEL_SORT_RUSH_IMAGEGEN_SHEET_DIR", SHEETS))
+
+# Local sheet copies are the default source. Set PARCEL_SORT_RUSH_IMAGEGEN_SHEET_DIR
+# to point at a private Codex imagegen export directory when re-importing originals.
 SOURCE_SHEETS = {
-    "ui": Path("/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_018ac666d4359ec8016a49e39fd8f48191b8907e856c188184.png"),
-    "backgrounds": Path("/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0f315ee421843667016a49e42197ac8191b4b36a5da74fc487.png"),
-    "sprites": Path("/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0f315ee421843667016a49e468100c8191944b9d0c5fec97d1.png"),
-    "feedback": Path("/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0f315ee421843667016a49e4b4c15c819195d6331d04451a0e.png"),
+    "ui": SOURCE_ROOT / "ui_sheet.png",
+    "backgrounds": SOURCE_ROOT / "backgrounds_sheet.png",
+    "sprites": SOURCE_ROOT / "sprites_sheet.png",
+    "feedback": SOURCE_ROOT / "feedback_sheet.png",
 }
 
 class Task(NamedTuple):
@@ -95,7 +99,8 @@ def copy_sheets() -> dict[str, Path]:
         if not source.exists():
             raise FileNotFoundError(f"missing generated sheet: {source}")
         dest = SHEETS / f"{name}_sheet.png"
-        shutil.copy2(source, dest)
+        if source.resolve() != dest.resolve():
+            shutil.copy2(source, dest)
         copied[name] = dest
     return copied
 

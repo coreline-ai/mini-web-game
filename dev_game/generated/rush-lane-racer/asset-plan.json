@@ -583,12 +583,12 @@
   "sourceSheets": [
     {
       "id": "core-sheet",
-      "path": "/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0e712e7c5d748115016a4cf57e5c3c8191acd928bcc7d87f9d.png",
+      "path": "codex-imagegen://019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_0e712e7c5d748115016a4cf57e5c3c8191acd928bcc7d87f9d.png",
       "promptHash": "5c950546c4e7f5f9"
     },
     {
       "id": "ui-sheet",
-      "path": "/Users/hwanchoi/.codex/generated_images/019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_086c39089a28f04b016a4cfaea567081919d279c3961d99eaa.png",
+      "path": "codex-imagegen://019f22dc-b304-7b73-8bc1-f03f0cbda6e6/ig_086c39089a28f04b016a4cfaea567081919d279c3961d99eaa.png",
       "promptHash": "b534239df5f230d6"
     }
   ]

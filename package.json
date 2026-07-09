@@ -1,5 +1,5 @@
 {
-  "packageManager": "pnpm@10.29.3",
+  "packageManager": "npm@10.9.7",
   "name": "dont-get-pooped",
   "version": "0.1.0",
   "private": true,
@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "node scripts/gameover-save-smoke.mjs",
+    "test": "npm run test:e2e"
   },
   "dependencies": {
     "phaser": "^3.90.0"

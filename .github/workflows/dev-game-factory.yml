@@ -31,6 +31,8 @@ jobs:
         run: |
           diff -ru skills/game-factory .claude/skills/game-factory \
             || { echo '::error::skills/game-factory and .claude/skills/game-factory have diverged — sync them (SKILL.md must be identical).'; exit 1; }
+          diff -ru skills/game-polish .claude/skills/game-polish \
+            || { echo '::error::skills/game-polish and .claude/skills/game-polish have diverged — sync them (SKILL.md must be identical).'; exit 1; }
       - uses: actions/setup-node@v4
         with:
           node-version: 20

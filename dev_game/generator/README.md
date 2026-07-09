@@ -79,7 +79,9 @@ npm run build
 - `npm run browser-smoke`가 생성된 프로젝트를 install/build/preview한 뒤 모바일 viewport에서 canvas 렌더와 PLAY 진입 console/page error를 확인합니다.
 - `npm run qa`는 validate → smoke → asset-qa → browser-smoke 전체 Foundation 게이트입니다.
 - production-demo 완료 전에는 루트에서 `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920`를 실행합니다. 이 통합 게이트는 `production-demo-qa`, `image-quality-qa`, `visual-layout-qa`, `scene-composite-qa`까지 포함합니다.
+- DPR/source-size 이슈 또는 market-event coverage를 검증할 때는 별도로 `npm --prefix dev_game run factory:hq-screen-quality-qa -- --project dev_game/generated/<game-id>`를 실행합니다. market-event 검증은 `marketConfig.js`가 있는 게임 또는 `--require-market-events` 옵션에서만 필수입니다.
 - `factory:scene-composite-qa`는 실제 브라우저 화면을 캡처해 버튼 상단 깨짐, 잘린 stamp/warning 아이콘, 투명/끊긴 박스·컨베이어, 외부 tooltip overlay 같은 파일 단위 QA가 놓치는 화면 결함을 검사합니다.
+- `factory:image-quality-qa`, `factory:scene-composite-qa`, `factory:hq-screen-quality-qa`는 Python Pillow가 필요합니다.
 
 ## 안전 규칙
 

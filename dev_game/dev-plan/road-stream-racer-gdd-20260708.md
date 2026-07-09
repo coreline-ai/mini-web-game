@@ -2,7 +2,7 @@
 
 작성 일시: `2026-07-08 KST`
 
-참조 이미지: `/Users/iriver/.codex/attachments/6c4b4947-5d5e-457b-9f75-929f6884e077/image-1.png`
+참조 이미지: Codex 세션 첨부 이미지 사용. 로컬 attachment 절대경로는 보존하지 않는다.
 
 ## 1. 기획 결론
 

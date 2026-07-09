@@ -15,9 +15,9 @@ export default class GameOverScene extends Phaser.Scene {
     this.input.enabled = false;
     this.time.delayedCall(450, () => { this.input.enabled = true; });
     const game = this.scene.get(this.gameKey);
-    const score = game.score.getScore();
+    const score = Number.isFinite(data?.score) ? data.score : game.score.getScore();
     const runCoins = game.coins.runCoins;
-    const isNewBest = score > Save.best;
+    const isNewBest = !!data?.isNewBest;
 
     this.add.rectangle(0, 0, GC.WIDTH, GC.HEIGHT, 0x000000, 0.92).setOrigin(0, 0);
     panel(this, GC.WIDTH / 2, 1040, 760, 980, { alpha: 0.84, strokeAlpha: 0.34, radius: 34, depth: 1 });
@@ -33,7 +33,7 @@ export default class GameOverScene extends Phaser.Scene {
       650,
     );
     fitTextWidth(
-      this.add.text(GC.WIDTH / 2, 825, `BEST  ${formatCount(Math.max(Save.best, score))}`, { fontFamily: FONT_BODY, fontSize: '54px', color: '#ffd54a' }).setOrigin(0.5).setDepth(3),
+      this.add.text(GC.WIDTH / 2, 825, `BEST  ${formatCount(Save.best)}`, { fontFamily: FONT_BODY, fontSize: '54px', color: '#ffd54a' }).setOrigin(0.5).setDepth(3),
       560,
     );
 

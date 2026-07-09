@@ -425,9 +425,12 @@ export default class GameScene extends Phaser.Scene {
     this.playSfx(GC.AUDIO.sfx.hit.key, 0.6);
     this.playSfx(GC.AUDIO.sfx.gameOver.key, 0.55);
     Music.stop(this);
-    // 사망 시점에 이번 판 코인을 즉시 적립(결과화면에서 탭을 닫아도 코인이 보존됨)
+    // 사망 시점에 이번 판 코인과 최고점 후보를 즉시 적립/보존한다.
+    // 랭킹 기록은 이어하기 흐름 때문에 정식 종료 시점(recordScore)에만 수행한다.
     this.bankCoins();
-    this.scene.launch(SCENES.GAMEOVER, { gameKey: SCENES.GAME });
+    const score = this.score.getScore();
+    const isNewBest = Save.recordBestCandidate(score);
+    this.scene.launch(SCENES.GAMEOVER, { gameKey: SCENES.GAME, score, isNewBest });
     this.scene.pause();
   }
 

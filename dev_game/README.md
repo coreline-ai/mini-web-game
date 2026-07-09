@@ -32,6 +32,15 @@
 | `generator/` | 신규 게임 자동 생성기, schema 기반 검증, 안전한 `--force`, 자동 QA 포함 |
 | `generated/` | 생성된 게임 output 기본 위치 |
 
+## generated 추적 정책
+
+`dev_game/generated/*`는 기본적으로 재생성 가능한 output이지만, 완성 후보로 보존하는 curated 게임은 `.gitignore` allowlist에 명시해 tracked 상태와 ignore 정책을 일치시킵니다.
+
+- tracked curated 게임: `bullseye-rush`, `castle-archer`, `jungle-arcshot`, `market-panic`, `meteor-dash`, `parcel-sort-rush`, `road-stream-racer`, `rush-lane-racer`, `sky-archer`, `target-shooter-rush`
+- 항상 ignore: `node_modules/`, `dist/`, `qa-captures/`, `tmp/`, `scratch/`, `__pycache__/`, `*.pyc`
+- `assets/asset-manifest.json`의 `provenance.sourceSheet` 또는 `rawPath`가 가리키는 source sheet는 runtime 필수 자산은 아니지만, tracked curated 게임의 asset provenance 재현성을 위해 보존합니다.
+- 새 generated 게임을 커밋 대상으로 승격할 때는 `.gitignore` allowlist, manifest provenance, `06-FINAL-QA-SUMMARY.md`, `07-REGRESSION-CHECKLIST.md`를 함께 확인합니다.
+
 ## 빠른 실행
 
 ```bash
@@ -86,10 +95,14 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 | `npm run browser-smoke` | 생성 게임 install/build/preview 후 모바일 viewport에서 canvas 렌더와 PLAY 진입 검증 |
 | `npm run qa` | Foundation 검증 전체 실행. 이 명령만으로 production-demo 완료가 아님 |
 | `npm --prefix dev_game run factory:production-demo-qa -- --project <dir> --require-gpt-imagegen` | `qualityTier`, stage backgrounds 3종, 주요 에셋 quality, imagegen provenance, 필수 문서, layout registry 계약 검증 |
+| `npm --prefix dev_game run factory:image-quality-qa -- --project <dir>` | Python Pillow 기반 role-aware 이미지 픽셀/알파/디테일 품질 검증 |
 | `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir> --viewports 390x844,430x932,1080x1920` | Playwright로 Loading/Home/Game/Pause/GameOver canvas 중앙 정렬, UI safe-area, bounds overlap 검증 |
-| `npm --prefix dev_game run factory:production-gate -- --project <dir> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920` | `qa` + `production-demo-qa` + `visual-layout-qa` 통합 완료 게이트 |
+| `npm --prefix dev_game run factory:scene-composite-qa -- --project <dir> --viewports 390x844,430x932,1080x1920` | Python Pillow + Playwright 기반 화면 단위 recomposition/pixel 결함 검증 |
+| `npm --prefix dev_game run factory:hq-screen-quality-qa -- --project <dir>` | 선택형 HQ/DPR/source-size 검증. `marketConfig.js`가 있는 게임은 market-event depth도 함께 검증 |
+| `npm --prefix dev_game run factory:production-gate -- --project <dir> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920` | `qa` + `production-demo-qa` + `image-quality-qa` + `visual-layout-qa` + `scene-composite-qa` 통합 완료 게이트 |
 
 `browser-smoke`는 Playwright를 사용하므로 처음에는 `npm --prefix dev_game install` 후 실행합니다.
+`image-quality-qa`, `scene-composite-qa`, `hq-screen-quality-qa`는 Python Pillow가 필요합니다. 로컬에서 누락되면 `python3 -m pip install Pillow`로 준비합니다.
 
 ## 범위 제한
 
