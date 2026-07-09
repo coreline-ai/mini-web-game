@@ -1,0 +1,74 @@
+:root {
+  color-scheme: dark;
+  background: #101923;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #101923;
+  touch-action: none;
+  user-select: none;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -36px;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(241, 255, 192, 0.58) 0%, rgba(198, 236, 236, 0.32) 34%, rgba(9, 15, 23, 0.10) 100%),
+    url("/backgrounds/stage-1.png") center / cover no-repeat;
+  filter: blur(26px) saturate(1.42) brightness(1.32);
+  transform: scale(1.04);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06) 72%);
+  pointer-events: none;
+}
+
+#game {
+  position: relative;
+  width: min(100vw, calc(100dvh * 0.5625), 1080px);
+  height: min(100dvh, calc(100vw * 1.7777778), 1920px);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background: #101923;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+}
+
+canvas {
+  display: block;
+  touch-action: none;
+  image-rendering: auto;
+}
+
+@media (max-width: 600px) {
+  #game {
+    box-shadow: none;
+  }
+}

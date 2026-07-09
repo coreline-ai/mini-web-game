@@ -1,0 +1,52 @@
+{
+  "gameId": "road-stream-racer",
+  "title": "Road Stream Racer",
+  "runtimeStrategy": "native-fhd-canvas",
+  "canvas": { "width": 1080, "height": 1920 },
+  "sourceReference": "assets/references/imagegen-road-stream-asset-sheet.png",
+  "styleGuide": {
+    "rendering": "glossy mobile cartoon racing, clean silhouettes, readable top-down forms",
+    "palette": "#142033 base, #ff3d35 player, #ffd54a coin, #18a0a8 HUD accent",
+    "constraints": [
+      "No shared runtime assets from other generated games",
+      "No SVG for core gameplay art",
+      "Use 1080x1920 backgrounds and 512px sprite frames",
+      "Do not render pure-white lane markers in the top-left QA search zone"
+    ]
+  },
+  "backgrounds": [
+    { "id": "stage-1", "path": "assets/backgrounds/stage-1.png", "size": "1080x1920" },
+    { "id": "stage-2", "path": "assets/backgrounds/stage-2.png", "size": "1080x1920" },
+    { "id": "stage-3", "path": "assets/backgrounds/stage-3.png", "size": "1080x1920" }
+  ],
+  "roadSegments": [
+    { "id": "road-straight-1", "path": "assets/roads/road-straight-1.png", "size": "1080x640" },
+    { "id": "road-straight-2", "path": "assets/roads/road-straight-2.png", "size": "1080x640" },
+    { "id": "road-construction-1", "path": "assets/roads/road-construction-1.png", "size": "1080x640" },
+    { "id": "road-construction-2", "path": "assets/roads/road-construction-2.png", "size": "1080x640" },
+    { "id": "road-crosswalk-1", "path": "assets/roads/road-crosswalk-1.png", "size": "1080x640" }
+  ],
+  "sprites": [
+    { "id": "player-car", "path": "assets/characters/player-car.png", "size": "2048x512", "frames": 4, "frameSize": "512x512" },
+    { "id": "traffic-blue", "path": "assets/vehicles/traffic-blue.png", "size": "512x512" },
+    { "id": "traffic-yellow", "path": "assets/vehicles/traffic-yellow.png", "size": "512x512" },
+    { "id": "traffic-truck", "path": "assets/vehicles/traffic-truck.png", "size": "512x512" },
+    { "id": "cone", "path": "assets/obstacles/cone.png", "size": "512x512" },
+    { "id": "barricade", "path": "assets/obstacles/barricade.png", "size": "512x512" },
+    { "id": "coin", "path": "assets/items/coin.png", "size": "2048x512", "frames": 4, "frameSize": "512x512" },
+    { "id": "boost-pad", "path": "assets/items/boost-pad.png", "size": "512x512" }
+  ],
+  "uiAndFx": [
+    { "id": "btn-frame", "path": "assets/ui/btn-frame.png", "size": "768x256" },
+    { "id": "btn-pause", "path": "assets/ui/btn-pause.png", "size": "256x256" },
+    { "id": "btn-boost", "path": "assets/ui/btn-boost.png", "size": "256x256" },
+    { "id": "fx-hit", "path": "assets/effects/fx-hit.png", "size": "512x512" },
+    { "id": "fx-collect", "path": "assets/effects/fx-collect.png", "size": "512x512" },
+    { "id": "fx-boost", "path": "assets/effects/fx-boost.png", "size": "512x512" }
+  ],
+  "qaEvidence": {
+    "manualCaptures": "../../.tmp/manual-road-stream-racer",
+    "visualLayoutCaptures": "../../.tmp/visual-layout-qa/road-stream-racer",
+    "sceneCompositeCaptures": "../../.tmp/scene-composite-qa/road-stream-racer"
+  }
+}

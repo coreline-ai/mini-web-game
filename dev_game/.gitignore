@@ -12,3 +12,9 @@ generated/market-panic/qa-captures/
 generated/target-shooter-rush/node_modules/
 generated/target-shooter-rush/dist/
 generated/target-shooter-rush/qa-captures/
+!generated/road-stream-racer/
+!generated/road-stream-racer/**
+generated/road-stream-racer/node_modules/
+generated/road-stream-racer/dist/
+generated/road-stream-racer/qa-captures/
+generated/road-stream-racer/tmp/

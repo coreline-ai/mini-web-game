@@ -1,0 +1,824 @@
+{
+  "assetsVersion": "2.0.0",
+  "qualityTier": "production-demo",
+  "gameId": "road-stream-racer",
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "gpt-image-2",
+    "sourceSkill": "imagegen",
+    "referenceAsset": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png",
+    "note": "2026-07-08 polish regenerated high-detail source sheets and road art with the Codex imagegen skill, then chroma-key removed and repacked each runtime asset for native-FHD Road Stream Racer. The forest side overlay is composited from the imagegen stage background to separate rich scenery from the runtime-scrolled road loop; 2026-07-09 polish tightened that overlay to vegetation-only side gutters matching the current straight road geometry.",
+    "referenceAssets": [
+      "assets/references/imagegen-road-stream-road-hq-20260708.png",
+      "assets/references/imagegen-road-stream-road-hq-20260708.png",
+      "assets/references/imagegen-road-stream-flat-road-20260708.png",
+      "assets/backgrounds/stage-1.png",
+      "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png",
+      "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+      "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+    ]
+  },
+  "assetFidelity": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "desktopShell": "centered-9x16-mobile-shell-with-blurred-background"
+  },
+  "imagePolicy": {
+    "allowedFormats": [
+      "png",
+      "webp"
+    ],
+    "maxTargetDpr": 1,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 96
+  },
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "stage-1-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "stage-2-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.png",
+      "type": "background",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "stage-3-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    }
+  ],
+  "images": [
+    {
+      "id": "road-straight-1",
+      "path": "assets/roads/road-straight-1.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-straight-1-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "road-straight-2",
+      "path": "assets/roads/road-straight-2.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-straight-2-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "road-construction-1",
+      "path": "assets/roads/road-construction-1.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-construction-1-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "road-construction-2",
+      "path": "assets/roads/road-construction-2.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-construction-2-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "road-crosswalk-1",
+      "path": "assets/roads/road-crosswalk-1.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-crosswalk-1-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+      }
+    },
+    {
+      "id": "road-flat-seamless",
+      "path": "assets/roads/road-flat-seamless.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 640,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 640
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-flat-seamless-polish-20260708",
+        "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
+        "postProcess": "deterministic straight-road seam correction to 1080x640"
+      }
+    },
+    {
+      "id": "road-flat-forest-loop-1080x1920",
+      "path": "assets/roads/road-flat-forest-loop-1080x1920.png",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-flat-forest-loop-1080x1920-polish-20260708",
+        "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
+        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920, with restored forest edge strips from stage-1 imagegen background; 2026-07-09 cool-saturated asphalt tone polish keeps the top road from reading as a dark external overlay in scene captures"
+      }
+    },
+    {
+      "id": "forest-side-overlay-1080x1920",
+      "path": "assets/scenery/forest-side-overlay-1080x1920.png",
+      "type": "background",
+      "role": "scenery-overlay",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "requiresAlpha": true,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "forest-side-overlay-tree-skin-polish-20260709",
+        "rawPath": "assets/backgrounds/stage-1.png",
+        "postProcess": "vegetation-only HSV matte from imagegen stage art, constrained to the current straight-road grass gutters; road, sidewalk, yellow lane line, and non-tree artifacts are excluded"
+      }
+    },
+    {
+      "id": "player-car",
+      "path": "assets/characters/player-car.png",
+      "type": "sprite-sheet",
+      "role": "player",
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "minWidth": 2048,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderedWorldSize": {
+        "width": 330,
+        "height": 330
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "player-car-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png"
+      }
+    },
+    {
+      "id": "traffic-blue",
+      "path": "assets/vehicles/traffic-blue.png",
+      "type": "sprite",
+      "role": "vehicle",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 230,
+        "height": 290
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "traffic-blue-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "traffic-yellow",
+      "path": "assets/vehicles/traffic-yellow.png",
+      "type": "sprite",
+      "role": "vehicle",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 230,
+        "height": 290
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "traffic-yellow-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "traffic-truck",
+      "path": "assets/vehicles/traffic-truck.png",
+      "type": "sprite",
+      "role": "vehicle",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 260,
+        "height": 330
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "traffic-truck-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "cone",
+      "path": "assets/obstacles/cone.png",
+      "type": "sprite",
+      "role": "obstacle",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 145,
+        "height": 145
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "cone-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "barricade",
+      "path": "assets/obstacles/barricade.png",
+      "type": "sprite",
+      "role": "obstacle",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 210,
+        "height": 150
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "barricade-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "coin",
+      "path": "assets/items/coin.png",
+      "type": "sprite-sheet",
+      "role": "collectible",
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "minWidth": 2048,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 118,
+        "height": 118
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "coin-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "boost-pad",
+      "path": "assets/items/boost-pad.png",
+      "type": "sprite",
+      "role": "powerup",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 220,
+        "height": 142
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "boost-pad-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "btn-frame",
+      "path": "assets/ui/btn-frame.png",
+      "type": "ui",
+      "role": "button",
+      "quality": "production-demo",
+      "minWidth": 768,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 570,
+        "height": 190
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "btn-frame-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 768,
+        "height": 256
+      }
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/ui/btn-pause.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 102,
+        "height": 102
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "btn-pause-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "btn-boost",
+      "path": "assets/ui/btn-boost.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 102,
+        "height": 102
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "btn-boost-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "racer-ui-home",
+      "path": "assets/ui/racer_ui_home.png",
+      "type": "ui",
+      "role": "hud-icon",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 96,
+        "height": 96
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "top-right-home-icon-clean-hq-polish-20260709",
+        "rawPath": "assets/references/imagegen-road-stream-hud-home-clean-20260709.png",
+        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white home symbol, clean alpha padding, no edge clipping"
+      },
+      "sourceFrameSize": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "racer-ui-pause",
+      "path": "assets/ui/racer_ui_pause.png",
+      "type": "ui",
+      "role": "hud-icon",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 96,
+        "height": 96
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "top-right-pause-icon-clean-hq-polish-20260709",
+        "rawPath": "assets/references/imagegen-road-stream-hud-pause-clean-20260709.png",
+        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white pause bars, clean alpha padding, no edge clipping"
+      },
+      "sourceFrameSize": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "fx-hit",
+      "path": "assets/effects/fx-hit.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "fx-hit-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "fx-collect",
+      "path": "assets/effects/fx-collect.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "fx-collect-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "fx-boost",
+      "path": "assets/effects/fx-boost.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt-image-2",
+        "sourceSkill": "imagegen",
+        "promptHash": "fx-boost-hq-polish-20260708-1439",
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+      },
+      "sourceFrameSize": {
+        "width": 512,
+        "height": 512
+      }
+    }
+  ],
+  "requiresCollectibleAssets": true,
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer"
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "road-stream-racer",
+    "noSharedRuntimeAssets": true
+  }
+}

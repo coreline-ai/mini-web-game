@@ -1,0 +1,49 @@
+# 07 · Regression Checklist
+
+- Loading screen shows readable FHD text and releases to Home.
+- Home title, description, best score, play, and sound buttons are visible and not clipped.
+- Countdown transitions to Game within automated QA timing.
+- Game road segments scroll downward and recycle upward.
+- Player stays in the lower play zone and lane movement is smooth.
+- Traffic, obstacles, coin, and boost pad move toward the player.
+- Pause icon is fully visible, does not resize on press, and opens Pause.
+- Boost state displays a visible boost trail and HUD countdown.
+- Crash scene appears before Result/GameOver.
+- Result screen has restart and home buttons with no aspect distortion.
+- 390×844, 430×932, 1080×1920, and 1280×900 layouts pass visual QA.
+- Scene-composite QA has no external-overlay, button-slicing, or result-composition failure.
+- `assets/asset-manifest.json` stays in sync with actual runtime PNG paths.
+- Class L polish: road, player, traffic, coin, boost pad, pause/boost icons, button frame, and FX assets remain imagegen-provenance HQ PNGs; `factory:image-quality-qa` must pass 17 role-aware assets and `after-samples.json` must show `assetFidelityPass=true`.
+- Class L polish: key runtime assets must not be upscaled in browser samples (`player`, `traffic_blue`, `traffic_yellow`, `traffic_truck`, `coin`, `boost_pad`, `ui_pause`, `fx_hit_img` all `isUpscaled=false`).
+- Class I polish: lane change uses tap/swipe commands rather than continuous absolute-X retargeting; isolated control sample must show `lastInput=drag` or `tap`, `activePointer=false`, `changingLane=false`, and bounded `velocityX`.
+- Motion polish: boost pads stay aligned with the road and do not spin like coins; coins may rotate.
+- HUD polish: top HUD panel keeps safe margins and scene-composite must not report external dark tooltip/link overlay.
+- Live input polish: real browser tap at right lane must show player `x=760`, `lane=2`, `lastInput=tap`, and `changingLane=false` within 60ms on `390x844` and `1280x900`.
+- Return-path polish: gameplay HUD must show non-overlapping `홈` and Pause controls; direct `홈` tap returns to Home on mobile and desktop.
+- Pause flow polish: Pause opens as `Game:paused,Pause`, blocks gameplay input, and `처음으로` returns to Home.
+- Pattern-safety polish: early traffic must preserve a readable safe lane; obstacles must not spawn on the declared safe lane when the other lanes are occupied.
+- QA timing polish: visual-layout and scene-composite gates must wait for registered scene transitions, so valid countdown timing does not fail as a layout error.
+- Traffic motion polish: every active traffic vehicle must show a shadow, `traffic_motion_wake`, and subtle lean in browser samples; obstacles must not receive vehicle wake FX.
+- Traffic motion polish: `trafficMotionFxVisible` should be greater than `0` once traffic is active and reach `6` or more in dense traffic samples.
+- Shutdown robustness: Pause-to-GameOver QA transition must reach `GameOver` with browser errors `0`; traffic cleanup must not call Phaser group APIs after physics shutdown.
+- QA server hygiene: visual-layout failures must still stop the preview server before returning a failing exit code.
+- Flat-road polish: Home, Countdown, and Game must use the full-frame `road_flat_loop` road asset, not mixed 640px construction/crosswalk/straight tiles.
+- Flat-road polish: browser samples must show road `segmentHeight=1920` and every active road segment key as `road_flat_loop`.
+- Flat-road polish: mobile captures must not show middle/lower stepped sidewalk offsets or horizontal scene-cut bands.
+- Forest-edge polish: `road_flat_loop` must load the straight `road-flat-loop-1080x1920.png` road, and Home/Game must layer `forest_side_overlay` above it so forest imagery is visible on both edges without baked road-line overlap.
+- Forest-edge polish: road samples must show exactly two active `road_flat_loop` segments at `segmentHeight=1920`, plus a static `forest_side_overlay` at `1080x1920`.
+- Lane-feel polish: tap from center to right lane must move through intermediate x positions, not jump directly; sample should show eased `moveProgress` between `0` and `1`, then settle without one-frame x snap.
+- Lane-feel polish: low-FPS browser samples should keep observed x steps bounded after easing-duration tuning; current regression sample max observed step is `83.5px` under throttled headless timing.
+- Turbo direction polish: boost capture must show `boostTrail.angle=-90`, `originX=1`, `visible=true`, and the flame trailing below the player's rear.
+- Traffic motion polish: after the road/forest swap, traffic samples must still show active vehicles with `hasMotionFx=true`, `fxVisible=true`, and `wakeTexture=traffic_motion_wake`.
+- Tree-skin polish: `forest_side_overlay` must stay `1080x1920`, vegetation-only, and constrained to the current straight-road green side gutters without sidewalk, yellow-line, or center-road contamination.
+- Tree-skin polish: Home and Game captures must show visible high-quality trees on both sides of the road with no cut-off roadside artifacts at 390x844 and 1080x1920.
+- Scene-composite polish: the HUD header and top road area must not trigger external dark tooltip/link overlay detection after image updates.
+- Road-tone polish: asphalt may use the 2026-07-09 cool-saturated tone, but lane markings, yellow shoulders, sidewalks, and foliage must remain visually distinct and undistorted.
+- Top-HUD polish: gameplay must show score, coin, speed, and stage in one compact top strip constrained to the active road width, not as a wide translucent bar crossing the whole upper road.
+- Top-HUD polish: Home and Pause icons must be fully visible, aligned with the top strip, and not overlap the stat text at 390x844, 430x932, 1080x1920, or 1280x900.
+- Top-HUD polish: visual-layout and scene-composite QA must pass after any HUD text, icon, or top-row spacing change.
+- Top-right icon polish: `racer_ui_home` and `racer_ui_pause` must be tracked in `asset-manifest.json`, use imagegen provenance, remain at least `1024x1024`, and render at `90x90` or larger without upscaling.
+- Top-right icon polish: Home and Pause symbols must remain readable in `390x844` game captures and must not clip against the right edge or overlap the stat strip.
+- Top-right clean-icon polish: Home and Pause buttons must use low-detail, high-contrast symbols that remain identifiable during active gameplay; decorative frame detail must not compete with the symbol at mobile size.
+- Top-right clean-icon polish: if runtime display is `96x96`, pause right edge must remain inside the 390x844 and 430x932 visual-layout safe area.
