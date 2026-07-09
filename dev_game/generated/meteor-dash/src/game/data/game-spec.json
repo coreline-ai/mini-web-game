@@ -11,7 +11,8 @@
     "width": 390,
     "height": 844,
     "backgroundColor": "#070a1c",
-    "scaleMode": "fit"
+    "scaleMode": "fit",
+    "maxTargetDpr": 3
   },
   "player": {
     "moveMode": "drag",

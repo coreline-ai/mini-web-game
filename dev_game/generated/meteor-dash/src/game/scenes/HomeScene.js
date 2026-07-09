@@ -6,10 +6,12 @@ import { AudioManager } from '../systems/AudioManager.js';
 import { makeTextButton } from '../ui/MobileButton.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera } from '../systems/HiDpi.js';
 
 export default class HomeScene extends Phaser.Scene {
   constructor() { super(SCENES.HOME); }
   create() {
+    applyLogicalCamera(this);
     AudioManager.stopMusic();
     const { width, height } = SPEC.canvas;
     this.add.image(0, 0, 'bg_0').setOrigin(0).setDisplaySize(width, height).setDepth(-10);
@@ -17,7 +19,7 @@ export default class HomeScene extends Phaser.Scene {
     this.titleText = this.add.text(width / 2, height * 0.18, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '38px', color: '#fff', align: 'center', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);
     this.bestText = this.add.text(width / 2, height * 0.55, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: '22px', color: '#ffd54a', stroke: '#000', strokeThickness: 4 }).setOrigin(0.5);
     this.playBtn = makeTextButton(this, width / 2, height * 0.68, 'PLAY', () => { AudioManager.unlock(this); AudioManager.playSfx(this, ASSET_KEYS.sfxStart, 0.55); this.scene.start(SCENES.GAME); }, 220, 64, { once: true });
-    this.soundBtn = makeTextButton(this, width / 2, height * 0.78, AudioManager.mute ? 'SOUND OFF' : 'SOUND ON', () => { AudioManager.setMute(this, !AudioManager.mute); this.scene.restart(); }, 220, 52);
+    this.soundBtn = makeTextButton(this, width / 2, height * 0.78, AudioManager.mute ? 'SOUND OFF' : 'SOUND ON', () => { AudioManager.setMute(this, !AudioManager.mute); this.scene.restart(); }, 280, 52);
     this._homeLayout = [{ id: 'title', obj: this.titleText }, { id: 'best', obj: this.bestText }, { id: 'play', obj: this.playBtn.bg }, { id: 'sound', obj: this.soundBtn.bg }];
     const pub = () => publishLayout(this, this._homeLayout);
     pub();

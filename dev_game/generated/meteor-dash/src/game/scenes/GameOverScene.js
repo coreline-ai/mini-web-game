@@ -4,10 +4,12 @@ import { SaveData } from '../systems/SaveData.js';
 import { makeTextButton } from '../ui/MobileButton.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera } from '../systems/HiDpi.js';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() { super(SCENES.GAMEOVER); }
   create(data = {}) {
+    applyLogicalCamera(this);
     const { width, height } = SPEC.canvas;
     const score = data.score || 0;
     const isBest = SaveData.record(score);

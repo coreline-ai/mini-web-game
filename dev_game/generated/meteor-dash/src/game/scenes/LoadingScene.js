@@ -4,22 +4,26 @@ import { ASSET_KEYS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera } from '../systems/HiDpi.js';
 
 export default class LoadingScene extends Phaser.Scene {
   constructor() { super(SCENES.LOADING); }
   preload() {
+    applyLogicalCamera(this);
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.image(ASSET_KEYS.hazard, 'enemies/hazard.png');
-    this.load.image(ASSET_KEYS.collectible, 'items/collectible.png');
-    this.load.image('ui_frame', 'ui/btn-frame.png');
-    this.load.image('ui_pause', 'ui/btn-pause.png');
-    this.load.image('fx_hit', 'effects/fx-hit.png');
-    this.load.image('fx_collect', 'effects/fx-collect.png');
-    this.load.image('bg_0', 'backgrounds/stage-1.png');
-    this.load.image('bg_1', 'backgrounds/stage-2.png');
-    this.load.image('bg_2', 'backgrounds/stage-3.png');
+    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.webp', { frameWidth: 512, frameHeight: 512 });
+    this.load.image(ASSET_KEYS.hazard, 'enemies/hazard.webp');
+    this.load.image(ASSET_KEYS.collectible, 'items/collectible.webp');
+    this.load.image('ui_frame', 'ui/btn-frame.webp');
+    this.load.image('ui_frame_slim', 'ui/btn-frame-slim.webp');
+    this.load.image('ui_frame_dialog', 'ui/btn-frame-dialog.webp');
+    this.load.image('ui_pause', 'ui/btn-pause.webp');
+    this.load.image('fx_hit', 'effects/fx-hit.webp');
+    this.load.image('fx_collect', 'effects/fx-collect.webp');
+    this.load.image('bg_0', 'backgrounds/stage-1.webp');
+    this.load.image('bg_1', 'backgrounds/stage-2.webp');
+    this.load.image('bg_2', 'backgrounds/stage-3.webp');
     if (SPEC.audio?.enabled) {
       this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
       this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);

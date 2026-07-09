@@ -7,23 +7,32 @@
 - Camera: flat 2D, portrait, gameplay reads in the bottom 60%
 - Mood: deep-space, punchy, mobile-arcade
 
-All assets must share this style. No mismatched rendering, no flat placeholder shapes in
-the final demo. Machine-readable prompts live in `asset-plan.json`.
+All assets share the same deep-space arcade art direction and are sized for the 390×844 logical canvas at DPR3 (1170×2532 physical target). Machine-readable prompts live in `asset-plan.json`.
 
-## Stage/theme backgrounds (raster PNG/WebP, ≥ canvas size)
-- `assets/backgrounds/stage-1.png` (390×844) — Origin: Ultra-detailed vertical PORTRAIT mobile game background, theme "Origin" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at the image tool's MAXIMUM native resolution (portrait, at least 1024x1536, larger is better) — do NOT shrink or fit to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
-- `assets/backgrounds/stage-2.png` (390×844) — Night Rush: Ultra-detailed vertical PORTRAIT mobile game background, theme "Night Rush" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at the image tool's MAXIMUM native resolution (portrait, at least 1024x1536, larger is better) — do NOT shrink or fit to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
-- `assets/backgrounds/stage-3.png` (390×844) — Deep Field: Ultra-detailed vertical PORTRAIT mobile game background, theme "Deep Field" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at the image tool's MAXIMUM native resolution (portrait, at least 1024x1536, larger is better) — do NOT shrink or fit to any game/canvas size. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
+## Stage/theme backgrounds (raster WebP, DPR3 target)
+- `assets/backgrounds/stage-1.webp` (1170×2532) — Origin: Ultra-detailed vertical PORTRAIT mobile game background, theme "Origin" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
+- `assets/backgrounds/stage-2.webp` (1170×2532) — Night Rush: Ultra-detailed vertical PORTRAIT mobile game background, theme "Night Rush" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
+- `assets/backgrounds/stage-3.webp` (1170×2532) — Deep Field: Ultra-detailed vertical PORTRAIT mobile game background, theme "Deep Field" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.
 
-## Core sprites (raster PNG/WebP, transparent)
-- `assets/characters/player.png` [player] (256×256) — A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME Meteor Dash hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. deep-space, punchy, mobile-arcade.
-- `assets/enemies/hazard.png` [hazard] (256×256) — Primary "Meteor" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade.
-- `assets/items/collectible.png` [collectible] (192×192) — "Star" pickup sprite, transparent, inviting/positive, distinct from hazard color, deep-space, punchy, mobile-arcade.
+## Core sprites (raster WebP, transparent)
+- `assets/characters/player.webp` [player] (2048×512) — A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME Meteor Dash hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. deep-space, punchy, mobile-arcade.
+- `assets/enemies/hazard.webp` [hazard] (1024×1024) — Primary "Meteor" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade.
+- `assets/items/collectible.webp` [collectible] (1024×1024) — "Star" pickup sprite, transparent, inviting/positive, distinct from hazard color, deep-space, punchy, mobile-arcade.
+- `assets/items/shield.webp` [powerup] (1024×1024) — Primary "Meteor" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade. A single glossy ENERGY SHIELD powerup game sprite: a rounded hexagonal cyan-blue force-field badge with a soft inner glow core and a thin silver rim, futuristic but cute, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background filling the frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft edge, NO colored fringe, NO haze.
+
+## UI buttons & icons (raster WebP, transparent)
+- `assets/ui/btn-frame.webp` [ui-icon] (1320×384) — Wide glossy green rounded pill button frame, no text, no icon, transparent outside, high-DPI mobile UI.
+- `assets/ui/btn-frame-slim.webp` [ui-icon] (1320×312) — Slim glossy green rounded pill button frame for compact mobile buttons, no text, transparent outside.
+- `assets/ui/btn-frame-dialog.webp` [ui-icon] (1380×372) — Dialog-width glossy green rounded pill button frame, no text, transparent outside.
+- `assets/ui/btn-pause.webp` [ui-icon] (768×768) — Circular blue-green glossy pause icon button with two white rounded pause bars, transparent outside.
+
+## Feedback FX (raster WebP, transparent)
+- `assets/effects/fx-hit.webp` [feedback] (1024×1024) — Impact burst spritesheet frame, transparent, energetic.
+- `assets/effects/fx-collect.webp` [feedback] (1024×1024) — Sparkle/collect burst, transparent, positive.
 
 ## Audio
 - UI click, collect, hit, game-over SFX + a looping gameplay BGM.
 - Web format OGG preferred for release; procedural WAV acceptable for the first demo.
 
 ## Production rule
-Backgrounds ship as `quality:"draft"` placeholders from productionize.mjs and MUST be
-replaced with production art before promotion to `qualityTier:"production-demo"`.
+All referenced runtime art is generated or remastered through the gpt 이미지젠 스킬 workflow, then chroma-key cleaned, normalized to the DPR3 target, and optimized as WebP for crisp mobile rendering.

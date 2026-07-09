@@ -1,9 +1,16 @@
 {
-  "assetsVersion": "1.0.0",
+  "assetsVersion": "1.1.0",
   "assetFidelity": {
-    "logicalCanvas": { "width": 390, "height": 844 },
+    "logicalCanvas": {
+      "width": 390,
+      "height": 844
+    },
     "maxTargetDpr": 3,
-    "physicalCanvasTarget": { "width": 1170, "height": 2532 }
+    "physicalCanvasTarget": {
+      "width": 1170,
+      "height": 2532
+    },
+    "runtime": "logical-camera-dpr-aware"
   },
   "imagePolicy": {
     "allowedFormats": [
@@ -13,7 +20,8 @@
     ],
     "maxSpriteKB": 512,
     "requireAlphaForSprites": true,
-    "minTouchUiSize": 44
+    "minTouchUiSize": 44,
+    "maxHqUiKB": 512
   },
   "audioPolicy": {
     "allowedFormats": [
@@ -29,203 +37,295 @@
   "images": [
     {
       "id": "player",
-      "path": "assets/characters/player.png",
+      "path": "assets/characters/player.webp",
       "type": "sprite",
       "role": "player",
-      "minWidth": 64,
-      "minHeight": 64,
+      "minWidth": 2048,
+      "minHeight": 512,
       "requiresAlpha": true,
+      "quality": "production-demo",
+      "frames": 4,
+      "frameWidth": 512,
+      "frameHeight": 512,
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "frame-normalization",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "b69253db283f5988",
         "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      },
-      "quality": "production-demo",
-      "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
     },
     {
       "id": "hazard",
-      "path": "assets/enemies/hazard.png",
+      "path": "assets/enemies/hazard.webp",
       "type": "sprite",
       "role": "hazard",
-      "minWidth": 64,
-      "minHeight": 64,
+      "minWidth": 1024,
+      "minHeight": 1024,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "e58638a99f23c485",
         "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      },
-      "quality": "production-demo"
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
     },
     {
       "id": "collectible",
-      "path": "assets/items/collectible.png",
+      "path": "assets/items/collectible.webp",
       "type": "sprite",
       "role": "collectible",
-      "minWidth": 44,
-      "minHeight": 44,
+      "minWidth": 1024,
+      "minHeight": 1024,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "3fbaadcd0a9709a0",
         "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      },
-      "quality": "production-demo"
-    },
-    {
-      "id": "btn-frame",
-      "type": "ui",
-      "path": "assets/ui/btn-frame.png",
-      "role": "ui-icon",
-      "quality": "production-demo",
-      "requiresAlpha": true,
-      "provenance": {
-        "source": "generated-for-game",
-        "generatedFor": "meteor-dash",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
-        "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "61c1d999fc92fdf6",
-        "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      }
-    },
-    {
-      "id": "btn-pause",
-      "type": "ui",
-      "path": "assets/ui/btn-pause.png",
-      "role": "ui-icon",
-      "quality": "production-demo",
-      "requiresAlpha": true,
-      "provenance": {
-        "source": "generated-for-game",
-        "generatedFor": "meteor-dash",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
-        "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "76e2fd802d3f767a",
-        "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      }
-    },
-    {
-      "id": "fx-hit",
-      "type": "fx",
-      "path": "assets/effects/fx-hit.png",
-      "role": "feedback",
-      "quality": "production-demo",
-      "requiresAlpha": true,
-      "provenance": {
-        "source": "generated-for-game",
-        "generatedFor": "meteor-dash",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
-        "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "e67cf16a7dadbf92",
-        "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
-      }
-    },
-    {
-      "id": "fx-collect",
-      "type": "fx",
-      "path": "assets/effects/fx-collect.png",
-      "role": "feedback",
-      "quality": "production-demo",
-      "requiresAlpha": true,
-      "provenance": {
-        "source": "generated-for-game",
-        "generatedFor": "meteor-dash",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
-        "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "4f7a9f24d485840f",
-        "quality": "high",
-        "modelVerified": false,
-        "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
       }
     },
     {
       "id": "shield",
-      "path": "assets/items/shield.png",
+      "path": "assets/items/shield.webp",
       "type": "sprite",
       "role": "powerup",
-      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
       "requiresAlpha": true,
+      "quality": "production-demo",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "21d52b1d28caf3d4",
-        "quality": "high"
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "btn-frame",
+      "path": "assets/ui/btn-frame.webp",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 1320,
+      "minHeight": 384,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "45521281744b94c6",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "btn-frame-slim",
+      "path": "assets/ui/btn-frame-slim.webp",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 1320,
+      "minHeight": 312,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "7e23071279fd9f3c",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "btn-frame-dialog",
+      "path": "assets/ui/btn-frame-dialog.webp",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 1380,
+      "minHeight": 372,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "893b58212069e8fb",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/ui/btn-pause.webp",
+      "type": "ui",
+      "role": "ui-icon",
+      "minWidth": 768,
+      "minHeight": 768,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "10db9585d5bc6ea8",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "fx-hit",
+      "path": "assets/effects/fx-hit.webp",
+      "type": "fx",
+      "role": "feedback",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "e67cf16a7dadbf92",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
+      }
+    },
+    {
+      "id": "fx-collect",
+      "path": "assets/effects/fx-collect.webp",
+      "type": "fx",
+      "role": "feedback",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "meteor-dash",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "component-extraction",
+          "hidpi-remaster",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "4f7a9f24d485840f",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
       }
     }
   ],
@@ -291,7 +391,7 @@
     {
       "id": "stage-1",
       "stage": 1,
-      "path": "assets/backgrounds/stage-1.png",
+      "path": "assets/backgrounds/stage-1.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -299,29 +399,33 @@
       "display": {
         "fit": "cover",
         "logicalWidth": 390,
-        "logicalHeight": 844
+        "logicalHeight": 844,
+        "physicalWidth": 1170,
+        "physicalHeight": 2532
       },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "81cc9ae31eea1b8a",
-        "quality": "high",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
+          "imagegen-source-remaster",
+          "cover-crop-to-dpr3",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "f0ccc42da7ad3d9d",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
       }
     },
     {
       "id": "stage-2",
       "stage": 2,
-      "path": "assets/backgrounds/stage-2.png",
+      "path": "assets/backgrounds/stage-2.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -329,29 +433,33 @@
       "display": {
         "fit": "cover",
         "logicalWidth": 390,
-        "logicalHeight": 844
+        "logicalHeight": 844,
+        "physicalWidth": 1170,
+        "physicalHeight": 2532
       },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "4ce3087a3fac46c9",
-        "quality": "high",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
+          "imagegen-source-remaster",
+          "cover-crop-to-dpr3",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "3f04ffcaac3de96f",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
       }
     },
     {
       "id": "stage-3",
       "stage": 3,
-      "path": "assets/backgrounds/stage-3.png",
+      "path": "assets/backgrounds/stage-3.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -359,23 +467,27 @@
       "display": {
         "fit": "cover",
         "logicalWidth": 390,
-        "logicalHeight": 844
+        "logicalHeight": 844,
+        "physicalWidth": 1170,
+        "physicalHeight": 2532
       },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
         "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
-        "sourceSkill": "imagegen",
-        "toolMode": "built-in-image_gen",
-        "promptHash": "a25980167adc7750",
-        "quality": "high",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
-        ]
+          "imagegen-source-remaster",
+          "cover-crop-to-dpr3",
+          "webp-optimization"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "f97a4d744f28a64a",
+        "quality": "high",
+        "remasteredAt": "2026-07-09T15:09:26.871Z"
       }
     }
   ],
@@ -386,11 +498,12 @@
     "noSharedRuntimeAssets": true
   },
   "imagegen": {
-    "model": "openai-builtin-image_gen (version opaque)",
+    "model": "gpt 이미지젠 스킬",
     "modelVerified": false,
     "method": "codex-gpt-imagegen-skill",
     "sourceSkill": "imagegen",
     "toolMode": "built-in-image_gen",
-    "lastRunAt": "2026-07-06T22:00:19.032Z"
+    "lastRunAt": "2026-07-09T15:09:26.871Z",
+    "remaster": "Meteor Dash DPR3 asset refresh from generated imagegen sheets"
   }
 }

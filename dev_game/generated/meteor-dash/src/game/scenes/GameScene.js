@@ -11,14 +11,16 @@ import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import ShowerEventSystem from '../systems/ShowerEventSystem.js';
 import ShieldSystem from '../systems/ShieldSystem.js';
+import { applyLogicalCamera, logicalPointer } from '../systems/HiDpi.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
   preload() {
     // wire가 자동 로드하지 않는 powerup 스프라이트
-    if (!this.textures.exists('shield')) this.load.image('shield', 'items/shield.png');
+    if (!this.textures.exists('shield')) this.load.image('shield', 'items/shield.webp');
   }
   create() {
+    applyLogicalCamera(this);
     this.isOver = false;
     this.targetX = SPEC.canvas.width / 2;
     this.vx = 0; // 관성 이동 상태
@@ -70,12 +72,13 @@ export default class GameScene extends Phaser.Scene {
     };
   }
   onPointer(pointer) {
-    if (this.isOver || pointer.y < 82) return;
+    const p = logicalPointer(pointer);
+    if (this.isOver || p.y < 82) return;
     if (SPEC.player.moveMode === 'tap-lane') {
-      const lane = Math.floor(pointer.x / (SPEC.canvas.width / 3));
+      const lane = Math.floor(p.x / (SPEC.canvas.width / 3));
       this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);
     } else {
-      this.targetX = Phaser.Math.Clamp(pointer.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);
+      this.targetX = Phaser.Math.Clamp(p.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);
     }
   }
   update(time, delta) {
