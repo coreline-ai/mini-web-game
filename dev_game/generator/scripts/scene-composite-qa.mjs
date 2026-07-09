@@ -175,6 +175,14 @@ async function clickRegistryItem(page, pattern) {
   return true;
 }
 
+async function waitForRegistryScene(page, scene, timeout = 6000) {
+  await page.waitForFunction(
+    (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected,
+    scene,
+    { timeout },
+  );
+}
+
 async function capture(page, phase, viewport, dir, records) {
   await page.waitForTimeout(220);
   const file = path.join(dir, `${viewportLabel(viewport)}-${phase}.png`);
@@ -198,11 +206,11 @@ async function exercise(page, viewport, url, dir, records) {
   const canvas = await page.locator('canvas').boundingBox();
   const clickedPlay = await clickRegistryItem(page, /play|start/);
   if (!clickedPlay && canvas) await page.mouse.click(canvas.x + canvas.width * 0.5, canvas.y + canvas.height * 0.68).catch(() => {});
-  await page.waitForTimeout(1000);
+  await waitForRegistryScene(page, 'Game');
   await capture(page, 'game', viewport, dir, records);
   const clickedPause = await clickRegistryItem(page, /pause/);
   if (!clickedPause && canvas) await page.mouse.click(canvas.x + canvas.width * 0.93, canvas.y + canvas.height * 0.08).catch(() => {});
-  await page.waitForTimeout(500);
+  await waitForRegistryScene(page, 'Pause');
   await capture(page, 'pause', viewport, dir, records);
   await page.evaluate(() => {
     const game = globalThis.__GAME__;
@@ -212,8 +220,7 @@ async function exercise(page, viewport, url, dir, records) {
       game.scene.start('GameOver', { score: 12345, sorted: 24, wrong: 1, missed: 2, bestCombo: 14 });
     }
   }).catch(() => {});
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'GameOver', null, { timeout: 5000 }).catch(() => {});
-  await page.waitForTimeout(500);
+  await waitForRegistryScene(page, 'GameOver', 5000);
   await capture(page, 'gameover', viewport, dir, records);
 }
 
@@ -261,10 +268,23 @@ for rec in records:
         crop=img.crop((0,0,W,min(H,int(H*0.18))))
         pix=crop.load(); cw,ch=crop.size
         # search only upper-left half to avoid normal title art.
-        for y0 in range(0, max(1,ch-24), 4):
+        for y0 in range(0, max(1,min(ch, 160)-24), 4):
             for x0 in range(0, max(1,min(cw//2, cw-80)), 4):
                 x1=min(cw, x0+260); y1=min(ch, y0+54)
                 if x1-x0 < 90 or y1-y0 < 24: continue
+                area=(x1-x0)*(y1-y0)
+                overlaps_registered=False
+                for it in items:
+                    ix,iy,iw,ih=clamp_box(it,W,H)
+                    ix=max(0,ix-32); iy=max(0,iy-32)
+                    iw=min(W-ix,iw+64); ih=min(H-iy,ih+64)
+                    ox=max(0, min(x1, ix+iw)-max(x0, ix))
+                    oy=max(0, min(y1, iy+ih)-max(y0, iy))
+                    if ox*oy > area*0.22:
+                        overlaps_registered=True
+                        break
+                if overlaps_registered:
+                    continue
                 total=(x1-x0)*(y1-y0)
                 dark=bright=0
                 for yy in range(y0,y1,2):
@@ -274,7 +294,7 @@ for rec in records:
                             dark+=4
                         if r>205 and g>205 and b>205:
                             bright+=4
-                if dark/total > 0.55 and bright/total > 0.015:
+                if dark/total > 0.64 and 0.015 < bright/total < 0.045:
                     errors.append(f"{vp} {phase}: external dark tooltip/link overlay detected near top-left; close browser/system overlay before capture")
                     y0=ch; break
             else:

@@ -284,6 +284,14 @@ async function clickRegistryItem(page, pattern, viewport, phase) {
   return true;
 }
 
+async function waitForRegistryScene(page, scene, timeout = 6000) {
+  await page.waitForFunction(
+    (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected,
+    scene,
+    { timeout },
+  );
+}
+
 async function exerciseFlow(page, viewport, args, screenshotDir, errors) {
   await page.waitForSelector('canvas', { timeout: 10000 });
   await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Loading', null, { timeout: 10000 }).catch(() => {});
@@ -297,11 +305,11 @@ async function exerciseFlow(page, viewport, args, screenshotDir, errors) {
   if (!canvas) return;
   const clickedPlay = await clickRegistryItem(page, /play|start/, viewport, 'home');
   if (!clickedPlay) await page.mouse.click(canvas.x + canvas.width * 0.5, canvas.y + canvas.height * 0.68).catch(() => {});
-  await page.waitForTimeout(800);
+  await waitForRegistryScene(page, 'Game');
   await inspectCurrentPage(page, 'game', viewport, args, screenshotDir, errors);
   const clickedPause = await clickRegistryItem(page, /pause/, viewport, 'game');
   if (!clickedPause) await page.mouse.click(canvas.x + canvas.width * 0.93, canvas.y + canvas.height * 0.06).catch(() => {});
-  await page.waitForTimeout(500);
+  await waitForRegistryScene(page, 'Pause');
   await inspectCurrentPage(page, 'pause', viewport, args, screenshotDir, errors);
   await page.evaluate(() => {
     const game = globalThis.__GAME__;
@@ -311,8 +319,7 @@ async function exerciseFlow(page, viewport, args, screenshotDir, errors) {
       game.scene.start('GameOver', { score: 12345, sorted: 24, wrong: 1, missed: 2, bestCombo: 14 });
     }
   }).catch(() => {});
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'GameOver', null, { timeout: 5000 }).catch(() => {});
-  await page.waitForTimeout(500);
+  await waitForRegistryScene(page, 'GameOver', 5000);
   await inspectCurrentPage(page, 'gameover', viewport, args, screenshotDir, errors);
 }
 
@@ -376,10 +383,11 @@ try {
       for (const err of errors) console.error(`- ${err}`);
       console.error(`Screenshots: ${screenshotDir}`);
       if (preview) console.error(preview.log());
-      process.exit(1);
+      process.exitCode = 1;
+    } else {
+      console.log(`Visual layout QA OK: ${url}`);
+      console.log(`Screenshots: ${screenshotDir}`);
     }
-    console.log(`Visual layout QA OK: ${url}`);
-    console.log(`Screenshots: ${screenshotDir}`);
   } finally {
     if (!args.keepServer) await stopPreview(preview?.server);
   }

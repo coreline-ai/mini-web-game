@@ -1,6 +1,6 @@
 ---
 name: game-polish
-description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into defect classes (entity-lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness, audio state, input robustness, persistence/session continuity, long-run stability), triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input bugs in an already-generated game. Do not use for creating a new game — that is game-factory."
+description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into defect classes (entity-lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness, audio state, input robustness, persistence/session continuity, long-run stability, asset fidelity/DPR), triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input bugs in an already-generated game. Do not use for creating a new game — that is game-factory."
 ---
 
 # Game Polish
@@ -27,7 +27,7 @@ This skill does NOT create games, scaffolds, or new asset pipelines. If the targ
 
 | Path | Purpose |
 |---|---|
-| `dev_game/docs/post-production-qa-contract.md` | defect classes A–G: symptom → cause → fix rules → machine checks |
+| `dev_game/docs/post-production-qa-contract.md` | defect classes A–L: symptom → cause → fix rules → machine checks |
 | `dev_game/generated/<game-id>/` | target game (gitignored by default) |
 | `dev_game/generated/<game-id>/qa-captures/` | per-game capture evidence: screenshots, video, contact sheets, state-sample JSON |
 | `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` | running log of symptoms, classifications, fixes, re-capture results |
@@ -53,6 +53,7 @@ Accept any of:
   - **Input hostility**: double/triple-tap on transition buttons, rapid pause↔resume ×10, input during scene transitions, multi-touch
   - **Persistence**: play→reload (best/settings retained), corrupted-storage boot, visibility toggle (timer continuity)
   - **Long-run**: ≥2 min autoplay + 5 retries while sampling FPS / active tweens / timer counts
+  - **Screen quality (HQ/DPR)**: final-capture quality per scene at real device DPR — blurry/upscaled backgrounds, sprites rendered above source resolution, canvas backing store below `min(devicePixelRatio, maxTargetDpr)`, mixed low/high-quality UI ownership on one screen
 
 For each symptom, record verbatim wording plus the **exact repro conditions**: input pattern, scene/stage, viewport, timing. Then capture a **baseline** showing the defect as-is — fixes are proven by before/after pairs, and an after-only report is incomplete.
 
@@ -73,6 +74,7 @@ Map every symptom to a contract defect class using the translation table in `pos
 | I | Input Robustness violation (double-fire transitions, stuck button visuals, input leaking through overlays) |
 | J | Persistence/Session discontinuity (lost saves, corrupted-storage crash, visibility delta blowup, resize breakage) |
 | K | Long-Run instability (listener/tween/timer accumulation across retries, FPS decay, pool leaks) |
+| L | Asset Fidelity violation (blurry/low-res final screens, DPR/backing-store mismatch, upscaled sources, alpha-bbox clipping, mixed UI ownership) |
 
 A symptom that fits no class is still fixed — and then added to the contract as a new class or signature. The contract grows from real sessions.
 
@@ -102,6 +104,7 @@ Apply the fix rules of the matched class from the contract. Non-negotiable speci
 - Class I: state-transition buttons are one-shot (disable on fire); scene transitions block prior-scene input; overlays fully block underlying gameplay input; pressed visuals restore on `pointerup`/`pointerout`.
 - Class J: save wrapper recovers from corrupted JSON with defaults; `visibilitychange` auto-pauses or clamps delta; resize recomputes safe-area.
 - Class K: scene `shutdown`/`destroy` releases all listeners/timers/tweens; retry is a full state reset, never partial.
+- Class L: classify the cause first (`source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership`), then fix at the source: regenerate undersized/clipped art or fix runtime scale/crop/anchor — never patch around it with CSS filters/sharpening. Assert `backingScale >= min(devicePixelRatio, maxTargetDpr)` and `sourcePixels >= renderedLogicalPixels * maxTargetDpr`.
 
 ### 5. Re-capture under original repro conditions
 
@@ -112,6 +115,7 @@ After each fix batch:
 - For class A fixes, drive ≥10 consecutive hit/respawn cycles and assert entity visibility state each cycle.
 - For class H/I fixes, re-run the audio and input-hostility sweeps from step 1.
 - For class J/K fixes, re-run the persistence sweep and the ≥2 min long-run sweep, sampling FPS / active tween / timer counts for monotonic-growth (leak) signals.
+- For class L fixes, re-run `factory:hq-screen-quality-qa` and record DPR fields in the state-sample JSON (`devicePixelRatio`, `maxTargetDpr`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`, `logicalCanvas`, `physicalCanvasTarget`), with before/after captures at the same repro DPR.
 
 A green capture from an unrelated path is not evidence.
 
@@ -122,6 +126,7 @@ npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/gener
 npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
 npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
 npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:hq-screen-quality-qa -- --project dev_game/generated/<game-id>
 ```
 
 Run only the gates relevant to the touched surface when iterating quickly, but the final pass of a polish session runs all of them.

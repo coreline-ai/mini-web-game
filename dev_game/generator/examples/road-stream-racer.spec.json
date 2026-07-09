@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "road-stream-racer",
+    "title": "Road Stream Racer",
+    "description": "A portrait mobile racing runner where the road itself streams downward in reusable segments while the player changes lanes, dodges traffic, collects coins, and risks boost pads.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "backgroundColor": "#142033",
+    "scaleMode": "fit"
+  },
+  "assetFidelity": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": { "width": 1080, "height": 1920 },
+    "baseCompositionCanvas": { "width": 390, "height": 844 },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": { "width": 1080, "height": 1920 }
+  },
+  "player": {
+    "moveMode": "swipe",
+    "speed": 1720,
+    "hitbox": {
+      "width": 118,
+      "height": 188
+    }
+  },
+  "hazards": {
+    "type": "road-stream-traffic",
+    "label": "Traffic",
+    "spawnRateStart": 900,
+    "spawnRateMax": 170,
+    "fallSpeedStart": 690,
+    "fallSpeedMax": 2140,
+    "damage": 1,
+    "poolSize": 128
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Coin / Boost",
+    "spawnRate": 0.36,
+    "scoreValue": 50
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 12,
+    "collectiblePoints": 50,
+    "highScoreLocalStorageKey": "road_stream_racer_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 30,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "road-stream-racing",
+    "colors": {
+      "background": "#142033",
+      "player": "#ff3d35",
+      "hazard": "#2d74d8",
+      "collectible": "#ffd54a",
+      "ui": "#f8fbff"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  },
+  "racing": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "lanes": 3,
+    "road": {
+      "left": 210,
+      "right": 870,
+      "segmentHeight": 640,
+      "visibleSegments": 4,
+      "scrollSpeedStart": 690,
+      "scrollSpeedMax": 2140
+    },
+    "playerZone": {
+      "defaultYRatio": 0.82,
+      "minYRatio": 0.76,
+      "maxYRatio": 0.89
+    },
+    "boost": {
+      "durationMs": 2200,
+      "speedMultiplier": 1.28,
+      "scoreMultiplier": 1.5
+    },
+    "nearMissDistance": 74,
+    "patternSafety": {
+      "minSafeLanes": 1,
+      "minReactionTimeMs": 750
+    }
+  }
+}

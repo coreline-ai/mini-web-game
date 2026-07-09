@@ -45,6 +45,7 @@ If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 | `dev_game/generator/scripts/visual-layout-qa.mjs` | browser visual layout, safe-area, overlap gate |
 | `dev_game/generator/scripts/scene-composite-qa.mjs` | rendered scene art-direction gate for broken button highlights, clipped stamps, transparent/hollow sprites, conveyor/road breaks, and external overlays |
 | `dev_game/generator/scripts/image-quality-qa.mjs` | role-aware pixel/alpha/bbox gate for high-quality imagegen assets |
+| `dev_game/generator/scripts/hq-screen-quality-qa.mjs` | screen-level asset-fidelity/DPR gate: canvas backing store vs DPR, source-vs-rendered pixel budget, blurry/upscaled final screens (contract class L) |
 | `dev_game/docs/post-production-qa-contract.md` | defect-class contract for post-production fix passes: lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis independence, progression completeness, machine-assertable evidence, fix→re-capture loop |
 | `dev_game/docs/qa-evidence/` | tracked summaries for generated-game QA evidence when `dev_game/generated/**` is gitignored |
 | `dev_game/generated/<game-id>/` | generated/custom game output, gitignored by default |
@@ -64,7 +65,7 @@ A game may be reported as complete only after it satisfies the production-demo c
 - Main gameplay assets are not simple SVG placeholders. Core roles such as `player`, `hazard`, `obstacle`, `enemy`, `boss`, `collectible`, `vehicle`, `parcel`, `sort-bin` need `quality: "production-demo"`.
 - Runtime exposes `window.__GAME_LAYOUT_BOUNDS__` so browser QA can catch HUD/button/text overlap and safe-area violations.
 - Audio exists and state control works: gameplay music only during gameplay, paused/stopped on pause/home/background.
-- `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, and `factory:scene-composite-qa` pass for the generated project.
+- `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, `factory:scene-composite-qa`, and `factory:hq-screen-quality-qa` pass for the generated project.
 - Image assets are produced through the Codex `imagegen` skill path, then copied into the generated game. Manifest provenance for imagegen assets uses `method: "codex-gpt-imagegen-skill"`, `model: "gpt-image-2"`, `sourceSkill: "imagegen"`, and a `promptHash`.
 - No generated game may include external image SDK runners, image-key setup steps, or service-backed asset-generation commands.
 - Visual QA covers Loading, Home, Game, Pause, and GameOver at 390×844, 430×932, and 1080×1920. It must catch canvas off-centering, HUD/pause overlap, coin/text baseline mismatch, stretched buttons, item-card clipping, panel overflow, required layout item omissions, and missing safe-area margins. Scenes should declare `requiredIds` for HUD text, buttons, panels, game playfield, hit zones, and result stamps.
@@ -207,8 +208,11 @@ npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/gener
 npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
 npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
 npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:hq-screen-quality-qa -- --project dev_game/generated/<game-id>
 npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen --viewports 390x844,430x932,1080x1920
 ```
+
+`factory:production-gate` chains factory:qa plus the production-demo, image-quality, visual-layout, and scene-composite gates, but does **not** include `factory:hq-screen-quality-qa` — run it separately.
 
 Also run or create a browser smoke that proves:
 
