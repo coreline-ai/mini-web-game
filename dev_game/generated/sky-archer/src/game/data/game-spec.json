@@ -11,7 +11,12 @@
     "width": 390,
     "height": 844,
     "backgroundColor": "#1b1030",
-    "scaleMode": "fit"
+    "scaleMode": "fit",
+    "maxTargetDpr": 3,
+    "physicalCanvasTarget": {
+      "width": 1170,
+      "height": 2532
+    }
   },
   "player": {
     "moveMode": "drag",

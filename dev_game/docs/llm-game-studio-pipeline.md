@@ -176,8 +176,8 @@ MVP 진행 중 placeholder는 허용될 수 있지만, **완료 보고 대상 pr
 
 - 스테이지/테마 배경 최소 3종, PNG/WebP/JPG, 1080×1920 기준 이상
 - 모든 런타임 에셋은 `dev_game/generated/<game-id>/assets/**` 내부에 존재하고 `provenance.source: generated-for-game`을 가진다
-- 이미지는 Codex `imagegen` 스킬 built-in 경로로 생성하고, `method: codex-gpt-imagegen-skill`, `model: gpt-image-2`, `sourceSkill: imagegen`, `promptHash`를 manifest에 남긴다
-- 생성물 안에 이미지 SDK/key runner나 서비스 호출 스크립트를 두지 않는다
+- 이미지는 `gpt 이미지젠 스킬` 경로로 생성하고, `method: codex-gpt-imagegen-skill`, `sourceSkill: imagegen`, `promptHash`를 manifest에 남긴다
+- 생성물 안에 외부 이미지 서비스 runner나 서비스 호출 스크립트를 두지 않는다
 - 주요 gameplay 에셋은 `quality: production-demo`로 manifest에 명시
 - 플레이어/위험/보상 실루엣이 0.2초 안에 구분됨
 - SVG/PNG 원본 비율 유지, 버튼/패널 비율 왜곡 금지

@@ -5,10 +5,9 @@ import path from 'node:path';
 const ALLOWED_BACKGROUND_FORMATS = new Set(['png', 'webp', 'jpg', 'jpeg']);
 const REQUIRED_IMAGEGEN_METHOD = 'codex-gpt-imagegen-skill';
 // The built-in image_gen tool does NOT expose its model version, so requiring an exact
-// string like "gpt-image-2" asserts something we cannot verify. method + sourceSkill already
-// prove imagegen-skill provenance; the model field only needs to name the built-in tool
-// (opaque version) and NOT be an external API/SDK route. Allow-list keeps legacy label valid.
-const ACCEPTED_IMAGEGEN_MODELS = new Set(['openai-builtin-image_gen (version opaque)', 'gpt-image-2']);
+// model field is descriptive only; method + sourceSkill prove gpt 이미지젠 스킬 provenance.
+// External API/SDK routes are rejected.
+const ACCEPTED_IMAGEGEN_MODELS = new Set(['gpt 이미지젠 스킬', 'openai-builtin-image_gen (version opaque)']);
 const REQUIRED_IMAGEGEN_SKILL = 'imagegen';
 const CORE_GAMEPLAY_ROLES = new Set([
   'player', 'vehicle', 'car', 'parcel', 'hazard', 'obstacle', 'enemy', 'boss',
@@ -34,7 +33,6 @@ Options:
   --allow-svg-backgrounds          Allow SVG stage backgrounds (default: false)
   --require-gpt-imagegen           Require all image assets to use Codex imagegen skill provenance
   --require-imagegen-skill         Alias for --require-gpt-imagegen
-  --require-gpt-image2-skill       Backward-compatible alias; still requires Codex imagegen skill provenance
   --help                          Show this help
 
 This gate is intentionally stricter than factory:qa. It decides whether a game is a
@@ -55,7 +53,7 @@ function parseArgs(argv) {
     else if (a === '--project') args.project = argv[++i];
     else if (a === '--min-stage-backgrounds') args.minStageBackgrounds = Number(argv[++i]);
     else if (a === '--allow-svg-backgrounds') args.allowSvgBackgrounds = true;
-    else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill' || a === '--require-gpt-image2-skill' || a === '--require-gpt-image2') args.requireGptImagegen = true;
+    else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill') args.requireGptImagegen = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.help && !args.project) throw new Error('Missing required --project <dir>');
@@ -144,13 +142,13 @@ function validateNoAssetSymlinks(projectDir, errors) {
 function validateNoExternalImageRunners(projectDir, errors) {
   const scanRoots = ['scripts', 'src', 'docs'];
   const forbidden = [
-    'OPENAI_' + 'API_KEY',
+    ['OPENAI', 'API', 'KEY'].join('_'),
     'from open' + 'ai import',
     'new Open' + 'AI',
     'client.' + 'images',
     'images.' + 'generate',
     'images.' + 'edit',
-    'generate_' + 'gpt_image2_assets',
+    'generate_' + 'gpt_imagegen_skill_assets',
   ];
   for (const rootName of scanRoots) {
     const root = path.join(projectDir, rootName);

@@ -24,7 +24,7 @@
   "images": [
     {
       "id": "player",
-      "path": "assets/characters/player.png",
+      "path": "assets/characters/player.webp",
       "type": "sprite",
       "role": "player",
       "minWidth": 64,
@@ -136,20 +136,71 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "dev_game/generated/sky-archer/qa-captures/button-polish-20260709/local-button-remaster",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
+          "button-resolution-remaster",
+          "alpha-safe-padding",
+          "runtime-size-match"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "61c1d999fc92fdf6",
+        "promptHash": "6158ab3599836549",
         "quality": "high"
       },
       "quality": "production-demo"
+    },
+    {
+      "id": "btn-frame-slim",
+      "type": "ui",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "path": "assets/ui/btn-frame-slim.png",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generated/sky-archer/qa-captures/button-polish-20260709/local-button-remaster",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "button-resolution-remaster",
+          "alpha-safe-padding",
+          "runtime-size-match"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "27be974964d03c80",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-frame-dialog",
+      "type": "ui",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "path": "assets/ui/btn-frame-dialog.png",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "sky-archer",
+        "generator": "dev_game/generated/sky-archer/qa-captures/button-polish-20260709/local-button-remaster",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "button-resolution-remaster",
+          "alpha-safe-padding",
+          "runtime-size-match"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "f471462ca60104cd",
+        "quality": "high"
+      }
     },
     {
       "id": "btn-pause",
@@ -160,17 +211,18 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
-        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "generator": "dev_game/generated/sky-archer/qa-captures/button-polish-20260709/local-button-remaster",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": false,
         "postProcessing": [
-          "chroma-key-removal",
-          "autocrop-resize"
+          "button-resolution-remaster",
+          "alpha-safe-padding",
+          "runtime-size-match"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
-        "promptHash": "76e2fd802d3f767a",
+        "promptHash": "28ea69daf5a4950a",
         "quality": "high"
       },
       "quality": "production-demo"
@@ -363,11 +415,11 @@
     "noSharedRuntimeAssets": true
   },
   "imagegen": {
-    "model": "openai-builtin-image_gen (version opaque)",
+    "model": "gpt 이미지젠 스킬",
     "method": "codex-gpt-imagegen-skill",
     "sourceSkill": "imagegen",
     "toolMode": "built-in-image_gen",
-    "lastRunAt": "2026-07-05T10:03:27.142Z",
+    "lastRunAt": "2026-07-09T14:20:00.000Z",
     "modelVerified": false
   }
 }

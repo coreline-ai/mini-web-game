@@ -46,7 +46,7 @@ Root causes confirmed in the baseline sample:
 Fixes applied:
 
 - Added Phaser `resolution = min(devicePixelRatio, 2)` and documented `physicalCanvasTarget = 780×1688`.
-- Regenerated/reprocessed HQ transparent PNG assets from Codex `imagegen` source sheets: player `3072×768`, fruit/balloon/FX `1024×1024`, arrow `1024×1536`, UI icons `512×512`.
+- Regenerated/reprocessed HQ transparent PNG assets from `gpt 이미지젠 스킬` source sheets: player `3072×768`, fruit/balloon/FX `1024×1024`, arrow `1024×1536`, UI icons `512×512`.
 - Remapped `hazard` to `assets/enemies/fruit.png` and `collectible` to `assets/items/balloon.png`; player spritesheet now loads `768×768` frames.
 - Replaced low-resolution text-button stretching with per-size `3×` generated button textures and one-shot input guards.
 - Pause icon now uses fixed `displaySize` press feedback and restores before entering the Pause scene.

@@ -39,7 +39,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -74,7 +74,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -128,7 +128,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -182,7 +182,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -237,7 +237,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -295,7 +295,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -342,7 +342,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -374,7 +374,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -407,7 +407,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -455,7 +455,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -505,7 +505,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -536,7 +536,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -571,7 +571,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -618,7 +618,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -645,7 +645,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -692,7 +692,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -739,7 +739,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -786,7 +786,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -830,7 +830,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -874,7 +874,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -918,7 +918,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -945,7 +945,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -972,7 +972,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -1058,7 +1058,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -1083,7 +1083,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -1108,7 +1108,7 @@
         "generatedFor": "castle-archer",
         "generator": "codex-imagegen-skill",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "modelVerified": true,
         "postProcessing": [
           "scene-artboard-slicing",
@@ -1130,7 +1130,7 @@
     "noSharedRuntimeAssets": true
   },
   "imagegen": {
-    "model": "gpt-image-2",
+    "model": "gpt 이미지젠 스킬",
     "modelVerified": true,
     "method": "codex-gpt-imagegen-skill",
     "sourceSkill": "imagegen",

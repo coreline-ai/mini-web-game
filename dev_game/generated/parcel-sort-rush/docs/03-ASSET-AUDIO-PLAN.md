@@ -38,7 +38,7 @@
 
 ## GPT Imagegen skill production pipeline
 
-이미지 생성은 Codex `imagegen` 스킬 built-in mode로 수행한다. 생성 결과는 기본 저장 위치인 `$CODEX_HOME/generated_images/...`에 생기므로, 프로젝트에서 사용할 최종 시트는 반드시 `assets/imagegen/sheets/**`로 복사한 뒤 통합한다. 프로젝트에는 이미지 SDK runner나 키 대기 스크립트를 두지 않는다.
+이미지 생성은 `gpt 이미지젠 스킬` built-in mode로 수행한다. 생성 결과는 기본 저장 위치인 `$CODEX_HOME/generated_images/...`에 생기므로, 프로젝트에서 사용할 최종 시트는 반드시 `assets/imagegen/sheets/**`로 복사한 뒤 통합한다. 프로젝트에는 이미지 SDK runner나 외부 인증 대기 스크립트를 두지 않는다.
 
 ```bash
 # 생성된 imagegen 시트를 프로젝트 전용 raw/runtime asset으로 통합
@@ -53,7 +53,6 @@ npm run assets:imagegen:verify
 필수 이미지 TASKS는 배경 3종, 플레이어/오퍼레이터 아바타, 택배 4종, 분류함 4종, 컨베이어, 스캐너, 피드백 이펙트 3종, HUD/모달 패널, 주요 버튼을 모두 포함한다. 통합이 성공하면 `assets/asset-manifest.json`의 각 이미지 항목은 다음 provenance를 갖는다.
 
 - `method: codex-gpt-imagegen-skill`
-- `model: gpt-image-2`
 - `sourceSkill: imagegen`
 - `source: generated-for-game`
 - `generatedFor: parcel-sort-rush`

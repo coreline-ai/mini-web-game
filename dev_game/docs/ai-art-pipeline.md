@@ -5,7 +5,7 @@
 > ## ⚠️ 게임 완성도 티어 — 무엇으로 개발하나
 >
 > **전제:** Claude는 이미지를 만들지 못한다(네이티브 이미지 생성 도구 없음). 프로덕션급 이미지 에셋은
-> Codex 내장 `image_gen`(`codex exec` → `.system/imagegen`, ChatGPT 인증, API 키 불필요)으로만 나온다.
+> `gpt 이미지젠 스킬`(`codex exec` → `.system/imagegen`, ChatGPT 인증, 외부 인증값 불필요)으로만 나온다.
 >
 > **⭐ 추천 — Codex 전용으로 게임 개발 → 프로덕션 MVP (최고 완성도):** 게임 코드와 프로덕션급 이미지
 > 에셋을 **모두 Codex 한 환경에서 네이티브로 생산**한다. 크로스툴 핸드오프가 없어 가장 높은 완성도의
@@ -49,11 +49,11 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 
 `codex-imagegen.mjs`는 **Codex `imagegen` 스킬의 built-in `image_gen` 도구**를 `codex exec`로 구동해 아트를 만든다.
 
-- 이미지 SDK runner, 키 대기, 외부 서비스 호출 스크립트를 생성물에 두지 않는다. Codex imagegen 스킬 built-in 경로만 사용한다.
+- 이미지 SDK runner, 외부 인증 대기, 외부 서비스 호출 스크립트를 생성물에 두지 않는다. `gpt 이미지젠 스킬` 경로만 사용한다.
 - 작동하는 codex 바이너리를 자동 탐지한다(nvm 설치가 깨져 있어도 antigravity/vscode 확장의 네이티브 바이너리를 글롭으로 찾음). 필요 시 `DEVGAME_CODEX_BIN=/path/to/codex`로 지정.
 - **배경**: 직접 생성(캔버스 크기 이상 래스터).
 - **스프라이트**: flat 크로마키 배경으로 생성 후 `~/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py --auto-key border`로 투명화.
-- 생성/존재하는 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", model:"gpt-image-2", sourceSkill:"imagegen", promptHash:<hash>}`로 승격하고, 배경 3종+핵심 스프라이트가 모두 실아트면 `qualityTier:"production-demo"`로 올린다.
+- 생성/존재하는 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", sourceSkill:"imagegen", promptHash:<hash>}`로 승격하고, 배경 3종+핵심 스프라이트가 모두 실아트면 `qualityTier:"production-demo"`로 올린다.
 - `--only wire`: 재생성 없이, 이미 존재하는(또는 외부 생성/복원된) 에셋으로 **게임 코드만 배선**(LoadingScene가 PNG 경로 로드, StageManager가 배경 표시) + manifest 승격.
 
 ### 게임 연동 (wireGameToAssets)
@@ -91,7 +91,7 @@ dev_game/.tmp/scene-composite-qa/<game-id>/*.png
 
 ## 🔒 이미지 품질 강제 규정 (MANDATORY)
 
-**모든 출시 이미지는 Codex imagegen 스킬 산출물이어야 한다. 임의/절차적/API 생성은 금지**되며, 게이트가 자동으로 강력 차단한다:
+**모든 출시 이미지는 gpt 이미지젠 스킬 산출물이어야 한다. 임의/절차적/API 생성은 금지**되며, 게이트가 자동으로 강력 차단한다:
 
 1. **provenance 강제**: `production-gate`가 `--require-gpt-imagegen`을 상시 주입 — 모든 manifest 이미지에 `method:"codex-gpt-imagegen-skill"`·`model`·`sourceSkill`·`promptHash`가 없으면 FAIL.
 2. **역할별 픽셀 게이트** (`factory:image-quality-qa`, production-gate 내장): 본 프로젝트(똥 피하기) 출시 에셋 실측을 기준으로 하되, 신규 장르의 실제 표시 크기와 role을 반영해 판정한다.

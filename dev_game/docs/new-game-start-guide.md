@@ -123,8 +123,8 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 - [ ] 장르별 핵심 액션이 실제로 동작함
 - [ ] 에셋이 검은 박스/깨진 이미지/비율 왜곡 없이 보임
 - [ ] scene-first artboard/slice-map 또는 contact-sheet 기준으로 runtime 재조합 화면을 비교함
-- [ ] 이미지 에셋은 Codex `imagegen` 스킬 경로로 생성되고 manifest에 `method: codex-gpt-imagegen-skill`, `model: gpt-image-2`, `sourceSkill: imagegen`, `promptHash`가 있음
-- [ ] 생성물에 이미지 SDK/key runner나 서비스 호출 스크립트가 없음
+- [ ] 이미지 에셋은 `gpt 이미지젠 스킬` 경로로 생성되고 manifest에 `method: codex-gpt-imagegen-skill`, `sourceSkill: imagegen`, `promptHash`가 있음
+- [ ] 생성물에 외부 이미지 서비스 runner나 서비스 호출 스크립트가 없음
 - [ ] `factory:production-demo-qa -- --require-gpt-imagegen`, `factory:image-quality-qa`, `factory:visual-layout-qa -- --viewports 390x844,430x932,1080x1920`, `factory:scene-composite-qa -- --viewports 390x844,430x932,1080x1920` 통과
 - [ ] `window.__GAME_LAYOUT_BOUNDS__`로 UI bounds를 노출함
 - [ ] 스테이지/테마 배경 3종 이상이 canvas 기준 크기 이상으로 존재함

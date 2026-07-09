@@ -83,8 +83,8 @@ function imagegenProvenance(gameId, id, prompt = '', extra = {}) {
     generator: 'dev_game/generator/scripts/codex-imagegen.mjs',
     method: 'codex-gpt-imagegen-skill',
     // 내장 image_gen 도구는 모델 버전을 노출하지 않는다. 정확한 모델명 미검증(opaque).
-    // 과거 'gpt-image-2'로 단정했으나 근거 없어 정정. (API/SDK 폴백 경로 아님)
-    model: 'openai-builtin-image_gen (version opaque)',
+    // 모델명 단정 대신 사용자 기준 명칭인 gpt 이미지젠 스킬로 기록한다.
+    model: 'gpt 이미지젠 스킬',
     modelVerified: false,
     postProcessing: ['chroma-key-removal', 'autocrop-resize'],
     sourceSkill: 'imagegen',

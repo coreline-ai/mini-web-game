@@ -7,10 +7,10 @@ browser view uses a centered 9:16 shell with a bright blurred background outside
 game canvas.
 
 ## Imagegen Provenance
-The style reference was created through the Codex `imagegen` skill and stored at
+The style reference was created through the `gpt 이미지젠 스킬` and stored at
 `assets/references/imagegen-road-stream-asset-sheet.png`. Runtime files were adapted
 from that reference into per-game FHD PNGs and are declared in `assets/asset-manifest.json`
-with `method:"codex-gpt-imagegen-skill"`, `model:"gpt-image-2"`, `sourceSkill:"imagegen"`,
+with `method:"codex-gpt-imagegen-skill"`, `sourceSkill:"imagegen"`,
 and per-asset `promptHash`.
 
 ## Runtime Images

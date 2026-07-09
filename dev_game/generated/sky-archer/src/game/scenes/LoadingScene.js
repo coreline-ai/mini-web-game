@@ -4,16 +4,20 @@ import { ASSET_KEYS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera } from '../systems/HiDpi.js';
 
 export default class LoadingScene extends Phaser.Scene {
   constructor() { super(SCENES.LOADING); }
   preload() {
+    applyLogicalCamera(this);
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 512, frameHeight: 512 });
+    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.webp', { frameWidth: 512, frameHeight: 512 });
     this.load.image(ASSET_KEYS.hazard, 'enemies/hazard.png');
     this.load.image(ASSET_KEYS.collectible, 'items/collectible.png');
     this.load.image('ui_frame', 'ui/btn-frame.png');
+    this.load.image('ui_frame_slim', 'ui/btn-frame-slim.png');
+    this.load.image('ui_frame_dialog', 'ui/btn-frame-dialog.png');
     this.load.image('ui_pause', 'ui/btn-pause.png');
     this.load.image('fx_hit', 'effects/fx-hit.png');
     this.load.image('fx_collect', 'effects/fx-collect.png');

@@ -7,6 +7,7 @@ import ScoreManager from '../systems/ScoreManager.js';
 import Spawner from '../systems/Spawner.js';
 import HudUI from '../ui/HudUI.js';
 import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera, logicalPointer } from '../systems/HiDpi.js';
 import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import ArrowSystem from '../systems/ArrowSystem.js';
@@ -18,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('arrow', 'items/arrow.png');
   }
   create() {
+    applyLogicalCamera(this);
     this.isOver = false;
     this.targetX = SPEC.canvas.width / 2;
     this.score = new ScoreManager();
@@ -46,12 +48,13 @@ export default class GameScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
   }
   onPointer(pointer) {
-    if (this.isOver || pointer.y < 82) return;
+    const p = logicalPointer(pointer);
+    if (this.isOver || p.y < 82) return;
     if (SPEC.player.moveMode === 'tap-lane') {
-      const lane = Math.floor(pointer.x / (SPEC.canvas.width / 3));
+      const lane = Math.floor(p.x / (SPEC.canvas.width / 3));
       this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);
     } else {
-      this.targetX = Phaser.Math.Clamp(pointer.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);
+      this.targetX = Phaser.Math.Clamp(p.x, TUNING.safeSide, SPEC.canvas.width - TUNING.safeSide);
     }
   }
   update(time, delta) {

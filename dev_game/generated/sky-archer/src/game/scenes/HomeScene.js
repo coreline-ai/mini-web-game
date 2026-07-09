@@ -6,10 +6,12 @@ import { AudioManager } from '../systems/AudioManager.js';
 import { makeTextButton } from '../ui/MobileButton.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
+import { applyLogicalCamera } from '../systems/HiDpi.js';
 
 export default class HomeScene extends Phaser.Scene {
   constructor() { super(SCENES.HOME); }
   create() {
+    applyLogicalCamera(this);
     AudioManager.stopMusic();
     const { width, height } = SPEC.canvas;
     { const bg = this.add.image(width / 2, height / 2, 'bg_0').setDepth(-10); bg.setScale(Math.max(width / bg.width, height / bg.height)); }

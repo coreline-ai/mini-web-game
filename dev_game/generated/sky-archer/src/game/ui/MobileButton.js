@@ -1,6 +1,14 @@
+function selectButtonTexture(scene, width, height) {
+  if (width === 220 && height <= 54 && scene.textures.exists('ui_frame_slim')) return 'ui_frame_slim';
+  if (width >= 225 && height <= 64 && scene.textures.exists('ui_frame_dialog')) return 'ui_frame_dialog';
+  if (scene.textures.exists('ui_frame')) return 'ui_frame';
+  return null;
+}
+
 export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58) {
+  const textureKey = selectButtonTexture(scene, width, height);
   const _k = 'btnui_' + width + 'x' + height;
-    if (!scene.textures.exists('ui_frame') && !scene.textures.exists(_k)) {
+    if (!textureKey && !scene.textures.exists(_k)) {
       const g = scene.make.graphics({ add: false });
       const r = Math.min(22, height / 2);
       g.fillStyle(0x0a3d1f, 1); g.fillRoundedRect(0, 0, width, height, r);
@@ -9,7 +17,7 @@ export function makeTextButton(scene, x, y, label, onClick, width = 190, height 
       g.lineStyle(2.5, 0xffffff, 0.9); g.strokeRoundedRect(1, 1, width - 2, height - 2, r);
       g.generateTexture(_k, width, height); g.destroy();
     }
-    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);
+    const bg = textureKey ? scene.add.image(x, y, textureKey).setDisplaySize(width, height) : scene.add.image(x, y, _k);
   const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);
   bg.setInteractive({ useHandCursor: true });
   bg.on('pointerdown', () => { bg.setDisplaySize(width * 0.96, height * 0.96); txt.setScale(0.96); onClick?.(); });

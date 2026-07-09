@@ -1,5 +1,10 @@
 {
   "assetsVersion": "1.0.0",
+  "assetFidelity": {
+    "logicalCanvas": { "width": 390, "height": 844 },
+    "maxTargetDpr": 3,
+    "physicalCanvasTarget": { "width": 1170, "height": 2532 }
+  },
   "imagePolicy": {
     "allowedFormats": [
       "svg",
@@ -285,11 +290,17 @@
   "stageBackgrounds": [
     {
       "id": "stage-1",
+      "stage": 1,
       "path": "assets/backgrounds/stage-1.png",
       "quality": "production-demo",
-      "source": "placeholder",
-      "minWidth": 1080,
-      "minHeight": 1920,
+      "source": "generated-for-game",
+      "minWidth": 1170,
+      "minHeight": 2532,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
@@ -309,11 +320,17 @@
     },
     {
       "id": "stage-2",
+      "stage": 2,
       "path": "assets/backgrounds/stage-2.png",
       "quality": "production-demo",
-      "source": "placeholder",
-      "minWidth": 1080,
-      "minHeight": 1920,
+      "source": "generated-for-game",
+      "minWidth": 1170,
+      "minHeight": 2532,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",
@@ -333,11 +350,17 @@
     },
     {
       "id": "stage-3",
+      "stage": 3,
       "path": "assets/backgrounds/stage-3.png",
       "quality": "production-demo",
-      "source": "placeholder",
-      "minWidth": 1080,
-      "minHeight": 1920,
+      "source": "generated-for-game",
+      "minWidth": 1170,
+      "minHeight": 2532,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash",

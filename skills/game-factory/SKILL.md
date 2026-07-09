@@ -67,7 +67,7 @@ A game may be reported as complete only after it satisfies the production-demo c
 - Audio exists and state control works: gameplay music only during gameplay, paused/stopped on pause/home/background.
 - `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, and `factory:scene-composite-qa` pass for the generated project.
 - If the game has DPR/source-size concerns, `hqScreenAssets`, or market-event content, also run `factory:hq-screen-quality-qa`; market news depth is required only when `marketConfig.js` exists or `--require-market-events` is passed.
-- Image assets are produced through the Codex `imagegen` skill path, then copied into the generated game. Manifest provenance for imagegen assets uses `method: "codex-gpt-imagegen-skill"`, `model: "gpt-image-2"`, `sourceSkill: "imagegen"`, and a `promptHash`.
+- Image assets are produced through the `gpt 이미지젠 스킬` 경로, then copied into the generated game. Manifest provenance for imagegen assets uses `method: "codex-gpt-imagegen-skill"`, `sourceSkill: "imagegen"`, and a `promptHash`.
 - No generated game may include external image SDK runners, image-key setup steps, or service-backed asset-generation commands.
 - Visual QA covers Loading, Home, Game, Pause, and GameOver at 390×844, 430×932, and 1080×1920. It must catch canvas off-centering, HUD/pause overlap, coin/text baseline mismatch, stretched buttons, item-card clipping, panel overflow, required layout item omissions, and missing safe-area margins. Scenes should declare `requiredIds` for HUD text, buttons, panels, game playfield, hit zones, and result stamps.
 - Scene-first composite QA is mandatory: create representative full-scene artboards or equivalent contact sheets before slicing assets, then verify runtime recomposition with `factory:scene-composite-qa`. It must catch clipped warning/stamp icons, broken button top bars, transparent parcel/vehicle faces, hollow chutes/bins, broken conveyor/road strips, invisible panel borders, and browser/OS overlay contamination.
@@ -87,7 +87,7 @@ npm --prefix dev_game run factory:make -- --spec generator/examples/<id>.spec.js
 # --skip-art (structure only) | --gate none|demo|full | --stages N
 ```
 
-AI art uses the Codex `imagegen` skill built-in mode / `image_gen` tool. Do not create external image SDK runners, do not wait for image service keys, and do not leave project assets under `$CODEX_HOME/generated_images`. Every generated game ships game-specific stage backgrounds, sprites/animation, UI/buttons/FX, audio, and layout-QA compliance. See `dev_game/docs/ai-art-pipeline.md`. The steps below are the same pipeline done manually for finer control.
+AI art uses the `gpt 이미지젠 스킬` built-in mode. Do not create external image SDK runners, do not wait for image service keys, and do not leave project assets under `$CODEX_HOME/generated_images`. Every generated game ships game-specific stage backgrounds, sprites/animation, UI/buttons/FX, audio, and layout-QA compliance. See `dev_game/docs/ai-art-pipeline.md`. The steps below are the same pipeline done manually for finer control.
 
 ## Required workflow
 

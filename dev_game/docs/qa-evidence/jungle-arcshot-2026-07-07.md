@@ -13,7 +13,7 @@
 
 2026-07-07 `game-polish` Class L/Class I pass for icons, buttons, and image assets:
 
-- Reprocessed Codex `imagegen` source sheets into transparent runtime assets:
+- Reprocessed `gpt 이미지젠 스킬` source sheets into transparent runtime assets:
   player `3072×768` (`768×768` frames), fruit `768×768`, balloon `512×768`, arrow `512×1024`, FX `1024×1024`, pause/sound/home/retry icons `512×512`.
 - Runtime remap: `hazard` now loads `assets/enemies/fruit.png`, `collectible` now loads `assets/items/balloon.png`; old `128×128` SVG placeholder load path removed.
 - DPR fix: Phaser canvas now renders at physical `780×1688` for `390×844` DPR2 while the camera keeps the logical `390×844` coordinate system.

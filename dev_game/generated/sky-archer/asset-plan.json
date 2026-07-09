@@ -3,7 +3,12 @@
   "title": "Sky Archer",
   "canvas": {
     "width": 390,
-    "height": 844
+    "height": 844,
+    "maxTargetDpr": 3,
+    "physicalCanvasTarget": {
+      "width": 1170,
+      "height": 2532
+    }
   },
   "styleGuide": {
     "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
@@ -21,7 +26,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Origin",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Origin\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Origin\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
     },
     {
       "id": "stage-2",
@@ -29,7 +34,7 @@
       "width": 1080,
       "height": 1920,
       "theme": "Night Rush",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Night Rush\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Night Rush\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
     },
     {
       "id": "stage-3",
@@ -37,14 +42,14 @@
       "width": 1080,
       "height": 1920,
       "theme": "Deep Field",
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Deep Field\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) \u2014 this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep all detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center and bottom. A clean glossy 3D-cartoon environment, NOT a busy detailed painting. Vertical PORTRAIT mobile game background, theme \"Deep Field\" for Sky Archer. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: anchored on #1b1030 bg, #8be27c hero, #ffd54a reward."
     }
   ],
   "sprites": [
     {
       "id": "player",
       "role": "player",
-      "path": "assets/characters/player.png",
+      "path": "assets/characters/player.webp",
       "width": 256,
       "height": 256,
       "frames": 4,
@@ -73,7 +78,7 @@
       "path": "assets/items/arrow.png",
       "width": 128,
       "height": 256,
-      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights. STRICTLY NOT painterly, NOT realistic, NOT gacha splash art. NO busy high-frequency texture. A single vertical arrow projectile pointing straight UP for a shooter game \u2014 glossy 3D-cartoon style, simple bold readable silhouette, tapered arrowhead at top and fletching at bottom. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background filling the frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft edge, NO colored fringe, NO haze."
+      "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights. STRICTLY NOT painterly, NOT realistic, NOT gacha splash art. NO busy high-frequency texture. A single vertical arrow projectile pointing straight UP for a shooter game — glossy 3D-cartoon style, simple bold readable silhouette, tapered arrowhead at top and fletching at bottom. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background filling the frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft edge, NO colored fringe, NO haze."
     }
   ],
   "ui": [
@@ -81,17 +86,53 @@
       "id": "btn-frame",
       "role": "ui-icon",
       "path": "assets/ui/btn-frame.png",
-      "width": 768,
-      "height": 256,
-      "prompt": "A single WIDE horizontal pill-shaped mobile game button, vibrant green with a smooth gradient and a bright glossy top highlight, HARD CRISP edges. The button is very wide (roughly 3:1) and fills the whole frame edge to edge. NO text, NO icon, NO outer glow, NO drop shadow, NO blur \u2014 the area outside the pill must be flat solid pure magenta right up to the crisp button edge."
+      "width": 1320,
+      "height": 384,
+      "prompt": "Glossy fantasy green pill action button background, no text, no icon, transparent padding, exact 220x64 logical DPR-safe source.",
+      "displayContract": {
+        "targetDpr": 3,
+        "sourceScale": 6,
+        "runtimeStretch": "none for assigned logical button size"
+      }
+    },
+    {
+      "id": "btn-frame-slim",
+      "role": "ui-icon",
+      "path": "assets/ui/btn-frame-slim.png",
+      "width": 1320,
+      "height": 312,
+      "prompt": "Glossy fantasy green slim pill button background, no text, transparent padding, exact 220x52 logical DPR-safe source.",
+      "displayContract": {
+        "targetDpr": 3,
+        "sourceScale": 6,
+        "runtimeStretch": "none for assigned logical button size"
+      }
+    },
+    {
+      "id": "btn-frame-dialog",
+      "role": "ui-icon",
+      "path": "assets/ui/btn-frame-dialog.png",
+      "width": 1380,
+      "height": 372,
+      "prompt": "Glossy fantasy green dialog pill button background, no text, transparent padding, exact 230x62 logical DPR-safe source.",
+      "displayContract": {
+        "targetDpr": 3,
+        "sourceScale": 6,
+        "runtimeStretch": "none for assigned logical button size"
+      }
     },
     {
       "id": "btn-pause",
       "role": "ui-icon",
       "path": "assets/ui/btn-pause.png",
-      "width": 256,
-      "height": 256,
-      "prompt": "A circular glossy green mobile game pause button showing two rounded white vertical bars (pause symbol), glossy top highlight, HARD CRISP circular edge, NO outer glow, NO drop shadow \u2014 flat solid pure magenta right up to the circle edge, centered and filling the frame."
+      "width": 768,
+      "height": 768,
+      "prompt": "Glossy circular green pause button with large rounded white pause bars, transparent padding, DPR-safe source.",
+      "displayContract": {
+        "targetDpr": 3,
+        "sourceScale": 6,
+        "runtimeStretch": "none for assigned logical button size"
+      }
     }
   ],
   "fx": [

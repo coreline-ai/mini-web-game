@@ -361,7 +361,7 @@ Apply these changes to `docs/impl-plan-mvp.md`:
 If not patched into the MVP plan immediately, capture these later:
 
 1. **Stage/event system plan** — convert concept stages 1–10 into JSON-driven patterns after MVP.
-2. **Asset generation backlog** — separate SVG assets vs GPT Image 2 raster polish outputs.
+2. **Asset generation backlog** — separate SVG assets vs `gpt 이미지젠 스킬` 기반 raster polish outputs.
 3. **Audio/haptics pass** — add tic/near-miss/golden/game-over sounds and mobile vibration.
 4. **Monetization/continue design** — define ad continue limits and fairness rules.
 5. **Skin/shop economy plan** — define coin drop rates, skin prices, and retention loops.

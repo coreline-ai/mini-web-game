@@ -154,7 +154,7 @@ If any symptom remains, report **후보정 미완료** with the open defect list
 ## Scope limits
 
 - No new game creation, no scaffold regeneration, no asset-pipeline changes — route those to `game-factory`.
-- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same Codex `imagegen` skill path and provenance rules as `game-factory`.
+- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`.
 - Do not add features during polish. Difficulty/progression fixes (classes D/E) adjust existing systems to the contract; new mechanics are a `game-factory` expansion request.
 
 ## Response format

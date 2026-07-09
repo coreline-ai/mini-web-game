@@ -51,7 +51,7 @@ function splitArgs(argv) {
       productionArgs.push(a, argv[++i]);
     } else if (a === '--allow-svg-backgrounds') {
       productionArgs.push(a);
-    } else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill' || a === '--require-gpt-image2-skill' || a === '--require-gpt-image2') {
+    } else if (a === '--require-gpt-imagegen' || a === '--require-imagegen-skill') {
       productionArgs.push(a);
     } else if (a === '--port') {
       const value = argv[++i];

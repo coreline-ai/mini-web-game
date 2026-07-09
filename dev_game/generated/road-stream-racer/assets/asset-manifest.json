@@ -4,7 +4,7 @@
   "gameId": "road-stream-racer",
   "imagegen": {
     "method": "codex-gpt-imagegen-skill",
-    "model": "gpt-image-2",
+    "model": "gpt 이미지젠 스킬",
     "sourceSkill": "imagegen",
     "referenceAsset": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png",
     "note": "2026-07-08 polish regenerated high-detail source sheets and road art with the Codex imagegen skill, then chroma-key removed and repacked each runtime asset for native-FHD Road Stream Racer. The forest side overlay is composited from the imagegen stage background to separate rich scenery from the runtime-scrolled road loop; 2026-07-09 polish tightened that overlay to vegetation-only side gutters matching the current straight road geometry.",
@@ -60,7 +60,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-1-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -86,7 +86,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-2-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -112,7 +112,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-3-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -140,7 +140,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-straight-1-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -166,7 +166,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-straight-2-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -192,7 +192,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-construction-1-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -218,7 +218,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-construction-2-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -244,7 +244,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-crosswalk-1-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
@@ -270,7 +270,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-flat-seamless-polish-20260708",
         "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
@@ -297,7 +297,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-flat-forest-loop-1080x1920-polish-20260708",
         "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
@@ -325,7 +325,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "forest-side-overlay-tree-skin-polish-20260709",
         "rawPath": "assets/backgrounds/stage-1.png",
@@ -356,7 +356,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "player-car-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png"
@@ -379,7 +379,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-blue-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -406,7 +406,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-yellow-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -433,7 +433,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-truck-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -460,7 +460,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "cone-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -487,7 +487,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "barricade-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -517,7 +517,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "coin-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -544,7 +544,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "boost-pad-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
@@ -571,7 +571,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-frame-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -598,7 +598,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-pause-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -625,7 +625,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-boost-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -652,7 +652,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "top-right-home-icon-clean-hq-polish-20260709",
         "rawPath": "assets/references/imagegen-road-stream-hud-home-clean-20260709.png",
@@ -680,7 +680,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "top-right-pause-icon-clean-hq-polish-20260709",
         "rawPath": "assets/references/imagegen-road-stream-hud-pause-clean-20260709.png",
@@ -704,7 +704,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-hit-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -727,7 +727,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-collect-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
@@ -750,7 +750,7 @@
         "source": "generated-for-game",
         "generatedFor": "road-stream-racer",
         "method": "codex-gpt-imagegen-skill",
-        "model": "gpt-image-2",
+        "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-boost-hq-polish-20260708-1439",
         "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"

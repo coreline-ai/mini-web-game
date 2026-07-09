@@ -27,7 +27,7 @@ Manual capture verified:
 ## Polish Pass — HQ Asset Rebuild + Lane Control
 
 Scope:
-- Rebuilt road/background/player/traffic/obstacle/item/UI/FX assets from new Codex imagegen sources and repacked them for native FHD runtime use.
+- Rebuilt road/background/player/traffic/obstacle/item/UI/FX assets from new gpt 이미지젠 스킬 sources and repacked them for native FHD runtime use.
 - Reworked lane input from continuous pointer-X retargeting to tap/swipe lane commands with cooldown, world-coordinate normalization, eased movement, velocity lean, and player shadow.
 - Fixed boost pad motion so it no longer rotates like a coin.
 - Adjusted HUD band to satisfy both visual safe margins and scene-composite artifact detection.

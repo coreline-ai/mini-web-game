@@ -20,7 +20,7 @@ Placeholder-only assets are not acceptable for final delivery.
 - 주요 플레이 에셋이 단순 도형/SVG placeholder인 상태
 - HUD, 버튼, 코인, 점수, pause 등 UI가 safe area 안에서 겹치는 상태
 - 음악/SFX가 없거나 pause/home/background 상태 제어가 깨진 상태
-- 이미지 자산 생성이 Codex `imagegen` 스킬 경로가 아니거나, 생성물에 이미지 SDK/key 스크립트가 남아 있는 상태
+- 이미지 자산 생성이 `gpt 이미지젠 스킬` 경로가 아니거나, 생성물에 외부 이미지 서비스 스크립트가 남아 있는 상태
 - `production-demo-qa --require-gpt-imagegen`, `visual-layout-qa`, `image-quality-qa`, `scene-composite-qa` 중 하나라도 실패한 상태
 
 ## 1. Production Demo 산출물 정의
@@ -86,9 +86,9 @@ Placeholder-only assets are not acceptable for final delivery.
 - `asset-manifest.json`에는 `assetIsolation.mode: "per-game"`, `assetIsolation.generatedFor: "<game-id>"`, `assetIsolation.noSharedRuntimeAssets: true`를 명시한다.
 - 모든 manifest entry는 `provenance.source: "generated-for-game"`, `provenance.generatedFor: "<game-id>"`를 가진다.
 
-### 2.0.1 Codex imagegen skill provenance
+### 2.0.1 gpt 이미지젠 스킬 provenance
 
-최종 production-demo 이미지 자산은 Codex `imagegen` 스킬 built-in mode로 생성한 뒤 프로젝트에 복사/통합한다. 생성물 안에 이미지 SDK runner, 키 대기 스크립트, 서비스 호출 스크립트를 두지 않는다.
+최종 production-demo 이미지 자산은 `gpt 이미지젠 스킬` built-in mode로 생성한 뒤 프로젝트에 복사/통합한다. 생성물 안에 이미지 SDK runner, 외부 인증 대기 스크립트, 서비스 호출 스크립트를 두지 않는다.
 
 이미지/배경 manifest 항목은 아래 provenance를 가져야 한다.
 
@@ -98,8 +98,7 @@ Placeholder-only assets are not acceptable for final delivery.
     "source": "generated-for-game",
     "generatedFor": "<game-id>",
     "method": "codex-gpt-imagegen-skill",
-    "model": "gpt-image-2",
-    "sourceSkill": "imagegen",
+        "sourceSkill": "imagegen",
     "promptHash": "<sha256-prefix>",
     "quality": "high"
   }
