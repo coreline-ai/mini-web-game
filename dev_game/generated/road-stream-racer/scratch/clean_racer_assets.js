@@ -1,8 +1,9 @@
 import { Jimp } from 'jimp';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-const PROJECT_ROOT = '/Users/iriver/hwan/projects/mini-web-game/dev_game/generated/road-stream-racer';
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ASSETS_DIR = path.join(PROJECT_ROOT, 'assets');
 
 // 에지 페더링 및 디헤일로(De-halo) 처리 함수

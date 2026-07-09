@@ -1,8 +1,9 @@
 import { Jimp } from 'jimp';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-const PROJECT_ROOT = '/Users/iriver/hwan/projects/mini-web-game/dev_game/generated/road-stream-racer';
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET_DIR = path.join(PROJECT_ROOT, 'assets/ui');
 
 const SOURCES = {

@@ -36,7 +36,7 @@ npm run preview
 
 ```bash
 npm --prefix dev_game run factory:production-gate -- \
-  --project /Users/iriver/hwan/projects/mini-web-game/dev_game/generated/target-shooter-rush \
+  --project dev_game/generated/target-shooter-rush \
   --require-gpt-imagegen \
   --viewports 390x844,430x932,1080x1920
 ```
