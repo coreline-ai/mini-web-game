@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
-import { TUNING } from '../constants/tuning.js';
+import { TUNING, su } from '../constants/tuning.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { AudioManager } from '../systems/AudioManager.js';
 import { Juice } from '../systems/Juice.js';
@@ -13,9 +13,9 @@ export const SHIELD = {
   firstAtMs: 12000,
   everyMs: 16000,
   chance: 0.65,
-  fallSpeed: 150,
+  fallSpeed: su(150),
   invulnMs: 800,
-  size: 60,
+  size: su(60),
 };
 
 export default class ShieldSystem {
@@ -26,17 +26,17 @@ export default class ShieldSystem {
     this.invulnUntil = 0;
     this.stats = { pickups: 0, blocks: 0 };
 
-    if (!scene.textures.exists('shield')) {
+    if (!scene.textures.exists(ASSET_KEYS.shield)) {
       const g = scene.add.graphics();
       g.lineStyle(6, 0x58c7f2, 1).strokeCircle(32, 32, 26);
       g.fillStyle(0x58c7f2, 0.35).fillCircle(32, 32, 24);
-      g.generateTexture('shield', 64, 64);
+      g.generateTexture(ASSET_KEYS.shield, 64, 64);
       g.destroy();
     }
     this.items = scene.physics.add.group({ maxSize: 3, allowGravity: false });
     // 장착 링 (플레이어 추종)
     this.ring = scene.add.circle(0, 0, TUNING.playerSize * 0.62, 0x58c7f2, 0.16)
-      .setStrokeStyle(3.5, 0x58c7f2, 0.9).setDepth(9).setVisible(false);
+      .setStrokeStyle(su(3.5), 0x58c7f2, 0.9).setDepth(9).setVisible(false);
     scene.physics.add.overlap(scene.player, this.items, (_p, it) => this.pickup(it), undefined, scene);
   }
 
@@ -47,7 +47,7 @@ export default class ShieldSystem {
     this.hasShield = true;
     this.stats.pickups += 1;
     this.ring.setVisible(true).setAlpha(1);
-    Juice.burst(this.scene, _x, _y, 0x58c7f2, 'fx_collect');
+    Juice.burst(this.scene, _x, _y, 0x58c7f2, ASSET_KEYS.fx.collect);
     Juice.scorePop(this.scene, _x, _y, 'SHIELD!');
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxCollect, 0.6);
   }
@@ -63,8 +63,8 @@ export default class ShieldSystem {
     // 실드 파열 연출 + 무적 깜빡임 (§A: 종료 시 완전 복원)
     this.ring.setVisible(false);
     Juice.shake(this.scene);
-    Juice.burst(this.scene, this.scene.player.x, this.scene.player.y, 0x58c7f2, 'fx_hit');
-    Juice.scorePop(this.scene, this.scene.player.x, this.scene.player.y - 40, 'BLOCKED!');
+    Juice.burst(this.scene, this.scene.player.x, this.scene.player.y, 0x58c7f2, ASSET_KEYS.fx.hit);
+    Juice.scorePop(this.scene, this.scene.player.x, this.scene.player.y - su(40), 'BLOCKED!');
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxHit, 0.55);
     this.scene.tweens.killTweensOf(this.scene.player);
     this.scene.tweens.add({
@@ -79,17 +79,17 @@ export default class ShieldSystem {
     if (elapsedMs >= this.nextAt) {
       this.nextAt = elapsedMs + SHIELD.everyMs;
       if (Math.random() < SHIELD.chance && this.items.countActive(true) === 0) {
-        const x = Phaser.Math.Between(TUNING.safeSide + 30, SPEC.canvas.width - TUNING.safeSide - 30);
-        const it = this.items.get(x, -50, 'shield');
+        const x = Phaser.Math.Between(TUNING.safeSide + su(30), SPEC.canvas.width - TUNING.safeSide - su(30));
+        const it = this.items.get(x, -su(50), ASSET_KEYS.shield);
         if (it) {
-          it.enableBody(true, x, -50, true, true);
+          it.enableBody(true, x, -su(50), true, true);
           it.setDepth(4).setDisplaySize(SHIELD.size, SHIELD.size).setAlpha(1);
           it.body.setCircle((Math.min(it.width, it.height) / 2) * 0.8, it.width * 0.1, it.height * 0.1);
           it.setVelocity(0, SHIELD.fallSpeed);
         }
       }
     }
-    this.items.children.each((it) => { if (it.active && it.y > SPEC.canvas.height + 80) it.disableBody(true, true); });
+    this.items.children.each((it) => { if (it.active && it.y > SPEC.canvas.height + su(80)) it.disableBody(true, true); });
     if (this.ring.visible) this.ring.setPosition(this.scene.player.x, this.scene.player.y);
   }
 

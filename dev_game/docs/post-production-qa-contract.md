@@ -30,6 +30,7 @@ Every visible shape in a final capture must have a declared identity.
 | "버튼이 눌린 채로 있어", "두 번 누르면 이상해져", "연타하면 꼬여" | I. Input Robustness 위반 |
 | "새로고침하니 기록이 사라졌어", "탭 갔다 오니 게임이 망가져" | J. Persistence/Session 불연속 |
 | "오래 하면 느려져", "리트라이 반복하면 버벅여" | K. Long-Run 불안정 |
+| "겹쳤는데 안 먹혀", "코인이 차를 지나가", "특정 부분에서만 판정돼" | M. Physics Bounds 정합성 위반 |
 | "에셋이 저화질이야", "화면이 흐릿해", "프로토타입 UI처럼 보여" | L. Asset Fidelity 위반 |
 
 번역 결과는 해당 게임의 `docs/06-FINAL-QA-SUMMARY.md`에 남긴다.
@@ -290,6 +291,30 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 - 2분 이상 자동 플레이 + retry 5회 반복 중 `activeTweens`/타이머 수/displayList 크기/FPS를 주기 샘플링.
 - 정상 상태 기준 대비 단조 증가(누수 신호)가 없는지 assert.
 
+### M. Physics Bounds Alignment — 보이는 스프라이트와 판정 body 정합성
+
+**문제 클래스**: 런타임 스프라이트는 의도 크기로 표시되지만 Arcade Physics body가 원본 텍스처 좌표계와 표시 좌표계를 혼용해 너무 작거나 한쪽으로 치우친 상태.
+
+**증상 시그니처**:
+
+- 코인/아이템이 플레이어와 시각적으로 겹치거나 가까이 지나가는데 수집되지 않음
+- 장애물이나 수집물이 보이는 크기 전체가 아니라 일부 작은 영역에서만 반응함
+- `setDisplaySize()` 이후 `body.setSize()`/`body.setCircle()` 값을 표시 픽셀처럼 넣었는데, 실제 body는 원본 텍스처 scale이 다시 곱해져 축소됨
+- 풀에서 재사용된 오브젝트가 이전 body 크기나 offset을 들고 다시 등장함
+
+**수정 규칙**:
+
+1. 물리 body의 의도 크기는 표시/world 픽셀 기준으로 선언하고, `setDisplaySize()` 이후 현재 `scaleX/scaleY`로 나누어 source-space body 크기로 변환한다.
+2. `body.setSize(..., true)` 또는 동등한 helper로 body를 중앙 정렬하고, 풀 재사용 스폰마다 시각 크기와 body 크기를 함께 리셋한다.
+3. 수집 아이템은 보이는 아이템 bounds와 수집 body가 같은 중심과 의도 크기를 갖게 한다. 원형 body를 쓰는 경우 radius와 offset도 표시 좌표에서 source 좌표로 변환한다.
+4. 플레이어의 충돌 body와 수집 sensor가 다른 의도를 가질 경우, 두 판정 영역을 명시적으로 분리하고 각각의 world 크기를 샘플에 기록한다.
+
+**기계 검증**:
+
+- 같은 viewport에서 플레이어 bounds와 아이템 bounds를 강제 overlap시킨 뒤 `visualOverlap === true`인 케이스가 모두 수집되는지 assert한다.
+- 상태 샘플에 `displayWidth/displayHeight`, `body.width/body.height`, `body.center`, `body.offset`, `isCircle/radius`를 기록하고 의도 world body 크기와 비교한다.
+- 스폰 풀 재사용을 5회 이상 반복해 매번 body 크기와 중심이 동일하게 리셋되는지 확인한다.
+
 ### L. Asset Fidelity Contract — 최종 화면 에셋 품질 / DPR 정합성
 
 **문제 클래스**: 파일 단위 에셋은 존재하지만 최종 렌더 화면이 저해상도, 흐릿한 배경, 평면 런타임 사각형, 임시 UI 조합처럼 보이는 품질 불일치. 특히 논리 캔버스(`390x844` 등), 브라우저 CSS 크기, 실제 캔버스 backing store, 원본 이미지 픽셀, 디스플레이 DPR이 서로 맞지 않아 다운샘플링 후 다시 업스케일되는 구조.
@@ -336,7 +361,7 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 |---|---|
 | D(난이도 축), E(진행/종료) | 계획 단계 — GDD/Tech-design 필수 항목 |
 | A(생명주기), B(단일성), C(UI 분리), H(오디오 상태), I(입력 견고성) | 구현 규칙 + 캡처 QA 검사 항목 |
-| J(지속성/세션), K(장시간 안정성), L(에셋 품질) | 캡처 QA 검사 항목 + 전용 스윕(리로드/visibility/장시간 자동 플레이/HQ 화면 검사) |
+| J(지속성/세션), K(장시간 안정성), M(판정 body 정합성), L(에셋 품질) | 캡처 QA 검사 항목 + 전용 스윕(리로드/visibility/장시간 자동 플레이/판정 bounds/HQ 화면 검사) |
 | F(수치 증거), G(재캡처 루프·회귀 누적·트리아지) | Evidence handling + 완료 기준 |
 
 ## 4. 관련 문서

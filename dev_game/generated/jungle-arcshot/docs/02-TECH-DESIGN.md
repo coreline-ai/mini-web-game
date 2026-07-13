@@ -1,7 +1,7 @@
 # 02 · Technical Design — Jungle Arc Shot
 
 ## Engine & rendering
-Phaser 3 + Vite, 논리 캔버스 390×844, Scale.FIT + CENTER_BOTH. Arcade physics(화살만 중력).
+Phaser 3 + Vite, native logical canvas 1080×1920, Scale.FIT/CENTER_BOTH from `SPEC.canvas.scaleMode: "fit"`. The original 390×844 mobile composition is mapped into the centered safe region with `worldX()`, `su()`, `sy()`, `fontPx()`, and `strokePx()`. Arcade physics(화살만 중력).
 
 ## Scenes
 Boot → Loading → Home → Game → Pause → GameOver. (Foundation shell 재사용)
@@ -22,7 +22,7 @@ Boot → Loading → Home → Game → Pause → GameOver. (Foundation shell 재
 arrow(중력+바람, 관통) × fruit/balloon(원형) → 제거+콤보. 플레이어 무피격. 지면 도달 화살 = 소멸.
 
 ## GameScene 오버라이드
-Spawner 미생성. 생존 점수 0(elapsedMs만). preload로 fruit/balloon/arrow 로드. `__JUNGLE_DEBUG__.get()` — round/arrowsLeft/wind/fired/hits/pierceBest/targets[]/playerX,Y/over/reason (씬 종료 후 안전).
+Spawner 미생성. 생존 점수 0(elapsedMs만). `LoadingScene`이 `gameKeys.js`의 중앙 런타임 PNG/WAV 목록을 프리로드하며, `GameScene`은 fruit/balloon/arrow late preload를 하지 않는다. `__JUNGLE_DEBUG__.get()` — round/arrowsLeft/wind/fired/hits/pierceBest/targets[]/playerX,Y/over/reason (씬 종료 후 안전).
 
 ## State flow
 Home→Game(R1 배너)→[Pause↔]→(화살소진|R10 올클리어)→GameOver(score,coins)→Retry/Home.

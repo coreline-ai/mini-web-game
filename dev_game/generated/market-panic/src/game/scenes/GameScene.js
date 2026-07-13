@@ -38,6 +38,26 @@ export default class GameScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
     this.render(true);
+    window.__MARKET_PANIC_DEBUG__ = {
+      get: () => {
+        const snap = this.engine?.snapshot?.();
+        return {
+          over: this.isOver,
+          runtimeStrategy: 'native-fhd-canvas',
+          logicalCanvas: { width: SPEC.canvas.width, height: SPEC.canvas.height },
+          canvasBacking: { width: this.sys.game.canvas.width, height: this.sys.game.canvas.height },
+          activeStage: this.engine?.stageIndex ?? 0,
+          selectedTickerId: snap?.selectedTickerId || null,
+          tickerCount: snap?.tickers?.length || 0,
+          eventId: snap?.event?.id || null,
+          portfolio: snap?.portfolio,
+          risk: snap?.risk,
+          confidence: snap?.confidence,
+          score: this.engine?.score ?? 0,
+          domVisible: this.domUi?.visible === true,
+        };
+      },
+    };
   }
 
   applyAction(action) {
@@ -112,6 +132,7 @@ export default class GameScene extends Phaser.Scene {
     this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);
     if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
     this.domUi?.destroy();
+    if (typeof window !== 'undefined') delete window.__MARKET_PANIC_DEBUG__;
     clearLayout();
   }
 }

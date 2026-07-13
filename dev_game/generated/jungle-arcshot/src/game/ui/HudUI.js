@@ -1,4 +1,5 @@
 import { SPEC } from '../data/spec.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { fontPx, strokePx, su, worldX } from '../constants/tuning.js';
 import { makeTextButton } from './MobileButton.js';
 
@@ -6,10 +7,10 @@ export default class HudUI {
   constructor(scene, onPause) {
     this.scoreText = scene.add.text(worldX(18), su(18), 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(18), color: '#ffffff', stroke: '#000000', strokeThickness: strokePx(4) }).setDepth(20);
     this.levelText = scene.add.text(worldX(18), su(44), 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(14), color: '#b9d7ff', stroke: '#000000', strokeThickness: strokePx(3) }).setDepth(20);
-    if (scene.textures.exists('ui_pause')) {
+    if (scene.textures.exists(ASSET_KEYS.ui.pause)) {
       const normalSize = su(56);
       const pressedSize = su(52);
-      const img = scene.add.image(worldX(344), su(42), 'ui_pause').setDisplaySize(normalSize, normalSize).setInteractive({ useHandCursor: true });
+      const img = scene.add.image(worldX(344), su(42), ASSET_KEYS.ui.pause).setDisplaySize(normalSize, normalSize).setInteractive({ useHandCursor: true });
       let locked = false;
       const restore = () => img.setDisplaySize(normalSize, normalSize);
       img.on('pointerdown', (_pointer, _localX, _localY, event) => {

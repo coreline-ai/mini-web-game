@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
-import { ASSET_KEYS } from '../constants/gameKeys.js';
+import { AUDIO_PATHS, IMAGE_PATHS, SPRITESHEET_PATHS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 import { applyHiDpiCamera } from '../config.js';
 
@@ -12,29 +12,12 @@ export default class LoadingScene extends Phaser.Scene {
     applyHiDpiCamera(this);
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 736, frameHeight: 736 });
-    this.load.image(ASSET_KEYS.hazard, 'enemies/fruit.png');
-    this.load.image(ASSET_KEYS.collectible, 'items/balloon.png');
-    this.load.image('fruit', 'enemies/fruit.png');
-    this.load.image('balloon', 'items/balloon.png');
-    this.load.image('arrow', 'items/arrow.png');
-    this.load.image('ui_frame', 'ui/btn-frame.png');
-    this.load.image('ui_pause', 'ui/btn-pause.png');
-    this.load.image('ui_sound_on', 'ui/icon-sound-on.png');
-    this.load.image('ui_sound_off', 'ui/icon-sound-off.png');
-    this.load.image('ui_home', 'ui/icon-home.png');
-    this.load.image('ui_retry', 'ui/icon-retry.png');
-    this.load.image('fx_hit', 'effects/fx-hit.png');
-    this.load.image('fx_collect', 'effects/fx-collect.png');
-    this.load.image('bg_0', 'backgrounds/stage-1.png');
-    this.load.image('bg_1', 'backgrounds/stage-2.png');
-    this.load.image('bg_2', 'backgrounds/stage-3.png');
+    SPRITESHEET_PATHS.forEach(({ key, path, frameWidth, frameHeight }) => {
+      this.load.spritesheet(key, path, { frameWidth, frameHeight });
+    });
+    Object.entries(IMAGE_PATHS).forEach(([key, path]) => this.load.image(key, path));
     if (SPEC.audio?.enabled) {
-      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
-      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);
-      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);
-      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);
-      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);
+      Object.entries(AUDIO_PATHS).forEach(([key, path]) => this.load.audio(key, path));
     }
   }
   create() {

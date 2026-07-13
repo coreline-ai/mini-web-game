@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
-import { ASSET_KEYS } from '../constants/gameKeys.js';
+import { AUDIO_PATHS, IMAGE_PATHS, SPRITESHEET_PATHS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
@@ -10,22 +10,12 @@ export default class LoadingScene extends Phaser.Scene {
   preload() {
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');
-    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');
-    this.load.image('bg_0', 'backgrounds/stage-1.png');
-    this.load.image('bg_1', 'backgrounds/stage-2.png');
-    this.load.image('bg_2', 'backgrounds/stage-3.png');
-    this.load.image('ui_frame', 'ui/btn-frame.png');
-    this.load.image('ui_pause', 'ui/btn-pause.png');
-    this.load.image('fx_hit', 'effects/fx-hit.png');
-    this.load.image('fx_collect', 'effects/fx-collect.png');
+    for (const [key, cfg] of Object.entries(SPRITESHEET_PATHS)) {
+      this.load.spritesheet(key, cfg.path, { frameWidth: cfg.frameWidth, frameHeight: cfg.frameHeight });
+    }
+    for (const [key, path] of Object.entries(IMAGE_PATHS)) this.load.image(key, path);
     if (SPEC.audio?.enabled) {
-      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
-      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);
-      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);
-      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);
-      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);
+      for (const [key, path] of Object.entries(AUDIO_PATHS)) this.load.audio(key, path);
     }
   }
   create() {

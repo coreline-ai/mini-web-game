@@ -25,3 +25,6 @@
 21. **방패병 소스 조각 회귀**: `goblin-shield-sheet.png`는 각 768 프레임에 방패병 본체 1개만 있어야 하며, 옆 브루트 무기/프레임 조각이 남으면 실패다. 연결 컴포넌트 정리 후 시트 컴포넌트 수는 프레임 4개와 일치해야 한다.
 22. **Pause 버튼 눌림 크기 회귀**: gameplay pause 아이콘은 정상 display size 128px, pointerdown display size 약 120.32px이어야 한다. 눌렀을 때 512px 원본 기준으로 커지거나 overlay 진입 전 화면을 덮으면 실패다.
 23. **브루트/물약 직접 렌더 증거 회귀**: 브루트와 물약을 같은 Game 씬에 강제 배치한 캡처에서 브루트 방망이 오른쪽 끝과 물약 외곽이 잘리지 않아야 한다. 기준 증거: `04-brute-potion-button-contact-sheet.png`, `asset-fix-metrics.json`, `runtime-brute-potion-button-samples.json`.
+24. **런타임 로더 단일 소스 회귀**: `LoadingScene`은 `gameKeys.js`의 `SPRITESHEET_PATHS`, `IMAGE_PATHS`, `AUDIO_PATHS`만 순회해야 하며, `GameScene`이 `arrow` 또는 기타 PNG를 late preload하면 실패다.
+25. **SVG 런타임 회귀**: 390x844 DPR2 홈 런타임 샘플에서 `resources`에 `/assets/images/*.svg` 요청이 없어야 하고, Phaser texture keys에도 `svg` 또는 `placeholder` 키가 없어야 한다. 기준 증거: `full-resolution-2026-07-10/asset-fidelity-runtime-sample.json`.
+26. **FHD backing-store 회귀**: 390x844 DPR2 캡처에서 canvas backing store가 `1080x1920`이어야 하고, `3240x5760` 같은 DPR 재곱셈 backing store가 나오면 실패다.

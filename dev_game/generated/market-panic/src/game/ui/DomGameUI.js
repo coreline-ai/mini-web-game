@@ -5,7 +5,7 @@ import {
   stageLabel,
   tickerLabel,
 } from '../config/marketConfig.js';
-import { SPEC } from '../data/spec.js';
+import { boardTransform } from '../constants/tuning.js';
 
 function goalText(stage) {
   const returnTarget = Number(stage?.returnTarget || 0);
@@ -121,15 +121,13 @@ export default class DomGameUI {
   syncBounds() {
     if (!this.root?.isConnected) return;
     const bounds = this.scene.scale.canvasBounds;
-    const gameSize = this.scene.scale.gameSize;
-    if (!bounds || !gameSize) return;
-    const sx = bounds.width / SPEC.canvas.width;
-    const sy = bounds.height / SPEC.canvas.height;
+    if (!bounds) return;
+    const board = boardTransform(bounds);
     this.root.style.left = '0px';
     this.root.style.top = '0px';
-    this.root.style.width = `${SPEC.canvas.width}px`;
-    this.root.style.height = `${SPEC.canvas.height}px`;
-    this.root.style.transform = `translate(${bounds.left}px, ${bounds.top}px) scale(${sx}, ${sy})`;
+    this.root.style.width = `${board.width}px`;
+    this.root.style.height = `${board.height}px`;
+    this.root.style.transform = `translate(${board.x}px, ${board.y}px) scale(${board.scaleX}, ${board.scaleY})`;
     this.root.style.display = this.visible ? 'block' : 'none';
     this.publishLayout();
   }

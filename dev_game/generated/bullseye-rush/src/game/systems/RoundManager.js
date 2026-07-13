@@ -72,7 +72,7 @@ export default class RoundManager {
     const xs = cfg.targets === 1 ? [w / 2] : cfg.targets === 2 ? [w * 0.32, w * 0.68] : [w * 0.22, w * 0.5, w * 0.78];
     xs.forEach((x, i) => {
       const y = sy(190) + (i % 2) * sy(74);
-      const t = this.targets.get(x, y, 'target');
+      const t = this.targets.get(x, y, ASSET_KEYS.target);
       if (!t) return;
       t.enableBody(true, x, y, true, true);
       const size = TUNING.hazardSize * 1.18 * cfg.scale;
@@ -84,7 +84,7 @@ export default class RoundManager {
     });
     // 보너스 별 (확률): 맞히면 화살 +1
     if (Math.random() < cfg.starChance) {
-      const s = this.stars.get(Phaser.Math.Between(sx(70), w - sx(70)), sy(132), 'star');
+      const s = this.stars.get(Phaser.Math.Between(sx(70), w - sx(70)), sy(132), ASSET_KEYS.star);
       if (s) {
         s.enableBody(true, s.x, sy(132), true, true);
         s.setDepth(5).setDisplaySize(su(52), su(52));
@@ -118,12 +118,12 @@ export default class RoundManager {
       this.combo = Math.min(RUSH.comboMax, this.combo + 1);
       pts = RUSH.bullseyePoints * this.combo;
       this.stats.bullseyes += 1;
-      Juice.burst(this.scene, _x, _y, 0xffd54a, 'fx_collect');
+      Juice.burst(this.scene, _x, _y, 0xffd54a, ASSET_KEYS.fx.collect);
       Juice.scorePop(this.scene, _x, _y, `BULLSEYE x${this.combo} +${pts}`);
     } else {
       this.combo = 1;
       pts = RUSH.hitPoints;
-      Juice.burst(this.scene, _x, _y, 0xe8433f, 'fx_hit');
+      Juice.burst(this.scene, _x, _y, 0xe8433f, ASSET_KEYS.fx.hit);
       Juice.scorePop(this.scene, _x, _y, '+' + pts);
     }
     this.stats.hits += 1;
@@ -143,7 +143,7 @@ export default class RoundManager {
     this.stats.stars += 1;
     this.scene.score.score += RUSH.starPoints;
     this.scene.score.coins += 1;
-    Juice.burst(this.scene, _x, _y, 0xffd54a, 'fx_collect');
+    Juice.burst(this.scene, _x, _y, 0xffd54a, ASSET_KEYS.fx.collect);
     Juice.scorePop(this.scene, _x, _y, '+1 ARROW');
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxCollect, 0.6);
     this.refreshHud();

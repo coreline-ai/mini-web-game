@@ -25,12 +25,12 @@ export default class OscillatingAimSystem {
     this.stats = { fired: 0 };
     this.locked = false; // 라운드 전환 중 발사 잠금
 
-    if (!scene.textures.exists('arrow')) {
+    if (!scene.textures.exists(ASSET_KEYS.arrow)) {
       const g = scene.add.graphics();
       g.fillStyle(0xf2e6d8, 1).fillRect(su(11), 0, su(4), sy(40));
       g.fillStyle(0x8a5a2b, 1).fillRect(su(10), sy(40), su(6), sy(14));
       g.fillTriangle(su(13), 0, su(4), sy(14), su(22), sy(14));
-      g.generateTexture('arrow', su(26), sy(56));
+      g.generateTexture(ASSET_KEYS.arrow, su(26), sy(56));
       g.destroy();
     }
     this.arrows = scene.physics.add.group({ maxSize: 12, allowGravity: false });
@@ -51,7 +51,7 @@ export default class OscillatingAimSystem {
     if (this.scene.rounds && this.scene.rounds.arrowsLeft <= 0) return; // 화살 없음
     this.cooldown = AIM.fireCooldownMs;
     const px = this.aimX, py = this.scene.player.y - sy(26);
-    const a = this.arrows.get(px, py, 'arrow');
+    const a = this.arrows.get(px, py, ASSET_KEYS.arrow);
     if (!a) return;
     a.enableBody(true, px, py, true, true);
     a._missed = false;

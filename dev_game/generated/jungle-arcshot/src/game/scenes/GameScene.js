@@ -18,11 +18,6 @@ import { su } from '../constants/tuning.js';
 // 실패는 시간·HP가 아니라 화살 경제: 라운드 화살로 전 표적을 못 지우면 끝.
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
-  preload() {
-    if (!this.textures.exists('fruit')) this.load.image('fruit', 'enemies/fruit.png');
-    if (!this.textures.exists('balloon')) this.load.image('balloon', 'items/balloon.png');
-    if (!this.textures.exists('arrow')) this.load.image('arrow', 'items/arrow.png');
-  }
   create() {
     applyHiDpiCamera(this);
     this.isOver = false;

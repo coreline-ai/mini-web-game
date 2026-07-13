@@ -1,14 +1,30 @@
 {
-  "assetsVersion": "1.0.0",
+  "assetsVersion": "1.1.0-native-fhd-canvas",
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
     "maxSpriteKB": 512,
     "requireAlphaForSprites": true,
     "minTouchUiSize": 44
+  },
+  "assetFidelity": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "baseCompositionCanvas": {
+      "width": 390,
+      "height": 844
+    },
+    "maxTargetDpr": 1,
+    "backgroundDisplayTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "notes": "Target, reticle, hit FX, HUD, and buttons are scaled from the former 390x844 composition into the native 1080x1920 Phaser world. Legacy SVG and assets/backgrounds/stage-* files are non-runtime leftovers."
   },
   "audioPolicy": {
     "allowedFormats": [
@@ -165,8 +181,8 @@
     {
       "id": "crosshair-artifact",
       "path": "assets/images/production/ui/crosshair.png",
-      "type": "ui",
-      "role": "ui-icon",
+      "type": "reference",
+      "role": "reticle-artifact",
       "quality": "production-demo",
       "minWidth": 192,
       "minHeight": 192,

@@ -43,12 +43,12 @@ export default class AimShotSystem {
     this.aimAngle = -Math.PI / 2;
     this.stats = { fired: 0 };
 
-    if (!scene.textures.exists(ASSET_KEYS.arrow || 'arrow') && !scene.textures.exists('arrow')) {
+    if (!scene.textures.exists(ASSET_KEYS.arrow)) {
       const g = scene.add.graphics();
       g.fillStyle(0xdfe8f2, 1).fillRect(11, 0, 4, 40);
       g.fillStyle(0x8a5a2b, 1).fillRect(10, 40, 6, 14);
       g.fillTriangle(13, 0, 4, 14, 22, 14);
-      g.generateTexture('arrow', 26, 56);
+      g.generateTexture(ASSET_KEYS.arrow, 26, 56);
       g.destroy();
     }
     this.arrows = scene.physics.add.group({ maxSize: 24, allowGravity: false });
@@ -111,7 +111,7 @@ export default class AimShotSystem {
   fire() {
     if (this.cooldown > 0 || this.scene.isOver) return;
     const px = this.scene.player.x, py = this.scene.player.y - 20;
-    const a = this.arrows.get(px, py, 'arrow');
+    const a = this.arrows.get(px, py, ASSET_KEYS.arrow);
     if (!a) return;
     this.cooldown = CASTLE.fireCooldownMs;
     a.enableBody(true, px, py, true, true);

@@ -1,0 +1,277 @@
+{
+  "href": "http://127.0.0.1:5201/",
+  "devicePixelRatio": 3,
+  "gameConfig": {
+    "width": 1080,
+    "height": 1920
+  },
+  "scaleGameSize": {
+    "width": 1080,
+    "height": 1920
+  },
+  "baseSize": {
+    "width": 1080,
+    "height": 1920
+  },
+  "displaySize": {
+    "width": 390,
+    "height": 693.3333333333334
+  },
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "rect": {
+      "x": 0,
+      "y": 75,
+      "width": 390,
+      "height": 693.328125,
+      "right": 390,
+      "bottom": 768.328125
+    }
+  },
+  "domRoot": {
+    "width": "390px",
+    "height": "844px",
+    "transform": "translate(34.8104px, 75px) scale(0.821485, 0.821479)",
+    "rect": {
+      "x": 34.8104248046875,
+      "y": 75,
+      "width": 320.379150390625,
+      "height": 693.328125,
+      "right": 355.1895751953125,
+      "bottom": 768.328125
+    }
+  },
+  "layout": {
+    "scene": "Home",
+    "items": [
+      {
+        "id": "title",
+        "x": 69.31278991699219,
+        "y": 139.07534790039062,
+        "width": 251.37440490722656,
+        "height": 46.0028076171875,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "subtitle",
+        "x": 69.31278991699219,
+        "y": 201.50775146484375,
+        "width": 251.37440490722656,
+        "height": 31.2161865234375,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "menu-panel",
+        "x": 52.883094787597656,
+        "y": 344.445068359375,
+        "width": 284.23382568359375,
+        "height": 322.01971435546875,
+        "visible": true,
+        "allowOverlapWith": [
+          "rules",
+          "best",
+          "play",
+          "help",
+          "sound"
+        ]
+      },
+      {
+        "id": "rules",
+        "x": 99.7077407836914,
+        "y": 369.9109191894531,
+        "width": 148.9840087890625,
+        "height": 78.86196899414062,
+        "visible": true,
+        "allowOverlapWith": [
+          "menu-panel"
+        ]
+      },
+      {
+        "id": "best",
+        "x": 70.13427734375,
+        "y": 495.59716796875,
+        "width": 249.7314453125,
+        "height": 21.35845947265625,
+        "visible": true,
+        "allowOverlapWith": [
+          "menu-panel"
+        ]
+      },
+      {
+        "id": "play",
+        "x": 100.52922058105469,
+        "y": 532.563720703125,
+        "width": 188.94154357910156,
+        "height": 50.931640625,
+        "visible": true,
+        "allowOverlapWith": [
+          "menu-panel"
+        ]
+      },
+      {
+        "id": "help",
+        "x": 100.52922058105469,
+        "y": 598.2820434570312,
+        "width": 90.36335754394531,
+        "height": 46.0028076171875,
+        "visible": true,
+        "allowOverlapWith": [
+          "menu-panel"
+        ]
+      },
+      {
+        "id": "sound",
+        "x": 199.107421875,
+        "y": 598.2820434570312,
+        "width": 90.36334228515625,
+        "height": 46.0028076171875,
+        "visible": true,
+        "allowOverlapWith": [
+          "menu-panel"
+        ]
+      }
+    ]
+  },
+  "requiredTextures": {
+    "loading_shell": true,
+    "player": true,
+    "hazard": true,
+    "collectible": true,
+    "bg_0": true,
+    "bg_1": true,
+    "bg_2": true,
+    "bg_3": true,
+    "ui_frame": true,
+    "ui_pause": true,
+    "ui_menu_panel": true,
+    "ui_modal_panel": true,
+    "ui_hud_panel": true,
+    "ui_news_panel": true,
+    "ui_goal_strip": true,
+    "ui_stock_card": true,
+    "ui_stock_card_selected": true,
+    "ui_action_buy": true,
+    "ui_action_sell": true,
+    "ui_action_hedge": true,
+    "ui_action_cash": true,
+    "fx_hit": true,
+    "fx_collect": true
+  },
+  "textureDims": {
+    "loading_shell": {
+      "width": 1080,
+      "height": 1920
+    },
+    "player": {
+      "width": 2048,
+      "height": 512
+    },
+    "hazard": {
+      "width": 1400,
+      "height": 1400
+    },
+    "collectible": {
+      "width": 1446,
+      "height": 1446
+    },
+    "bg_0": {
+      "width": 1080,
+      "height": 1920
+    },
+    "bg_1": {
+      "width": 1080,
+      "height": 1920
+    },
+    "bg_2": {
+      "width": 1080,
+      "height": 1920
+    },
+    "bg_3": {
+      "width": 1080,
+      "height": 1920
+    },
+    "ui_frame": {
+      "width": 768,
+      "height": 256
+    },
+    "ui_pause": {
+      "width": 256,
+      "height": 256
+    },
+    "ui_menu_panel": {
+      "width": 1068,
+      "height": 1164
+    },
+    "ui_modal_panel": {
+      "width": 1068,
+      "height": 1080
+    },
+    "ui_hud_panel": {
+      "width": 1098,
+      "height": 348
+    },
+    "ui_news_panel": {
+      "width": 1068,
+      "height": 306
+    },
+    "ui_goal_strip": {
+      "width": 1068,
+      "height": 132
+    },
+    "ui_stock_card": {
+      "width": 1068,
+      "height": 222
+    },
+    "ui_stock_card_selected": {
+      "width": 1068,
+      "height": 222
+    },
+    "ui_action_buy": {
+      "width": 450,
+      "height": 168
+    },
+    "ui_action_sell": {
+      "width": 450,
+      "height": 168
+    },
+    "ui_action_hedge": {
+      "width": 450,
+      "height": 168
+    },
+    "ui_action_cash": {
+      "width": 450,
+      "height": 168
+    },
+    "fx_hit": {
+      "width": 1254,
+      "height": 1254
+    },
+    "fx_collect": {
+      "width": 1254,
+      "height": 1254
+    }
+  },
+  "staleTextureKeys": [],
+  "requests": {
+    "total": 80,
+    "svg": []
+  },
+  "browserErrors": [],
+  "assertions": {
+    "homeScene": true,
+    "canvasBacking1080x1920": true,
+    "noDpr3BackingTrap": true,
+    "gameConfig1080x1920": true,
+    "gameSize1080x1920": true,
+    "canvasInsideViewport": true,
+    "domBoardInsideCanvas": true,
+    "domBoardBase390x844": true,
+    "allRequiredTexturesLoaded": true,
+    "noRuntimeSvgRequests": true,
+    "noStaleTextureKeys": true,
+    "noBrowserErrors": true
+  }
+}

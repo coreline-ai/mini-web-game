@@ -1,8 +1,19 @@
 {
-  "assetsVersion": "1.0.0",
+  "assetsVersion": "1.1.0-native-fhd-canvas",
+  "assetFidelity": {
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "runtime": "native-fhd-canvas"
+  },
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
@@ -339,9 +350,16 @@
       "id": "stage-1",
       "path": "assets/backgrounds/stage-1.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
@@ -363,9 +381,16 @@
       "id": "stage-2",
       "path": "assets/backgrounds/stage-2.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
@@ -387,9 +412,16 @@
       "id": "stage-3",
       "path": "assets/backgrounds/stage-3.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",

@@ -64,7 +64,7 @@ export default class JungleRoundSystem {
     for (let i = 0; i < cfg.fruits; i += 1) {
       const cx = cols[i % cols.length] + Phaser.Math.Between(-su(26), su(26));
       const cy = sy(170) + Math.floor(i / cols.length) * sy(92) + Phaser.Math.Between(-su(12), su(12));
-      const t = this.targets.get(cx, cy, 'fruit');
+      const t = this.targets.get(cx, cy, ASSET_KEYS.fruit);
       if (!t) break;
       t.enableBody(true, cx, cy, true, true);
       t._kind = 'fruit'; t._t = Math.random() * Math.PI * 2; t._baseY = cy; t._drift = 0;
@@ -75,7 +75,7 @@ export default class JungleRoundSystem {
     for (let i = 0; i < cfg.balloons; i += 1) {
       const cx = worldX(Phaser.Math.Between(60, 330));
       const cy = sy(Phaser.Math.Between(150, 330));
-      const b = this.targets.get(cx, cy, 'balloon');
+      const b = this.targets.get(cx, cy, ASSET_KEYS.balloon);
       if (!b) break;
       b.enableBody(true, cx, cy, true, true);
       b._kind = 'balloon'; b._t = Math.random() * Math.PI * 2; b._baseY = cy;
@@ -110,7 +110,7 @@ export default class JungleRoundSystem {
     this.stats.pierceBest = Math.max(this.stats.pierceBest, n);
     this.scene.score.score += pts;
     if (kind === 'balloon') this.scene.score.coins += 1;
-    Juice.burst(this.scene, _x, _y, kind === 'fruit' ? 0xff5d4f : 0x58c7f2, kind === 'fruit' ? 'fx_hit' : 'fx_collect');
+    Juice.burst(this.scene, _x, _y, kind === 'fruit' ? 0xff5d4f : 0x58c7f2, kind === 'fruit' ? ASSET_KEYS.fx.hit : ASSET_KEYS.fx.collect);
     Juice.scorePop(this.scene, _x, _y, n > 1 ? `PIERCE x${n} +${pts}` : `+${pts}`);
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxCollect, Math.min(0.75, 0.45 + n * 0.1));
     this.refreshHud();

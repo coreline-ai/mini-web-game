@@ -1,20 +1,19 @@
 {
-  "assetsVersion": "1.1.0",
+  "assetsVersion": "1.2.0-native-fhd-canvas",
   "assetFidelity": {
     "logicalCanvas": {
-      "width": 390,
-      "height": 844
+      "width": 1080,
+      "height": 1920
     },
-    "maxTargetDpr": 3,
+    "maxTargetDpr": 1,
     "physicalCanvasTarget": {
-      "width": 1170,
-      "height": 2532
+      "width": 1080,
+      "height": 1920
     },
-    "runtime": "logical-camera-dpr-aware"
+    "runtime": "native-fhd-canvas"
   },
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
@@ -398,10 +397,10 @@
       "minHeight": 2532,
       "display": {
         "fit": "cover",
-        "logicalWidth": 390,
-        "logicalHeight": 844,
-        "physicalWidth": 1170,
-        "physicalHeight": 2532
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
       },
       "provenance": {
         "source": "generated-for-game",
@@ -412,7 +411,7 @@
         "modelVerified": false,
         "postProcessing": [
           "imagegen-source-remaster",
-          "cover-crop-to-dpr3",
+          "native-fhd-runtime-fit",
           "webp-optimization"
         ],
         "sourceSkill": "imagegen",
@@ -432,10 +431,10 @@
       "minHeight": 2532,
       "display": {
         "fit": "cover",
-        "logicalWidth": 390,
-        "logicalHeight": 844,
-        "physicalWidth": 1170,
-        "physicalHeight": 2532
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
       },
       "provenance": {
         "source": "generated-for-game",
@@ -446,7 +445,7 @@
         "modelVerified": false,
         "postProcessing": [
           "imagegen-source-remaster",
-          "cover-crop-to-dpr3",
+          "native-fhd-runtime-fit",
           "webp-optimization"
         ],
         "sourceSkill": "imagegen",
@@ -466,10 +465,10 @@
       "minHeight": 2532,
       "display": {
         "fit": "cover",
-        "logicalWidth": 390,
-        "logicalHeight": 844,
-        "physicalWidth": 1170,
-        "physicalHeight": 2532
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
       },
       "provenance": {
         "source": "generated-for-game",
@@ -480,7 +479,7 @@
         "modelVerified": false,
         "postProcessing": [
           "imagegen-source-remaster",
-          "cover-crop-to-dpr3",
+          "native-fhd-runtime-fit",
           "webp-optimization"
         ],
         "sourceSkill": "imagegen",
@@ -504,6 +503,6 @@
     "sourceSkill": "imagegen",
     "toolMode": "built-in-image_gen",
     "lastRunAt": "2026-07-09T15:09:26.871Z",
-    "remaster": "Meteor Dash DPR3 asset refresh from generated imagegen sheets"
+    "remaster": "Meteor Dash native FHD runtime refresh from generated imagegen sheets"
   }
 }

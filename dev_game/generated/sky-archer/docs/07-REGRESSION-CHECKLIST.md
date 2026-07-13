@@ -9,10 +9,11 @@ Run this checklist after changing transparent art, canvas config, layout scaling
 - [ ] Contact sheet clearly shows safe transparent padding around `player`, `hazard`, `collectible`, `arrow`, `btn-frame`, `btn-pause`, `fx-collect`, and `fx-hit`.
 
 ## HiDPI Runtime
-- [ ] Logical gameplay remains `390x844` for layout/math.
-- [ ] On DPR 3 mobile capture, CSS canvas is `390x844` and backing store is `1170x2532`.
+- [ ] Canonical runtime canvas remains native `1080x1920` with `scaleMode: fit` and `maxTargetDpr: 1`.
+- [ ] On DPR 3 mobile capture, backing store remains `1080x1920`, not `3240x5760`.
 - [ ] `applyLogicalCamera()` is called before scene UI/game objects are placed.
-- [ ] Pointer movement uses `logicalPointer()` in gameplay code, not raw physical coordinates.
+- [ ] Pointer movement uses `logicalPointer()` in gameplay code and maps to native logical canvas coordinates with camera zoom 1.
+- [ ] Legacy `BASE_CANVAS=390x844` is used only as a scale reference for old composition constants.
 
 ## Required Gates
 - [ ] `npm run build`
@@ -37,3 +38,11 @@ Run this checklist after changing transparent art, canvas config, layout scaling
 - [ ] Gameplay pause icon uses `ui_pause`, source `768x768`, rendered `56x56`, uniform scale `0.0729`.
 - [ ] Button alpha pads do not touch crop edges in `qa-captures/asset-final-metrics.json`.
 - [ ] Button before/after capture paths under `qa-captures/button-polish-20260709/` refresh after any UI texture change.
+
+## Native FHD Runtime Regression — 2026-07-10
+- [ ] `LoadingScene` preloads only `SPRITESHEET_PATHS`, `IMAGE_PATHS`, and `AUDIO_PATHS` from `gameKeys.js`; new runtime PNG/WAV paths must be added there first.
+- [ ] `arrow`, `bg_0..2`, `ui_frame*`, `ui_pause`, `fx_hit`, and `fx_collect` stay in `ASSET_KEYS` or path maps and appear in runtime texture samples.
+- [ ] Runtime resource sample has no `/assets/images/*.svg` requests and no stale SVG/placeholder texture keys.
+- [ ] GameScene runtime sample reports `runtimeStrategy=native-fhd-canvas`, `cameraZoom=1`, visible player inside the `1080x1920` world, active spawner, and no browser errors.
+
+2026-07-10 evidence: build, image-quality QA, production gate, Home DPR3 runtime sample, and GameScene DPR3 runtime sample all passed; see `dev_game/docs/qa-evidence/sky-archer-2026-07-10.md`.

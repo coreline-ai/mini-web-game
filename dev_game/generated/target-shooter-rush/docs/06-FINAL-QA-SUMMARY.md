@@ -130,10 +130,35 @@ npm --prefix dev_game run factory:production-demo-qa -- \
   --require-gpt-imagegen
 ```
 
+## 2026-07-10 Native FHD Canvas Pass
+
+| Symptom | Class | Severity | Root Cause | Resolution |
+|---|---|---:|---|---|
+| Resolution inventory still classified the game as `390x844` | D Runtime resolution drift | 3 | `SPEC.canvas` still declared the small phone canvas while production gallery backgrounds were already `1080x1920`. | Changed `game-spec.json` and `asset-plan.json` to `1080x1920`, `scaleMode: fit`, and `maxTargetDpr: 1`. |
+| Target, reticle, HUD, and shot feedback remained small-area tuned | C UI/gameplay coordinate mismatch | 3 | `shootingConfig`, `MovingTarget`, `GameScene`, `HudUI`, buttons, feedback, and hit FX used fixed 390-canvas constants. | Added FHD scale helpers and retuned target sizes/speeds, gallery bounds, muzzle, reticle, HUD, buttons, feedback positions, shot line width, and hit-burst clamp radii. |
+| Runtime asset paths were scattered in `LoadingScene` | F Evidence / loader drift | 3 | Image/background/audio paths were hard-coded at the load site. | Centralized image, background, and audio preload maps in `constants/gameKeys.js`; runtime SVG and stale `assets/backgrounds/stage-*` files remain non-runtime leftovers. |
+
+New runtime contract:
+
+- Native logical canvas: `1080x1920`.
+- Max target DPR: `1`; DPR 3 browser samples must still show a `1080x1920` canvas backing store.
+- Target size curve: `209 -> 132`.
+- Target speed curve: `332 -> 858`, plus scaled stage bonus.
+- Target safe edge margin: `200`, with hit-burst peak radius `191`.
+- Runtime reticle: generated `reticle_ui` texture at FHD-safe source size, displayed at scaled gameplay size.
+
+New evidence:
+
+- Runtime samples: `qa-captures/full-resolution-2026-07-10/target-shooter-rush/asset-fidelity-runtime-sample.json` and `gameplay-runtime-sample.json`.
+- Screenshots: `home-390x844-dpr3.png` and `game-390x844-dpr3.png`.
+- Tracked summary: `dev_game/docs/qa-evidence/target-shooter-rush-2026-07-10.md`.
+- Target art: rebuilt `bullseye_target.png` from the imagegen raw sprite, restored `512x512` output with `13117` measured colors, `32/37/32/38` alpha padding, and no visible magenta key residue in the production PNG.
+
 ## Known Notes
 
 - `dev_game/generated/*` is ignored by default. Force-add this generated game or move selected evidence if it must be tracked.
-- `player_blaster.png` and `crosshair.png` remain generated assets for manifest completeness, but final active gameplay draws the baked cannon plus muzzle anchor and runtime `reticle_ui`.
+- `player_blaster.png` remains loaded for manifest completeness, but final active gameplay draws the baked cannon plus muzzle anchor. `crosshair.png` remains only as an inactive reference artifact; active gameplay uses runtime `reticle_ui`.
+- `assets/images/*.svg` and `assets/backgrounds/stage-*` remain non-runtime leftovers; the production loader uses `assets/images/production/**`.
 - The gallery backgrounds still contain decorative baked targets; loading/home/game now add active-target plates/veil/glow so the runtime target is visually separated from static background art.
-- `Spawner.js`, `ScoreManager.js`, and `constants/tuning.js` remain inactive Foundation remnants.
+- `Spawner.js` and `ScoreManager.js` remain inactive Foundation remnants; `constants/tuning.js` is now active and owns FHD scale helpers.
 - Current audio is generated Foundation WAV audio and is acceptable for the production-demo MVP; release polish should replace/remaster final SFX/BGM.

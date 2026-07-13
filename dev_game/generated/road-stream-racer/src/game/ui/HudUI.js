@@ -1,4 +1,5 @@
 import { SPEC } from '../data/spec.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { fontPx, strokePx } from '../utils/scale.js';
 
 const HUD_TEXT_STYLE = {
@@ -58,21 +59,21 @@ function makeHudStrip(scene, x, y, width, height) {
     color: '#ffe56a',
   }).setOrigin(0, 0.5);
 
-  const coinIcon = scene.add.image(198, height / 2, 'racer_icon_coin').setDisplaySize(30, 30);
+  const coinIcon = scene.add.image(198, height / 2, ASSET_KEYS.racerIconCoin).setDisplaySize(30, 30);
   const coinText = scene.add.text(222, height / 2, '0', {
     ...HUD_TEXT_STYLE,
     fontSize: fontPx(26),
     color: '#ffd95a',
   }).setOrigin(0, 0.5);
 
-  const speedIcon = scene.add.image(320, height / 2, 'racer_icon_speed').setDisplaySize(30, 30);
+  const speedIcon = scene.add.image(320, height / 2, ASSET_KEYS.racerIconSpeed).setDisplaySize(30, 30);
   const speedText = scene.add.text(346, height / 2, '속도 0', {
     ...HUD_TEXT_STYLE,
     fontSize: fontPx(24),
     color: '#82e9ff',
   }).setOrigin(0, 0.5);
 
-  const levelIcon = scene.add.image(510, height / 2, 'racer_icon_level').setDisplaySize(30, 30);
+  const levelIcon = scene.add.image(510, height / 2, ASSET_KEYS.racerIconLevel).setDisplaySize(30, 30);
   const levelText = scene.add.text(536, height / 2, '1', {
     ...HUD_TEXT_STYLE,
     fontSize: fontPx(26),
@@ -99,8 +100,8 @@ export default class HudUI {
     // 부스트 텍스트
     this.boostText = scene.add.text(width / 2, 152, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: fontPx(32), color: '#5cffbd', stroke: '#07111d', strokeThickness: strokePx(6) }).setOrigin(0.5).setDepth(20);
 
-    this.home = makeHudButton(scene, 898, 78, 96, 96, 'racer_ui_home', onHome);
-    this.pause = makeHudButton(scene, 1000, 78, 96, 96, 'racer_ui_pause', onPause);
+    this.home = makeHudButton(scene, 898, 78, 96, 96, ASSET_KEYS.racerUiHome, onHome);
+    this.pause = makeHudButton(scene, 1000, 78, 96, 96, ASSET_KEYS.racerUiPause, onPause);
 
     this.pause.bg.setDepth(20);
     this.home.bg.setDepth(20);

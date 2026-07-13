@@ -27,19 +27,19 @@ export default class WaveGateSystem {
     this.spawnCount = 0;
     this.stats = { kills: 0, headshots: 0, shieldBreaks: 0, breaches: 0, heals: 0 };
 
-    // 성문 HP 하트 (상단 중앙) — ui_heart 텍스처 없으면 그래픽 폴백
-    if (!scene.textures.exists('ui_heart')) {
+    // 성문 HP 하트 (상단 중앙) — 텍스처 없으면 그래픽 폴백
+    if (!scene.textures.exists(ASSET_KEYS.ui.heart)) {
       const g = scene.add.graphics();
       g.fillStyle(0xff5b6e, 1);
       g.fillCircle(27, 27, 27); g.fillCircle(69, 27, 27);
       g.fillTriangle(3, 39, 93, 39, 48, 96);
-      g.generateTexture('ui_heart', 96, 96);
+      g.generateTexture(ASSET_KEYS.ui.heart, 96, 96);
       g.destroy();
     }
     this.hearts = [];
     const cx = SPEC.canvas.width / 2;
     for (let i = 0; i < GATE.maxHp; i += 1) {
-      const h = scene.add.image(cx + (i - (GATE.maxHp - 1) / 2) * 100, 100, 'ui_heart').setDepth(20).setDisplaySize(80, 80);
+      const h = scene.add.image(cx + (i - (GATE.maxHp - 1) / 2) * 100, 100, ASSET_KEYS.ui.heart).setDepth(20).setDisplaySize(80, 80);
       this.hearts.push(h);
     }
 
@@ -83,7 +83,7 @@ export default class WaveGateSystem {
       monster.clearTint();
       monster.setTintFill(monster._enemyType === 'brute' ? 0xff8b54 : 0x9fd7ff);
       this.scene.time.delayedCall(80, () => { if (monster.active) monster.clearTint(); });
-      Juice.burst(this.scene, monster.x, monster.y, 0x9fd7ff, 'fx_hit');
+      Juice.burst(this.scene, monster.x, monster.y, 0x9fd7ff, ASSET_KEYS.fx.hit);
       Juice.scorePop(this.scene, monster.x, monster.y, shieldBreak ? 'SHIELD!' : `HP ${monster._hp}`);
       AudioManager.playSfx(this.scene, ASSET_KEYS.sfxHit, 0.4);
       return;
@@ -95,7 +95,7 @@ export default class WaveGateSystem {
     const _x = monster.x, _y = monster.y;
     monster._cfg = false; // 풀 재사용 대비 상태 리셋
     monster.disableBody(true, true);
-    Juice.burst(this.scene, _x, _y, isHead ? 0xffe066 : 0x7bc44e, isHead ? 'fx_sparkle' : 'fx_hit');
+    Juice.burst(this.scene, _x, _y, isHead ? 0xffe066 : 0x7bc44e, isHead ? ASSET_KEYS.fx.sparkle : ASSET_KEYS.fx.hit);
     Juice.scorePop(this.scene, _x, _y, isHead ? 'CRITICAL +' + pts : '+' + pts);
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxCollect, 0.5);
   }
@@ -119,7 +119,7 @@ export default class WaveGateSystem {
     } else {
       Juice.scorePop(this.scene, _x, _y, '+' + (SPEC.collectibles?.scoreValue || 50));
     }
-    Juice.burst(this.scene, _x, _y, 0xff6b81, 'fx_collect');
+    Juice.burst(this.scene, _x, _y, 0xff6b81, ASSET_KEYS.fx.collect);
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxCollect, 0.55);
   }
 
@@ -134,7 +134,7 @@ export default class WaveGateSystem {
     this.renderHearts();
     Juice.shake(this.scene);
     Juice.flash(this.scene, 0xff5555);
-    Juice.burst(this.scene, _x, Math.min(_y, TUNING.playerY), 0xff5555, 'fx_hit');
+    Juice.burst(this.scene, _x, Math.min(_y, TUNING.playerY), 0xff5555, ASSET_KEYS.fx.hit);
     AudioManager.playSfx(this.scene, ASSET_KEYS.sfxHit, 0.65);
     if (this.hp <= 0) this.scene.onHit();
   }

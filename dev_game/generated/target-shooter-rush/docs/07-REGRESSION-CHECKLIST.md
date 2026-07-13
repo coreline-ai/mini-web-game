@@ -17,14 +17,20 @@ Re-run these before future polish work.
 ## TSR-L002 Edge Hit FX Crop
 
 - Repro: force target to left and right safe margins, tap center, capture the hit-burst frame.
-- Expected: `hit_burst.png` is visible, not clipped by viewport edges, and target center satisfies `x >= edgeMargin && x <= 390 - edgeMargin`.
+- Expected: `hit_burst.png` is visible, not clipped by viewport edges, and target center satisfies `x >= edgeMargin && x <= SPEC.canvas.width - edgeMargin`.
 - Current evidence: `05-left-edge-hit-fx.png`, `07-right-edge-hit-fx.png`, and `targetInsideSafeX: true`.
 
 ## TSR-C001 Reticle Separation
 
 - Repro: enter Game and sample visible texture keys.
-- Expected: gameplay reticle texture is `reticle_ui`; generated `crosshair.png` remains loaded/manifested only as an inactive artifact.
+- Expected: gameplay reticle texture is `reticle_ui`; generated `crosshair.png` remains only as an inactive reference artifact and is not preloaded by the production runtime.
 - Current evidence: `activeReticleIsRuntime: true`.
+
+## TSR-R001 Native FHD Runtime
+
+- Repro: run the game in a DPR 3 mobile browser viewport and sample `window.__TARGET_SHOOTER_DEBUG__.get()`.
+- Expected: `runtimeStrategy` is `native-fhd-canvas`, `gameConfig`, `gameSize`, and canvas backing store are all `1080x1920`, required production textures are loaded, reticle source size is FHD-safe, and no SVG/scaffold runtime resources are requested.
+- Current evidence: `qa-captures/full-resolution-2026-07-10/target-shooter-rush/asset-fidelity-runtime-sample.json`.
 
 ## Verification Commands
 
@@ -36,6 +42,11 @@ npm run build --prefix dev_game/generated/target-shooter-rush
 
 npm --prefix dev_game run factory:image-quality-qa -- \
   --project dev_game/generated/target-shooter-rush
+
+npm --prefix dev_game run factory:production-gate -- \
+  --project dev_game/generated/target-shooter-rush \
+  --require-gpt-imagegen \
+  --viewports 390x844,430x932,1080x1920,1280x900
 
 npm --prefix dev_game run factory:visual-layout-qa -- \
   --url http://127.0.0.1:5181 \

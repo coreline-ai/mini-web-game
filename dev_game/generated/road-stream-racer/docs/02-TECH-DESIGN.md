@@ -26,6 +26,7 @@ Boot → Loading → Home → Countdown → Game → Pause → Crash → GameOve
 
 ## Asset loading
 Every runtime art asset lives in this generated game under `assets/`. `LoadingScene`
-loads PNG road segments, backgrounds, sprite sheets, UI buttons, FX, and WAV audio.
+loads the centralized `gameKeys.js` spritesheet/image/audio path lists for PNG road
+segments, backgrounds, sprite sheets, UI buttons, FX, premium HUD UI, and WAV audio.
 The SVG starter assets remain only as unused scaffold files and are not referenced by
 `assets/asset-manifest.json` or runtime loading.

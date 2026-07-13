@@ -2,9 +2,10 @@
   "gameId": "meteor-dash",
   "title": "Meteor Dash",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920
   },
+  "runtimeStrategy": "native-fhd-canvas",
   "styleGuide": {
     "palette": "anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward",
     "outline": "clean bold silhouettes, high readability at small size",
@@ -19,7 +20,7 @@
       "width": 1170,
       "height": 2532,
       "theme": "Origin",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Origin\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Origin\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
     },
     {
       "id": "stage-2",
@@ -27,7 +28,7 @@
       "width": 1170,
       "height": 2532,
       "theme": "Night Rush",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Night Rush\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Night Rush\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
     },
     {
       "id": "stage-3",
@@ -35,7 +36,7 @@
       "width": 1170,
       "height": 2532,
       "theme": "Deep Field",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Deep Field\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at 1170x2532 DPR3 portrait resolution or larger — hard minimum; never below 1080x1920. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Deep Field\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
     }
   ],
   "sprites": [

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
 import { SHOOTING } from '../config/shootingConfig.js';
+import { su, sx } from '../constants/tuning.js';
 import MovingTarget from '../entities/MovingTarget.js';
 
 export default class TargetSystem {
@@ -15,11 +16,11 @@ export default class TargetSystem {
   spawn(level = 1, stageIndex = 0) {
     const t = Phaser.Math.Clamp((level - 1) / Math.max(1, SPEC.difficulty.maxLevel || 14), 0, 1);
     const size = Phaser.Math.Linear(SHOOTING.targetSizeStart, SHOOTING.targetSizeMin, t);
-    const speed = Phaser.Math.Linear(SHOOTING.targetSpeedStart, SHOOTING.targetSpeedMax, t) + stageIndex * 28;
+    const speed = Phaser.Math.Linear(SHOOTING.targetSpeedStart, SHOOTING.targetSpeedMax, t) + stageIndex * sx(28);
     const row = SHOOTING.targetRows[this.spawnIndex % SHOOTING.targetRows.length];
     const y = Math.round(SPEC.canvas.height * row);
     const fromLeft = this.spawnIndex % 2 === 0;
-    const edgeMargin = Math.max(SHOOTING.targetEdgeMargin, SHOOTING.hitBurstPeakRadius, size * 0.5 + 24);
+    const edgeMargin = Math.max(SHOOTING.targetEdgeMargin, SHOOTING.hitBurstPeakRadius, size * 0.5 + su(24));
     const x = fromLeft ? edgeMargin : SPEC.canvas.width - edgeMargin;
     this.spawnIndex += 1;
     this.target.reset({ x, y, size, speed, direction: fromLeft ? 1 : -1, edgeMargin });

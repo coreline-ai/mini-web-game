@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
-import { ASSET_KEYS } from '../constants/gameKeys.js';
+import { ASSET_KEYS, AUDIO_PATHS, IMAGE_PATHS, SPRITESHEET_PATHS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
@@ -10,45 +10,12 @@ export default class LoadingScene extends Phaser.Scene {
   preload() {
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.image(ASSET_KEYS.stage1, 'backgrounds/stage-1.png');
-    this.load.image(ASSET_KEYS.stage2, 'backgrounds/stage-2.png');
-    this.load.image(ASSET_KEYS.stage3, 'backgrounds/stage-3.png');
-    this.load.image(ASSET_KEYS.roadStraight1, 'roads/road-straight-1.png');
-    this.load.image(ASSET_KEYS.roadStraight2, 'roads/road-straight-2.png');
-    this.load.image(ASSET_KEYS.roadConstruction1, 'roads/road-construction-1.png');
-    this.load.image(ASSET_KEYS.roadConstruction2, 'roads/road-construction-2.png');
-    this.load.image(ASSET_KEYS.roadCrosswalk1, 'roads/road-crosswalk-1.png');
-    this.load.image(ASSET_KEYS.roadFlat, 'roads/road-flat-seamless.png');
-    this.load.image(ASSET_KEYS.roadFlatLoop, 'roads/road-flat-loop-1080x1920.png');
-    this.load.image(ASSET_KEYS.forestSideOverlay, 'scenery/forest-side-overlay-1080x1920.png');
-    this.load.spritesheet(ASSET_KEYS.player, 'characters/player-car.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.image(ASSET_KEYS.trafficBlue, 'vehicles/traffic-blue.png');
-    this.load.image(ASSET_KEYS.trafficYellow, 'vehicles/traffic-yellow.png');
-    this.load.image(ASSET_KEYS.trafficTruck, 'vehicles/traffic-truck.png');
-    this.load.image(ASSET_KEYS.cone, 'obstacles/cone.png');
-    this.load.image(ASSET_KEYS.barricade, 'obstacles/barricade.png');
-    this.load.spritesheet(ASSET_KEYS.coin, 'items/coin.png', { frameWidth: 512, frameHeight: 512 });
-    this.load.image(ASSET_KEYS.boostPad, 'items/boost-pad.png');
-    this.load.image(ASSET_KEYS.fxHit, 'effects/fx-hit.png');
-    this.load.image(ASSET_KEYS.fxCollect, 'effects/fx-collect.png');
-    this.load.image(ASSET_KEYS.fxBoost, 'effects/fx-boost.png');
-    this.load.image(ASSET_KEYS.uiFrame, 'ui/btn-frame.png');
-    this.load.image(ASSET_KEYS.uiPause, 'ui/btn-pause.png');
-    this.load.image(ASSET_KEYS.uiBoost, 'ui/btn-boost.png');
-
-    // Premium Neon GUI Assets
-    this.load.image('racer_ui_header', 'ui/racer_ui_header.png');
-    this.load.image('racer_ui_home', 'ui/racer_ui_home.png');
-    this.load.image('racer_ui_pause', 'ui/racer_ui_pause.png');
-    this.load.image('racer_icon_coin', 'ui/racer_icon_coin.png');
-    this.load.image('racer_icon_speed', 'ui/racer_icon_speed.png');
-    this.load.image('racer_icon_level', 'ui/racer_icon_level.png');
+    SPRITESHEET_PATHS.forEach(({ key, path, frameWidth, frameHeight }) => {
+      this.load.spritesheet(key, path, { frameWidth, frameHeight });
+    });
+    Object.entries(IMAGE_PATHS).forEach(([key, path]) => this.load.image(key, path));
     if (SPEC.audio?.enabled) {
-      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
-      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);
-      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);
-      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);
-      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);
+      Object.entries(AUDIO_PATHS).forEach(([key, path]) => this.load.audio(key, path));
     }
   }
   create() {

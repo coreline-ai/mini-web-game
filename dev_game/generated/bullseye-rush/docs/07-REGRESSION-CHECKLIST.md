@@ -12,3 +12,6 @@
 10. **데스크톱 모바일 셸**: 1280×900 같은 landscape desktop viewport에서 `#game`은 중앙 9:16 프레임(폭 약 430px)으로 표시되고 전체 화면으로 늘어나지 않음.
 11. **외부 blur 배경**: 390×844 letterbox 여백과 1280×900 desktop 외부 영역에는 `stage-1.png` 기반 blur/saturate/brightness 배경이 보이고, canvas는 z-index 1로 그 위에 표시됨.
 12. **극단 조준 캐릭터 클립 방지**: aimX를 오른쪽 최댓값으로 강제해도 플레이어 bounds가 0~1080 캔버스 안에 있고 `playerClipPass=true`여야 함.
+13. **runtime SVG placeholder 금지**: Home까지 부팅한 브라우저 sample에서 `images/hazard.svg`, `images/collectible.svg`, `images/player.svg` resource load가 0이고, Phaser texture keys에 `hazard` / `collectible` scaffold key가 없어야 함.
+14. **LoadingScene production preload**: `target`, `star`, `arrow`, `bg_0`, `bg_1`, `bg_2`, `ui_frame`, `ui_pause`, `fx_hit`, `fx_collect`가 Home 진입 전에 로드되어야 하며 `GameScene.preload()`에 scene-local image loads가 없어야 함.
+15. **player spritesheet crop safety**: `assets/characters/player.png`의 4개 512×512 frame이 각각 최소 32px 좌우 padding과 43px 이상 상단 padding을 유지해야 하며 `factory:image-quality-qa`가 crop-edge 오류 없이 통과해야 함.

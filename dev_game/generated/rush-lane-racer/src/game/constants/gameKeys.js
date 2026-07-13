@@ -63,3 +63,11 @@ export const BACKGROUND_PATHS = {
 };
 
 export const BACKGROUND_KEYS = [ASSET_KEYS.bgStage1, ASSET_KEYS.bgStage2, ASSET_KEYS.bgStage3];
+
+export const AUDIO_PATHS = {
+  sfxStart: 'audio/ui_click.wav',
+  sfxHit: 'audio/hit.wav',
+  sfxCollect: 'audio/collect.wav',
+  sfxGameOver: 'audio/game_over.wav',
+  musicGameplay: 'audio/game_loop.wav',
+};

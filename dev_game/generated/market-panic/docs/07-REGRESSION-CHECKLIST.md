@@ -103,3 +103,15 @@ Capture sequence:
 - Button text stays inside buttons and does not resize the layout.
 - Generated sprites have transparent corners and no visible chroma fringe.
 - No debug rectangles or placeholder-only SVG runtime assets are visible.
+
+## Native FHD Runtime Regression — 2026-07-10
+
+- `game-spec.json` canvas remains native `1080x1920`, `scaleMode: fit`, and `maxTargetDpr: 1`.
+- DOM overlays keep the `390x844` base board and use `boardTransform()` to stay centered inside the FHD canvas.
+- `LoadingScene` preloads only path maps from `gameKeys.js`; Boot-only `loading_shell` comes from `BOOT_IMAGE_PATHS`.
+- Runtime resource samples must not request `/assets/images/*.svg`, and Phaser texture keys must not contain `svg` or `placeholder`.
+- DPR3 runtime sample must show canvas backing store `1080x1920`, not `3240x5760`.
+- GameScene sample must report `runtimeStrategy=native-fhd-canvas`, visible DOM game UI, live market state, and browser errors `0`.
+- `collectible.webp` must keep transparent edge padding and `factory:image-quality-qa` must pass `11` role-aware assets.
+
+2026-07-10 evidence: build, image-quality QA, production gate, Home DPR3 runtime sample, and GameScene DPR3 runtime sample all passed; see `dev_game/docs/qa-evidence/market-panic-2026-07-10.md`.

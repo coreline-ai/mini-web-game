@@ -398,6 +398,42 @@ Metric highlights:
 | production-gate | PASS |
 | Manual DPR2 runtime capture | PASS — screenshots + JSON + contact sheet |
 
+## 2026-07-10 Full-resolution loader contract pass
+
+Scope:
+
+- Keep the existing 1080x1920 Castle Archer runtime and production PNG assets.
+- Remove loader drift rather than regenerate art: `gameKeys.js` is now the source of truth for spritesheet, image, and audio preload paths.
+- `LoadingScene` preloads the centralized runtime list. `GameScene` no longer late-loads `arrow`.
+- Runtime texture use for arrow, backgrounds, UI heart/pause, and FX now references `ASSET_KEYS` instead of scattered raw strings.
+- `asset-manifest.json` runtime image formats are PNG/WebP only; scaffold `assets/images/*.svg` files are documented as non-runtime leftovers.
+
+Fresh evidence:
+
+```text
+dev_game/docs/qa-evidence/castle-archer-2026-07-10.md
+dev_game/generated/castle-archer/qa-captures/full-resolution-2026-07-10/asset-fidelity-runtime-sample.json
+dev_game/generated/castle-archer/qa-captures/full-resolution-2026-07-10/home-390x844-dpr2.png
+```
+
+Runtime sample highlights:
+
+- Canvas backing store: `1080x1920`; CSS display: `390x693.328125`; DPR: `2`.
+- Required runtime textures loaded: player, enemy sheets, hazard, collectible, arrow, three backgrounds, UI images, icons, and FX.
+- Stale SVG runtime resources: `0`; stale SVG/placeholder texture keys: `0`.
+- Browser/page errors: `0`. WebGL `ReadPixels` messages were capture-time performance warnings only.
+
+2026-07-10 loader contract verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 26 assets at role-aware production-demo bar |
+| production-gate | PASS — 390x844, 430x932, 1080x1920, 1280x900 |
+| visual-layout-qa | PASS — from production-gate |
+| scene-composite-qa | PASS — from production-gate |
+| Manual runtime asset-fidelity sample | PASS — screenshots + JSON |
+
 ## Remaining expansion ideas
 
 - Add true hand-drawn per-enemy death frames.

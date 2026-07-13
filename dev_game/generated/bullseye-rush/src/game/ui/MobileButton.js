@@ -1,10 +1,11 @@
 import { fontPx, strokePx, su } from '../utils/scale.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 
 export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58) {
   width = su(width);
   height = su(height);
   const _k = 'btnui_' + width + 'x' + height;
-    if (!scene.textures.exists('ui_frame') && !scene.textures.exists(_k)) {
+    if (!scene.textures.exists(ASSET_KEYS.ui.frame) && !scene.textures.exists(_k)) {
       const g = scene.make.graphics({ add: false });
       const r = Math.min(su(22), height / 2);
       g.fillStyle(0x0a3d1f, 1); g.fillRoundedRect(0, 0, width, height, r);
@@ -13,7 +14,7 @@ export function makeTextButton(scene, x, y, label, onClick, width = 190, height 
       g.lineStyle(su(2.5), 0xffffff, 0.9); g.strokeRoundedRect(su(1), su(1), width - su(2), height - su(2), r);
       g.generateTexture(_k, width, height); g.destroy();
     }
-    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);
+    const bg = scene.textures.exists(ASSET_KEYS.ui.frame) ? scene.add.image(x, y, ASSET_KEYS.ui.frame).setDisplaySize(width, height) : scene.add.image(x, y, _k);
   const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: fontPx(24), color: '#ffffff', stroke: '#000000', strokeThickness: strokePx(4) }).setOrigin(0.5);
   bg.setInteractive({ useHandCursor: true });
   bg.on('pointerdown', () => { bg.setDisplaySize(width * 0.96, height * 0.96); txt.setScale(0.96); onClick?.(); });

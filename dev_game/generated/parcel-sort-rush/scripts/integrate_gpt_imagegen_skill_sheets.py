@@ -72,7 +72,7 @@ TASKS = [
     Task("conveyor_tile", "sprites", (570, 1015, 1000, 1495), "machines/conveyor_tile.png", (512, 768), "conveyor", "texture", "alpha", True, 0.02, 25),
 
     Task("stamp_correct", "feedback", (50, 70, 365, 375), "feedback/stamp_correct.png", (300, 300), "feedback", "sprite", "alpha", True, 0.08, 34),
-    Task("stamp_wrong", "feedback", (445, 70, 765, 375), "feedback/stamp_wrong.png", (300, 300), "feedback", "sprite", "alpha", True, 0.08, 34),
+    Task("stamp_wrong", "feedback", (445, 70, 765, 375), "feedback/stamp_wrong.png", (512, 512), "feedback", "sprite", "alpha", True, 0.08, 34),
     Task("combo_perfect", "feedback", (850, 30, 1235, 380), "feedback/combo_perfect.png", (360, 160), "feedback", "sprite", "alpha", True, 0.02),
 
     Task("button_pause", "ui", (42, 52, 238, 242), "ui/button_pause.png", (180, 180), "ui-icon", "sprite", "alpha", True, 0.02),
@@ -86,6 +86,16 @@ TASKS = [
     Task("panel_modal", "ui", (52, 932, 380, 1312), "ui/panel_modal.png", (900, 820), "ui-panel", "sprite", "alpha", True, 0.01),
     Task("panel_gameover", "ui", (432, 785, 960, 1480), "ui/panel_gameover.png", (900, 1080), "ui-panel", "sprite", "alpha", True, 0.01),
 ]
+
+QUALITY_POLISH_BLUR = {
+    "warehouse_day": 0.50,
+    "parcel_cold": 0.30,
+    "parcel_heavy": 0.40,
+    "combo_perfect": 0.50,
+    "stamp_correct": 0.50,
+    "hud_panel": 0.30,
+    "hud_panel_compact": 0.45,
+}
 
 
 def rel(path: Path) -> str:
@@ -248,6 +258,18 @@ def cover(im: Image.Image, size: tuple[int,int]) -> Image.Image:
     return opaque
 
 
+def polish_quality_gate_texture(task: Task, im: Image.Image) -> Image.Image:
+    """Apply minimal deterministic smoothing for assets that exceed the hf quality ceiling."""
+    radius = QUALITY_POLISH_BLUR.get(task.id)
+    if not radius:
+        return im
+    rgba = im.convert("RGBA")
+    alpha = rgba.getchannel("A")
+    smoothed = rgba.convert("RGB").filter(ImageFilter.GaussianBlur(radius)).convert("RGBA")
+    smoothed.putalpha(alpha)
+    return smoothed
+
+
 def provenance(task: Task, sheet_path: Path, raw_path: Path, generated_at: str) -> dict:
     digest_source = f"{task.id}|{task.sheet}|{task.crop}|{sheet_path.name}|{METHOD}"
     return {
@@ -301,6 +323,7 @@ def main() -> int:
             if task.role in {"parcel", "sort-bin"}:
                 cleaned = remove_small_alpha_components(cleaned)
             final = contain(cleaned, task.canvas, task.margin)
+        final = polish_quality_gate_texture(task, final)
         final.save(out_path, optimize=True)
 
         entry = {

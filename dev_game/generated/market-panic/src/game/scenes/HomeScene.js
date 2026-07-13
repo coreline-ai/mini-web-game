@@ -5,6 +5,7 @@ import { SaveData } from '../systems/SaveData.js';
 import { AudioManager } from '../systems/AudioManager.js';
 import DomSceneUI from '../ui/DomSceneUI.js';
 import { openHelpOverlay } from '../ui/HelpOverlay.js';
+import { su } from '../constants/tuning.js';
 
 export default class HomeScene extends Phaser.Scene {
   constructor() { super(SCENES.HOME); }
@@ -12,12 +13,12 @@ export default class HomeScene extends Phaser.Scene {
     AudioManager.stopMusic();
     const { width, height } = SPEC.canvas;
     this.add.rectangle(0, 0, width, height, 0x07111f).setOrigin(0);
-    if (this.textures.exists('bg_0')) {
-      const bg = this.add.image(width / 2, height / 2, 'bg_0').setAlpha(0.92);
+    if (this.textures.exists(ASSET_KEYS.backgrounds.stage1)) {
+      const bg = this.add.image(width / 2, height / 2, ASSET_KEYS.backgrounds.stage1).setAlpha(0.92);
       const scale = Math.max(width / bg.width, height / bg.height);
       bg.setScale(scale);
     }
-    this.add.image(width / 2, height * 0.31, ASSET_KEYS.player).setDisplaySize(112, 112);
+    this.add.image(width / 2, height * 0.31, ASSET_KEYS.player).setDisplaySize(su(112), su(112));
     this.domUi = new DomSceneUI(this, 'Home', 'mp-home-ui', `
       <h1 data-layout-id="title">마켓 패닉</h1>
       <p class="mp-home-subtitle" data-layout-id="subtitle">뉴스를 해석해 한 번만 결정하세요</p>

@@ -11,13 +11,10 @@ import { applyLogicalCamera, logicalPointer } from '../systems/HiDpi.js';
 import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import ArrowSystem from '../systems/ArrowSystem.js';
+import { su } from '../constants/tuning.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
-  preload() {
-    // Sky Archer 전용: 화살 프로젝타일 아트 (AI 생성)
-    this.load.image('arrow', 'items/arrow.png');
-  }
   create() {
     applyLogicalCamera(this);
     this.isOver = false;
@@ -46,10 +43,31 @@ export default class GameScene extends Phaser.Scene {
     AudioManager.playGameplayMusic(this);
     this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
+    window.__SKY_ARCHER_DEBUG__ = {
+      get: () => ({
+        over: this.isOver,
+        runtimeStrategy: 'native-fhd-canvas',
+        logicalCanvas: { width: SPEC.canvas.width, height: SPEC.canvas.height },
+        canvasBacking: { width: this.sys.game.canvas.width, height: this.sys.game.canvas.height },
+        cameraZoom: this.cameras.main.zoom,
+        score: this.score?.getScore?.() ?? 0,
+        player: this.player ? {
+          x: this.player.x,
+          y: this.player.y,
+          displayWidth: this.player.displayWidth,
+          displayHeight: this.player.displayHeight,
+          active: this.player.active,
+          visible: this.player.visible,
+        } : null,
+        hazards: this.spawner?.hazards?.countActive?.(true) ?? 0,
+        collectibles: this.spawner?.collectibles?.countActive?.(true) ?? 0,
+        arrows: this.archery?.arrows?.countActive?.(true) ?? 0,
+      }),
+    };
   }
   onPointer(pointer) {
     const p = logicalPointer(pointer);
-    if (this.isOver || p.y < 82) return;
+    if (this.isOver || p.y < su(82)) return;
     if (SPEC.player.moveMode === 'tap-lane') {
       const lane = Math.floor(p.x / (SPEC.canvas.width / 3));
       this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);
@@ -69,14 +87,14 @@ export default class GameScene extends Phaser.Scene {
     this.player.x += vx;
     // 이동 피드백: 진행 방향으로 기울기 + 부드러운 부양 바운스(정지 시 원위치)
     this.player.angle = Phaser.Math.Linear(this.player.angle, Phaser.Math.Clamp(vx * 1.6, -16, 16), 0.18);
-    this.player.y = TUNING.playerY + Math.sin(time * 0.006) * 3;
+    this.player.y = TUNING.playerY + Math.sin(time * 0.006) * su(3);
     if (this.anims.exists('player_run')) {
       if (Math.abs(vx) > 0.4) { if (!this.player.anims.isPlaying) this.player.play('player_run'); }
       else if (this.player.anims.isPlaying) { this.player.stop(); this.player.setFrame(0); }
     }
     this.archery.update(delta);
     // 사격 게임 실패 조건: 풍선 표적이 궁수 라인(지면)에 닿으면 게임오버
-    const landY = TUNING.playerY + 34;
+    const landY = TUNING.playerY + su(34);
     this.spawner.hazards.children.each((t) => { if (t.active && t.y > landY) this.onHit(); });
     this.hud.update(this.score.getScore(), params.level);
     publishLayout(this, this.hudLayout);
@@ -85,13 +103,13 @@ export default class GameScene extends Phaser.Scene {
     const _cx = coin.x, _cy = coin.y;
     coin.disableBody(true, true);
     this.score.addCollectible();
-    Juice.burst(this, _cx, _cy, 0xffe066, 'fx_collect'); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));
+    Juice.burst(this, _cx, _cy, 0xffe066, ASSET_KEYS.fx.collect); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));
     AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);
   }
   onHit() {
     if (this.isOver) return;
     this.isOver = true;
-    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, 'fx_hit');
+    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, ASSET_KEYS.fx.hit);
     AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);
     AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);
     AudioManager.stopMusic();
@@ -114,5 +132,6 @@ export default class GameScene extends Phaser.Scene {
     this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);
     if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
     clearLayout();
+    if (typeof window !== 'undefined') delete window.__SKY_ARCHER_DEBUG__;
   }
 }

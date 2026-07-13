@@ -1,0 +1,183 @@
+{
+  "runtimeStrategy": "native-fhd-canvas",
+  "dpr": 3,
+  "beforeShot": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "gameConfig": {
+      "width": 1080,
+      "height": 1920
+    },
+    "gameSize": {
+      "width": 1080,
+      "height": 1920
+    },
+    "canvasBacking": {
+      "width": 1080,
+      "height": 1920
+    },
+    "cameraZoom": 1,
+    "activeScene": "Game",
+    "state": {
+      "score": 0,
+      "hits": 0,
+      "shots": 0,
+      "combo": 0,
+      "stageIndex": 0,
+      "timeLeft": 44.783333333333346
+    },
+    "target": {
+      "x": 271.9333333333334,
+      "y": 499,
+      "displayWidth": 209,
+      "displayHeight": 209,
+      "alive": true,
+      "edgeMargin": 200
+    },
+    "gallery": {
+      "top": 272.98578199052133,
+      "bottom": 1387.6777251184833,
+      "width": 998.1042654028436,
+      "height": 1114.691943127962
+    },
+    "crosshair": {
+      "texture": "reticle_ui",
+      "displayWidth": 127.39336492890995,
+      "displayHeight": 127.39336492890995,
+      "sourceWidth": 218,
+      "sourceHeight": 218
+    },
+    "requiredTextures": [
+      {
+        "key": "target",
+        "exists": true,
+        "width": 512,
+        "height": 512
+      },
+      {
+        "key": "hit_burst",
+        "exists": true,
+        "width": 256,
+        "height": 256
+      },
+      {
+        "key": "ui_pause",
+        "exists": true,
+        "width": 256,
+        "height": 256
+      },
+      {
+        "key": "bg_0",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      },
+      {
+        "key": "bg_1",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      },
+      {
+        "key": "bg_2",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      }
+    ]
+  },
+  "afterShot": {
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "gameConfig": {
+      "width": 1080,
+      "height": 1920
+    },
+    "gameSize": {
+      "width": 1080,
+      "height": 1920
+    },
+    "canvasBacking": {
+      "width": 1080,
+      "height": 1920
+    },
+    "cameraZoom": 1,
+    "activeScene": "Game",
+    "state": {
+      "score": 180,
+      "hits": 1,
+      "shots": 1,
+      "combo": 1,
+      "stageIndex": 0,
+      "timeLeft": 44.91666666666667
+    },
+    "target": {
+      "x": 857.8666666666668,
+      "y": 730,
+      "displayWidth": 209,
+      "displayHeight": 209,
+      "alive": true,
+      "edgeMargin": 200
+    },
+    "gallery": {
+      "top": 272.98578199052133,
+      "bottom": 1387.6777251184833,
+      "width": 998.1042654028436,
+      "height": 1114.691943127962
+    },
+    "crosshair": {
+      "texture": "reticle_ui",
+      "displayWidth": 127.39336492890995,
+      "displayHeight": 127.39336492890995,
+      "sourceWidth": 218,
+      "sourceHeight": 218
+    },
+    "requiredTextures": [
+      {
+        "key": "target",
+        "exists": true,
+        "width": 512,
+        "height": 512
+      },
+      {
+        "key": "hit_burst",
+        "exists": true,
+        "width": 256,
+        "height": 256
+      },
+      {
+        "key": "ui_pause",
+        "exists": true,
+        "width": 256,
+        "height": 256
+      },
+      {
+        "key": "bg_0",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      },
+      {
+        "key": "bg_1",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      },
+      {
+        "key": "bg_2",
+        "exists": true,
+        "width": 1080,
+        "height": 1920
+      }
+    ]
+  },
+  "browserErrors": [],
+  "staleSvgRequests": [],
+  "staleStageBackgroundRequests": []
+}

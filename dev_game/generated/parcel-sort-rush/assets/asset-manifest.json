@@ -605,8 +605,8 @@
       "type": "sprite",
       "role": "feedback",
       "quality": "production-demo",
-      "minWidth": 300,
-      "minHeight": 300,
+      "minWidth": 512,
+      "minHeight": 512,
       "requiresAlpha": true,
       "provenance": {
         "source": "generated-for-game",

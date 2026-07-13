@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
-import { TUNING } from '../constants/tuning.js';
+import { TUNING, su } from '../constants/tuning.js';
 
 function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
 
@@ -35,10 +35,10 @@ export default class Spawner {
     return p;
   }
   spawnHazard(speed) {
-    const x = Phaser.Math.Between(TUNING.safeSide + 20, SPEC.canvas.width - TUNING.safeSide - 20);
-    const h = this.hazards.get(x, -60, ASSET_KEYS.hazard);
+    const x = Phaser.Math.Between(TUNING.safeSide + su(20), SPEC.canvas.width - TUNING.safeSide - su(20));
+    const h = this.hazards.get(x, -su(60), ASSET_KEYS.hazard);
     if (!h) return;
-    h.enableBody(true, x, -60, true, true);
+    h.enableBody(true, x, -su(60), true, true);
     h.setDepth(5).setDisplaySize(TUNING.hazardSize, TUNING.hazardSize);
     h.body.setAllowGravity(false);
     h.body.setCircle(Math.min(h.width, h.height) * 0.38, h.width * 0.12, h.height * 0.12);
@@ -46,17 +46,17 @@ export default class Spawner {
     h.setAngularVelocity(Phaser.Math.Between(-80, 80));
   }
   spawnCollectible(speed) {
-    const x = Phaser.Math.Between(TUNING.safeSide + 20, SPEC.canvas.width - TUNING.safeSide - 20);
-    const c = this.collectibles.get(x, -40, ASSET_KEYS.collectible);
+    const x = Phaser.Math.Between(TUNING.safeSide + su(20), SPEC.canvas.width - TUNING.safeSide - su(20));
+    const c = this.collectibles.get(x, -su(40), ASSET_KEYS.collectible);
     if (!c) return;
-    c.enableBody(true, x, -40, true, true);
+    c.enableBody(true, x, -su(40), true, true);
     c.setDepth(4).setDisplaySize(TUNING.collectibleSize, TUNING.collectibleSize);
     c.body.setAllowGravity(false);
     c.body.setCircle(Math.min(c.width, c.height) * 0.42, c.width * 0.08, c.height * 0.08);
     c.setVelocity(0, speed);
   }
   cleanup() {
-    const off = SPEC.canvas.height + 120;
+    const off = SPEC.canvas.height + su(120);
     this.hazards.children.each((o) => { if (o.active && o.y > off) o.disableBody(true, true); });
     this.collectibles.children.each((o) => { if (o.active && o.y > off) o.disableBody(true, true); });
   }

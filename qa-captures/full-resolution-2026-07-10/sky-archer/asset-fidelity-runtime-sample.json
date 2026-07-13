@@ -1,0 +1,169 @@
+{
+  "href": "http://127.0.0.1:5200/",
+  "devicePixelRatio": 3,
+  "renderTarget": {
+    "targetDpr": 1,
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "physicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "gameConfig": {
+    "width": 1080,
+    "height": 1920
+  },
+  "scaleGameSize": {
+    "width": 1080,
+    "height": 1920
+  },
+  "baseSize": {
+    "width": 1080,
+    "height": 1920
+  },
+  "displaySize": {
+    "width": 390,
+    "height": 693.3333333333334
+  },
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "clientWidth": 390,
+    "clientHeight": 693,
+    "rect": {
+      "x": 0,
+      "y": 75,
+      "width": 390,
+      "height": 693.328125,
+      "right": 390,
+      "bottom": 768.328125
+    }
+  },
+  "layout": {
+    "scene": "Home",
+    "items": [
+      {
+        "id": "title",
+        "x": 98.94444444444444,
+        "y": 180.1362870311737,
+        "width": 192.11111111111111,
+        "height": 39.32555093765259,
+        "visible": true
+      },
+      {
+        "id": "best",
+        "x": 157.625,
+        "y": 444.74326195716856,
+        "width": 74.75,
+        "height": 23.17441358566284,
+        "visible": true
+      },
+      {
+        "id": "play",
+        "x": 104.63665086887835,
+        "y": 520.1758027251185,
+        "width": 180.7266982622433,
+        "height": 52.574644549763,
+        "visible": true
+      },
+      {
+        "id": "sound",
+        "x": 104.63665086887835,
+        "y": 594.4374881516587,
+        "width": 180.7266982622433,
+        "height": 42.71689869668243,
+        "visible": true
+      }
+    ]
+  },
+  "requiredTextures": {
+    "player": true,
+    "hazard": true,
+    "collectible": true,
+    "arrow": true,
+    "bg_0": true,
+    "bg_1": true,
+    "bg_2": true,
+    "ui_frame": true,
+    "ui_frame_slim": true,
+    "ui_frame_dialog": true,
+    "ui_pause": true,
+    "fx_hit": true,
+    "fx_collect": true
+  },
+  "textureDims": {
+    "player": {
+      "width": 2048,
+      "height": 512
+    },
+    "hazard": {
+      "width": 768,
+      "height": 768
+    },
+    "collectible": {
+      "width": 768,
+      "height": 768
+    },
+    "arrow": {
+      "width": 512,
+      "height": 1024
+    },
+    "bg_0": {
+      "width": 1080,
+      "height": 1920
+    },
+    "bg_1": {
+      "width": 1080,
+      "height": 1920
+    },
+    "bg_2": {
+      "width": 1080,
+      "height": 1920
+    },
+    "ui_frame": {
+      "width": 1320,
+      "height": 384
+    },
+    "ui_frame_slim": {
+      "width": 1320,
+      "height": 312
+    },
+    "ui_frame_dialog": {
+      "width": 1380,
+      "height": 372
+    },
+    "ui_pause": {
+      "width": 768,
+      "height": 768
+    },
+    "fx_hit": {
+      "width": 640,
+      "height": 640
+    },
+    "fx_collect": {
+      "width": 640,
+      "height": 640
+    }
+  },
+  "staleTextureKeys": [],
+  "requests": {
+    "total": 60,
+    "svg": []
+  },
+  "browserErrors": [],
+  "assertions": {
+    "homeScene": true,
+    "canvasBacking1080x1920": true,
+    "noDpr3BackingTrap": true,
+    "gameConfig1080x1920": true,
+    "gameSize1080x1920": true,
+    "canvasInsideViewport": true,
+    "allRequiredTexturesLoaded": true,
+    "noRuntimeSvgRequests": true,
+    "noStaleTextureKeys": true,
+    "noBrowserErrors": true
+  }
+}

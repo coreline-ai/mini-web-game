@@ -129,6 +129,36 @@ Final gate results:
 - `npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/road-stream-racer --viewports 390x844,430x932,1080x1920,1280x900`: pass.
 - `npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/road-stream-racer --viewports 390x844,430x932,1080x1920`: pass.
 
+## Polish Pass 2026-07-10 — Full-resolution loader contract
+
+Scope:
+- Preserve the current native `1080x1920` runtime, `Scale.FIT`, full-frame road loop, forest side overlay, traffic systems, and HUD polish.
+- Move runtime spritesheet/image/audio preload paths into `gameKeys.js`.
+- `LoadingScene` now preloads the centralized runtime list.
+- `racer_ui_*` and `racer_icon_*` premium HUD keys are tracked in `ASSET_KEYS`; `HudUI` uses those constants instead of raw strings.
+
+Fresh evidence:
+- `dev_game/docs/qa-evidence/road-stream-racer-2026-07-10.md`
+- `qa-captures/full-resolution-2026-07-10/asset-fidelity-runtime-sample.json`
+- `qa-captures/full-resolution-2026-07-10/home-390x844-dpr2.png`
+
+Runtime sample highlights:
+- Canvas backing store: `1080x1920`; CSS display at 390x844 DPR2: `389.984375x693.328125`.
+- Required runtime textures loaded: road loop, forest overlay, traffic/obstacles/items, player/coin sheets, FX, legacy UI, and premium HUD UI/icon assets.
+- Stale SVG runtime resources: `0`; stale SVG/placeholder texture keys: `0`.
+- Browser/page errors: `0`. WebGL `ReadPixels` messages were capture-time performance warnings only.
+
+2026-07-10 loader contract verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 19 assets at role-aware production-demo bar |
+| production-gate | PASS — 390x844, 430x932, 1080x1920, 1280x900 |
+| visual-layout-qa | PASS — from production-gate |
+| scene-composite-qa | PASS — from production-gate |
+| Manual runtime asset-fidelity sample | PASS — screenshots + JSON |
+
 ## Polish Pass 2026-07-09 — Tree-Skin Roadside Refinement
 
 User report:

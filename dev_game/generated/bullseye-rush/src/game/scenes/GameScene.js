@@ -17,11 +17,6 @@ import { sy } from '../utils/scale.js';
 // 실패는 낙하물 충돌이 아니라 "미스 3회 or 화살 소진" — 시간이 아니라 정확도가 자원이다.
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
-  preload() {
-    if (!this.textures.exists('target')) this.load.image('target', 'enemies/target.png');
-    if (!this.textures.exists('star')) this.load.image('star', 'items/star.png');
-    if (!this.textures.exists('arrow')) this.load.image('arrow', 'items/arrow.png');
-  }
   create() {
     this.isOver = false;
     this.score = new ScoreManager();

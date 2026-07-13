@@ -17,10 +17,6 @@ import { applyLogicalCamera } from '../constants/renderScale.js';
 // 드래그는 이동이 아니라 "조준"이다. 실패는 원힛이 아니라 성문 HP(3) 소진.
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
-  preload() {
-    // wire가 자동 로드하지 않는 커스텀 스프라이트 (플랜의 projectile/enemy 역할)
-    if (!this.textures.exists('arrow')) this.load.image('arrow', 'items/arrow.png');
-  }
   create() {
     applyLogicalCamera(this);
     this.isOver = false;
@@ -114,7 +110,7 @@ export default class GameScene extends Phaser.Scene {
     if (this.isOver) return;
     this.isOver = true;
     this.player.play('archer_hit', true);
-    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, 'fx_hit');
+    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, ASSET_KEYS.fx.hit);
     AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);
     AudioManager.stopMusic();
     this.physics.pause();

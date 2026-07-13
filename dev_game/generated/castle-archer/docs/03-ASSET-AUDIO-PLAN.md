@@ -23,6 +23,8 @@ This section is authoritative for the current playable build after the 2026-07-0
 - FX: `fx-hit.png`, `fx-collect.png`, `fx-sparkle.png`, transparent RGB normalized and runtime burst placement clamped away from viewport edges.
 - Backgrounds: `stage-1.png`, `stage-2.png`, `stage-3.png`, each 1080×1920 with baked lower battlement. Runtime breach cleanup removes enemies before they visually sit on this battlement.
 - Runtime render: Castle Archer now uses a 1080×1920 high-resolution logical canvas. On 390×844 DPR2 captures the canvas backing store is 1080×1920 and CSS-displays at 390×693.33, so the browser downscales rather than upscales the rendered game.
+- Runtime loader: `src/game/constants/gameKeys.js` is the source of truth for spritesheet, image, and audio preload paths. `LoadingScene` preloads only those PNG/WAV assets, and `GameScene` no longer late-loads `arrow` during gameplay.
+- Manifest policy: runtime image formats are PNG/WebP only. The original `assets/images/*.svg` scaffold files are not part of the runtime preload contract.
 
 The older prompt blocks below are kept as generation history; use `assets/asset-manifest.json` plus this section for current QA and runtime expectations.
 

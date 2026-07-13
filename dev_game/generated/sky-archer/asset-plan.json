@@ -2,14 +2,15 @@
   "gameId": "sky-archer",
   "title": "Sky Archer",
   "canvas": {
-    "width": 390,
-    "height": 844,
-    "maxTargetDpr": 3,
+    "width": 1080,
+    "height": 1920,
+    "maxTargetDpr": 1,
     "physicalCanvasTarget": {
-      "width": 1170,
-      "height": 2532
+      "width": 1080,
+      "height": 1920
     }
   },
+  "runtimeStrategy": "native-fhd-canvas",
   "styleGuide": {
     "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
     "palette": "anchored on #1b1030 bg, #8be27c hero, #ffd54a reward",
@@ -88,9 +89,9 @@
       "path": "assets/ui/btn-frame.png",
       "width": 1320,
       "height": 384,
-      "prompt": "Glossy fantasy green pill action button background, no text, no icon, transparent padding, exact 220x64 logical DPR-safe source.",
+      "prompt": "Glossy fantasy green pill action button background, no text, no icon, transparent padding, FHD-safe source for the scaled 220x64 base-composition button.",
       "displayContract": {
-        "targetDpr": 3,
+        "targetDpr": 1,
         "sourceScale": 6,
         "runtimeStretch": "none for assigned logical button size"
       }
@@ -101,9 +102,9 @@
       "path": "assets/ui/btn-frame-slim.png",
       "width": 1320,
       "height": 312,
-      "prompt": "Glossy fantasy green slim pill button background, no text, transparent padding, exact 220x52 logical DPR-safe source.",
+      "prompt": "Glossy fantasy green slim pill button background, no text, transparent padding, FHD-safe source for the scaled 220x52 base-composition button.",
       "displayContract": {
-        "targetDpr": 3,
+        "targetDpr": 1,
         "sourceScale": 6,
         "runtimeStretch": "none for assigned logical button size"
       }
@@ -114,9 +115,9 @@
       "path": "assets/ui/btn-frame-dialog.png",
       "width": 1380,
       "height": 372,
-      "prompt": "Glossy fantasy green dialog pill button background, no text, transparent padding, exact 230x62 logical DPR-safe source.",
+      "prompt": "Glossy fantasy green dialog pill button background, no text, transparent padding, FHD-safe source for the scaled 230x62 base-composition button.",
       "displayContract": {
-        "targetDpr": 3,
+        "targetDpr": 1,
         "sourceScale": 6,
         "runtimeStretch": "none for assigned logical button size"
       }
@@ -127,9 +128,9 @@
       "path": "assets/ui/btn-pause.png",
       "width": 768,
       "height": 768,
-      "prompt": "Glossy circular green pause button with large rounded white pause bars, transparent padding, DPR-safe source.",
+      "prompt": "Glossy circular green pause button with large rounded white pause bars, transparent padding, FHD-safe source.",
       "displayContract": {
-        "targetDpr": 3,
+        "targetDpr": 1,
         "sourceScale": 6,
         "runtimeStretch": "none for assigned logical button size"
       }

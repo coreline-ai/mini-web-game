@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
-import { ASSET_KEYS } from '../constants/gameKeys.js';
+import { ASSET_KEYS, AUDIO_PATHS, BACKGROUND_PATHS, IMAGE_PATHS } from '../constants/gameKeys.js';
+import { strokePx, su } from '../constants/tuning.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
@@ -10,22 +11,10 @@ export default class LoadingScene extends Phaser.Scene {
   preload() {
     this.loadingUI = new LoadingUI(this);
     this.load.on('progress', (v) => this.loadingUI.setProgress(v));
-    this.load.image(ASSET_KEYS.player, 'images/production/characters/player_blaster.png');
-    this.load.image(ASSET_KEYS.hazard, 'images/production/targets/bullseye_target.png');
-    this.load.image(ASSET_KEYS.collectible, 'images/production/effects/hit_burst.png');
-    this.load.image(ASSET_KEYS.target, 'images/production/targets/bullseye_target.png');
-    this.load.image(ASSET_KEYS.crosshair, 'images/production/ui/crosshair.png');
-    this.load.image(ASSET_KEYS.hitBurst, 'images/production/effects/hit_burst.png');
-    this.load.image(ASSET_KEYS.missBurst, 'images/production/effects/hit_burst.png');
-    this.load.image('ui_pause', 'images/production/ui/button_pause.png');
-    this.load.image(ASSET_KEYS.bg0, 'images/production/backgrounds/gallery_day.png');
-    this.load.image(ASSET_KEYS.bg1, 'images/production/backgrounds/gallery_night.png');
-    this.load.image(ASSET_KEYS.bg2, 'images/production/backgrounds/gallery_rush.png');
+    IMAGE_PATHS.forEach(({ key, path }) => this.load.image(key, path));
+    BACKGROUND_PATHS.forEach(({ key, path }) => this.load.image(key, path));
     if (SPEC.audio?.enabled) {
-      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
-      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);
-      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);
-      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);
+      AUDIO_PATHS.forEach(({ key, specPath }) => this.load.audio(key, SPEC.audio.sfx[specPath]));
       this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);
     }
   }
@@ -36,11 +25,11 @@ export default class LoadingScene extends Phaser.Scene {
     }
     const items = [];
     if (this.textures.exists(ASSET_KEYS.target)) {
-      this.loadingEmblemPlate = this.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.23, 124, 124, 0x07121d, 0.72)
-        .setStrokeStyle(3, 0x57d8ff, 0.82)
+      this.loadingEmblemPlate = this.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.23, su(124), su(124), 0x07121d, 0.72)
+        .setStrokeStyle(strokePx(3), 0x57d8ff, 0.82)
         .setDepth(3);
       this.loadingEmblem = this.add.image(SPEC.canvas.width / 2, SPEC.canvas.height * 0.23, ASSET_KEYS.target)
-        .setDisplaySize(92, 92)
+        .setDisplaySize(su(92), su(92))
         .setAlpha(0.96)
         .setDepth(4);
       items.push({ id: 'loading-emblem-plate', obj: this.loadingEmblemPlate, allowOverlap: true });

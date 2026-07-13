@@ -23,14 +23,16 @@ The manifest uses `qualityTier: "production-demo"` and imagegen provenance with:
 - `toolMode: "built-in-image_gen"`
 - `generatedFor: "market-panic"`
 
+Runtime canvas: native `1080x1920`, `maxTargetDpr: 1`. DOM overlays keep their proven `390x844` base-composition CSS and are transformed into a centered FHD board at runtime.
+
 ## Backgrounds
 
 | Asset | Runtime key | Role |
 |---|---|---|
-| `assets/backgrounds/stage-1.png` | `bg_0` | Opening Bell trading desk mood |
-| `assets/backgrounds/stage-2.png` | `bg_1` | Earnings Storm mood |
-| `assets/backgrounds/stage-3.png` | `bg_2` | Rumor Spiral mood |
-| `assets/backgrounds/stage-4.png` | `bg_3` | Circuit Breaker collapse mood |
+| `assets/backgrounds/stage-1.webp` | `bg_0` | Opening Bell trading desk mood |
+| `assets/backgrounds/stage-2.webp` | `bg_1` | Earnings Storm mood |
+| `assets/backgrounds/stage-3.webp` | `bg_2` | Rumor Spiral mood |
+| `assets/backgrounds/stage-4.webp` | `bg_3` | Circuit Breaker collapse mood |
 
 All backgrounds are `1080x1920` raster PNGs and are cover-fit at runtime to avoid stretching.
 
@@ -38,13 +40,13 @@ All backgrounds are `1080x1920` raster PNGs and are cover-fit at runtime to avoi
 
 | Asset | Role | Runtime use |
 |---|---|---|
-| `assets/characters/player.png` | player | Home mascot and production-demo core player asset |
-| `assets/enemies/hazard.png` | hazard | Market Shock production-demo core object asset |
-| `assets/items/collectible.png` | collectible | Alpha Signal production-demo reward asset |
+| `assets/characters/player.webp` | player | Home mascot and production-demo core player asset |
+| `assets/enemies/hazard.webp` | hazard | Market Shock production-demo core object asset |
+| `assets/items/collectible.webp` | collectible | Alpha Signal production-demo reward asset |
 | `assets/ui/btn-frame.png` | ui-icon | Button frame texture fallback |
 | `assets/ui/btn-pause.png` | ui-icon | Pause button texture |
-| `assets/effects/fx-hit.png` | feedback | Bad-call burst |
-| `assets/effects/fx-collect.png` | feedback | Good-call burst |
+| `assets/effects/fx-hit.webp` | feedback | Bad-call burst |
+| `assets/effects/fx-collect.webp` | feedback | Good-call burst |
 
 The active gameplay UI uses Phaser text/graphics for live financial metrics because prices,
 events, and button states must be dynamic and machine-readable. Generated sprites still ship
@@ -76,3 +78,5 @@ Audio state requirements:
 `hazard.png` received a local alpha-backing/padding postprocess after imagegen because the
 generated market-shock shape had many detached lightning parts. The final file still uses
 the imagegen subject, but now passes role-aware alpha coverage and crop-edge checks.
+
+2026-07-10 FHD cleanup: `collectible.webp` received transparent padding (`1254x1254` -> `1446x1446`) so the FHD image-quality gate no longer reports crop-edge contact. Legacy SVG scaffolds remain non-runtime leftovers and must not be requested by browser samples.

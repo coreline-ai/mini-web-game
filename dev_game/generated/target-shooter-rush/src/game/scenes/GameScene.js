@@ -8,22 +8,29 @@ import StageManager from '../systems/StageManager.js';
 import { Juice } from '../systems/Juice.js';
 import TargetSystem from '../systems/TargetSystem.js';
 import { SHOOTING } from '../config/shootingConfig.js';
+import { fontPx, strokePx, su } from '../constants/tuning.js';
 
 const RETICLE_KEY = 'reticle_ui';
 
 function ensureReticleTexture(scene) {
   if (scene.textures.exists(RETICLE_KEY)) return;
+  const texSize = Math.round(su(96));
+  const center = texSize / 2;
+  const outerRadius = texSize * 0.28;
+  const innerGap = texSize * 0.22;
+  const armInset = texSize * 0.07;
+  const armOuter = texSize - armInset;
   const g = scene.make.graphics({ add: false });
-  g.lineStyle(3, 0x57d8ff, 0.92);
-  g.strokeCircle(32, 32, 18);
-  g.lineStyle(2, 0xffffff, 0.85);
-  g.lineBetween(32, 4, 32, 18);
-  g.lineBetween(32, 46, 32, 60);
-  g.lineBetween(4, 32, 18, 32);
-  g.lineBetween(46, 32, 60, 32);
+  g.lineStyle(strokePx(3), 0x57d8ff, 0.92);
+  g.strokeCircle(center, center, outerRadius);
+  g.lineStyle(strokePx(2), 0xffffff, 0.85);
+  g.lineBetween(center, armInset, center, center - innerGap);
+  g.lineBetween(center, center + innerGap, center, armOuter);
+  g.lineBetween(armInset, center, center - innerGap, center);
+  g.lineBetween(center + innerGap, center, armOuter, center);
   g.fillStyle(0xffffff, 0.9);
-  g.fillCircle(32, 32, 2);
-  g.generateTexture(RETICLE_KEY, 64, 64);
+  g.fillCircle(center, center, su(2));
+  g.generateTexture(RETICLE_KEY, texSize, texSize);
   g.destroy();
 }
 
@@ -46,39 +53,45 @@ export default class GameScene extends Phaser.Scene {
     this.cleared = false;
 
     this.stage = new StageManager(this);
+    const galleryWidth = SPEC.canvas.width - su(36);
+    const galleryHeight = SHOOTING.galleryBottom - SHOOTING.galleryTop;
+    const veilX = su(24);
+    const veilY = SHOOTING.galleryTop + su(18);
+    const veilWidth = SPEC.canvas.width - su(48);
+    const veilHeight = galleryHeight - su(34);
     this.gallery = this.add.zone(
       SPEC.canvas.width / 2,
       (SHOOTING.galleryTop + SHOOTING.galleryBottom) / 2,
-      SPEC.canvas.width - 36,
-      SHOOTING.galleryBottom - SHOOTING.galleryTop,
+      galleryWidth,
+      galleryHeight,
     );
     this.focusVeil = this.add.graphics().setDepth(4);
     this.focusVeil.fillStyle(0x06131d, 0.34);
-    this.focusVeil.fillRoundedRect(24, SHOOTING.galleryTop + 18, SPEC.canvas.width - 48, SHOOTING.galleryBottom - SHOOTING.galleryTop - 34, 18);
-    this.focusVeil.lineStyle(2, 0x57d8ff, 0.16);
-    this.focusVeil.strokeRoundedRect(24, SHOOTING.galleryTop + 18, SPEC.canvas.width - 48, SHOOTING.galleryBottom - SHOOTING.galleryTop - 34, 18);
+    this.focusVeil.fillRoundedRect(veilX, veilY, veilWidth, veilHeight, su(18));
+    this.focusVeil.lineStyle(strokePx(2), 0x57d8ff, 0.16);
+    this.focusVeil.strokeRoundedRect(veilX, veilY, veilWidth, veilHeight, su(18));
     this.focusVeilBounds = this.add.zone(
       SPEC.canvas.width / 2,
-      SHOOTING.galleryTop + 18 + (SHOOTING.galleryBottom - SHOOTING.galleryTop - 34) / 2,
-      SPEC.canvas.width - 48,
-      SHOOTING.galleryBottom - SHOOTING.galleryTop - 34,
+      veilY + veilHeight / 2,
+      veilWidth,
+      veilHeight,
     );
     this.targetSystem = new TargetSystem(this, ASSET_KEYS.target);
 
-    this.shooter = this.add.circle(SPEC.canvas.width / 2, SHOOTING.muzzleY, 8, 0x57d8ff, 0.8)
-      .setStrokeStyle(2, 0xffffff, 0.72)
+    this.shooter = this.add.circle(SPEC.canvas.width / 2, SHOOTING.muzzleY, su(8), 0x57d8ff, 0.8)
+      .setStrokeStyle(strokePx(2), 0xffffff, 0.72)
       .setDepth(12);
     ensureReticleTexture(this);
     this.crosshair = this.add.image(SPEC.canvas.width / 2, SPEC.canvas.height * 0.48, RETICLE_KEY)
-      .setDisplaySize(56, 56)
+      .setDisplaySize(su(56), su(56))
       .setAlpha(0.84)
       .setDepth(15);
-    this.feedbackText = this.add.text(SPEC.canvas.width / 2, 116, '', {
+    this.feedbackText = this.add.text(SPEC.canvas.width / 2, su(116), '', {
       fontFamily: 'Arial Black, Arial',
-      fontSize: '25px',
+      fontSize: fontPx(25),
       color: '#ffffff',
       stroke: '#000000',
-      strokeThickness: 5,
+      strokeThickness: strokePx(5),
     }).setOrigin(0.5).setDepth(22).setVisible(false);
 
     this.hud = new HudUI(this, () => this.openPause());
@@ -105,7 +118,56 @@ export default class GameScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.RESUME, this.onResume, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
     this.publishLayout();
-    if (typeof window !== 'undefined') window.__TARGET_SHOOTER_QA__ = () => this.onShot({ x: this.targetSystem.target.sprite.x, y: this.targetSystem.target.sprite.y });
+    if (typeof window !== 'undefined') {
+      window.__TARGET_SHOOTER_QA__ = () => this.onShot({ x: this.targetSystem.target.sprite.x, y: this.targetSystem.target.sprite.y });
+      window.__TARGET_SHOOTER_DEBUG__ = {
+        get: () => ({
+          runtimeStrategy: 'native-fhd-canvas',
+          logicalCanvas: { width: SPEC.canvas.width, height: SPEC.canvas.height },
+          gameConfig: { width: Number(this.sys.game.config.width), height: Number(this.sys.game.config.height) },
+          gameSize: { width: this.scale.gameSize.width, height: this.scale.gameSize.height },
+          canvasBacking: { width: this.sys.game.canvas.width, height: this.sys.game.canvas.height },
+          cameraZoom: this.cameras.main.zoom,
+          activeScene: this.scene.key,
+          state: {
+            score: Math.floor(this.score),
+            hits: this.hits,
+            shots: this.shots,
+            combo: this.combo,
+            stageIndex: this.stageIndex,
+            timeLeft: this.timeLeft,
+          },
+          target: {
+            x: this.targetSystem.target.sprite.x,
+            y: this.targetSystem.target.sprite.y,
+            displayWidth: this.targetSystem.target.sprite.displayWidth,
+            displayHeight: this.targetSystem.target.sprite.displayHeight,
+            alive: this.targetSystem.target.alive,
+            edgeMargin: this.targetSystem.target.edgeMargin,
+          },
+          gallery: {
+            top: SHOOTING.galleryTop,
+            bottom: SHOOTING.galleryBottom,
+            width: this.gallery.width,
+            height: this.gallery.height,
+          },
+          crosshair: {
+            texture: this.crosshair.texture.key,
+            displayWidth: this.crosshair.displayWidth,
+            displayHeight: this.crosshair.displayHeight,
+            sourceWidth: this.textures.get(RETICLE_KEY).getSourceImage().width,
+            sourceHeight: this.textures.get(RETICLE_KEY).getSourceImage().height,
+          },
+          requiredTextures: [ASSET_KEYS.target, ASSET_KEYS.hitBurst, ASSET_KEYS.ui.pause, ASSET_KEYS.backgrounds.stage1, ASSET_KEYS.backgrounds.stage2, ASSET_KEYS.backgrounds.stage3]
+            .map((key) => ({
+              key,
+              exists: this.textures.exists(key),
+              width: this.textures.exists(key) ? this.textures.get(key).getSourceImage().width : 0,
+              height: this.textures.exists(key) ? this.textures.get(key).getSourceImage().height : 0,
+            })),
+        }),
+      };
+    }
   }
 
   level() {
@@ -126,9 +188,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   onAim(pointer) {
-    if (this.isOver || pointer.y < SHOOTING.galleryTop - 24) return;
+    if (this.isOver || pointer.y < SHOOTING.galleryTop - su(24)) return;
     this.crosshair.setPosition(
-      Phaser.Math.Clamp(pointer.x, 24, SPEC.canvas.width - 24),
+      Phaser.Math.Clamp(pointer.x, su(24), SPEC.canvas.width - su(24)),
       Phaser.Math.Clamp(pointer.y, SHOOTING.galleryTop, SHOOTING.galleryBottom),
     );
   }
@@ -176,20 +238,20 @@ export default class GameScene extends Phaser.Scene {
 
   drawShot(x, y) {
     const g = this.add.graphics().setDepth(18);
-    g.lineStyle(5, 0x57d8ff, 0.92);
+    g.lineStyle(strokePx(5), 0x57d8ff, 0.92);
     g.lineBetween(this.shooter.x, SHOOTING.muzzleY, x, y);
     g.fillStyle(0xffffff, 0.9);
-    g.fillCircle(x, y, 8);
+    g.fillCircle(x, y, su(8));
     this.tweens.add({ targets: g, alpha: 0, duration: 150, onComplete: () => g.destroy() });
     this.shooter.setAlpha(1).setScale(1);
     this.tweens.add({ targets: this.shooter, scale: 2.1, alpha: 0.18, yoyo: true, duration: 80, ease: 'Quad.easeOut' });
   }
 
   showFeedback(label, color, x, y) {
-    this.feedbackText.setText(label).setColor(color).setPosition(SPEC.canvas.width / 2, 116).setVisible(true).setAlpha(1);
-    Juice.scorePop(this, x, y - 12, label === 'MISS' ? '-TIME' : '+' + (label === 'PERFECT' ? SHOOTING.perfectScore : SHOOTING.hitScore), color);
+    this.feedbackText.setText(label).setColor(color).setPosition(SPEC.canvas.width / 2, su(116)).setVisible(true).setAlpha(1);
+    Juice.scorePop(this, x, y - su(12), label === 'MISS' ? '-TIME' : '+' + (label === 'PERFECT' ? SHOOTING.perfectScore : SHOOTING.hitScore), color);
     this.tweens.killTweensOf(this.feedbackText);
-    this.tweens.add({ targets: this.feedbackText, y: 94, alpha: 0, duration: 650, ease: 'Cubic.easeOut', onComplete: () => this.feedbackText.setVisible(false) });
+    this.tweens.add({ targets: this.feedbackText, y: su(94), alpha: 0, duration: 650, ease: 'Cubic.easeOut', onComplete: () => this.feedbackText.setVisible(false) });
   }
 
   advanceStage() {
@@ -211,9 +273,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   showStageToast(label, color) {
-    this.feedbackText.setText(label).setColor(color).setPosition(SPEC.canvas.width / 2, 150).setVisible(true).setAlpha(1);
+    this.feedbackText.setText(label).setColor(color).setPosition(SPEC.canvas.width / 2, su(150)).setVisible(true).setAlpha(1);
     this.tweens.killTweensOf(this.feedbackText);
-    this.tweens.add({ targets: this.feedbackText, y: 126, alpha: 0, duration: SHOOTING.stageRewardToastMs, ease: 'Cubic.easeOut', onComplete: () => this.feedbackText.setVisible(false) });
+    this.tweens.add({ targets: this.feedbackText, y: su(126), alpha: 0, duration: SHOOTING.stageRewardToastMs, ease: 'Cubic.easeOut', onComplete: () => this.feedbackText.setVisible(false) });
   }
 
   update(time, delta) {
@@ -269,6 +331,10 @@ export default class GameScene extends Phaser.Scene {
     this.input.off('pointermove', this.onAim, this);
     this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);
     if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
+    if (typeof window !== 'undefined') {
+      delete window.__TARGET_SHOOTER_QA__;
+      delete window.__TARGET_SHOOTER_DEBUG__;
+    }
     clearLayout();
   }
 }

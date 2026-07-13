@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { SPEC } from '../data/spec.js';
 
 // Full-canvas stage background that swaps as the difficulty level rises. Uses textures
@@ -12,8 +13,7 @@ export default class StageManager {
   }
   constructor(scene) {
     this.scene = scene;
-    this.keys = [];
-    for (let i = 0; i < 8; i += 1) { if (scene.textures.exists('bg_' + i)) this.keys.push('bg_' + i); }
+    this.keys = Object.values(ASSET_KEYS.backgrounds).filter((key) => scene.textures.exists(key));
     this.current = -1;
     if (this.keys.length) {
       this.image = StageManager.coverFit(scene.add.image(SPEC.canvas.width / 2, SPEC.canvas.height / 2, this.keys[0]).setDepth(-10));

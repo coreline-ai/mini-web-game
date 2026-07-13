@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { SaveData } from '../systems/SaveData.js';
 import { terminalLabel, terminalReason } from '../config/marketConfig.js';
 import DomSceneUI from '../ui/DomSceneUI.js';
@@ -11,8 +12,8 @@ export default class GameOverScene extends Phaser.Scene {
     const score = data.score || 0;
     const isBest = SaveData.record(score);
     this.add.rectangle(0, 0, width, height, 0x070814).setOrigin(0);
-    if (this.textures.exists('bg_3')) {
-      const bg = this.add.image(width / 2, height / 2, 'bg_3').setAlpha(0.78);
+    if (this.textures.exists(ASSET_KEYS.backgrounds.stage4)) {
+      const bg = this.add.image(width / 2, height / 2, ASSET_KEYS.backgrounds.stage4).setAlpha(0.78);
       const scale = Math.max(width / bg.width, height / bg.height);
       bg.setScale(scale);
     }

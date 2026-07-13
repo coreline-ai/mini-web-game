@@ -2,9 +2,11 @@
   "gameId": "market-panic",
   "title": "Market Panic",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920,
+    "maxTargetDpr": 1
   },
+  "runtimeStrategy": "native-fhd-canvas-with-centered-dom-board",
   "styleGuide": {
     "bible": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable.",
     "palette": "anchored on #111827 bg, #38bdf8 hero, #facc15 reward",

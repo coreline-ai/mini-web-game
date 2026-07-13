@@ -82,6 +82,49 @@ Gate results:
 - `factory:scene-composite-qa --viewports 390x844,430x932,1080x1920`: PASS
 - `factory:production-gate --require-gpt-imagegen --viewports 390x844,430x932,1080x1920`: PASS
 
+## Polish pass — full-resolution loader contract and fit scale (2026-07-10)
+
+Scope:
+
+- Keep the existing native `1080×1920` runtime and production PNG assets.
+- Move runtime spritesheet/image/audio preload paths into `gameKeys.js`.
+- `LoadingScene` now preloads the centralized runtime list. `GameScene` no longer late-loads `fruit`, `balloon`, or `arrow`.
+- Runtime texture use for arrow, targets, backgrounds, pause UI, and FX now references `ASSET_KEYS`.
+- `asset-manifest.json` runtime image formats are PNG/WebP only; stage backgrounds are marked `generated-for-game`, not `placeholder`.
+- `game-spec.json` uses `scaleMode: "fit"` so the full `1080×1920` canvas stays inside mobile viewports.
+
+Production-gate catch:
+
+- First 2026-07-10 production-gate run failed visual-layout QA because `scaleMode: "cover"` clipped the canvas outside mobile viewports.
+- Failure examples: `390×844` canvas CSS rect `x=-42,width=474`; `430×932` rect `x=-47,width=524`.
+- After switching to `fit`, visual-layout QA passed and the runtime sample recorded `canvasCssRect: x=0,y=75,width=390,height=693`.
+
+Fresh evidence:
+
+```text
+dev_game/docs/qa-evidence/jungle-arcshot-2026-07-10.md
+dev_game/generated/jungle-arcshot/qa-captures/full-resolution-2026-07-10/asset-fidelity-runtime-sample.json
+dev_game/generated/jungle-arcshot/qa-captures/full-resolution-2026-07-10/home-390x844-dpr2.png
+```
+
+Runtime sample highlights:
+
+- Canvas backing store: `1080×1920`; CSS display: `390×693`; DPR: `2`.
+- Required runtime textures loaded: player, hazard/collectible compatibility keys, fruit, balloon, arrow, three backgrounds, UI images, and FX.
+- Stale SVG runtime resources: `0`; stale SVG/placeholder texture keys: `0`.
+- Browser/page errors: `0`. WebGL `ReadPixels` messages were capture-time performance warnings only.
+
+2026-07-10 loader contract verification result:
+
+| Gate | Result |
+|---|---|
+| Vite build | PASS |
+| image-quality-qa | PASS — 15 assets at role-aware production-demo bar |
+| production-gate | PASS — 390x844, 430x932, 1080x1920, 1280x900 |
+| visual-layout-qa | PASS — from production-gate after `fit` scale |
+| scene-composite-qa | PASS — from production-gate |
+| Manual runtime asset-fidelity sample | PASS — screenshots + JSON |
+
 ## Polish pass — desktop mobile-shell containment (2026-07-08)
 
 User symptom:

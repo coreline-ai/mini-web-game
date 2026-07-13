@@ -4,8 +4,14 @@
   "status": "production-demo-final",
   "authoritativeManifest": "assets/asset-manifest.json",
   "canvas": {
-    "width": 390,
-    "height": 844
+    "width": 1080,
+    "height": 1920,
+    "runtimeStrategy": "native-fhd-canvas",
+    "baseCompositionCanvas": {
+      "width": 390,
+      "height": 844
+    },
+    "maxTargetDpr": 1
   },
   "styleGuide": {
     "palette": "teal/gold/red arcade highlights on dark shooting-gallery backgrounds",
@@ -82,7 +88,7 @@
       "id": "crosshair-artifact",
       "role": "reticle-artifact",
       "path": "assets/images/production/ui/crosshair.png",
-      "runtimeUsage": "manifested generated artifact with runtimeActive=false; active gameplay uses runtime-generated reticle_ui"
+      "runtimeUsage": "retained as inactive reference artifact; production loader does not preload it and active gameplay uses runtime-generated reticle_ui"
     }
   ],
   "runtimeGeneratedVisuals": [

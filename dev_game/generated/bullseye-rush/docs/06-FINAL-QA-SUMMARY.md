@@ -32,3 +32,11 @@ factory:qa OK · production-demo-qa(--require-gpt-imagegen) OK · image-quality-
 - 수정: `body::before`와 `#game::before`에 `stage-1.png` 기반 blur/saturate/brightness 레이어를 추가하고, 캔버스 z-index를 위로 고정. 캡처 중 발견된 오른쪽 끝 조준 시 플레이어 일부 잘림은 aim margin을 확대해 함께 수정.
 - 증거: `qa-captures/bright-blur-shell-2026-07-08/{390x844,1280x900}-{home,game}.png`, `390x844-game-right-edge.png`, 각 `*-sample.json`.
 - 검증: blur background 적용 true, browserErrors 0, playerClipPass true.
+
+## 2026-07-10 Full-resolution loader and asset-manifest cleanup
+- 증상: runtime preload가 `images/hazard.svg` / `images/collectible.svg` scaffold SVG를 아직 로드했고, `target` / `star` / `arrow` production PNG는 `GameScene.preload()`에서 뒤늦게 로드됐다. `asset-manifest.json` stage backgrounds도 `source: placeholder`로 남아 있었다.
+- 원인 분류: L. Asset Fidelity / F. Machine-Assertable Evidence.
+- 수정: `src/game/constants/gameKeys.js`에 spritesheet/image/audio preload paths를 중앙화하고 `LoadingScene`이 production PNG를 모두 선로드하도록 변경. `GameScene`의 late image preload 제거. stage background manifest source를 `generated-for-game`으로 정정하고 SVG를 manifest allowed image format에서 제거.
+- 추가 수정: image-quality QA가 `player.png` spritesheet top/side alpha padding을 잘림 위험으로 감지해, 각 512×512 frame content를 32px 이상 padding으로 재중앙화했다. 최종 frame pads: frame0 `32/52/32/52`, frame1 `32/53/32/54`, frame2 `32/43/32/44`, frame3 `32/56/32/56`.
+- 증거: `qa-captures/full-resolution-2026-07-10/asset-fidelity-runtime-sample.json`, `qa-captures/full-resolution-2026-07-10/home-390x844-dpr3.png`, `dev_game/.tmp/visual-layout-qa/bullseye-rush`, `dev_game/.tmp/scene-composite-qa/bullseye-rush`.
+- 검증: `npm run build` PASS, `factory:image-quality-qa` PASS, `factory:production-gate --require-gpt-imagegen --viewports 390x844,430x932,1080x1920,1280x900` PASS. Runtime sample assertions all true: `configIs1080x1920`, `backingStoreIs1080x1920`, `noAccidentalDprMultiplier`, `activeSceneIsHome`, `requiredTexturesLoaded`, `sourceSizesMeetRequired`, `noStaleSvgResources`, `noStaleSvgTextureKeys`, `browserErrorsZero`.

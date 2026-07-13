@@ -29,12 +29,12 @@ export default class SlingshotAimSystem {
     this.vel = { x: 0, y: 0 };
     this.stats = { fired: 0 };
 
-    if (!scene.textures.exists('arrow')) {
+    if (!scene.textures.exists(ASSET_KEYS.arrow)) {
       const g = scene.add.graphics();
       g.fillStyle(0xf2e6d8, 1).fillRect(11, 0, 4, 40);
       g.fillStyle(0x6f8f3c, 1).fillRect(10, 40, 6, 14);
       g.fillTriangle(13, 0, 4, 14, 22, 14);
-      g.generateTexture('arrow', 26, 56);
+      g.generateTexture(ASSET_KEYS.arrow, 26, 56);
       g.destroy();
     }
     this.arrows = scene.physics.add.group({ maxSize: 14 });
@@ -97,7 +97,7 @@ export default class SlingshotAimSystem {
     if (this.scene.rounds && this.scene.rounds.arrowsLeft <= 0) return;
     this.cooldown = SLING.fireCooldownMs;
     const px = this.scene.player.x, py = this.scene.player.y - su(26);
-    const a = this.arrows.get(px, py, 'arrow');
+    const a = this.arrows.get(px, py, ASSET_KEYS.arrow);
     if (!a) return;
     a.enableBody(true, px, py, true, true);
     a._pierce = 0;

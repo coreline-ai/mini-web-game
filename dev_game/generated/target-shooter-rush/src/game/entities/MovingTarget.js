@@ -1,25 +1,26 @@
 import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
+import { strokePx, su, sx } from '../constants/tuning.js';
 
 export default class MovingTarget {
   constructor(scene, textureKey) {
     this.scene = scene;
     this.textureKey = textureKey;
-    this.backplate = scene.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, 124, 124, 0x07121d, 0.62)
-      .setStrokeStyle(3, 0x57d8ff, 0.82)
+    this.backplate = scene.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, su(124), su(124), 0x07121d, 0.62)
+      .setStrokeStyle(strokePx(3), 0x57d8ff, 0.82)
       .setDepth(5);
-    this.highlight = scene.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, 104, 104, 0x57d8ff, 0.12)
-      .setStrokeStyle(2, 0xffffff, 0.42)
+    this.highlight = scene.add.ellipse(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, su(104), su(104), 0x57d8ff, 0.12)
+      .setStrokeStyle(strokePx(2), 0xffffff, 0.42)
       .setDepth(6);
     this.sprite = scene.add.image(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, textureKey)
       .setDepth(8)
-      .setDisplaySize(90, 90);
-    this.shadow = scene.add.ellipse(this.sprite.x, this.sprite.y + 42, 92, 20, 0x000000, 0.22)
+      .setDisplaySize(su(90), su(90));
+    this.shadow = scene.add.ellipse(this.sprite.x, this.sprite.y + su(42), su(92), su(20), 0x000000, 0.22)
       .setDepth(7);
     this.direction = 1;
-    this.speed = 120;
-    this.radius = 45;
-    this.edgeMargin = this.radius + 24;
+    this.speed = sx(120);
+    this.radius = su(45);
+    this.edgeMargin = this.radius + su(24);
     this.alive = true;
   }
 
@@ -37,7 +38,7 @@ export default class MovingTarget {
     this.direction = direction || 1;
     this.speed = speed;
     this.radius = size * 0.5;
-    this.edgeMargin = Math.max(edgeMargin || 0, this.radius + 24);
+    this.edgeMargin = Math.max(edgeMargin || 0, this.radius + su(24));
     this.alive = true;
   }
 

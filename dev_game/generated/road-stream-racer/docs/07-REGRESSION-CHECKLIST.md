@@ -47,3 +47,6 @@
 - Top-right icon polish: Home and Pause symbols must remain readable in `390x844` game captures and must not clip against the right edge or overlap the stat strip.
 - Top-right clean-icon polish: Home and Pause buttons must use low-detail, high-contrast symbols that remain identifiable during active gameplay; decorative frame detail must not compete with the symbol at mobile size.
 - Top-right clean-icon polish: if runtime display is `96x96`, pause right edge must remain inside the 390x844 and 430x932 visual-layout safe area.
+- Full-resolution loader polish: `LoadingScene` must preload only `SPRITESHEET_PATHS`, `IMAGE_PATHS`, and `AUDIO_PATHS` from `gameKeys.js`; new runtime PNG/WAV paths must be added there first.
+- Premium HUD asset polish: `racer_ui_home`, `racer_ui_pause`, `racer_icon_coin`, `racer_icon_speed`, and `racer_icon_level` must stay in `ASSET_KEYS`, load through `IMAGE_PATHS`, and appear in the runtime texture sample with no missing keys.
+- SVG/runtime stale-key polish: runtime resource samples must not request `/assets/images/*.svg`, and Phaser texture keys must not contain `svg` or `placeholder`.

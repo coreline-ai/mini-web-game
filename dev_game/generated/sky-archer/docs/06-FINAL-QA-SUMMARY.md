@@ -95,3 +95,28 @@
 
 ### Open Defects
 - None for the button resolution replacement request.
+
+## Native FHD Runtime Conversion — 2026-07-10
+
+Changes:
+- Converted the canonical game spec from the old 390×844 logical canvas with DPR multiplication to a native 1080×1920 canvas, `scaleMode: "fit"`, and `maxTargetDpr: 1`.
+- Simplified `HiDpi.js` so camera zoom remains 1 and DPR3 devices do not create a 3240×5760 backing store.
+- Added FHD scale helpers for player, hazards, collectibles, arrow projectiles, HUD, buttons, loading UI, feedback FX, failure line, spawn margins, and pointer guard zones.
+- Centralized spritesheet, projectile, image, UI, FX, background, and audio preload paths in `gameKeys.js` / `LoadingScene`.
+- Updated `asset-plan.json`, `assets/asset-manifest.json`, tech design, and asset plan to describe the native FHD runtime truth.
+
+Verification:
+- PASS — `npm run build`
+- PASS — `npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/sky-archer`
+- PASS — `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/sky-archer --require-gpt-imagegen --viewports 390x844,430x932,1080x1920,1280x900`
+- PASS — Home runtime Playwright sample at `390x844` with `deviceScaleFactor=3`: `game.config=1080x1920`, `scale.gameSize=1080x1920`, canvas backing store `1080x1920`, CSS rect inside viewport, all required textures loaded, no `/assets/images/*.svg` requests, no stale SVG/placeholder texture keys, and no browser errors.
+- PASS — gameplay Playwright sample at `390x844` with `deviceScaleFactor=3`: GameScene active, native FHD runtime strategy reported, camera zoom `1`, player visible inside the `1080x1920` world, spawner active, arrows active, and no browser errors.
+
+Evidence:
+- Cross-game evidence: `dev_game/docs/qa-evidence/sky-archer-2026-07-10.md`
+- Runtime sample: `qa-captures/full-resolution-2026-07-10/sky-archer/asset-fidelity-runtime-sample.json`
+- Runtime screenshot: `qa-captures/full-resolution-2026-07-10/sky-archer/home-390x844-dpr3.png`
+- Gameplay sample: `qa-captures/full-resolution-2026-07-10/sky-archer/gameplay-runtime-sample.json`
+- Gameplay screenshot: `qa-captures/full-resolution-2026-07-10/sky-archer/game-390x844-dpr3.png`
+- Visual-layout screenshots: `dev_game/.tmp/visual-layout-qa/sky-archer`
+- Scene-composite screenshots: `dev_game/.tmp/scene-composite-qa/sky-archer`

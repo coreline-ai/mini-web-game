@@ -8,6 +8,7 @@ import Spawner from '../systems/Spawner.js';
 import RoadRenderer from '../systems/RoadRenderer.js';
 import HudUI from '../ui/HudUI.js';
 import { publishLayout, objectBounds, manualBounds } from '../systems/LayoutRegistry.js';
+import { setBodySizeInDisplayPixels } from '../systems/PhysicsBounds.js';
 
 function ms(v) { return Math.max(0, v || 0); }
 
@@ -22,7 +23,7 @@ export default class GameScene extends Phaser.Scene {
     this.spawner = new Spawner(this);
     this.player = this.physics.add.image(this.targetX, TUNING.playerY, ASSET_KEYS.player).setDepth(25).setDisplaySize(TUNING.playerDisplay.width, TUNING.playerDisplay.height);
     this.player.body.setAllowGravity(false);
-    this.player.body.setSize(SPEC.player.hitbox.width, SPEC.player.hitbox.height, true);
+    setBodySizeInDisplayPixels(this.player, SPEC.player.hitbox.width, SPEC.player.hitbox.height);
     this.hud = new HudUI(this, () => this.openPause());
     this.warningText = this.add.text(SPEC.canvas.width / 2, SPEC.canvas.height * 0.27, '⚠ WARNING ⚠', { fontFamily: 'Arial Black, Arial', fontSize: '76px', color: '#ffdf4a', stroke: '#a70000', strokeThickness: 12 }).setOrigin(0.5).setDepth(80).setVisible(false);
     this.comboBurst = this.add.text(SPEC.canvas.width / 2, SPEC.canvas.height * 0.38, '', { fontFamily: 'Arial Black, Arial', fontSize: '58px', color: '#7effff', stroke: '#07121d', strokeThickness: 10 }).setOrigin(0.5).setDepth(80).setVisible(false);

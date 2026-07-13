@@ -206,6 +206,32 @@ Contract assert summary from `full-sweep-baseline-samples.json`:
 
 No new severity-1 or severity-2 defects were found in this sweep.
 
+## Native FHD Runtime Conversion — 2026-07-10
+
+Changes:
+- Converted the canonical game spec from `390x844` to a native `1080x1920` canvas with `scaleMode: "fit"` and `maxTargetDpr: 1`.
+- Preserved the proven dense DOM market UI as a centered `390x844` base-composition board transformed into the FHD world.
+- Added FHD scale helpers for Phaser-side loading, fallback gameplay systems, and DOM board placement.
+- Centralized Boot/Loading spritesheet, image, UI, FX, background, and audio preload paths in `gameKeys.js`.
+- Updated `asset-plan.json`, `assets/asset-manifest.json`, tech design, and asset/audio plan to describe the native FHD runtime truth.
+- Added transparent padding to `assets/items/collectible.webp` (`1254x1254` -> `1446x1446`) after image-quality QA caught crop-edge contact.
+
+Verification:
+- PASS — `npm run build`
+- PASS — `npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/market-panic`
+- PASS — `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/market-panic --require-gpt-imagegen --viewports 390x844,430x932,1080x1920,1280x900`
+- PASS — Home runtime Playwright sample at `390x844` with `deviceScaleFactor=3`: `game.config=1080x1920`, `scale.gameSize=1080x1920`, canvas backing store `1080x1920`, centered DOM board base `390x844` inside the canvas, all required textures loaded, no `/assets/images/*.svg` requests, no stale SVG/placeholder texture keys, and no browser errors.
+- PASS — gameplay Playwright sample at `390x844` with `deviceScaleFactor=3`: GameScene active, native FHD runtime strategy reported, centered DOM game board visible, market state live, and no browser errors.
+
+Evidence:
+- Cross-game evidence: `dev_game/docs/qa-evidence/market-panic-2026-07-10.md`
+- Runtime sample: `qa-captures/full-resolution-2026-07-10/market-panic/asset-fidelity-runtime-sample.json`
+- Runtime screenshot: `qa-captures/full-resolution-2026-07-10/market-panic/home-390x844-dpr3.png`
+- Gameplay sample: `qa-captures/full-resolution-2026-07-10/market-panic/gameplay-runtime-sample.json`
+- Gameplay screenshot: `qa-captures/full-resolution-2026-07-10/market-panic/game-390x844-dpr3.png`
+- Visual-layout screenshots: `dev_game/.tmp/visual-layout-qa/market-panic`
+- Scene-composite screenshots: `dev_game/.tmp/scene-composite-qa/market-panic`
+
 ## Polish Pass: Korean Playability Hotfix
 
 Symptom:

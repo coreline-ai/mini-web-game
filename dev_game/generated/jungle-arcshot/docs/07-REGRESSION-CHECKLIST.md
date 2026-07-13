@@ -11,3 +11,6 @@
 9. **입력 견고성**: PLAY/RESUME/HOME/RETRY 텍스트 버튼은 더블/트리플 탭에도 한 번만 상태 전이를 발화하고, pause 아이콘은 누른 뒤 `56×56`으로 복원되며 누적 확대/고착이 없어야 한다.
 10. **1080 안전 영역 매핑**: `390×844`, `430×932`, `1080×1920` 뷰포트에서 Home/Game/Pause 주요 UI의 `outOfViewportLayoutItems`가 0이어야 하며, `sourceFrameSize >= renderedWorldSize`가 player/fruit/balloon/arrow/pause icon에 대해 모두 참이어야 한다.
 11. **데스크톱 모바일 셸**: `1280×900` 같은 가로형 데스크톱 뷰포트에서 `#game`은 전체 창 폭을 먹지 않고 중앙 모바일 스테이지로 제한되어야 한다. 기준: `#game.width <= 430`, 수평 중앙 정렬, 모바일 `390×844`에서는 `#game.width === viewport.width`.
+12. **Scale.FIT 회귀**: `390×844` DPR2 홈 런타임 샘플에서 canvas CSS rect가 viewport 안에 있어야 한다. `scaleMode: "cover"`로 돌아가 `x < 0` 또는 `x + width > viewport.width`가 되면 실패다.
+13. **런타임 로더 단일 소스 회귀**: `LoadingScene`은 `gameKeys.js`의 `SPRITESHEET_PATHS`, `IMAGE_PATHS`, `AUDIO_PATHS`만 순회해야 하며, `GameScene`이 `fruit`, `balloon`, `arrow` 또는 기타 PNG를 late preload하면 실패다.
+14. **SVG/placeholder 런타임 회귀**: 홈 런타임 샘플에서 `/assets/images/*.svg` 요청이 없어야 하고, Phaser texture keys에 `svg` 또는 `placeholder` 키가 없어야 한다. `asset-manifest.json` runtime image formats에는 `svg`가 없어야 한다.

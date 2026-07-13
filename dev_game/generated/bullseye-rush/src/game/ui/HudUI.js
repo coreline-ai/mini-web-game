@@ -1,14 +1,15 @@
 import { SPEC } from '../data/spec.js';
 import { makeTextButton } from './MobileButton.js';
 import { fontPx, strokePx, su } from '../utils/scale.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 
 export default class HudUI {
   constructor(scene, onPause) {
     const { width } = SPEC.canvas;
     this.scoreText = scene.add.text(su(18), su(18), 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(18), color: '#ffffff', stroke: '#000000', strokeThickness: strokePx(4) }).setDepth(20);
     this.levelText = scene.add.text(su(18), su(44), 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(14), color: '#b9d7ff', stroke: '#000000', strokeThickness: strokePx(3) }).setDepth(20);
-    if (scene.textures.exists('ui_pause')) {
-      const img = scene.add.image(width - su(46), su(42), 'ui_pause').setDisplaySize(su(56), su(56)).setInteractive({ useHandCursor: true });
+    if (scene.textures.exists(ASSET_KEYS.ui.pause)) {
+      const img = scene.add.image(width - su(46), su(42), ASSET_KEYS.ui.pause).setDisplaySize(su(56), su(56)).setInteractive({ useHandCursor: true });
       img.on('pointerdown', () => { img.setScale(img.scaleX * 0.92, img.scaleY * 0.92); onPause && onPause(); });
       img.on('pointerup', () => img.setDisplaySize(su(56), su(56)));
       img.on('pointerout', () => img.setDisplaySize(su(56), su(56)));

@@ -53,10 +53,16 @@ Runtime fidelity policy:
 | Arrow projectile | `arrow` / `assets/items/arrow.png` | `512×1024` | `55×118` | Vertical source remains far above rendered size; no rotated-flight upscale. |
 | Pause icon | `ui_pause` / `assets/ui/btn-pause.png` | `512×512` | `127×127` | Safe in the 1080 crop-safe HUD area; fixed display size prevents growth. |
 
+2026-07-10 runtime loader contract:
+
+- `src/game/constants/gameKeys.js` is the source of truth for spritesheet, image, and audio preload paths.
+- `LoadingScene` preloads that centralized runtime list; `GameScene` no longer late-loads `fruit`, `balloon`, or `arrow`.
+- Runtime image formats are PNG/WebP only. Any legacy `assets/images/*.svg` scaffold files are not part of the runtime preload contract.
+- Stage backgrounds are generated production-demo assets; `asset-manifest.json` no longer marks them as placeholders.
+
 ## Audio
 - UI click, collect, hit, game-over SFX + a looping gameplay BGM.
 - Web format OGG preferred for release; procedural WAV acceptable for the first demo.
 
 ## Production rule
-Backgrounds ship as `quality:"draft"` placeholders from productionize.mjs and MUST be
-replaced with production art before promotion to `qualityTier:"production-demo"`.
+Promotion to `qualityTier:"production-demo"` requires generated game-specific PNG backgrounds, runtime PNG/WebP preload paths, and current QA evidence. Legacy scaffold SVG files are acceptable only as non-runtime leftovers.

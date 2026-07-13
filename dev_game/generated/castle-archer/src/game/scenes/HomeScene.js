@@ -14,7 +14,7 @@ export default class HomeScene extends Phaser.Scene {
     applyLogicalCamera(this);
     AudioManager.stopMusic();
     const { width, height } = SPEC.canvas;
-    { const bg = this.add.image(width / 2, height / 2, 'bg_0').setDepth(-10); bg.setScale(Math.max(width / bg.width, height / bg.height)); }
+    { const bg = this.add.image(width / 2, height / 2, ASSET_KEYS.backgrounds.stage1).setDepth(-10); bg.setScale(Math.max(width / bg.width, height / bg.height)); }
     this.add.image(width / 2, height * 0.38, ASSET_KEYS.player).setDisplaySize(320, 320);
     this.titleText = this.add.text(width / 2, height * 0.18, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '90px', color: '#fff', align: 'center', stroke: '#000', strokeThickness: 14 }).setOrigin(0.5);
     this.bestText = this.add.text(width / 2, height * 0.55, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: '52px', color: '#ffd54a', stroke: '#000', strokeThickness: 10 }).setOrigin(0.5);

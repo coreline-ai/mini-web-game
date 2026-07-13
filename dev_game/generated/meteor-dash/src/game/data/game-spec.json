@@ -8,18 +8,18 @@
     "target": "mobile-web"
   },
   "canvas": {
-    "width": 390,
-    "height": 844,
+    "width": 1080,
+    "height": 1920,
     "backgroundColor": "#070a1c",
     "scaleMode": "fit",
-    "maxTargetDpr": 3
+    "maxTargetDpr": 1
   },
   "player": {
     "moveMode": "drag",
-    "speed": 820,
+    "speed": 1865,
     "hitbox": {
-      "width": 40,
-      "height": 40
+      "width": 91,
+      "height": 91
     }
   },
   "hazards": {
@@ -27,8 +27,8 @@
     "label": "Meteor",
     "spawnRateStart": 850,
     "spawnRateMax": 220,
-    "fallSpeedStart": 280,
-    "fallSpeedMax": 820,
+    "fallSpeedStart": 637,
+    "fallSpeedMax": 1865,
     "damage": 1,
     "poolSize": 60
   },

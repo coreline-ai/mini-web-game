@@ -1,4 +1,5 @@
 import { SPEC } from '../data/spec.js';
+import { su, sx } from '../constants/tuning.js';
 
 const shooting = SPEC.shooting || {};
 const defaultStages = [
@@ -13,12 +14,12 @@ export const SHOOTING = {
   hitBonusSeconds: shooting.hitBonusSeconds || 1.2,
   perfectRadiusRatio: shooting.perfectRadiusRatio || 0.32,
   targetRows: shooting.targetRows || [0.26, 0.38, 0.5, 0.62],
-  targetSpeedStart: shooting.targetSpeedStart || 120,
-  targetSpeedMax: shooting.targetSpeedMax || 310,
-  targetSizeStart: shooting.targetSizeStart || 92,
-  targetSizeMin: shooting.targetSizeMin || 58,
-  targetEdgeMargin: shooting.targetEdgeMargin || 88,
-  hitBurstPeakRadius: shooting.hitBurstPeakRadius || 84,
+  targetSpeedStart: shooting.targetSpeedStart || sx(120),
+  targetSpeedMax: shooting.targetSpeedMax || sx(310),
+  targetSizeStart: shooting.targetSizeStart || su(92),
+  targetSizeMin: shooting.targetSizeMin || su(58),
+  targetEdgeMargin: shooting.targetEdgeMargin || su(88),
+  hitBurstPeakRadius: shooting.hitBurstPeakRadius || su(84),
   comboWindowMs: shooting.comboWindowMs || 1400,
   perfectScore: shooting.perfectScore || 180,
   hitScore: shooting.hitScore || 100,
@@ -26,9 +27,9 @@ export const SHOOTING = {
   targetHitVanishMs: 180,
   stageRewardToastMs: 900,
   stages: Array.isArray(shooting.stages) && shooting.stages.length ? shooting.stages : defaultStages,
-  galleryTop: 120,
-  galleryBottom: 610,
-  shooterSize: 240,
-  shooterY: SPEC.canvas.height - 162,
-  muzzleY: SPEC.canvas.height - 266,
+  galleryTop: su(120),
+  galleryBottom: su(610),
+  shooterSize: su(240),
+  shooterY: SPEC.canvas.height - su(162),
+  muzzleY: SPEC.canvas.height - su(266),
 };

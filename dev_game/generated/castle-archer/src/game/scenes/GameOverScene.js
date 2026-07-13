@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
+import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { SaveData } from '../systems/SaveData.js';
 import { makeTextButton } from '../ui/MobileButton.js';
 import { applyLogicalCamera } from '../constants/renderScale.js';
@@ -13,8 +14,8 @@ export default class GameOverScene extends Phaser.Scene {
     const { width, height } = SPEC.canvas;
     const score = data.score || 0;
     const isBest = SaveData.record(score);
-    if (this.textures.exists('bg_2')) {
-      const bg = this.add.image(width / 2, height / 2, 'bg_2').setDepth(-10);
+    if (this.textures.exists(ASSET_KEYS.backgrounds.stage3)) {
+      const bg = this.add.image(width / 2, height / 2, ASSET_KEYS.backgrounds.stage3).setDepth(-10);
       bg.setScale(Math.max(width / bg.width, height / bg.height));
       this.add.rectangle(0, 0, width, height, 0x030611, 0.55).setOrigin(0).setDepth(-9);
     } else {

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
-import { ASSET_KEYS, IMAGE_PATHS, BACKGROUND_PATHS } from '../constants/gameKeys.js';
+import { ASSET_KEYS, AUDIO_PATHS, BACKGROUND_PATHS, IMAGE_PATHS } from '../constants/gameKeys.js';
 import LoadingUI from '../ui/LoadingUI.js';
 
 function qaHoldLoadingEnabled() {
@@ -19,11 +19,9 @@ export default class LoadingScene extends Phaser.Scene {
       this.load.image(ASSET_KEYS[name], path);
     }
     if (SPEC.audio?.enabled) {
-      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);
-      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);
-      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);
-      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);
-      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);
+      for (const [name, path] of Object.entries(AUDIO_PATHS)) {
+        this.load.audio(ASSET_KEYS[name], path);
+      }
     }
   }
   create() {

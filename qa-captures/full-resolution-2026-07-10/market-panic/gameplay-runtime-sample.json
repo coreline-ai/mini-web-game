@@ -1,0 +1,163 @@
+{
+  "devicePixelRatio": 3,
+  "sceneKeys": [
+    "Game"
+  ],
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "rect": {
+      "x": 0,
+      "y": 75,
+      "width": 390,
+      "height": 693.328125,
+      "right": 390,
+      "bottom": 768.328125
+    }
+  },
+  "domRoot": {
+    "width": "390px",
+    "height": "844px",
+    "transform": "translate(34.8104px, 75px) scale(0.821485, 0.821479)",
+    "rect": {
+      "x": 34.8104248046875,
+      "y": 75,
+      "width": 320.379150390625,
+      "height": 693.328125,
+      "right": 355.1895751953125,
+      "bottom": 768.328125
+    }
+  },
+  "layout": {
+    "scene": "Game",
+    "items": [
+      {
+        "id": "hud-panel",
+        "x": 44.668243408203125,
+        "y": 84.85774230957031,
+        "width": 300.66351318359375,
+        "height": 96.93450927734375,
+        "visible": true,
+        "allowOverlapWith": [
+          "pause"
+        ]
+      },
+      {
+        "id": "pause",
+        "x": 291.9352111816406,
+        "y": 98.82289123535156,
+        "width": 39.431304931640625,
+        "height": 39.43098449707031,
+        "visible": true,
+        "allowOverlapWith": [
+          "hud-panel"
+        ]
+      },
+      {
+        "id": "news-panel",
+        "x": 48.77566909790039,
+        "y": 188.36407470703125,
+        "width": 292.44866943359375,
+        "height": 80.50494384765625,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "goal-panel",
+        "x": 48.77566909790039,
+        "y": 277.08380126953125,
+        "width": 292.44866943359375,
+        "height": 41.073944091796875,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "stock-NOVA",
+        "x": 48.77566909790039,
+        "y": 328.0155029296875,
+        "width": 292.44866943359375,
+        "height": 62.432373046875,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "stock-VOLT",
+        "x": 48.77566909790039,
+        "y": 398.66265869140625,
+        "width": 292.44866943359375,
+        "height": 62.432403564453125,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "action-buy",
+        "x": 60.276458740234375,
+        "y": 622.1049194335938,
+        "width": 123.22274780273438,
+        "height": 50.93170166015625,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "action-sell",
+        "x": 206.50079345703125,
+        "y": 622.1049194335938,
+        "width": 123.22274780273438,
+        "height": 50.93170166015625,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "action-hedge",
+        "x": 60.276458740234375,
+        "y": 686.1802368164062,
+        "width": 123.22274780273438,
+        "height": 50.93170166015625,
+        "visible": true,
+        "allowOverlapWith": []
+      },
+      {
+        "id": "action-cash",
+        "x": 206.50079345703125,
+        "y": 686.1802368164062,
+        "width": 123.22274780273438,
+        "height": 50.93170166015625,
+        "visible": true,
+        "allowOverlapWith": []
+      }
+    ]
+  },
+  "debug": {
+    "over": false,
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "canvasBacking": {
+      "width": 1080,
+      "height": 1920
+    },
+    "activeStage": 0,
+    "selectedTickerId": "NOVA",
+    "tickerCount": 2,
+    "eventId": "ai-contract",
+    "portfolio": 100,
+    "risk": 28.7,
+    "confidence": 71.8,
+    "score": 1701,
+    "domVisible": true
+  },
+  "browserErrors": [],
+  "assertions": {
+    "gameSceneActive": true,
+    "runtimeStrategyNativeFhd": true,
+    "logicalCanvas1080x1920": true,
+    "canvasBacking1080x1920": true,
+    "domBoardBase390x844": true,
+    "domBoardInsideCanvas": true,
+    "domVisible": true,
+    "marketStateLive": true,
+    "noBrowserErrors": true
+  }
+}

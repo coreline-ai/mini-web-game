@@ -1,4 +1,4 @@
-import { SPEC } from '../data/spec.js';
+import { boardTransform } from '../constants/tuning.js';
 
 export default class DomSceneUI {
   constructor(scene, sceneName, className, html) {
@@ -29,13 +29,12 @@ export default class DomSceneUI {
     if (!this.root?.isConnected) return;
     const bounds = this.scene.scale.canvasBounds;
     if (!bounds) return;
-    const sx = bounds.width / SPEC.canvas.width;
-    const sy = bounds.height / SPEC.canvas.height;
+    const board = boardTransform(bounds);
     this.root.style.left = '0px';
     this.root.style.top = '0px';
-    this.root.style.width = `${SPEC.canvas.width}px`;
-    this.root.style.height = `${SPEC.canvas.height}px`;
-    this.root.style.transform = `translate(${bounds.left}px, ${bounds.top}px) scale(${sx}, ${sy})`;
+    this.root.style.width = `${board.width}px`;
+    this.root.style.height = `${board.height}px`;
+    this.root.style.transform = `translate(${board.x}px, ${board.y}px) scale(${board.scaleX}, ${board.scaleY})`;
     this.publishLayout();
   }
 

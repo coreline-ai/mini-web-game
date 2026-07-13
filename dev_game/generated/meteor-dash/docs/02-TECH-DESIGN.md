@@ -1,8 +1,9 @@
 # 02 · Technical Design — Meteor Dash
 
 ## Engine & rendering
-- Phaser 3 + Vite, logical canvas 390×844 (portrait).
+- Phaser 3 + Vite, native logical canvas 1080×1920 (portrait).
 - Scale.FIT + CENTER_BOTH; safe-area aware HUD.
+- `HiDpi.js` keeps camera zoom at 1 and does not multiply the backing store by device DPR, so DPR3 mobile devices still render a 1080×1920 game surface instead of 3240×5760.
 
 ## Scenes
 Boot → Loading → Home → Game → Pause → GameOver.
@@ -20,7 +21,7 @@ Boot → Loading → Home → Game → Pause → GameOver.
 60fps target, object pooling, frame-rate-independent movement (delta-scaled).
 
 ## Asset loading
-Backgrounds and core sprites are declared in assets/asset-manifest.json and loaded by key.
+Backgrounds, sprites, UI, FX, and audio are declared in `gameKeys.js` path maps and loaded in `LoadingScene` before gameplay. Runtime image policy allows PNG/WebP production assets; legacy SVG scaffolds are not part of the preload contract.
 
 
 ## 난이도 축 단조성 (폴리시 계약 §D)

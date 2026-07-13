@@ -26,8 +26,8 @@
     {
       "id": "stage-2",
       "path": "assets/backgrounds/stage-2.png",
-      "width": 1080,
-      "height": 1920,
+      "width": 2160,
+      "height": 3840,
       "theme": "Sunset Tournament Arena",
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. BACKGROUND look: bright, airy and deliberately LOW-CONTRAST with soft simple depth; keep detail smooth and de-emphasized so foreground gameplay objects pop; large calm readable empty area through the center of the frame. Vertical PORTRAIT mobile game background, theme \"Sunset Tournament Arena\" for Bullseye Rush: a festive archery tournament arena at golden sunset: bunting flags strung between poles, cheering-crowd stands blurred far in the background, warm orange-pink sky. IMPORTANT: a simple WOODEN PLANK PLATFORM STRIP runs along the very BOTTOM edge of the frame (the archer stands on it), occupying only the bottom 8-12% of the image. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — hard minimum; never output below 1080x1920. Layered but SMOOTH parallax depth, no characters, no text, no UI, no border."
     },
@@ -54,7 +54,7 @@
         "width": 277,
         "height": 277
       },
-      "qaNote": "Cleaned native-FHD runtime sprite sheet: low-alpha/magenta matte removed, transparent RGB edge bleed applied, 512px frames preserved."
+      "qaNote": "Cleaned native-FHD runtime sprite sheet: low-alpha/magenta matte removed, transparent RGB edge bleed applied, 512px frames preserved, and frame contents recentered with at least 32px horizontal padding."
     },
     {
       "id": "target",
@@ -73,16 +73,16 @@
       "id": "star",
       "role": "reward",
       "path": "assets/items/star.png",
-      "width": 192,
-      "height": 192,
+      "width": 1254,
+      "height": 1254,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single glossy GOLDEN BONUS STAR pickup sprite: rounded five-point 3D-cartoon star with a bright specular highlight and a thin warm-orange rim, cheerful and inviting, bold simple silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "arrow",
       "role": "projectile",
       "path": "assets/items/arrow.png",
-      "width": 128,
-      "height": 256,
+      "width": 864,
+      "height": 1821,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A single vertical wooden ARROW projectile pointing straight UP: glossy 3D-cartoon style, simple tapered steel arrowhead at top, slim wooden shaft, small red-and-cream fletching at bottom, bold readable silhouette. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     }
   ],
@@ -109,16 +109,16 @@
       "id": "fx-hit",
       "role": "feedback",
       "path": "assets/effects/fx-hit.png",
-      "width": 256,
-      "height": 256,
+      "width": 1254,
+      "height": 1254,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon impact/hit burst effect (energetic star/spark shape), bold and readable. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     },
     {
       "id": "fx-collect",
       "role": "feedback",
       "path": "assets/effects/fx-collect.png",
-      "width": 192,
-      "height": 192,
+      "width": 1254,
+      "height": 1254,
       "prompt": "ART STYLE (mandatory, identical for every asset): 3D-rendered glossy mobile cartoon, 2.5D, in the polished casual-mobile style of Subway Surfers / Candy Crush. Thick clean dark outline, soft cel-shading, smooth clean gradients, glossy specular highlights, gentle ambient occlusion, rounded volumetric forms, vibrant but harmonious colors. STRICTLY NOT painterly, NOT oil-painting, NOT watercolor, NOT realistic, NOT anime/gacha splash art, NOT concept art. NO busy high-frequency texture, NO gritty grain, NO fine filigree noise, NO sketchy linework. Keep shapes simple, clean and readable. A glossy cartoon sparkle/collect burst effect (positive twinkle shape), bright and cheerful. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background that fills the entire frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft/feathered edge, NO colored fringe, NO haze around the subject."
     }
   ],

@@ -11,7 +11,7 @@ This must not be a dodge starter with renamed hazards. A real shooting-gallery M
 - Browser QA has explicit required layout IDs for game target, crosshair, shooter, playfield, HUD, and pause button.
 
 ## Remaining Attack Surface
-The main risk is documentation drift: `player_blaster.png` and `crosshair.png` are still generated/loaded assets, but final gameplay uses the baked cannon plus muzzle anchor and runtime `reticle_ui`. Legacy Foundation files also remain in the source tree but are inactive. Final screenshot/video evidence must remain available so reviewers do not mistake those artifacts for active runtime behavior. If `image-quality-qa` rejects generated assets, the game is production-demo 미통과 and must regenerate stricter assets rather than claim completion.
+The main risk is documentation drift: `player_blaster.png` is still loaded for the asset contract, while `crosshair.png` is only an inactive reference artifact; final gameplay uses the baked cannon plus muzzle anchor and runtime `reticle_ui`. Legacy Foundation files also remain in the source tree but are inactive. Final screenshot/video evidence must remain available so reviewers do not mistake those artifacts for active runtime behavior. If `image-quality-qa` rejects generated assets, the game is production-demo 미통과 and must regenerate stricter assets rather than claim completion.
 
 ## Decision
 Build decision is `custom-loop`. The Foundation shell is reused for scene flow, storage, audio unlock, pause, and mobile scaling only. The requested fun - shooting a moving target - is implemented as game-specific systems.

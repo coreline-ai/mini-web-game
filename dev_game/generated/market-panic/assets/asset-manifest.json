@@ -1,8 +1,19 @@
 {
-  "assetsVersion": "1.0.0",
+  "assetsVersion": "1.1.0-native-fhd-canvas",
+  "assetFidelity": {
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": {
+      "width": 1080,
+      "height": 1920
+    },
+    "runtime": "native-fhd-canvas-with-centered-dom-board"
+  },
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
@@ -277,6 +288,13 @@
       "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic",
@@ -304,6 +322,13 @@
       "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic",
@@ -331,6 +356,13 @@
       "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic",
@@ -358,6 +390,13 @@
       "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1080,
+        "logicalHeight": 1920,
+        "physicalWidth": 1080,
+        "physicalHeight": 1920
+      },
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic",

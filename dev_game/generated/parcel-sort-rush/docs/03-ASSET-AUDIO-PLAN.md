@@ -17,7 +17,7 @@
 | Parcels | `assets/images/production/parcels/*.png` | A/B/냉장/취급주의 택배 | 투명 배경, 라벨 판독 가능, 비율 왜곡 없음 |
 | Chutes | `assets/images/production/chutes/*.png` | 4개 분류 슈트 | 각 슈트 색상/라벨 구분 가능 |
 | Machines | `scanner_gate.png`, `conveyor_tile.png` | 스캐너/컨베이어 연출 | 러시 속도감과 스크롤 표현 |
-| Feedback | `stamp_correct.png`, `stamp_wrong.png`, `combo_perfect.png` | 판정 피드백 | 화면 중앙에서 읽힘 |
+| Feedback | `stamp_correct.png`, `stamp_wrong.png`, `combo_perfect.png` | 판정 피드백 | 화면 중앙에서 읽힘; wrong stamp는 512x512 고해상도 badge 기준 |
 | UI | `assets/images/production/ui/*.png` | HUD/버튼 | 모바일 터치 크기 44px 이상, 겹침 없음 |
 
 ## 오디오
@@ -49,6 +49,8 @@ npm run assets:imagegen:verify
 ```
 
 통합 스크립트는 GPT 원본 crop을 `assets/imagegen/raw/**`에 저장하고, 후처리 결과를 현재 런타임 production 경로인 `assets/images/production/**`에 저장한다. 객체/버튼/패널/피드백 스프라이트는 평면 배경을 border-connected flood-fill alpha mask로 제거한다. 배경은 opaque cover crop으로 1080×1920 이상을 보장한다.
+
+런타임 preload 경로에는 브라우저 캐시 무효화를 위한 query string이 붙을 수 있다. `asset-manifest.json`과 provenance의 `path` 값은 query string을 제외한 실제 파일 경로만 기록하며, verifier도 manifest 기준 파일 경로를 검사한다.
 
 필수 이미지 TASKS는 배경 3종, 플레이어/오퍼레이터 아바타, 택배 4종, 분류함 4종, 컨베이어, 스캐너, 피드백 이펙트 3종, HUD/모달 패널, 주요 버튼을 모두 포함한다. 통합이 성공하면 `assets/asset-manifest.json`의 각 이미지 항목은 다음 provenance를 갖는다.
 

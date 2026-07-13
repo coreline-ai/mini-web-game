@@ -3,7 +3,8 @@
 ## Runtime
 
 - Engine: Phaser 3 + Vite.
-- Canvas: `390x844`, portrait, `Scale.FIT`, centered.
+- Canvas: native `1080x1920`, portrait, `Scale.FIT`, centered.
+- DOM UI uses a centered `390x844` base-composition board transformed into the native FHD world, preserving existing dense market UI spacing without DPR backing-store multiplication.
 - Scenes: `Boot -> Loading -> Home -> Game -> Pause -> GameOver`.
 - Build decision: `custom-loop`.
 
@@ -16,8 +17,9 @@ structure. The gameplay loop is custom and owned by `MarketEngine` plus `GameSce
 |---|---|
 | `src/game/config/marketConfig.js` | Market stages, tickers, action metadata, event deck |
 | `src/game/systems/MarketEngine.js` | Portfolio/risk/confidence simulation, stage progression, terminal conditions |
-| `src/game/scenes/GameScene.js` | News panel, stock cards, action buttons, feedback, stage rendering |
-| `src/game/ui/HudUI.js` | Portfolio/return/risk/confidence/timer HUD |
+| `src/game/scenes/GameScene.js` | Market engine binding, DOM game UI lifecycle, pause/terminal flow, stage rendering |
+| `src/game/ui/DomGameUI.js` | Portfolio/return/risk/confidence/timer HUD, news panel, stock cards, action buttons, feedback |
+| `src/game/ui/DomSceneUI.js` | Home/Pause/GameOver DOM screen overlays on the centered FHD board |
 | `src/game/scenes/GameOverScene.js` | Win/fail terminal summary and retry/home |
 | `src/game/scenes/LoadingScene.js` | Imagegen asset and background loading |
 
@@ -78,8 +80,9 @@ GameOver:
 Imagegen assets are loaded by stable keys:
 
 - `bg_0` to `bg_3` for stage backgrounds.
-- `player` spritesheet at `characters/player.png`.
-- `hazard`, `collectible`, `ui_frame`, `ui_pause`, `fx_hit`, `fx_collect`.
+- `player` spritesheet at `characters/player.webp`.
+- `hazard`, `collectible`, UI panels/cards/action buttons, `ui_frame`, `ui_pause`, `fx_hit`, `fx_collect`.
+- `gameKeys.js` owns Boot/Loading spritesheet, image, background, UI, FX, and audio path maps.
 
 `StageManager.coverFit()` uses cover scaling to avoid background distortion.
 
@@ -87,7 +90,7 @@ Imagegen assets are loaded by stable keys:
 
 - `window.__GAME__` exposes Phaser game instance for browser assertions.
 - `window.__GAME_LAYOUT_BOUNDS__` exposes current scene and visible registered layout items.
-- Game state can be sampled through `game.scene.getScene('Game').engine.snapshot()`.
+- Game state can be sampled through `game.scene.getScene('Game').engine.snapshot()` or `window.__MARKET_PANIC_DEBUG__.get()`.
 
 Required runtime assertions:
 

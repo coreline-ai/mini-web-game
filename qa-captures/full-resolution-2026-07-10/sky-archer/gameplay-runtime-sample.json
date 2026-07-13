@@ -1,0 +1,56 @@
+{
+  "devicePixelRatio": 3,
+  "sceneKeys": [
+    "Game"
+  ],
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "rect": {
+      "x": 0,
+      "y": 75,
+      "width": 390,
+      "height": 693.328125,
+      "right": 390,
+      "bottom": 768.328125
+    }
+  },
+  "debug": {
+    "over": false,
+    "runtimeStrategy": "native-fhd-canvas",
+    "logicalCanvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "canvasBacking": {
+      "width": 1080,
+      "height": 1920
+    },
+    "cameraZoom": 1,
+    "score": 7,
+    "player": {
+      "x": 540,
+      "y": 1657.5520382760128,
+      "displayWidth": 227.48815165876778,
+      "displayHeight": 227.48815165876778,
+      "active": true,
+      "visible": true
+    },
+    "hazards": 1,
+    "collectibles": 0,
+    "arrows": 2
+  },
+  "browserErrors": [],
+  "assertions": {
+    "gameSceneActive": true,
+    "runtimeStrategyNativeFhd": true,
+    "logicalCanvas1080x1920": true,
+    "canvasBacking1080x1920": true,
+    "cameraZoomOne": true,
+    "playerWithinWorld": true,
+    "playerVisible": true,
+    "spawnerActive": true,
+    "arrowsPoolPresent": true,
+    "noBrowserErrors": true
+  }
+}

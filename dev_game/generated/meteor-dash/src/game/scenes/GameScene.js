@@ -12,13 +12,10 @@ import { Juice } from '../systems/Juice.js';
 import ShowerEventSystem from '../systems/ShowerEventSystem.js';
 import ShieldSystem from '../systems/ShieldSystem.js';
 import { applyLogicalCamera, logicalPointer } from '../systems/HiDpi.js';
+import { su } from '../constants/tuning.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
-  preload() {
-    // wire가 자동 로드하지 않는 powerup 스프라이트
-    if (!this.textures.exists('shield')) this.load.image('shield', 'items/shield.webp');
-  }
   create() {
     applyLogicalCamera(this);
     this.isOver = false;
@@ -57,6 +54,10 @@ export default class GameScene extends Phaser.Scene {
     window.__METEOR_DEBUG__ = {
       get: () => ({
         over: this.isOver,
+        runtimeStrategy: 'native-fhd-canvas',
+        logicalCanvas: { width: SPEC.canvas.width, height: SPEC.canvas.height },
+        canvasBacking: { width: this.sys.game.canvas.width, height: this.sys.game.canvas.height },
+        cameraZoom: this.cameras.main.zoom,
         score: this.score?.getScore?.() ?? 0,
         showerState: this.shower?.state,
         showers: this.shower?.stats?.showers,
@@ -73,7 +74,7 @@ export default class GameScene extends Phaser.Scene {
   }
   onPointer(pointer) {
     const p = logicalPointer(pointer);
-    if (this.isOver || p.y < 82) return;
+    if (this.isOver || p.y < su(82)) return;
     if (SPEC.player.moveMode === 'tap-lane') {
       const lane = Math.floor(p.x / (SPEC.canvas.width / 3));
       this.targetX = (lane + 0.5) * (SPEC.canvas.width / 3);
@@ -112,12 +113,12 @@ export default class GameScene extends Phaser.Scene {
     this._trailAcc += delta;
     if (Math.abs(this.vx) > 220 && this._trailAcc > 70) {
       this._trailAcc = 0;
-      const p = this.add.circle(this.player.x - Math.sign(this.vx) * 22, this.player.y + 26, 5, 0x9fd7ff, 0.7).setDepth(8);
-      this.tweens.add({ targets: p, alpha: 0, scale: 0.2, x: p.x - Math.sign(this.vx) * 16, duration: 260, onComplete: () => p.destroy() });
+      const p = this.add.circle(this.player.x - Math.sign(this.vx) * su(22), this.player.y + su(26), su(5), 0x9fd7ff, 0.7).setDepth(8);
+      this.tweens.add({ targets: p, alpha: 0, scale: 0.2, x: p.x - Math.sign(this.vx) * su(16), duration: 260, onComplete: () => p.destroy() });
     }
     // 기울기 + 부양 바운스 + 속도 비례 애니
     this.player.angle = Phaser.Math.Linear(this.player.angle, Phaser.Math.Clamp(this.vx * 0.022, -16, 16), 0.2);
-    this.player.y = TUNING.playerY + Math.sin(time * 0.006) * 3;
+    this.player.y = TUNING.playerY + Math.sin(time * 0.006) * su(3);
     if (this.anims.exists('player_run')) {
       if (Math.abs(this.vx) > 60) {
         if (!this.player.anims.isPlaying) this.player.play('player_run');
@@ -131,7 +132,7 @@ export default class GameScene extends Phaser.Scene {
     const _cx = coin.x, _cy = coin.y;
     coin.disableBody(true, true);
     this.score.addCollectible();
-    Juice.burst(this, _cx, _cy, 0xffe066, 'fx_collect'); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));
+    Juice.burst(this, _cx, _cy, 0xffe066, ASSET_KEYS.fx.collect); Juice.scorePop(this, _cx, _cy, '+' + (SPEC.collectibles?.scoreValue || SPEC.scoring.collectiblePoints || 50));
     AudioManager.playSfx(this, ASSET_KEYS.sfxCollect, 0.55);
   }
   onHit(_player, meteor) {
@@ -139,7 +140,7 @@ export default class GameScene extends Phaser.Scene {
     // 실드/무적 흡수 — 유성 하나만 소멸시키고 계속
     if (this.shield.absorbHit()) { if (meteor?.active) meteor.disableBody(true, true); return; }
     this.isOver = true;
-    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, 'fx_hit');
+    Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, ASSET_KEYS.fx.hit);
     AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);
     AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);
     AudioManager.stopMusic();

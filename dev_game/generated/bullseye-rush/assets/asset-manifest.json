@@ -2,7 +2,6 @@
   "assetsVersion": "1.1.0-native-fhd",
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
@@ -311,7 +310,7 @@
       "id": "stage-1",
       "path": "assets/backgrounds/stage-1.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
       "provenance": {
@@ -335,7 +334,7 @@
       "id": "stage-2",
       "path": "assets/backgrounds/stage-2.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
       "provenance": {
@@ -359,7 +358,7 @@
       "id": "stage-3",
       "path": "assets/backgrounds/stage-3.png",
       "quality": "production-demo",
-      "source": "placeholder",
+      "source": "generated-for-game",
       "minWidth": 1080,
       "minHeight": 1920,
       "provenance": {

@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 import { SCENES } from '../data/spec.js';
+import { BOOT_IMAGE_PATHS } from '../constants/gameKeys.js';
 import { SaveData } from '../systems/SaveData.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() { super(SCENES.BOOT); }
   preload() {
-    this.load.image('loading_shell', 'backgrounds/stage-1.webp');
+    Object.entries(BOOT_IMAGE_PATHS).forEach(([key, path]) => this.load.image(key, path));
   }
   create() {
     SaveData.getSettings();

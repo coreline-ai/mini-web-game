@@ -8,22 +8,22 @@
     "target": "mobile-web"
   },
   "canvas": {
-    "width": 390,
-    "height": 844,
+    "width": 1080,
+    "height": 1920,
     "backgroundColor": "#1b1030",
     "scaleMode": "fit",
-    "maxTargetDpr": 3,
+    "maxTargetDpr": 1,
     "physicalCanvasTarget": {
-      "width": 1170,
-      "height": 2532
+      "width": 1080,
+      "height": 1920
     }
   },
   "player": {
     "moveMode": "drag",
-    "speed": 860,
+    "speed": 1956,
     "hitbox": {
-      "width": 40,
-      "height": 40
+      "width": 91,
+      "height": 91
     }
   },
   "hazards": {
@@ -31,8 +31,8 @@
     "label": "Balloon Target",
     "spawnRateStart": 1000,
     "spawnRateMax": 380,
-    "fallSpeedStart": 130,
-    "fallSpeedMax": 330,
+    "fallSpeedStart": 296,
+    "fallSpeedMax": 751,
     "damage": 1,
     "poolSize": 40
   },

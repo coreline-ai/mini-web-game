@@ -1,8 +1,7 @@
 {
-  "assetsVersion": "1.0.0",
+  "assetsVersion": "1.1.0-full-resolution-loader-cleanup",
   "imagePolicy": {
     "allowedFormats": [
-      "svg",
       "png",
       "webp"
     ],
@@ -1143,7 +1142,7 @@
       "width": 1080,
       "height": 1920
     },
-    "maxTargetDpr": 3,
+    "maxTargetDpr": 1,
     "physicalCanvasTarget": {
       "width": 1080,
       "height": 1920

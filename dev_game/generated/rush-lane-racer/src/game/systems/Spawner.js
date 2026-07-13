@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { TUNING, laneX } from '../constants/tuning.js';
+import { setBodySizeInDisplayPixels } from './PhysicsBounds.js';
 
 function clamp01(v) { return Math.max(0, Math.min(1, v)); }
 function lerp(a, b, t) { return a + (b - a) * clamp01(t); }
@@ -94,7 +95,7 @@ export default class Spawner {
     h.phase = Math.random() * Math.PI * 2;
     h.setDepth(8 + (variant.boss ? 2 : 0)).setDisplaySize(variant.width || 96, variant.height || 160);
     h.body.setAllowGravity(false);
-    h.body.setSize((variant.width || 96) * 0.72, (variant.height || 160) * 0.76, true);
+    setBodySizeInDisplayPixels(h, (variant.width || 96) * 0.72, (variant.height || 160) * 0.76);
     h.setVelocity(0, h.baseSpeed);
     h.setAngularVelocity(variant.id === 'oil' || variant.id === 'roadblock' ? 0 : Phaser.Math.Between(-8, 8));
     h.setTint(variant.siren && Math.random() < 0.5 ? 0xd7f3ff : 0xffffff);
@@ -114,7 +115,7 @@ export default class Spawner {
     c.baseSpeed = baseSpeed;
     c.setDepth(7).setDisplaySize(item.width || 64, item.height || 64);
     c.body.setAllowGravity(false);
-    c.body.setCircle(Math.min(item.width || 64, item.height || 64) * 0.42, 0, 0);
+    setBodySizeInDisplayPixels(c, item.width || 64, item.height || 64);
     c.setVelocity(0, baseSpeed);
     c.setAngularVelocity(item.id === 'coin' ? 120 : 0);
   }
