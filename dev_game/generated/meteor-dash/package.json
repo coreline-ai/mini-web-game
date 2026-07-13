@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "qa:dist-runtime": "node scripts/runtime-asset-delivery.mjs qa"
   },
   "dependencies": {
     "phaser": "^3.90.0"

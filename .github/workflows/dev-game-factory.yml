@@ -16,6 +16,8 @@ on:
       - '.claude/skills/**'
       - 'scripts/install_game_factory_skill.sh'
       - '.github/workflows/dev-game-factory.yml'
+  schedule:
+    - cron: '0 18 * * *'
   workflow_dispatch:
 
 permissions:
@@ -43,3 +45,99 @@ jobs:
         run: npm --prefix dev_game exec playwright install --with-deps chromium
       - name: Run factory QA
         run: npm --prefix dev_game run factory:qa
+
+  curated-runtime-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: factory-qa
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        game:
+          - bullseye-rush
+          - castle-archer
+          - jungle-arcshot
+          - market-panic
+          - meteor-dash
+          - parcel-sort-rush
+          - road-stream-racer
+          - rush-lane-racer
+          - sky-archer
+          - target-shooter-rush
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            dev_game/package-lock.json
+            dev_game/generated/${{ matrix.game }}/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: |
+          npm --prefix dev_game ci
+          npm --prefix "dev_game/generated/${{ matrix.game }}" ci
+          python -m pip install Pillow
+      - name: Build runtime allowlist
+        run: npm --prefix "dev_game/generated/${{ matrix.game }}" run build
+      - name: Verify runtime file-set, SHA and budget
+        run: npm --prefix dev_game run factory:dist-runtime-qa -- --project "generated/${{ matrix.game }}"
+      - name: Verify production manifest and image quality
+        run: |
+          npm --prefix dev_game run factory:production-demo-qa -- --project "generated/${{ matrix.game }}" --require-gpt-imagegen
+          npm --prefix dev_game run factory:image-quality-qa -- --project "generated/${{ matrix.game }}"
+          npm --prefix dev_game run factory:hq-screen-quality-qa -- --project "generated/${{ matrix.game }}" --skip-market-events
+      - name: Verify Rush Lane Racer physics bounds
+        if: matrix.game == 'rush-lane-racer'
+        run: npm --prefix "dev_game/generated/${{ matrix.game }}" run qa:physics-bounds
+
+  curated-full-production-gate:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [factory-qa, curated-runtime-qa]
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - { game: bullseye-rush, port: 4310 }
+          - { game: jungle-arcshot, port: 4320 }
+          - { game: road-stream-racer, port: 4330 }
+          - { game: castle-archer, port: 4340 }
+          - { game: parcel-sort-rush, port: 4350 }
+          - { game: target-shooter-rush, port: 4360 }
+          - { game: market-panic, port: 4370 }
+          - { game: meteor-dash, port: 4380 }
+          - { game: rush-lane-racer, port: 4390 }
+          - { game: sky-archer, port: 4400 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            dev_game/package-lock.json
+            dev_game/generated/${{ matrix.game }}/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install production-gate dependencies
+        run: |
+          npm --prefix dev_game ci
+          npm --prefix "dev_game/generated/${{ matrix.game }}" ci
+          npm --prefix dev_game exec playwright install --with-deps chromium
+          python -m pip install Pillow
+      - name: Run full production gate
+        run: >-
+          npm --prefix dev_game run factory:production-gate --
+          --skip-foundation
+          --project "generated/${{ matrix.game }}"
+          --require-gpt-imagegen
+          --port "${{ matrix.port }}"
+          --viewports 390x844,430x932,1080x1920

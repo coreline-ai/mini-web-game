@@ -162,3 +162,13 @@ New evidence:
 - The gallery backgrounds still contain decorative baked targets; loading/home/game now add active-target plates/veil/glow so the runtime target is visually separated from static background art.
 - `Spawner.js` and `ScoreManager.js` remain inactive Foundation remnants; `constants/tuning.js` is now active and owns FHD scale helpers.
 - Current audio is generated Foundation WAV audio and is acceptable for the production-demo MVP; release polish should replace/remaster final SFX/BGM.
+
+## Runtime asset delivery migration — 2026-07-13
+
+- Replaced Vite `publicDir` copying with the canonical manifest allowlist plugin while preserving port 5188, strict port behavior, and the existing allowed host.
+- Multiple texture keys deduplicate to 12 physical loader/manifest files: target/hazard share one file and collectible/hit/miss share one file.
+- Raw imagegen files, legacy backgrounds, scaffold SVGs, the procedural-reticle crosshair artifact, and the audio README remain preserved but are excluded from `dist`.
+- Exact build bytes: `18,880,712 -> 9,321,919` (`9,558,793` bytes removed from delivery).
+- Runtime payload: `7,802,656 / 9,961,472` bytes; source-only preservation: 17 files / `9,551,439` bytes.
+- PASS: build, `qa:dist-runtime`, production-demo QA, image-quality QA (7 assets), and HQ screen QA.
+- Browser visual/scene reruns were deferred to integration after the workspace-wide browser concurrency ceiling was reached.

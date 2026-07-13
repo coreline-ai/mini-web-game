@@ -120,3 +120,13 @@ Evidence:
 - Gameplay screenshot: `qa-captures/full-resolution-2026-07-10/sky-archer/game-390x844-dpr3.png`
 - Visual-layout screenshots: `dev_game/.tmp/visual-layout-qa/sky-archer`
 - Scene-composite screenshots: `dev_game/.tmp/scene-composite-qa/sky-archer`
+
+## 2026-07-13 Runtime Asset Delivery Migration
+
+- Moved 13 active runtime images to `assets/images/production/**`; all before/after SHA-256 values matched.
+- Preserved 3 scaffold SVGs and `assets/audio/README.md` as source-only files.
+- Added explicit delivery metadata, a 9 MiB runtime budget, canonical package-local helper, `publicDir: false`, and asset-plan `runtimePath` values.
+- Runtime manifest and loader agree on 18 physical files with no loader-only or manifest-only path.
+- Dist size changed from 9,584,314 bytes to 9,573,009 bytes. Runtime assets total 8,061,840 bytes.
+- PASS: build, dist-runtime QA, asset QA, image-quality QA, HQ-screen QA (13 assets), production-demo QA, and curated browser smoke.
+- Full visual/scene rerun is delegated to integration to respect the global browser-concurrency limit.

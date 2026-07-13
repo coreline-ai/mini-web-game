@@ -440,3 +440,13 @@ Runtime sample highlights:
 - Add boss wave after stage 10.
 - Add tutorial overlay for first-time aim/release.
 - Add per-stage enemy mix table to JSON data for easier balancing.
+
+## Runtime asset delivery migration — 2026-07-13
+
+- Replaced Vite `publicDir` copying with the canonical manifest allowlist plugin.
+- The 28 normalized loader paths exactly match 28 physical runtime files.
+- Three unused standalone enemy PNGs, `assets/_source/**`, scaffold SVGs, and the audio README remain preserved but are excluded from `dist`.
+- Exact build bytes: `37,419,410 -> 19,945,304` (`17,474,106` bytes removed from delivery).
+- Runtime payload: `18,421,397 / 22,020,096` bytes; source-only preservation: 18 files / `17,442,150` bytes.
+- PASS: build, `qa:dist-runtime`, production-demo QA, image-quality QA (26 assets), and HQ screen QA.
+- Browser visual/scene reruns were deferred to integration after the workspace-wide browser concurrency ceiling was reached.

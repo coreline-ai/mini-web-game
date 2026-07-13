@@ -13,7 +13,7 @@ the final demo. Machine-readable prompts live in `asset-plan.json`.
 ## Native-FHD fidelity update (2026-07-08)
 - Runtime canvas target: 1080×1920. Do not return to 390×844 logical drawing for production polish, because it causes downsample-then-CSS-upscale blur on high-DPR displays.
 - Coordinate policy: authored gameplay values may start from the old 390×844 composition, but runtime values must pass through `src/game/utils/scale.js` so sprite sizes, HUD, physics speeds, and stroke thickness land in the 1080×1920 space.
-- Player asset: `assets/characters/player.png` is a 2048×512 sheet with four 512×512 frames. Runtime display is about 277×277, so it must remain downscaled, never upscaled. Keep transparent edge bleed and avoid magenta fringe.
+- Player asset: `assets/characters/player.png` is a 1344×336 sheet with four 336×336 frames. Runtime display remains about 277×277, so it stays downscaled rather than upscaled. Each source frame was independently Lanczos-resampled with proportional transparent padding to prevent cross-cell bleed, magenta fringe, and crop clipping.
 - Target asset: `assets/enemies/target.png` is a 1024×1024 transparent PNG rebuilt for native-FHD. Runtime display is about 294×294, so it must remain downscaled with crisp antialiased rings.
 - Desktop presentation: wide landscape browsers should show a centered 9:16 mobile shell, not a stretched full-width game.
 

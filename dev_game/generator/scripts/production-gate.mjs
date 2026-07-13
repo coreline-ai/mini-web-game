@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,6 +10,7 @@ const productionDemoQa = path.join(__dirname, 'production-demo-qa.mjs');
 const visualLayoutQa = path.join(__dirname, 'visual-layout-qa.mjs');
 const imageQualityQa = path.join(__dirname, 'image-quality-qa.mjs');
 const sceneCompositeQa = path.join(__dirname, 'scene-composite-qa.mjs');
+const distRuntimeQa = path.join(__dirname, 'dist-runtime-qa.mjs');
 
 function usage() {
   console.log(`Usage:
@@ -17,12 +19,14 @@ function usage() {
 
 Runs:
   1. factory:qa foundation gate
-  2. production-demo-qa asset/docs/manifest contract gate
-  3. image-quality-qa role-aware pixel/alpha gate
-  4. visual-layout-qa browser overlap/safe-area gate
-  5. scene-composite-qa rendered art-direction gate
+  2. project build + dist-runtime-qa manifest/file/SHA/budget gate (assetLayout rollout marker only)
+  3. production-demo-qa asset/docs/manifest contract gate
+  4. image-quality-qa role-aware pixel/alpha gate
+  5. visual-layout-qa browser overlap/safe-area gate
+  6. scene-composite-qa rendered art-direction gate
 
 Selected options are routed to the gate that understands them:
+  --skip-foundation -> skip factory:qa when CI already ran it as an upstream job
   --require-gpt-imagegen/--require-imagegen-skill -> production-demo-qa only
   --port/--viewports/--safe-margin/--aspect-tolerance -> browser visual gates`);
 }
@@ -40,9 +44,12 @@ function splitArgs(argv) {
   const productionArgs = [];
   const visualArgs = [];
   const sceneArgs = [];
+  let skipFoundation = false;
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
-    if (a === '--project') {
+    if (a === '--skip-foundation') {
+      skipFoundation = true;
+    } else if (a === '--project') {
       const value = argv[++i];
       productionArgs.push(a, value);
       visualArgs.push(a, value);
@@ -71,7 +78,7 @@ function splitArgs(argv) {
       throw new Error(`Unknown production-gate argument: ${a}`);
     }
   }
-  return { productionArgs, visualArgs, sceneArgs };
+  return { productionArgs, visualArgs, sceneArgs, skipFoundation };
 }
 
 const args = process.argv.slice(2);
@@ -94,7 +101,27 @@ try {
   process.exit(1);
 }
 
-run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
+if (split.skipFoundation) console.log('Foundation gate skipped: verified by an upstream CI job');
+else run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
+const projectArg = split.productionArgs[split.productionArgs.indexOf('--project') + 1];
+const projectCandidates = [
+  path.resolve(process.cwd(), projectArg),
+  path.resolve(workspaceRoot, projectArg),
+  path.resolve(workspaceRoot, '..', projectArg),
+];
+const projectDir = projectCandidates.find((candidate) => {
+  try { return fs.statSync(candidate).isDirectory(); } catch { return false; }
+});
+if (!projectDir) throw new Error(`Project directory not found: ${projectArg}`);
+const projectManifest = path.join(projectDir, 'assets', 'asset-manifest.json');
+const runtimeDeliveryEnabled = fs.existsSync(projectManifest)
+  && Boolean(JSON.parse(fs.readFileSync(projectManifest, 'utf8')).assetLayout);
+if (runtimeDeliveryEnabled) {
+  run(npmCommand(), ['run', 'build'], { cwd: projectDir });
+  run(process.execPath, [distRuntimeQa, '--project', projectDir], { cwd: workspaceRoot });
+} else {
+  console.log('Runtime delivery gate skipped: legacy manifest has no assetLayout rollout marker');
+}
 // imagegen 스킬 provenance는 상시 강제 (임의/API/절차적 생성 금지 정책)
 const prodArgs = split.productionArgs.includes('--require-gpt-imagegen')
   ? split.productionArgs

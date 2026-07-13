@@ -60,3 +60,10 @@ npm --prefix dev_game run factory:production-demo-qa -- \
   --project dev_game/generated/target-shooter-rush \
   --require-gpt-imagegen
 ```
+
+## Runtime delivery regression
+
+- `npm --prefix dev_game/generated/target-shooter-rush run qa:dist-runtime` must report 12 physical files within 9.5 MiB.
+- Normalized loader URLs must exactly match `dist/runtime-asset-manifest.json`; target/hazard and collectible/hit/miss remain valid shared-file mappings.
+- `imagegen/raw`, legacy `assets/backgrounds/stage-*`, scaffold SVGs, `crosshair.png`, and `audio/README.md` must not appear in `dist`.
+- The active reticle remains procedural `RETICLE_KEY`; do not restore the source-only crosshair file to the loader.

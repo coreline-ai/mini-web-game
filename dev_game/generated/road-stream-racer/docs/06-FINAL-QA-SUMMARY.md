@@ -74,6 +74,16 @@ Final gate results:
 - `npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/road-stream-racer --require-gpt-imagegen`: pass.
 - `npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/road-stream-racer`: pass, 17 role-aware assets.
 - `npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/road-stream-racer --viewports 390x844,430x932,1080x1920`: pass.
+
+## Runtime asset delivery migration — 2026-07-13
+
+- Replaced Vite `publicDir` copying with the canonical manifest allowlist plugin.
+- Aligned all 36 normalized loader requests with 36 physical runtime manifest files; the unused forest-loop variant remains source-only.
+- `assets/references/**`, scaffold SVGs, and the audio README remain preserved in the project but are absent from `dist`.
+- Exact build bytes: `41,285,361 -> 24,941,267` (`16,344,094` bytes removed from delivery).
+- Runtime payload: `23,409,532 / 26,214,400` bytes; source-only preservation: 15 files / `16,326,233` bytes.
+- PASS: build, `qa:dist-runtime`, production-demo QA, image-quality QA (23 assets), and HQ screen QA.
+- The 2026-07-13 visual-layout attempt was stopped after build because workspace-wide browser concurrency exceeded the agreed limit; final browser rerun remains an integration responsibility.
 - `npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/road-stream-racer --viewports 390x844,430x932,1080x1920,1280x900`: pass.
 
 ## Polish Pass 2026-07-08 — Live Playability, Return Path, and QA Timing

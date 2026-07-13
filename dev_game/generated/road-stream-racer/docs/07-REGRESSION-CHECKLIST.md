@@ -50,3 +50,6 @@
 - Full-resolution loader polish: `LoadingScene` must preload only `SPRITESHEET_PATHS`, `IMAGE_PATHS`, and `AUDIO_PATHS` from `gameKeys.js`; new runtime PNG/WAV paths must be added there first.
 - Premium HUD asset polish: `racer_ui_home`, `racer_ui_pause`, `racer_icon_coin`, `racer_icon_speed`, and `racer_icon_level` must stay in `ASSET_KEYS`, load through `IMAGE_PATHS`, and appear in the runtime texture sample with no missing keys.
 - SVG/runtime stale-key polish: runtime resource samples must not request `/assets/images/*.svg`, and Phaser texture keys must not contain `svg` or `placeholder`.
+- Runtime delivery: `assetLayout.version` stays `runtime-assets-v1`, every manifest entry has explicit `delivery`, and `npm run qa:dist-runtime` reports 36 physical files within 25 MiB.
+- Runtime delivery: normalized `IMAGE_PATHS`, `SPRITESHEET_PATHS`, and `AUDIO_PATHS` must exactly equal `dist/runtime-asset-manifest.json`; references, scaffold SVGs, and `audio/README.md` must never appear in `dist`.
+- Runtime delivery: the active `road-flat-loop-1080x1920.png` and four premium HUD files added during migration must not be removed from the manifest while their loader requests remain active.

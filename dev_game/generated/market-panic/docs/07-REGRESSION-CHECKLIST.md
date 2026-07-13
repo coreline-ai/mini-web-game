@@ -115,3 +115,11 @@ Capture sequence:
 - `collectible.webp` must keep transparent edge padding and `factory:image-quality-qa` must pass `11` role-aware assets.
 
 2026-07-10 evidence: build, image-quality QA, production gate, Home DPR3 runtime sample, and GameScene DPR3 runtime sample all passed; see `dev_game/docs/qa-evidence/market-panic-2026-07-10.md`.
+
+## Runtime Delivery Regression — 2026-07-13
+
+- [x] `vite.config.js` keeps `publicDir: false` and the package-local runtime delivery plugin.
+- [x] All 22 runtime images stay under `assets/images/production/**`; loader and manifest resolve the same 27 physical runtime files.
+- [x] Source-only PNG/SVG/README files do not appear in `dist`, and `dist/runtime-asset-manifest.json` SHA-256 values match source files.
+- [x] Runtime assets stay within 8 MiB; current measured total is 2,977,701 bytes.
+- [x] Build, dist-runtime, asset, image, HQ, production-demo, browser smoke, and visual-layout gates pass.

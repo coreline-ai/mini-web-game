@@ -426,7 +426,7 @@ function main() {
   // 4) merge manifest
   manifest.qualityTier = manifest.qualityTier === 'production-demo' ? 'production-demo' : 'draft';
   manifest.stageBackgrounds = plan.backgrounds.map((b) => ({
-    id: b.id, path: b.path, quality: 'draft', source: 'placeholder',
+    id: b.id, path: b.path, delivery: 'runtime', quality: 'draft', source: 'placeholder',
     minWidth: b.width, minHeight: b.height,
   }));
   manifest.assetPlan = 'asset-plan.json';
@@ -436,7 +436,10 @@ function main() {
   const gid = spec.game.id;
   manifest.assetIsolation = { mode: 'per-game', generatedFor: gid, noSharedRuntimeAssets: true };
   const stampProvenance = (arr) => (Array.isArray(arr) ? arr : []).forEach((e) => {
-    if (e && typeof e === 'object') e.provenance = e.provenance || { source: 'generated-for-game', generatedFor: gid };
+    if (e && typeof e === 'object') {
+      e.delivery ||= 'runtime';
+      e.provenance = e.provenance || { source: 'generated-for-game', generatedFor: gid };
+    }
   });
   stampProvenance(manifest.images);
   stampProvenance(manifest.audio);

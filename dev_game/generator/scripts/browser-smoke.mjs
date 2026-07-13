@@ -57,6 +57,7 @@ async function importPlaywright() {
 async function browserCheck(projectDir, port) {
   run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
   run(npmCommand(), ['run', 'build'], { cwd: projectDir });
+  run(npmCommand(), ['run', 'qa:dist-runtime'], { cwd: projectDir });
   // detached: 자체 프로세스 그룹으로 분리해 npm→sh→vite→esbuild 트리 전체를 그룹 시그널로 종료할 수 있게 한다.
   // (npm만 kill하면 리눅스 CI에서 손자 프로세스가 살아남아 stdio 파이프를 물고 스크립트가 영원히 종료되지 않는다)
   const server = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], {
@@ -112,6 +113,14 @@ function generateFixtures(spec) {
   const noSfx = path.join(tmpRoot, 'poop-dodge-browser-no-sfx');
   run(process.execPath, [cli, '--force', '--spec', spec, '--out', normal]);
   run(process.execPath, [cli, '--force', '--no-sfx', '--spec', spec, '--out', noSfx]);
+  const dummy = path.join(normal, 'assets', '_source', 'source-only-dummy.txt');
+  fs.mkdirSync(path.dirname(dummy), { recursive: true });
+  fs.writeFileSync(dummy, 'must never be served or built\n');
+  const manifestFile = path.join(normal, 'assets', 'asset-manifest.json');
+  const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+  manifest.files ||= [];
+  manifest.files.push({ id: 'source-only-dummy', type: 'source', path: 'assets/_source/source-only-dummy.txt', delivery: 'source' });
+  fs.writeFileSync(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`);
   return [normal, noSfx];
 }
 

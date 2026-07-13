@@ -8,6 +8,10 @@ Method:
 - The main agent cross-checked with `game-spec.json`, Phaser config/runtime scale helpers, loader paths, asset manifests, docs, and `sips` pixel dimensions.
 - No sub-agent edited files. This document is the consolidated workload and update plan.
 
+## 2026-07-13 Runtime Delivery Completion
+
+The 10-game runtime delivery/HQ/production-tree follow-up is complete. All games now use a strict manifest allowlist, all static and browser gates pass, and aggregate `dist` size changed from `211,042,551B` to `127,585,708B` (`39.55%` reduction). See [`runtime-delivery-results-2026-07-13.md`](runtime-delivery-results-2026-07-13.md) for the per-game file counts, byte budgets, HQ results, and gate matrix.
+
 ## Parcel Baseline Contract
 
 Use `parcel-sort-rush` as the full-resolution target pattern, but do not blindly copy parcel-specific gameplay constants.
@@ -31,12 +35,12 @@ Baseline caveat:
 
 | Game | Current canvas | Estimate | Main reason |
 |---|---:|---|---|
-| `parcel-sort-rush` | `1080x1920` | S | Baseline cleanup only: verifier drift, alpha edge cases, stale spec fields. |
-| `bullseye-rush` | `1080x1920` | M | FHD runtime exists; needs loader cleanup, production asset organization, manifest/docs sync. |
-| `castle-archer` | `1080x1920` | M | FHD runtime/assets exist; needs production-folder migration and stale docs/manifest cleanup. |
-| `jungle-arcshot` | `1080x1920` | M | FHD runtime exists; needs production-folder alignment, placeholder metadata cleanup, optional screen assets. |
-| `road-stream-racer` | `1080x1920` | M | FHD road loop/assets exist; needs path/schema/docs cleanup and QA recapture. |
-| `rush-lane-racer` | `1080x1920` | M | FHD runtime exists; needs production asset tree, full asset-fidelity samples, docs/manifest sync. |
+| `parcel-sort-rush` | `1080x1920` | Done | Strict runtime delivery, raw/sheets exclusion, physical-file dedupe and verifier checks pass. |
+| `bullseye-rush` | `1080x1920` | Done | HQ failures 6→0; strict runtime delivery and browser gates pass. |
+| `castle-archer` | `1080x1920` | Done | `_source`/unused asset delivery excluded; strict runtime and browser gates pass. |
+| `jungle-arcshot` | `1080x1920` | Done | HQ failures 2→0; strict runtime delivery and browser gates pass. |
+| `road-stream-racer` | `1080x1920` | Done | References excluded and loader/manifest 36-file contract verified. |
+| `rush-lane-racer` | `1080x1920` | Done | Production tree, strict delivery, visual gates, and five-position physics regression pass. |
 | `meteor-dash` | `1080x1920` | Done | Native FHD conversion complete; DPR backing-store trap removed and gates passed. |
 | `sky-archer` | `1080x1920` | Done | Native FHD conversion complete; DPR backing-store trap removed and gates passed. |
 | `market-panic` | `1080x1920` | Done | Native FHD canvas complete with centered 390x844 DOM board strategy; gates passed. |

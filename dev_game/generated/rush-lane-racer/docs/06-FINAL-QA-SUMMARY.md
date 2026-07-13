@@ -84,3 +84,13 @@ The player and collectible sprites were scaled with `setDisplaySize()`, but Arca
 - `npm run build`: PASS
 - `npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/rush-lane-racer`: PASS, 25 assets at role-aware production-demo bar
 - `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/rush-lane-racer --require-gpt-imagegen --viewports 390x844,430x932,1080x1920,1280x900`: PASS
+
+## 2026-07-13 Runtime Asset Delivery Migration
+
+- Moved 25 active runtime images into production role folders for backgrounds, vehicles, obstacles, pickups, UI, and effects; all before/after SHA-256 values matched.
+- Preserved 18 SVG sources and `assets/audio/README.md` as source-only files.
+- Added explicit delivery metadata, an 18 MiB runtime budget, canonical package-local helper, `publicDir: false`, and asset-plan `runtimePath` values.
+- Runtime manifest and loader paths agree on 30 physical files; loader-only and manifest-only counts are 0.
+- Dist size changed from 18,124,512 bytes to 18,099,600 bytes. Runtime assets total 16,575,353 bytes.
+- PASS: build, dist-runtime QA, asset QA, image-quality QA, HQ-screen QA (25 assets), production-demo QA, and curated browser smoke.
+- The existing `PhysicsBounds` implementation was not modified. Integration re-ran the five-position coin-center regression through `npm run qa:physics-bounds`; all five overlaps collected, player/coin bodies remained `118x118`/`66x66`, and visual/scene gates passed at `390x844,430x932,1080x1920`.

@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_OUT_ROOT = path.resolve(ROOT, '..', 'generated');
 const SCHEMA_PATH = path.join(ROOT, 'schemas', 'game-spec.schema.json');
+const RUNTIME_ASSET_HELPER_PATH = path.join(ROOT, 'templates', 'runtime-asset-delivery.mjs');
 const GENERATED_MARKER = '.dev-game-generated.json';
 
 function parseArgs(argv) {
@@ -256,14 +257,24 @@ function buildFiles(spec, opts) {
     private: true,
     type: 'module',
     engines: { node: '>=18' },
-    scripts: { dev: 'vite', build: 'vite build', preview: 'vite preview' },
+    scripts: { dev: 'vite', build: 'vite build', preview: 'vite preview', 'qa:dist-runtime': 'node scripts/runtime-asset-delivery.mjs qa' },
     dependencies: { phaser: '^3.90.0' },
     devDependencies: { vite: '^6.3.5' },
   }, null, 2) + '\n');
 
   files.set('index.html', `<!doctype html>\n<html lang="ko">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />\n    <meta name="theme-color" content="${escapeHtml(backgroundColor)}" />\n    ${withPwa ? '<link rel="manifest" href="/manifest.webmanifest" />' : ''}\n    <title>${escapeHtml(title)}</title>\n  </head>\n  <body>\n    <div id="game"></div>\n    <script type="module" src="/src/main.js"></script>\n  </body>\n</html>\n`);
 
-  files.set('vite.config.js', `import { defineConfig } from 'vite';\n\nexport default defineConfig({\n  publicDir: 'assets',\n  server: { host: '0.0.0.0' },\n  build: { chunkSizeWarningLimit: 2048 },\n});\n`);
+  files.set('vite.config.js', `import { defineConfig } from 'vite';
+import { createRuntimeAssetDeliveryPlugin } from './scripts/runtime-asset-delivery.mjs';
+
+export default defineConfig({
+  publicDir: false,
+  plugins: [createRuntimeAssetDeliveryPlugin()],
+  server: { host: '0.0.0.0' },
+  build: { chunkSizeWarningLimit: 2048 },
+});
+`);
+  files.set('scripts/runtime-asset-delivery.mjs', fs.readFileSync(RUNTIME_ASSET_HELPER_PATH, 'utf8'));
 
   files.set('src/main.js', `import Phaser from 'phaser';\nimport './styles/mobile.css';\nimport config from './game/config.js';\n\nwindow.addEventListener('load', () => {\n  const game = new Phaser.Game(config);\n  window.__GAME__ = game;\n});\n`);
 
@@ -501,20 +512,23 @@ import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\nimpo
 
   const assetManifest = {
     assetsVersion: '1.0.0',
+    assetLayout: { version: 'runtime-assets-v1', runtimeRoot: 'assets' },
+    runtimeBudgetBytes: 16 * 1024 * 1024,
     imagePolicy: { allowedFormats: ['svg', 'png', 'webp'], maxSpriteKB: 512, requireAlphaForSprites: true, minTouchUiSize: 44 },
     audioPolicy: { allowedFormats: ['wav', 'ogg', 'mp3'], maxSfxKB: 300, maxBgmKB: 3072, maxPeakDb: -1, maxTrimSilenceMs: 300 },
     images: [
-      { id: 'player', path: 'assets/images/player.svg', type: 'sprite', role: 'player', minWidth: 64, minHeight: 64, requiresAlpha: true },
-      { id: 'hazard', path: 'assets/images/hazard.svg', type: 'sprite', role: 'hazard', minWidth: 64, minHeight: 64, requiresAlpha: true },
-      { id: 'collectible', path: 'assets/images/collectible.svg', type: 'sprite', role: 'collectible', minWidth: 44, minHeight: 44, requiresAlpha: true },
+      { id: 'player', path: 'assets/images/player.svg', type: 'sprite', role: 'player', delivery: 'runtime', minWidth: 64, minHeight: 64, requiresAlpha: true },
+      { id: 'hazard', path: 'assets/images/hazard.svg', type: 'sprite', role: 'hazard', delivery: 'runtime', minWidth: 64, minHeight: 64, requiresAlpha: true },
+      { id: 'collectible', path: 'assets/images/collectible.svg', type: 'sprite', role: 'collectible', delivery: 'runtime', minWidth: 44, minHeight: 44, requiresAlpha: true },
     ],
     audio: withSfx ? [
-      { id: 'ui_click', path: 'assets/audio/ui_click.wav', type: 'ui', required: true, maxDurationMs: 1000 },
-      { id: 'collect', path: 'assets/audio/collect.wav', type: 'sfx', required: true, maxDurationMs: 3000 },
-      { id: 'hit', path: 'assets/audio/hit.wav', type: 'sfx', required: true, maxDurationMs: 3000 },
-      { id: 'game_over', path: 'assets/audio/game_over.wav', type: 'sfx', required: true, maxDurationMs: 3000 },
-      { id: 'game_loop', path: 'assets/audio/game_loop.wav', type: 'bgm', required: true, loopable: true },
+      { id: 'ui_click', path: 'assets/audio/ui_click.wav', type: 'ui', delivery: 'runtime', required: true, maxDurationMs: 1000 },
+      { id: 'collect', path: 'assets/audio/collect.wav', type: 'sfx', delivery: 'runtime', required: true, maxDurationMs: 3000 },
+      { id: 'hit', path: 'assets/audio/hit.wav', type: 'sfx', delivery: 'runtime', required: true, maxDurationMs: 3000 },
+      { id: 'game_over', path: 'assets/audio/game_over.wav', type: 'sfx', delivery: 'runtime', required: true, maxDurationMs: 3000 },
+      { id: 'game_loop', path: 'assets/audio/game_loop.wav', type: 'bgm', delivery: 'runtime', required: true, loopable: true },
     ] : [],
+    files: withPwa ? [{ id: 'webmanifest', path: 'assets/manifest.webmanifest', type: 'manifest', delivery: 'runtime', runtimeUrl: '/manifest.webmanifest' }] : [],
   };
   files.set('assets/asset-manifest.json', JSON.stringify(assetManifest, null, 2) + '\n');
 

@@ -28,8 +28,8 @@ export const ASSET_KEYS = {
 export const SPRITESHEET_PATHS = {
   [ASSET_KEYS.player]: {
     path: 'characters/player.png',
-    frameWidth: 512,
-    frameHeight: 512,
+    frameWidth: 336,
+    frameHeight: 336,
   },
 };
 

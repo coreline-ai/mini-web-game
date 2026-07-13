@@ -1,5 +1,10 @@
 {
   "assetsVersion": "2.1.0",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 12582912,
   "qualityTier": "production-demo",
   "assetIsolation": {
     "mode": "per-game",
@@ -40,6 +45,7 @@
       "id": "warehouse_day",
       "label": "warehouse day",
       "path": "assets/images/production/backgrounds/warehouse_day.png",
+      "delivery": "runtime",
       "type": "stage-background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -72,6 +78,7 @@
       "id": "warehouse_night",
       "label": "warehouse night",
       "path": "assets/images/production/backgrounds/warehouse_night.png",
+      "delivery": "runtime",
       "type": "stage-background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -104,6 +111,7 @@
       "id": "warehouse_rush",
       "label": "warehouse rush",
       "path": "assets/images/production/backgrounds/warehouse_rush.png",
+      "delivery": "runtime",
       "type": "stage-background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -137,6 +145,7 @@
     {
       "id": "warehouse_day",
       "path": "assets/images/production/backgrounds/warehouse_day.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -168,6 +177,7 @@
     {
       "id": "warehouse_night",
       "path": "assets/images/production/backgrounds/warehouse_night.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -199,6 +209,7 @@
     {
       "id": "warehouse_rush",
       "path": "assets/images/production/backgrounds/warehouse_rush.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -230,6 +241,7 @@
     {
       "id": "parcel_cold",
       "path": "assets/images/production/parcels/parcel_cold.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "parcel",
       "quality": "production-demo",
@@ -261,6 +273,7 @@
     {
       "id": "parcel_fragile",
       "path": "assets/images/production/parcels/parcel_fragile.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "parcel",
       "quality": "production-demo",
@@ -292,6 +305,7 @@
     {
       "id": "parcel_heavy",
       "path": "assets/images/production/parcels/parcel_heavy.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "parcel",
       "quality": "production-demo",
@@ -323,6 +337,7 @@
     {
       "id": "parcel_standard",
       "path": "assets/images/production/parcels/parcel_standard.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "parcel",
       "quality": "production-demo",
@@ -354,6 +369,7 @@
     {
       "id": "chute_a",
       "path": "assets/images/production/chutes/chute_a.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "sort-bin",
       "quality": "production-demo",
@@ -385,6 +401,7 @@
     {
       "id": "chute_b",
       "path": "assets/images/production/chutes/chute_b.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "sort-bin",
       "quality": "production-demo",
@@ -416,6 +433,7 @@
     {
       "id": "chute_cold",
       "path": "assets/images/production/chutes/chute_cold.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "sort-bin",
       "quality": "production-demo",
@@ -447,6 +465,7 @@
     {
       "id": "chute_fragile",
       "path": "assets/images/production/chutes/chute_fragile.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "sort-bin",
       "quality": "production-demo",
@@ -478,6 +497,7 @@
     {
       "id": "conveyor_tile",
       "path": "assets/images/production/machines/conveyor_tile.png",
+      "delivery": "runtime",
       "type": "texture",
       "role": "conveyor",
       "quality": "production-demo",
@@ -509,6 +529,7 @@
     {
       "id": "scanner_gate",
       "path": "assets/images/production/machines/scanner_gate.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "scanner",
       "quality": "production-demo",
@@ -540,6 +561,7 @@
     {
       "id": "combo_perfect",
       "path": "assets/images/production/feedback/combo_perfect.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "feedback",
       "quality": "production-demo",
@@ -571,6 +593,7 @@
     {
       "id": "stamp_correct",
       "path": "assets/images/production/feedback/stamp_correct.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "feedback",
       "quality": "production-demo",
@@ -602,6 +625,7 @@
     {
       "id": "stamp_wrong",
       "path": "assets/images/production/feedback/stamp_wrong.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "feedback",
       "quality": "production-demo",
@@ -633,6 +657,7 @@
     {
       "id": "button_home",
       "path": "assets/images/production/ui/button_home.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -664,6 +689,7 @@
     {
       "id": "button_pause",
       "path": "assets/images/production/ui/button_pause.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -695,6 +721,7 @@
     {
       "id": "button_play",
       "path": "assets/images/production/ui/button_play.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -726,6 +753,7 @@
     {
       "id": "button_resume",
       "path": "assets/images/production/ui/button_resume.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -757,6 +785,7 @@
     {
       "id": "button_sound",
       "path": "assets/images/production/ui/button_sound.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -788,6 +817,7 @@
     {
       "id": "hud_panel",
       "path": "assets/images/production/ui/hud_panel.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-panel",
       "quality": "production-demo",
@@ -819,6 +849,7 @@
     {
       "id": "hud_panel_compact",
       "path": "assets/images/production/ui/hud_panel_compact.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-panel",
       "quality": "production-demo",
@@ -850,6 +881,7 @@
     {
       "id": "panel_card",
       "path": "assets/images/production/ui/panel_card.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-panel",
       "quality": "production-demo",
@@ -881,6 +913,7 @@
     {
       "id": "panel_gameover",
       "path": "assets/images/production/ui/panel_gameover.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-panel",
       "quality": "production-demo",
@@ -912,6 +945,7 @@
     {
       "id": "panel_modal",
       "path": "assets/images/production/ui/panel_modal.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "ui-panel",
       "quality": "production-demo",
@@ -943,6 +977,7 @@
     {
       "id": "player_supervisor",
       "path": "assets/images/production/characters/player_supervisor.png",
+      "delivery": "source",
       "type": "sprite",
       "role": "player",
       "quality": "production-demo",
@@ -976,6 +1011,7 @@
     {
       "id": "button_click",
       "path": "assets/audio/production/ui/button_click.ogg",
+      "delivery": "runtime",
       "type": "ui",
       "required": true,
       "provenance": {
@@ -990,6 +1026,7 @@
     {
       "id": "parcel_miss_thud",
       "path": "assets/audio/production/sfx/parcel_miss_thud.ogg",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -1004,6 +1041,7 @@
     {
       "id": "rush_warning_alarm",
       "path": "assets/audio/production/sfx/rush_warning_alarm.ogg",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -1018,6 +1056,7 @@
     {
       "id": "shift_over_jingle",
       "path": "assets/audio/production/sfx/shift_over_jingle.ogg",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -1032,6 +1071,7 @@
     {
       "id": "sort_success_ding",
       "path": "assets/audio/production/sfx/sort_success_ding.ogg",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -1046,6 +1086,7 @@
     {
       "id": "sort_wrong_buzz",
       "path": "assets/audio/production/sfx/sort_wrong_buzz.ogg",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -1060,6 +1101,7 @@
     {
       "id": "parcel_factory_loop",
       "path": "assets/audio/production/music/parcel_factory_loop.ogg",
+      "delivery": "runtime",
       "type": "bgm",
       "required": true,
       "provenance": {

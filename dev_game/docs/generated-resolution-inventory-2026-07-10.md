@@ -7,6 +7,7 @@ Method:
 - Initial classification used read-only parallel explorer agents across the generated games.
 - The main pass then upgraded or cleaned the outliers and rechecked `src/game/data/game-spec.json`, Phaser config/runtime scale helpers, loader paths, manifests, docs, `sips` pixel dimensions, production gates, and DPR3 browser samples.
 - This file records the post-upgrade state.
+- 2026-07-13 runtime-delivery recheck: all 10 games kept `1080x1920/fit`; visible-canvas smoke, visual-layout, and scene-composite passed for all 10. Detailed payload results are in [`runtime-delivery-results-2026-07-13.md`](runtime-delivery-results-2026-07-13.md).
 
 ## Summary
 
@@ -19,9 +20,9 @@ Method:
 
 | Game | Spec canvas | Runtime canvas/config path | Loaded background or screen asset resolution | Notes |
 |---|---:|---|---|---|
-| `bullseye-rush` | `1080x1920` | Direct `SPEC.canvas.width/height` | `stage-1` `1080x1920`, `stage-2` `2160x3840`, `stage-3` `1080x1920` | Native FHD canvas; one oversized background. |
+| `bullseye-rush` | `1080x1920` | Direct `SPEC.canvas.width/height` | all stage backgrounds `1080x1920` | Native FHD canvas; stage-2 HQ size/edge failures resolved. |
 | `castle-archer` | `1080x1920` | `PHYSICAL_WIDTH/HEIGHT`, derived directly from `SPEC.canvas` | all stage backgrounds `1080x1920` | High-resolution logical canvas manifest strategy; manifest max DPR now aligned to `1`. |
-| `jungle-arcshot` | `1080x1920` | `PHYSICAL_CANVAS`, derived directly from `SPEC.canvas` with `MAX_TARGET_DPR=1` | `stage-1` `1080x2160`, `stage-2` `1080x1920`, `stage-3` `2160x3840` | `scaleMode: fit`; mixed/oversized background sources. |
+| `jungle-arcshot` | `1080x1920` | `PHYSICAL_CANVAS`, derived directly from `SPEC.canvas` with `MAX_TARGET_DPR=1` | `stage-1` `1080x2160`, stage-2/3 `1080x1920` | `scaleMode: fit`; stage-3 HQ size/edge failures resolved. |
 | `market-panic` | `1080x1920` | Direct `SPEC.canvas.width/height`; renderer capped at 1x | loaded WebP/PNG backgrounds `1080x1920` | Native FHD canvas with centered `390x844` DOM board strategy. |
 | `meteor-dash` | `1080x1920` | `PHYSICAL_CANVAS` equals native canvas with `TARGET_DPR=1` | WebP backgrounds `1170x2532` | DPR multiplication removed; FHD runtime samples passed. |
 | `parcel-sort-rush` | `1080x1920` | Direct `SPEC.canvas.width/height` | `warehouse_day/rush/night` all `1080x1920` under `assets/images/production/backgrounds` | Baseline FHD game after verifier/spec cleanup. |

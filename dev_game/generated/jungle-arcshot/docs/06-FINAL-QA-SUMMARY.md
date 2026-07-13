@@ -82,6 +82,17 @@ Gate results:
 - `factory:scene-composite-qa --viewports 390x844,430x932,1080x1920`: PASS
 - `factory:production-gate --require-gpt-imagegen --viewports 390x844,430x932,1080x1920`: PASS
 
+## 2026-07-13 Runtime allowlist and stage-3 HQ payload polish
+
+- 기준 증상: HQ gate에서 stage-3이 `edge 22.1 < 60`, `3.76MiB > 3.5MiB`로 2건 실패했다. 기존 `publicDir: assets`는 6,882,945 bytes의 `_source` provenance sheet와 README/scaffold SVG도 dist에 복사했다.
+- 분류: Class L Asset Fidelity (`oversized-runtime-source`) 및 Class F/G runtime file-set evidence, severity 3.
+- 수정: stage-3만 동일 비율 Lanczos로 1080×1920 lossless PNG 변환했다. stage-1/2, gameplay `src/**`, `_source/**`는 변경하지 않았다. promptHash와 imagegen provenance를 보존했다.
+- delivery: `assetLayout=runtime-assets-v1`, `publicDir:false`, package-local canonical helper를 적용했다. Loader 22 refs/20 unique path와 runtime manifest 20개가 일치하며 source-only 10개는 dist에서 제외된다.
+- payload: runtime assets `13,350,435 → 11,288,427` bytes, 전체 dist `21,763,904 → 12,802,782` bytes. 예산은 `12,582,912` bytes다.
+- 불변 SHA: stage-1 `3d39a59f9b0c59d4fdfd442eeaac45a66b2b17446710c247034651438c995787`, stage-2 `48f3591e4a1e451ea47439acd3aaa52fe7b47bfcd11f79d2802ee88a42df040e`.
+- 증거: `qa-captures/runtime-assets-2026-07-13/{before,after}/asset-contact.png`, `after/{390x844-home,390x844-game,1080x1920-game}.png`, `after/state-sample.json`.
+- 검증: build PASS, dist-runtime PASS, production-demo PASS, image-quality PASS, HQ PASS(15 assets), visual-layout PASS(3 viewports). scene-composite는 전역 브라우저 동시성 조정에 따라 통합 담당이 최종 재검증한다. 시각 검사에서 resampling artifact가 없어 imagegen 재생성은 필요하지 않았다.
+
 ## Polish pass — full-resolution loader contract and fit scale (2026-07-10)
 
 Scope:

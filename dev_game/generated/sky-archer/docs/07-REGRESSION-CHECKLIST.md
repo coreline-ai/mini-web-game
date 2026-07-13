@@ -46,3 +46,12 @@ Run this checklist after changing transparent art, canvas config, layout scaling
 - [ ] GameScene runtime sample reports `runtimeStrategy=native-fhd-canvas`, `cameraZoom=1`, visible player inside the `1080x1920` world, active spawner, and no browser errors.
 
 2026-07-10 evidence: build, image-quality QA, production gate, Home DPR3 runtime sample, and GameScene DPR3 runtime sample all passed; see `dev_game/docs/qa-evidence/sky-archer-2026-07-10.md`.
+
+## Runtime Delivery Regression — 2026-07-13
+
+- [x] All 13 active images remain under `assets/images/production/**` and match loader paths.
+- [x] Runtime manifest contains 18 physical files and remains within the 9 MiB budget.
+- [x] Source-only SVG/README files are absent from dist and runtime SHA-256 values match sources.
+- [x] Native 1080x1920 canvas, camera zoom, pointer mapping, scene logic, and gameplay tuning were not modified.
+- [x] Build, dist-runtime, asset, image, HQ, production-demo, and browser smoke gates pass.
+- [ ] Re-run full visual-layout and scene-composite gates during integration.

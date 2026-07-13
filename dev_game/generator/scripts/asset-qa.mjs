@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { resolveRuntimeAssets } from '../templates/runtime-asset-delivery.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const generatorRoot = path.resolve(__dirname, '..');
@@ -140,6 +141,9 @@ function qaProject(projectDir) {
   if (!fs.existsSync(specFile)) throw new Error(`Missing generated spec: ${specFile}`);
   const manifest = readJson(manifestFile);
   const spec = readJson(specFile);
+  if (manifest.assetLayout) {
+    try { resolveRuntimeAssets(projectDir); } catch (error) { fail(errors, `runtime delivery contract: ${error.message}`); }
+  }
   const imagePolicy = manifest.imagePolicy || {};
   const audioPolicy = manifest.audioPolicy || {};
   for (const image of manifest.images || []) qaImage(projectDir, image, imagePolicy, errors);

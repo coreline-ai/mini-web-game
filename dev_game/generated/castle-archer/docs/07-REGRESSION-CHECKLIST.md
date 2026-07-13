@@ -28,3 +28,6 @@
 24. **런타임 로더 단일 소스 회귀**: `LoadingScene`은 `gameKeys.js`의 `SPRITESHEET_PATHS`, `IMAGE_PATHS`, `AUDIO_PATHS`만 순회해야 하며, `GameScene`이 `arrow` 또는 기타 PNG를 late preload하면 실패다.
 25. **SVG 런타임 회귀**: 390x844 DPR2 홈 런타임 샘플에서 `resources`에 `/assets/images/*.svg` 요청이 없어야 하고, Phaser texture keys에도 `svg` 또는 `placeholder` 키가 없어야 한다. 기준 증거: `full-resolution-2026-07-10/asset-fidelity-runtime-sample.json`.
 26. **FHD backing-store 회귀**: 390x844 DPR2 캡처에서 canvas backing store가 `1080x1920`이어야 하고, `3240x5760` 같은 DPR 재곱셈 backing store가 나오면 실패다.
+27. **Runtime delivery 회귀**: `npm run qa:dist-runtime`은 28개 physical runtime 파일과 21 MiB 이하 payload를 보고해야 한다.
+28. **Source 분리 회귀**: standalone `shield-goblin.png`, `runner-goblin.png`, `brute-orc.png`, `_source/**`, scaffold SVG, `audio/README.md`가 `dist`에 있으면 실패다.
+29. **Loader/manifest 회귀**: 네 enemy sheet를 포함한 normalized loader URL set이 `dist/runtime-asset-manifest.json`과 정확히 일치해야 한다.

@@ -20,7 +20,8 @@
       "width": 1170,
       "height": 2532,
       "theme": "Origin",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Origin\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Origin\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.",
+      "runtimePath": "assets/images/production/backgrounds/stage-1.webp"
     },
     {
       "id": "stage-2",
@@ -28,7 +29,8 @@
       "width": 1170,
       "height": 2532,
       "theme": "Night Rush",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Night Rush\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Night Rush\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.",
+      "runtimePath": "assets/images/production/backgrounds/stage-2.webp"
     },
     {
       "id": "stage-3",
@@ -36,7 +38,8 @@
       "width": 1170,
       "height": 2532,
       "theme": "Deep Field",
-      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Deep Field\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward."
+      "prompt": "Ultra-detailed vertical PORTRAIT mobile game background, theme \"Deep Field\" for Meteor Dash. deep-space, punchy, mobile-arcade. Render at native 1080x1920 portrait resolution or larger, with crop-safe source detail acceptable above the runtime target. Crisp high detail, layered parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Cohesive with palette: anchored on #070a1c bg, #4fd8ff hero, #ffe066 reward.",
+      "runtimePath": "assets/images/production/backgrounds/stage-3.webp"
     }
   ],
   "sprites": [
@@ -48,7 +51,8 @@
       "height": 512,
       "frames": 4,
       "frameSize": 512,
-      "prompt": "A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME Meteor Dash hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. deep-space, punchy, mobile-arcade."
+      "prompt": "A HORIZONTAL SPRITE SHEET rendered at the tool's MAXIMUM resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell containing THE SAME Meteor Dash hero character in a slightly different run/hover pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical, HIGHLY DETAILED character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. deep-space, punchy, mobile-arcade.",
+      "runtimePath": "assets/images/production/characters/player.webp"
     },
     {
       "id": "hazard",
@@ -56,7 +60,8 @@
       "path": "assets/enemies/hazard.webp",
       "width": 1024,
       "height": 1024,
-      "prompt": "Primary \"Meteor\" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade."
+      "prompt": "Primary \"Meteor\" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade.",
+      "runtimePath": "assets/images/production/enemies/hazard.webp"
     },
     {
       "id": "collectible",
@@ -64,7 +69,8 @@
       "path": "assets/items/collectible.webp",
       "width": 1024,
       "height": 1024,
-      "prompt": "\"Star\" pickup sprite, transparent, inviting/positive, distinct from hazard color, deep-space, punchy, mobile-arcade."
+      "prompt": "\"Star\" pickup sprite, transparent, inviting/positive, distinct from hazard color, deep-space, punchy, mobile-arcade.",
+      "runtimePath": "assets/images/production/items/collectible.webp"
     },
     {
       "id": "shield",
@@ -72,7 +78,8 @@
       "path": "assets/items/shield.webp",
       "width": 1024,
       "height": 1024,
-      "prompt": "Primary \"Meteor\" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade. A single glossy ENERGY SHIELD powerup game sprite: a rounded hexagonal cyan-blue force-field badge with a soft inner glow core and a thin silver rim, futuristic but cute, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background filling the frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft edge, NO colored fringe, NO haze."
+      "prompt": "Primary \"Meteor\" obstacle sprite, transparent, clearly dangerous silhouette, readable at 64px, deep-space, punchy, mobile-arcade. A single glossy ENERGY SHIELD powerup game sprite: a rounded hexagonal cyan-blue force-field badge with a soft inner glow core and a thin silver rim, futuristic but cute, bold simple silhouette readable at 64px. Place the subject on a FLAT SOLID PURE MAGENTA #FF00FF background filling the frame right up to the crisp subject edge. Hard clean edge. NO outer glow, NO drop shadow, NO soft edge, NO colored fringe, NO haze.",
+      "runtimePath": "assets/images/production/items/shield.webp"
     }
   ],
   "ui": [
@@ -82,7 +89,8 @@
       "path": "assets/ui/btn-frame.webp",
       "width": 1320,
       "height": 384,
-      "prompt": "Wide glossy green rounded pill button frame, no text, no icon, transparent outside, high-DPI mobile UI."
+      "prompt": "Wide glossy green rounded pill button frame, no text, no icon, transparent outside, high-DPI mobile UI.",
+      "runtimePath": "assets/images/production/ui/btn-frame.webp"
     },
     {
       "id": "btn-frame-slim",
@@ -90,7 +98,8 @@
       "path": "assets/ui/btn-frame-slim.webp",
       "width": 1320,
       "height": 312,
-      "prompt": "Slim glossy green rounded pill button frame for compact mobile buttons, no text, transparent outside."
+      "prompt": "Slim glossy green rounded pill button frame for compact mobile buttons, no text, transparent outside.",
+      "runtimePath": "assets/images/production/ui/btn-frame-slim.webp"
     },
     {
       "id": "btn-frame-dialog",
@@ -98,7 +107,8 @@
       "path": "assets/ui/btn-frame-dialog.webp",
       "width": 1380,
       "height": 372,
-      "prompt": "Dialog-width glossy green rounded pill button frame, no text, transparent outside."
+      "prompt": "Dialog-width glossy green rounded pill button frame, no text, transparent outside.",
+      "runtimePath": "assets/images/production/ui/btn-frame-dialog.webp"
     },
     {
       "id": "btn-pause",
@@ -106,7 +116,8 @@
       "path": "assets/ui/btn-pause.webp",
       "width": 768,
       "height": 768,
-      "prompt": "Circular blue-green glossy pause icon button with two white rounded pause bars, transparent outside."
+      "prompt": "Circular blue-green glossy pause icon button with two white rounded pause bars, transparent outside.",
+      "runtimePath": "assets/images/production/ui/btn-pause.webp"
     }
   ],
   "fx": [
@@ -116,7 +127,8 @@
       "path": "assets/effects/fx-hit.webp",
       "width": 1024,
       "height": 1024,
-      "prompt": "Impact burst spritesheet frame, transparent, energetic."
+      "prompt": "Impact burst spritesheet frame, transparent, energetic.",
+      "runtimePath": "assets/images/production/effects/fx-hit.webp"
     },
     {
       "id": "fx-collect",
@@ -124,7 +136,8 @@
       "path": "assets/effects/fx-collect.webp",
       "width": 1024,
       "height": 1024,
-      "prompt": "Sparkle/collect burst, transparent, positive."
+      "prompt": "Sparkle/collect burst, transparent, positive.",
+      "runtimePath": "assets/images/production/effects/fx-collect.webp"
     }
   ],
   "audio": [

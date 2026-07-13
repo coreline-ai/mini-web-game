@@ -26,22 +26,22 @@ export const ASSET_KEYS = {
 };
 
 export const SPRITESHEET_PATHS = [
-  { key: ASSET_KEYS.player, path: 'characters/player.webp', frameWidth: 512, frameHeight: 512 },
+  { key: ASSET_KEYS.player, path: 'images/production/characters/player.webp', frameWidth: 512, frameHeight: 512 },
 ];
 
 export const IMAGE_PATHS = {
-  [ASSET_KEYS.hazard]: 'enemies/hazard.webp',
-  [ASSET_KEYS.collectible]: 'items/collectible.webp',
-  [ASSET_KEYS.shield]: 'items/shield.webp',
-  [ASSET_KEYS.ui.frame]: 'ui/btn-frame.webp',
-  [ASSET_KEYS.ui.frameSlim]: 'ui/btn-frame-slim.webp',
-  [ASSET_KEYS.ui.frameDialog]: 'ui/btn-frame-dialog.webp',
-  [ASSET_KEYS.ui.pause]: 'ui/btn-pause.webp',
-  [ASSET_KEYS.fx.hit]: 'effects/fx-hit.webp',
-  [ASSET_KEYS.fx.collect]: 'effects/fx-collect.webp',
-  [ASSET_KEYS.backgrounds.stage1]: 'backgrounds/stage-1.webp',
-  [ASSET_KEYS.backgrounds.stage2]: 'backgrounds/stage-2.webp',
-  [ASSET_KEYS.backgrounds.stage3]: 'backgrounds/stage-3.webp',
+  [ASSET_KEYS.hazard]: 'images/production/enemies/hazard.webp',
+  [ASSET_KEYS.collectible]: 'images/production/items/collectible.webp',
+  [ASSET_KEYS.shield]: 'images/production/items/shield.webp',
+  [ASSET_KEYS.ui.frame]: 'images/production/ui/btn-frame.webp',
+  [ASSET_KEYS.ui.frameSlim]: 'images/production/ui/btn-frame-slim.webp',
+  [ASSET_KEYS.ui.frameDialog]: 'images/production/ui/btn-frame-dialog.webp',
+  [ASSET_KEYS.ui.pause]: 'images/production/ui/btn-pause.webp',
+  [ASSET_KEYS.fx.hit]: 'images/production/effects/fx-hit.webp',
+  [ASSET_KEYS.fx.collect]: 'images/production/effects/fx-collect.webp',
+  [ASSET_KEYS.backgrounds.stage1]: 'images/production/backgrounds/stage-1.webp',
+  [ASSET_KEYS.backgrounds.stage2]: 'images/production/backgrounds/stage-2.webp',
+  [ASSET_KEYS.backgrounds.stage3]: 'images/production/backgrounds/stage-3.webp',
 };
 
 export const AUDIO_PATHS = {

@@ -35,7 +35,7 @@
   "images": [
     {
       "id": "player",
-      "path": "assets/characters/player.webp",
+      "path": "assets/images/production/characters/player.webp",
       "type": "sprite",
       "role": "player",
       "minWidth": 64,
@@ -60,11 +60,12 @@
       "quality": "production-demo",
       "frames": 4,
       "frameWidth": 512,
-      "frameHeight": 512
+      "frameHeight": 512,
+      "delivery": "runtime"
     },
     {
       "id": "hazard",
-      "path": "assets/enemies/hazard.png",
+      "path": "assets/images/production/enemies/hazard.png",
       "type": "sprite",
       "role": "hazard",
       "minWidth": 64,
@@ -86,11 +87,12 @@
         "promptHash": "4ff7b6ff391f3ea8",
         "quality": "high"
       },
-      "quality": "production-demo"
+      "quality": "production-demo",
+      "delivery": "runtime"
     },
     {
       "id": "collectible",
-      "path": "assets/items/collectible.png",
+      "path": "assets/images/production/items/collectible.png",
       "type": "sprite",
       "role": "collectible",
       "minWidth": 44,
@@ -112,11 +114,12 @@
         "promptHash": "dd39363dde70eb5f",
         "quality": "high"
       },
-      "quality": "production-demo"
+      "quality": "production-demo",
+      "delivery": "runtime"
     },
     {
       "id": "arrow",
-      "path": "assets/items/arrow.png",
+      "path": "assets/images/production/items/arrow.png",
       "type": "sprite",
       "role": "projectile",
       "quality": "production-demo",
@@ -136,12 +139,13 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "3fd9cf38a2150a19",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame",
       "type": "ui",
-      "path": "assets/ui/btn-frame.png",
+      "path": "assets/images/production/ui/btn-frame.png",
       "role": "ui-icon",
       "requiresAlpha": true,
       "provenance": {
@@ -161,7 +165,8 @@
         "promptHash": "6158ab3599836549",
         "quality": "high"
       },
-      "quality": "production-demo"
+      "quality": "production-demo",
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame-slim",
@@ -169,7 +174,7 @@
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
-      "path": "assets/ui/btn-frame-slim.png",
+      "path": "assets/images/production/ui/btn-frame-slim.png",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
@@ -186,7 +191,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "27be974964d03c80",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame-dialog",
@@ -194,7 +200,7 @@
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
-      "path": "assets/ui/btn-frame-dialog.png",
+      "path": "assets/images/production/ui/btn-frame-dialog.png",
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer",
@@ -211,12 +217,13 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "f471462ca60104cd",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-pause",
       "type": "ui",
-      "path": "assets/ui/btn-pause.png",
+      "path": "assets/images/production/ui/btn-pause.png",
       "role": "ui-icon",
       "requiresAlpha": true,
       "provenance": {
@@ -236,12 +243,13 @@
         "promptHash": "28ea69daf5a4950a",
         "quality": "high"
       },
-      "quality": "production-demo"
+      "quality": "production-demo",
+      "delivery": "runtime"
     },
     {
       "id": "fx-collect",
       "type": "fx",
-      "path": "assets/effects/fx-collect.png",
+      "path": "assets/images/production/effects/fx-collect.png",
       "role": "feedback",
       "requiresAlpha": true,
       "provenance": {
@@ -260,12 +268,13 @@
         "promptHash": "fc3e5f9e90be1279",
         "quality": "high"
       },
-      "quality": "production-demo"
+      "quality": "production-demo",
+      "delivery": "runtime"
     },
     {
       "id": "fx-hit",
       "type": "fx",
-      "path": "assets/effects/fx-hit.png",
+      "path": "assets/images/production/effects/fx-hit.png",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -284,7 +293,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "audio": [
@@ -297,7 +307,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collect",
@@ -308,7 +319,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hit",
@@ -319,7 +331,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_over",
@@ -330,7 +343,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_loop",
@@ -341,14 +355,15 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "sky-archer"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "qualityTier": "production-demo",
   "stageBackgrounds": [
     {
       "id": "stage-1",
-      "path": "assets/backgrounds/stage-1.png",
+      "path": "assets/images/production/backgrounds/stage-1.png",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -375,11 +390,12 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "d7a48145e06876ef",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-2",
-      "path": "assets/backgrounds/stage-2.png",
+      "path": "assets/images/production/backgrounds/stage-2.png",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -406,11 +422,12 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "1809b09064558365",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-3",
-      "path": "assets/backgrounds/stage-3.png",
+      "path": "assets/images/production/backgrounds/stage-3.png",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -437,7 +454,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "b2717d2152556859",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "assetPlan": "asset-plan.json",
@@ -453,5 +471,36 @@
     "toolMode": "built-in-image_gen",
     "lastRunAt": "2026-07-09T14:20:00.000Z",
     "modelVerified": false
-  }
+  },
+  "assetLayout": {
+    "version": "production-images-v1",
+    "runtimeImageRoot": "assets/images/production"
+  },
+  "runtimeBudgetBytes": 9437184,
+  "files": [
+    {
+      "id": "source-audio-README-md",
+      "type": "source",
+      "path": "assets/audio/README.md",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-collectible-svg",
+      "type": "source",
+      "path": "assets/images/collectible.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-hazard-svg",
+      "type": "source",
+      "path": "assets/images/hazard.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-player-svg",
+      "type": "source",
+      "path": "assets/images/player.svg",
+      "delivery": "source"
+    }
+  ]
 }

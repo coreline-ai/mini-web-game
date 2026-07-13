@@ -1,5 +1,5 @@
 {
-  "assetsVersion": "1.1.0-native-fhd",
+  "assetsVersion": "1.2.0-runtime-assets-hq-optimized",
   "imagePolicy": {
     "allowedFormats": [
       "png",
@@ -26,8 +26,8 @@
       "path": "assets/characters/player.png",
       "type": "sprite",
       "role": "player",
-      "minWidth": 2048,
-      "minHeight": 512,
+      "minWidth": 1344,
+      "minHeight": 336,
       "requiresAlpha": true,
       "provenance": {
         "source": "generated-for-game",
@@ -40,7 +40,9 @@
           "chroma-key-removal",
           "autocrop-resize",
           "native-fhd-alpha-matte-cleanup",
-          "transparent-rgb-edge-bleed"
+          "transparent-rgb-edge-bleed",
+          "frame-safe-lanczos-resample-330px-centered-in-336px-cells",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
@@ -49,18 +51,55 @@
       },
       "quality": "production-demo",
       "frames": 4,
-      "frameWidth": 512,
-      "frameHeight": 512,
+      "frameWidth": 336,
+      "frameHeight": 336,
       "renderedWorldSize": {
         "width": 277,
         "height": 277
       },
       "sourceFrameSize": {
-        "width": 512,
-        "height": 512
+        "width": 336,
+        "height": 336
       },
       "isUpscaled": false,
-      "edgeMetricGate": "native-fhd-alpha-clean-pass"
+      "edgeMetricGate": "runtime-assets-hq-optimized-pass",
+      "delivery": "runtime",
+      "width": 1344,
+      "height": 336,
+      "sourceSize": {
+        "width": 1344,
+        "height": 336
+      },
+      "alphaFramePadding": [
+        {
+          "frame": 0,
+          "left": 21,
+          "top": 34,
+          "right": 21,
+          "bottom": 34
+        },
+        {
+          "frame": 1,
+          "left": 21,
+          "top": 35,
+          "right": 22,
+          "bottom": 35
+        },
+        {
+          "frame": 2,
+          "left": 21,
+          "top": 28,
+          "right": 21,
+          "bottom": 29
+        },
+        {
+          "frame": 3,
+          "left": 21,
+          "top": 37,
+          "right": 21,
+          "bottom": 37
+        }
+      ]
     },
     {
       "id": "target",
@@ -100,7 +139,8 @@
         "height": 1024
       },
       "isUpscaled": false,
-      "edgeMetricGate": "native-fhd-procedural-clean-pass"
+      "edgeMetricGate": "native-fhd-procedural-clean-pass",
+      "delivery": "runtime"
     },
     {
       "id": "star",
@@ -118,13 +158,18 @@
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "autocrop-resize",
+          "lanczos-runtime-rightsize",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "ad5830e9078f6f1f",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime",
+      "width": 940,
+      "height": 940
     },
     {
       "id": "arrow",
@@ -148,7 +193,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "597ba90c73f3b28f",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame",
@@ -172,7 +218,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "61c1d999fc92fdf6",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-pause",
@@ -196,7 +243,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "76e2fd802d3f767a",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-hit",
@@ -214,13 +262,18 @@
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "autocrop-resize",
+          "lanczos-runtime-rightsize",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime",
+      "width": 896,
+      "height": 896
     },
     {
       "id": "fx-collect",
@@ -238,13 +291,18 @@
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "autocrop-resize",
+          "lanczos-runtime-rightsize",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fc3e5f9e90be1279",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime",
+      "width": 940,
+      "height": 940
     }
   ],
   "audio": [
@@ -257,7 +315,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "bullseye-rush"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collect",
@@ -268,7 +327,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "bullseye-rush"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hit",
@@ -279,7 +339,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "bullseye-rush"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_over",
@@ -290,7 +351,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "bullseye-rush"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_loop",
@@ -301,7 +363,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "bullseye-rush"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "qualityTier": "production-demo",
@@ -328,7 +391,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "43493ed67edc18ee",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-2",
@@ -346,13 +410,18 @@
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "autocrop-resize",
+          "lanczos-resample-1080x1920",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fe35c3127eda4b87",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime",
+      "width": 1080,
+      "height": 1920
     },
     {
       "id": "stage-3",
@@ -376,7 +445,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "62bc216b01e6cd07",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "assetPlan": "asset-plan.json",
@@ -410,5 +480,37 @@
     },
     "desktopShell": "wide viewports use centered phone shell; canvas aspect is preserved",
     "lastPolishAt": "2026-07-08T00:00:00.000Z"
-  }
+  },
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 10485760,
+  "hqScreenAssets": [],
+  "files": [
+    {
+      "id": "audio-readme",
+      "path": "assets/audio/README.md",
+      "type": "documentation",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-player-svg",
+      "path": "assets/images/player.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-hazard-svg",
+      "path": "assets/images/hazard.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-collectible-svg",
+      "path": "assets/images/collectible.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    }
+  ]
 }

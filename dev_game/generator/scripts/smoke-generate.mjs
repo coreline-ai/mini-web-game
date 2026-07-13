@@ -11,6 +11,7 @@ const out = path.join(tmpRoot, 'poop-dodge-smoke');
 const outNoSfx = path.join(tmpRoot, 'poop-dodge-smoke-no-sfx');
 const cli = path.join(root, 'src/cli.mjs');
 const spec = path.join(root, 'examples/poop-dodge.spec.json');
+const canonicalRuntimeHelper = path.join(root, 'templates/runtime-asset-delivery.mjs');
 
 function run(args) {
   const result = spawnSync(process.execPath, [cli, ...args], { stdio: 'inherit' });
@@ -56,6 +57,7 @@ const required = [
   'package.json',
   'index.html',
   'vite.config.js',
+  'scripts/runtime-asset-delivery.mjs',
   'src/main.js',
   'src/styles/mobile.css',
   'src/game/config.js',
@@ -76,10 +78,26 @@ const required = [
 ];
 
 for (const rel of required) assertFile(out, rel);
+if (readText(out, 'scripts/runtime-asset-delivery.mjs') !== fs.readFileSync(canonicalRuntimeHelper, 'utf8')) {
+  throw new Error('generated runtime helper diverges from the canonical generator template');
+}
 
 const generatedPackage = readJson(out, 'package.json');
 if (generatedPackage.engines?.node !== '>=18') {
   throw new Error('generated package.json must declare node >=18');
+}
+if (generatedPackage.scripts?.['qa:dist-runtime'] !== 'node scripts/runtime-asset-delivery.mjs qa') {
+  throw new Error('generated package.json must expose package-local dist runtime QA');
+}
+const viteConfig = readText(out, 'vite.config.js');
+if (!viteConfig.includes('publicDir: false') || !viteConfig.includes('createRuntimeAssetDeliveryPlugin')) {
+  throw new Error('generated Vite config must use the runtime allowlist plugin with publicDir:false');
+}
+const generatedManifest = readJson(out, 'assets/asset-manifest.json');
+for (const group of ['stageBackgrounds', 'images', 'audio', 'hqScreenAssets', 'files']) {
+  for (const entry of generatedManifest[group] || []) {
+    if (!['runtime', 'source'].includes(entry.delivery)) throw new Error(`${group} entry is missing explicit delivery metadata`);
+  }
 }
 
 if (!readText(out, 'src/main.js').includes("import './styles/mobile.css';")) {
@@ -114,6 +132,7 @@ if (noSfxSpec.audio?.enabled !== false) {
 if (noSfxManifest.audio.length !== 0) {
   throw new Error('--no-sfx must write an empty audio manifest');
 }
+assertFile(outNoSfx, 'scripts/runtime-asset-delivery.mjs');
 assertNoFile(outNoSfx, 'assets/audio/ui_click.wav');
 
 const protectedOut = path.join(tmpRoot, 'protected-victim');

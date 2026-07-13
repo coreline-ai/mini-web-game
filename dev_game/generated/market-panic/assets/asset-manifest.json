@@ -35,7 +35,7 @@
   "images": [
     {
       "id": "player",
-      "path": "assets/characters/player.webp",
+      "path": "assets/images/production/characters/player.webp",
       "type": "sprite",
       "role": "player",
       "minWidth": 64,
@@ -63,11 +63,12 @@
       "frames": 4,
       "frameWidth": 512,
       "frameHeight": 512,
-      "hqQuality": "webp-compressed-hq"
+      "hqQuality": "webp-compressed-hq",
+      "delivery": "runtime"
     },
     {
       "id": "hazard",
-      "path": "assets/enemies/hazard.webp",
+      "path": "assets/images/production/enemies/hazard.webp",
       "type": "sprite",
       "role": "hazard",
       "minWidth": 64,
@@ -91,11 +92,12 @@
         "quality": "high"
       },
       "quality": "production-demo",
-      "hqQuality": "webp-compressed-hq"
+      "hqQuality": "webp-compressed-hq",
+      "delivery": "runtime"
     },
     {
       "id": "collectible",
-      "path": "assets/items/collectible.webp",
+      "path": "assets/images/production/items/collectible.webp",
       "type": "sprite",
       "role": "collectible",
       "minWidth": 44,
@@ -119,12 +121,13 @@
         "quality": "high"
       },
       "quality": "production-demo",
-      "hqQuality": "webp-compressed-hq"
+      "hqQuality": "webp-compressed-hq",
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame",
       "type": "ui",
-      "path": "assets/ui/btn-frame.png",
+      "path": "assets/images/production/ui/btn-frame.png",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -143,12 +146,13 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "61c1d999fc92fdf6",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-pause",
       "type": "ui",
-      "path": "assets/ui/btn-pause.png",
+      "path": "assets/images/production/ui/btn-pause.png",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -167,12 +171,13 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "76e2fd802d3f767a",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-hit",
       "type": "fx",
-      "path": "assets/effects/fx-hit.webp",
+      "path": "assets/images/production/effects/fx-hit.webp",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -193,12 +198,13 @@
         "promptHash": "cabd372e66c8b852",
         "quality": "high"
       },
-      "hqQuality": "webp-compressed-hq"
+      "hqQuality": "webp-compressed-hq",
+      "delivery": "runtime"
     },
     {
       "id": "fx-collect",
       "type": "fx",
-      "path": "assets/effects/fx-collect.webp",
+      "path": "assets/images/production/effects/fx-collect.webp",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -219,7 +225,8 @@
         "promptHash": "fc3e5f9e90be1279",
         "quality": "high"
       },
-      "hqQuality": "webp-compressed-hq"
+      "hqQuality": "webp-compressed-hq",
+      "delivery": "runtime"
     }
   ],
   "audio": [
@@ -232,7 +239,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collect",
@@ -243,7 +251,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hit",
@@ -254,7 +263,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_over",
@@ -265,7 +275,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_loop",
@@ -276,14 +287,15 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "market-panic"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "qualityTier": "production-demo",
   "stageBackgrounds": [
     {
       "id": "stage-1",
-      "path": "assets/backgrounds/stage-1.webp",
+      "path": "assets/images/production/backgrounds/stage-1.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -313,11 +325,12 @@
         "promptHash": "hq-stage-opening-bell-20260706",
         "quality": "high"
       },
-      "hqQuality": "hq-screen-refresh"
+      "hqQuality": "hq-screen-refresh",
+      "delivery": "runtime"
     },
     {
       "id": "stage-2",
-      "path": "assets/backgrounds/stage-2.webp",
+      "path": "assets/images/production/backgrounds/stage-2.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -347,11 +360,12 @@
         "promptHash": "hq-stage-earnings-storm-20260706",
         "quality": "high"
       },
-      "hqQuality": "hq-screen-refresh"
+      "hqQuality": "hq-screen-refresh",
+      "delivery": "runtime"
     },
     {
       "id": "stage-3",
-      "path": "assets/backgrounds/stage-3.webp",
+      "path": "assets/images/production/backgrounds/stage-3.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -381,11 +395,12 @@
         "promptHash": "hq-stage-rumor-spiral-20260706",
         "quality": "high"
       },
-      "hqQuality": "hq-screen-refresh"
+      "hqQuality": "hq-screen-refresh",
+      "delivery": "runtime"
     },
     {
       "id": "stage-4",
-      "path": "assets/backgrounds/stage-4.webp",
+      "path": "assets/images/production/backgrounds/stage-4.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1080,
@@ -415,7 +430,8 @@
         "promptHash": "hq-stage-circuit-breaker-20260706",
         "quality": "high"
       },
-      "hqQuality": "hq-screen-refresh"
+      "hqQuality": "hq-screen-refresh",
+      "delivery": "runtime"
     }
   ],
   "assetPlan": "asset-plan.json",
@@ -435,107 +451,203 @@
   "hqScreenAssets": [
     {
       "id": "menu-panel",
-      "path": "assets/ui/menu-panel.png",
+      "path": "assets/images/production/ui/menu-panel.png",
       "role": "screen-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 1164,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "modal-panel",
-      "path": "assets/ui/modal-panel.png",
+      "path": "assets/images/production/ui/modal-panel.png",
       "role": "screen-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 1080,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "hud-panel",
-      "path": "assets/ui/hud-panel.png",
+      "path": "assets/images/production/ui/hud-panel.png",
       "role": "game-ui-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1098,
       "minHeight": 348,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "news-panel",
-      "path": "assets/ui/news-panel.png",
+      "path": "assets/images/production/ui/news-panel.png",
       "role": "game-ui-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 306,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "goal-strip",
-      "path": "assets/ui/goal-strip.png",
+      "path": "assets/images/production/ui/goal-strip.png",
       "role": "game-ui-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 132,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "stock-card",
-      "path": "assets/ui/stock-card.png",
+      "path": "assets/images/production/ui/stock-card.png",
       "role": "game-ui-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 222,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "stock-card-selected",
-      "path": "assets/ui/stock-card-selected.png",
+      "path": "assets/images/production/ui/stock-card-selected.png",
       "role": "game-ui-shell",
       "source": "code-native-hq-ui",
       "minWidth": 1068,
       "minHeight": 222,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "action-buy",
-      "path": "assets/ui/action-buy.png",
+      "path": "assets/images/production/ui/action-buy.png",
       "role": "action-button",
       "source": "code-native-hq-ui",
       "minWidth": 450,
       "minHeight": 168,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "action-sell",
-      "path": "assets/ui/action-sell.png",
+      "path": "assets/images/production/ui/action-sell.png",
       "role": "action-button",
       "source": "code-native-hq-ui",
       "minWidth": 450,
       "minHeight": 168,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "action-hedge",
-      "path": "assets/ui/action-hedge.png",
+      "path": "assets/images/production/ui/action-hedge.png",
       "role": "action-button",
       "source": "code-native-hq-ui",
       "minWidth": 450,
       "minHeight": 168,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     },
     {
       "id": "action-cash",
-      "path": "assets/ui/action-cash.png",
+      "path": "assets/images/production/ui/action-cash.png",
       "role": "action-button",
       "source": "code-native-hq-ui",
       "minWidth": 450,
       "minHeight": 168,
-      "requiresAlpha": true
+      "requiresAlpha": true,
+      "delivery": "runtime"
     }
   ],
   "hqRefresh": {
     "createdAt": "2026-07-06T09:52:00Z",
     "sourceFolder": "qa-captures/asset-sources/hq-refresh-2026-07-06",
     "requirement": "full-screen high-quality visual refresh with Korean playability UI"
-  }
+  },
+  "assetLayout": {
+    "version": "production-images-v1",
+    "runtimeImageRoot": "assets/images/production"
+  },
+  "runtimeBudgetBytes": 8388608,
+  "files": [
+    {
+      "id": "source-audio-README-md",
+      "type": "source",
+      "path": "assets/audio/README.md",
+      "delivery": "source"
+    },
+    {
+      "id": "source-backgrounds-stage-1-png",
+      "type": "source",
+      "path": "assets/backgrounds/stage-1.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-backgrounds-stage-2-png",
+      "type": "source",
+      "path": "assets/backgrounds/stage-2.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-backgrounds-stage-3-png",
+      "type": "source",
+      "path": "assets/backgrounds/stage-3.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-backgrounds-stage-4-png",
+      "type": "source",
+      "path": "assets/backgrounds/stage-4.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-characters-player-png",
+      "type": "source",
+      "path": "assets/characters/player.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-effects-fx-collect-png",
+      "type": "source",
+      "path": "assets/effects/fx-collect.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-effects-fx-hit-png",
+      "type": "source",
+      "path": "assets/effects/fx-hit.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-enemies-hazard-png",
+      "type": "source",
+      "path": "assets/enemies/hazard.png",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-collectible-svg",
+      "type": "source",
+      "path": "assets/images/collectible.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-hazard-svg",
+      "type": "source",
+      "path": "assets/images/hazard.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-player-svg",
+      "type": "source",
+      "path": "assets/images/player.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-items-collectible-png",
+      "type": "source",
+      "path": "assets/items/collectible.png",
+      "delivery": "source"
+    }
+  ]
 }

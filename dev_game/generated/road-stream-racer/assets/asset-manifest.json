@@ -1,5 +1,10 @@
 {
   "assetsVersion": "2.0.0",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 26214400,
   "qualityTier": "production-demo",
   "gameId": "road-stream-racer",
   "imagegen": {
@@ -43,6 +48,7 @@
     {
       "id": "stage-1",
       "path": "assets/backgrounds/stage-1.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -69,6 +75,7 @@
     {
       "id": "stage-2",
       "path": "assets/backgrounds/stage-2.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -95,6 +102,7 @@
     {
       "id": "stage-3",
       "path": "assets/backgrounds/stage-3.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "stage-background",
       "quality": "production-demo",
@@ -123,6 +131,7 @@
     {
       "id": "road-straight-1",
       "path": "assets/roads/road-straight-1.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -149,6 +158,7 @@
     {
       "id": "road-straight-2",
       "path": "assets/roads/road-straight-2.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -175,6 +185,7 @@
     {
       "id": "road-construction-1",
       "path": "assets/roads/road-construction-1.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -201,6 +212,7 @@
     {
       "id": "road-construction-2",
       "path": "assets/roads/road-construction-2.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -227,6 +239,7 @@
     {
       "id": "road-crosswalk-1",
       "path": "assets/roads/road-crosswalk-1.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -253,6 +266,7 @@
     {
       "id": "road-flat-seamless",
       "path": "assets/roads/road-flat-seamless.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -280,6 +294,7 @@
     {
       "id": "road-flat-forest-loop-1080x1920",
       "path": "assets/roads/road-flat-forest-loop-1080x1920.png",
+      "delivery": "source",
       "type": "background",
       "role": "road",
       "quality": "production-demo",
@@ -307,6 +322,7 @@
     {
       "id": "forest-side-overlay-1080x1920",
       "path": "assets/scenery/forest-side-overlay-1080x1920.png",
+      "delivery": "runtime",
       "type": "background",
       "role": "scenery-overlay",
       "quality": "production-demo",
@@ -335,6 +351,7 @@
     {
       "id": "player-car",
       "path": "assets/characters/player-car.png",
+      "delivery": "runtime",
       "type": "sprite-sheet",
       "role": "player",
       "quality": "production-demo",
@@ -365,6 +382,7 @@
     {
       "id": "traffic-blue",
       "path": "assets/vehicles/traffic-blue.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "vehicle",
       "quality": "production-demo",
@@ -392,6 +410,7 @@
     {
       "id": "traffic-yellow",
       "path": "assets/vehicles/traffic-yellow.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "vehicle",
       "quality": "production-demo",
@@ -419,6 +438,7 @@
     {
       "id": "traffic-truck",
       "path": "assets/vehicles/traffic-truck.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "vehicle",
       "quality": "production-demo",
@@ -446,6 +466,7 @@
     {
       "id": "cone",
       "path": "assets/obstacles/cone.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "obstacle",
       "quality": "production-demo",
@@ -473,6 +494,7 @@
     {
       "id": "barricade",
       "path": "assets/obstacles/barricade.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "obstacle",
       "quality": "production-demo",
@@ -500,6 +522,7 @@
     {
       "id": "coin",
       "path": "assets/items/coin.png",
+      "delivery": "runtime",
       "type": "sprite-sheet",
       "role": "collectible",
       "quality": "production-demo",
@@ -530,6 +553,7 @@
     {
       "id": "boost-pad",
       "path": "assets/items/boost-pad.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "powerup",
       "quality": "production-demo",
@@ -557,6 +581,7 @@
     {
       "id": "btn-frame",
       "path": "assets/ui/btn-frame.png",
+      "delivery": "runtime",
       "type": "ui",
       "role": "button",
       "quality": "production-demo",
@@ -584,6 +609,7 @@
     {
       "id": "btn-pause",
       "path": "assets/ui/btn-pause.png",
+      "delivery": "runtime",
       "type": "ui",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -611,6 +637,7 @@
     {
       "id": "btn-boost",
       "path": "assets/ui/btn-boost.png",
+      "delivery": "runtime",
       "type": "ui",
       "role": "ui-icon",
       "quality": "production-demo",
@@ -638,6 +665,7 @@
     {
       "id": "racer-ui-home",
       "path": "assets/ui/racer_ui_home.png",
+      "delivery": "runtime",
       "type": "ui",
       "role": "hud-icon",
       "quality": "production-demo",
@@ -666,6 +694,7 @@
     {
       "id": "racer-ui-pause",
       "path": "assets/ui/racer_ui_pause.png",
+      "delivery": "runtime",
       "type": "ui",
       "role": "hud-icon",
       "quality": "production-demo",
@@ -694,6 +723,7 @@
     {
       "id": "fx-hit",
       "path": "assets/effects/fx-hit.png",
+      "delivery": "runtime",
       "type": "fx",
       "role": "feedback",
       "quality": "production-demo",
@@ -717,6 +747,7 @@
     {
       "id": "fx-collect",
       "path": "assets/effects/fx-collect.png",
+      "delivery": "runtime",
       "type": "fx",
       "role": "feedback",
       "quality": "production-demo",
@@ -740,6 +771,7 @@
     {
       "id": "fx-boost",
       "path": "assets/effects/fx-boost.png",
+      "delivery": "runtime",
       "type": "fx",
       "role": "feedback",
       "quality": "production-demo",
@@ -759,6 +791,126 @@
         "width": 512,
         "height": 512
       }
+    },
+    {
+      "id": "road-flat-loop-1080x1920",
+      "path": "assets/roads/road-flat-loop-1080x1920.png",
+      "delivery": "runtime",
+      "type": "background",
+      "role": "road",
+      "quality": "production-demo",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "sourceFrameSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "renderedWorldSize": {
+        "width": 1080,
+        "height": 1920
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "road-flat-loop-1080x1920-polish-20260708",
+        "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
+        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920"
+      }
+    },
+    {
+      "id": "racer-ui-header",
+      "path": "assets/ui/racer_ui_header.png",
+      "delivery": "runtime",
+      "type": "ui",
+      "role": "hud-header",
+      "quality": "production-demo",
+      "minWidth": 984,
+      "minHeight": 151,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "generator": "scratch/process_premium_ui.js",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "racer-ui-header-premium-polish-20260708"
+      }
+    },
+    {
+      "id": "racer-icon-coin",
+      "path": "assets/ui/racer_icon_coin.png",
+      "delivery": "runtime",
+      "type": "ui",
+      "role": "hud-icon",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 30,
+        "height": 30
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "generator": "scratch/process_premium_ui.js",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "racer-icon-coin-premium-polish-20260708"
+      }
+    },
+    {
+      "id": "racer-icon-speed",
+      "path": "assets/ui/racer_icon_speed.png",
+      "delivery": "runtime",
+      "type": "ui",
+      "role": "hud-icon",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 30,
+        "height": 30
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "generator": "scratch/process_premium_ui.js",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "racer-icon-speed-premium-polish-20260708"
+      }
+    },
+    {
+      "id": "racer-icon-level",
+      "path": "assets/ui/racer_icon_level.png",
+      "delivery": "runtime",
+      "type": "ui",
+      "role": "hud-icon",
+      "quality": "production-demo",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "renderedWorldSize": {
+        "width": 30,
+        "height": 30
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "road-stream-racer",
+        "generator": "scratch/process_premium_ui.js",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "racer-icon-level-premium-polish-20260708"
+      }
     }
   ],
   "requiresCollectibleAssets": true,
@@ -766,6 +918,7 @@
     {
       "id": "ui_click",
       "path": "assets/audio/ui_click.wav",
+      "delivery": "runtime",
       "type": "ui",
       "required": true,
       "provenance": {
@@ -776,6 +929,7 @@
     {
       "id": "collect",
       "path": "assets/audio/collect.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -786,6 +940,7 @@
     {
       "id": "hit",
       "path": "assets/audio/hit.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -796,6 +951,7 @@
     {
       "id": "game_over",
       "path": "assets/audio/game_over.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "provenance": {
@@ -806,6 +962,7 @@
     {
       "id": "game_loop",
       "path": "assets/audio/game_loop.wav",
+      "delivery": "runtime",
       "type": "bgm",
       "required": true,
       "loopable": true,

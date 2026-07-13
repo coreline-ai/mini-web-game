@@ -37,3 +37,11 @@ Re-run these checks at the start of the next parcel polish session:
 5. Production gate stays green for the baseline viewports.
    - Command: `npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/parcel-sort-rush --require-gpt-imagegen --viewports 390x844,430x932,1080x1920`
    - Expected: common QA, production-demo QA, image-quality QA, build, visual-layout QA, and scene-composite QA pass.
+
+6. Runtime delivery stays manifest-only and within budget.
+   - `npm --prefix dev_game/generated/parcel-sort-rush run qa:dist-runtime` reports 33 physical files within 12 MiB.
+   - The three duplicated background declarations emit one file each, and chute/stamp query strings do not create duplicate outputs.
+   - `imagegen/raw`, `imagegen/sheets`, `player_supervisor.png`, and `audio/README.md` must not appear in `dist`.
+
+7. Imagegen provenance verification remains green.
+   - Run `python3 scripts/verify_gpt_imagegen_assets.py` and `python3 scripts/verify_gpt_imagegen_assets.py --manifest-only` with a Python environment containing Pillow.

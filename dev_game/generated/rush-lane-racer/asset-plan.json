@@ -31,7 +31,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "c33e1161abaf2ca9"
-      }
+      },
+      "runtimePath": "assets/images/production/backgrounds/stage-1.png"
     },
     {
       "id": "stage-2",
@@ -51,7 +52,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "75b646b6628872f3"
-      }
+      },
+      "runtimePath": "assets/images/production/backgrounds/stage-2.png"
     },
     {
       "id": "stage-3",
@@ -71,7 +73,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "c1133677a8313de5"
-      }
+      },
+      "runtimePath": "assets/images/production/backgrounds/stage-3.png"
     }
   ],
   "sprites": [
@@ -97,7 +100,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/player.png"
     },
     {
       "id": "traffic-car",
@@ -121,7 +125,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/traffic-car.png"
     },
     {
       "id": "truck",
@@ -145,7 +150,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/truck.png"
     },
     {
       "id": "motorcycle",
@@ -169,7 +175,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/motorcycle.png"
     },
     {
       "id": "police-car",
@@ -193,7 +200,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/police-car.png"
     },
     {
       "id": "boss-truck",
@@ -217,7 +225,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/vehicles/boss-truck.png"
     },
     {
       "id": "cone",
@@ -241,7 +250,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/obstacles/cone.png"
     },
     {
       "id": "roadblock",
@@ -265,7 +275,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/obstacles/roadblock.png"
     },
     {
       "id": "oil",
@@ -289,7 +300,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/obstacles/oil.png"
     },
     {
       "id": "coin",
@@ -313,7 +325,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/coin.png"
     },
     {
       "id": "nitro",
@@ -337,7 +350,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/nitro.png"
     },
     {
       "id": "shield",
@@ -361,7 +375,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/shield.png"
     },
     {
       "id": "magnet",
@@ -385,7 +400,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/magnet.png"
     },
     {
       "id": "slow",
@@ -409,7 +425,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/slow.png"
     },
     {
       "id": "repair",
@@ -433,7 +450,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/pickups/repair.png"
     },
     {
       "id": "fake-coin",
@@ -457,7 +475,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "5c950546c4e7f5f9"
-      }
+      },
+      "runtimePath": "assets/images/production/obstacles/fake-coin.png"
     },
     {
       "id": "btn-green",
@@ -477,7 +496,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/ui/btn-green.png"
     },
     {
       "id": "btn-blue",
@@ -497,7 +517,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/ui/btn-blue.png"
     },
     {
       "id": "btn-pause",
@@ -517,7 +538,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/ui/btn-pause.png"
     },
     {
       "id": "fx-crash",
@@ -537,7 +559,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/effects/fx-crash.png"
     },
     {
       "id": "fx-coin-spark",
@@ -557,7 +580,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/effects/fx-coin-spark.png"
     },
     {
       "id": "result-stamp-fail",
@@ -577,7 +601,8 @@
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
         "promptHash": "b534239df5f230d6"
-      }
+      },
+      "runtimePath": "assets/images/production/effects/result-stamp-fail.png"
     }
   ],
   "sourceSheets": [

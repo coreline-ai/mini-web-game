@@ -14,3 +14,6 @@
 12. **Scale.FIT 회귀**: `390×844` DPR2 홈 런타임 샘플에서 canvas CSS rect가 viewport 안에 있어야 한다. `scaleMode: "cover"`로 돌아가 `x < 0` 또는 `x + width > viewport.width`가 되면 실패다.
 13. **런타임 로더 단일 소스 회귀**: `LoadingScene`은 `gameKeys.js`의 `SPRITESHEET_PATHS`, `IMAGE_PATHS`, `AUDIO_PATHS`만 순회해야 하며, `GameScene`이 `fruit`, `balloon`, `arrow` 또는 기타 PNG를 late preload하면 실패다.
 14. **SVG/placeholder 런타임 회귀**: 홈 런타임 샘플에서 `/assets/images/*.svg` 요청이 없어야 하고, Phaser texture keys에 `svg` 또는 `placeholder` 키가 없어야 한다. `asset-manifest.json` runtime image formats에는 `svg`가 없어야 한다.
+15. **runtime allowlist 무결성**: loader 22 refs/20 unique path와 manifest runtime 20개가 일치하고 `delivery` 누락이 0이어야 한다. `_source` 6개, README, scaffold SVG 3개는 source-only이며 dist에 포함되면 실패다.
+16. **dist 재현성/예산**: `npm run build && npm run qa:dist-runtime`이 통과하고 runtime asset 합계가 `11,288,427 / 12,582,912` bytes 이하이며 source/dist SHA-256이 모두 일치해야 한다.
+17. **stage-3 HQ 및 불변 범위**: stage-3은 1080×1920, edge 172.5, HF 1.46, 1,876,418 bytes여야 한다. stage-1 SHA `3d39a59f...5787`, stage-2 SHA `48f3591e...040e`, `src/**`, `_source/**`는 이 polish에서 불변이어야 한다.

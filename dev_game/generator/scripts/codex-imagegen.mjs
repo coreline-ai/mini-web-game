@@ -206,14 +206,14 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!fs.existsSync(path.join(projectDir, bg.path))) continue;
     let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
     if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
-    e.path = bg.path; e.quality = 'production-demo';
+    e.path = bg.path; e.delivery = 'runtime'; e.quality = 'production-demo';
     e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, bg.id, bg.prompt);
   }
   for (const sp of plan.sprites || []) {
     if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
     let e = manifest.images.find((x) => x.id === sp.id);
     if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
-    e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+    e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
     if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
     e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, sp.id, sp.prompt);
   }
@@ -221,7 +221,7 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!fs.existsSync(path.join(projectDir, it.path))) continue;
     let e = manifest.images.find((x) => x.id === it.id);
     if (!e) { e = { id: it.id, type: (plan.ui || []).includes(it) ? 'ui' : 'fx' }; manifest.images.push(e); }
-    e.path = it.path; e.role = it.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+    e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.quality = 'production-demo'; e.requiresAlpha = true;
     e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, it.id, it.prompt);
   }
 }
@@ -281,7 +281,7 @@ function main() {
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {
         const e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
-        if (e) { e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt); }
+        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt); }
       }
     }
   }
@@ -310,7 +310,7 @@ function main() {
       if (ok && Array.isArray(manifest.images)) {
         let e = manifest.images.find((x) => x.id === sp.id);
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
-        e.path = sp.path; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
+        e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
         if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
         e.provenance = imagegenProvenance(plan.gameId, sp.id, sp.prompt);
       }
@@ -337,7 +337,7 @@ function main() {
     if (ok && Array.isArray(manifest.images)) {
       let e = manifest.images.find((x) => x.id === it.id);
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
-      e.path = it.path; e.role = it.role; e.requiresAlpha = true;
+      e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.requiresAlpha = true;
       e.quality = 'production-demo';
       e.provenance = imagegenProvenance(plan.gameId, it.id, it.prompt);
     }

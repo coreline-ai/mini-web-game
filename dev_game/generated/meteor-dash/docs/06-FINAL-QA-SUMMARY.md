@@ -41,3 +41,12 @@ Evidence:
 - Gameplay screenshot: `qa-captures/full-resolution-2026-07-10/meteor-dash/game-390x844-dpr3.png`
 - Visual-layout screenshots: `dev_game/.tmp/visual-layout-qa/meteor-dash`
 - Scene-composite screenshots: `dev_game/.tmp/scene-composite-qa/meteor-dash`
+
+## 2026-07-13 Runtime Asset Delivery Migration
+
+- Moved 13 active runtime images to `assets/images/production/**`; all before/after SHA-256 values matched.
+- Preserved 3 scaffold SVGs and `assets/audio/README.md` as source-only files.
+- Added explicit delivery metadata, a 3 MiB runtime budget, the canonical package-local helper, `publicDir: false`, and asset-plan `runtimePath` values.
+- Runtime manifest and loader paths agree on 18 physical files with no loader-only or manifest-only path.
+- Dist size changed from 3,291,808 bytes to 3,279,017 bytes. Runtime assets total 1,764,964 bytes.
+- PASS: build, dist-runtime QA, asset QA, image-quality QA, HQ-screen QA (13 assets), production-demo QA, curated browser smoke, and visual-layout QA at four viewports.

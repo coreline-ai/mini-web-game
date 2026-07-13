@@ -67,6 +67,38 @@ npm run dev
 npm run build
 ```
 
+### Curated 게임 10개 실행
+
+현재 curated 게임 10개는 루트 명령으로 함께 관리할 수 있습니다.
+
+```bash
+cd dev_game
+npm run games:list   # 게임별 고정 URL 확인
+npm run games:build  # 10개 production build, 동시성 4
+npm run games:smoke  # 게임별 HTTP + visible canvas 브라우저 검증
+npm run games:dev    # 10개 개발 서버 동시 실행, Ctrl+C로 전체 종료
+```
+
+| 게임 | 개발 URL |
+|---|---|
+| `bullseye-rush` | `http://127.0.0.1:4310/` |
+| `jungle-arcshot` | `http://127.0.0.1:4320/` |
+| `road-stream-racer` | `http://127.0.0.1:4330/` |
+| `castle-archer` | `http://127.0.0.1:4340/` |
+| `parcel-sort-rush` | `http://127.0.0.1:4350/` |
+| `target-shooter-rush` | `http://127.0.0.1:4360/` |
+| `market-panic` | `http://127.0.0.1:4370/` |
+| `meteor-dash` | `http://127.0.0.1:4380/` |
+| `rush-lane-racer` | `http://127.0.0.1:4390/` |
+| `sky-archer` | `http://127.0.0.1:4400/` |
+
+일부 게임만 실행하거나 검증할 때는 옵션을 전달합니다.
+
+```bash
+npm run games:dev -- --only bullseye-rush,sky-archer
+npm run games:smoke -- --only market-panic
+```
+
 고품질 1차 프로덕션급 데모 완료 게이트:
 
 ```bash
@@ -94,6 +126,7 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 | `npm run asset-qa` | 이미지 manifest, SVG 안전성/크기, WAV duration/peak/silence/용량, `--no-sfx` 오디오 미생성 검증 |
 | `npm run browser-smoke` | 생성 게임 install/build/preview 후 모바일 viewport에서 canvas 렌더와 PLAY 진입 검증 |
 | `npm run qa` | Foundation 검증 전체 실행. 이 명령만으로 production-demo 완료가 아님 |
+| `npm --prefix dev_game run factory:dist-runtime-qa -- --project generated/<game-id>` | manifest runtime allowlist와 `dist` 파일 집합·SHA-256·용량 budget·금지 provenance 경로 검증 |
 | `npm --prefix dev_game run factory:production-demo-qa -- --project <dir> --require-gpt-imagegen` | `qualityTier`, stage backgrounds 3종, 주요 에셋 quality, imagegen provenance, 필수 문서, layout registry 계약 검증 |
 | `npm --prefix dev_game run factory:image-quality-qa -- --project <dir>` | Python Pillow 기반 role-aware 이미지 픽셀/알파/디테일 품질 검증 |
 | `npm --prefix dev_game run factory:visual-layout-qa -- --project <dir> --viewports 390x844,430x932,1080x1920` | Playwright로 Loading/Home/Game/Pause/GameOver canvas 중앙 정렬, UI safe-area, bounds overlap 검증 |
@@ -128,7 +161,9 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 
 ## CI
 
-`.github/workflows/dev-game-factory.yml`에서 `dev_game` 변경 시 `npm --prefix dev_game run factory:qa`를 실행합니다. 개별 게임을 완료 보고할 때는 별도로 `factory:production-gate -- --project ...`를 실행해야 합니다. Playwright Chromium도 CI에서 명시적으로 설치합니다.
+`.github/workflows/dev-game-factory.yml`에서 `dev_game` 변경 시 foundation QA와 curated 10게임 matrix(build, dist-runtime, production-demo, image, HQ)를 실행합니다. 매일 `03:00 KST` 및 수동 실행에는 최대 동시성 2로 10게임 전체 production gate를 추가 실행합니다. 개별 게임을 완료 보고할 때도 `factory:production-gate -- --project ...`를 실행해야 합니다. Playwright Chromium도 CI에서 명시적으로 설치합니다.
+
+`assetLayout` rollout marker가 있는 게임은 `publicDir: false`와 package-local runtime helper를 사용합니다. 따라서 `delivery: "runtime"`으로 명시된 파일만 dev server와 `dist`에 노출되고 `_source`, `references`, `imagegen/raw`, `imagegen/sheets` 같은 provenance 자료는 저장소에 보존되지만 배포되지 않습니다. 상세 계약은 [`docs/runtime-asset-delivery-contract.md`](docs/runtime-asset-delivery-contract.md)를 참고하세요.
 
 ## Game Factory Skill 설치
 

@@ -17,6 +17,10 @@ Use this checklist for every game under `dev_game/generated/*` when upgrading to
 - Stale SVG/scaffold/foundation assets are not loaded by the production runtime.
 - Production assets live in a per-game runtime tree, preferably `assets/images/production/**` and `assets/audio/production/**`.
 - `asset-manifest.json` records the actual runtime file paths without query-string cache busters.
+- Migrated games declare `assetLayout`, positive `runtimeBudgetBytes`, and explicit `delivery: runtime|source` for every runtime collection entry.
+- Migrated Vite configs use `publicDir: false` and the package-local canonical runtime delivery helper.
+- `dist/runtime-asset-manifest.json` matches the manifest allowlist by physical file, byte size, and SHA-256.
+- `_source`, `references`, `imagegen`, `raw`, and `sheets` never appear in `dist`.
 - If runtime preload paths use query strings for cache busting, the game docs explicitly say those query strings are not manifest/provenance paths.
 
 ## Evidence Contract
@@ -32,6 +36,7 @@ Run the game's own build first:
 
 ```bash
 npm --prefix dev_game/generated/<game-id> run build
+npm --prefix dev_game/generated/<game-id> run qa:dist-runtime
 ```
 
 Then run the common production gates:

@@ -40,3 +40,14 @@ factory:qa OK · production-demo-qa(--require-gpt-imagegen) OK · image-quality-
 - 추가 수정: image-quality QA가 `player.png` spritesheet top/side alpha padding을 잘림 위험으로 감지해, 각 512×512 frame content를 32px 이상 padding으로 재중앙화했다. 최종 frame pads: frame0 `32/52/32/52`, frame1 `32/53/32/54`, frame2 `32/43/32/44`, frame3 `32/56/32/56`.
 - 증거: `qa-captures/full-resolution-2026-07-10/asset-fidelity-runtime-sample.json`, `qa-captures/full-resolution-2026-07-10/home-390x844-dpr3.png`, `dev_game/.tmp/visual-layout-qa/bullseye-rush`, `dev_game/.tmp/scene-composite-qa/bullseye-rush`.
 - 검증: `npm run build` PASS, `factory:image-quality-qa` PASS, `factory:production-gate --require-gpt-imagegen --viewports 390x844,430x932,1080x1920,1280x900` PASS. Runtime sample assertions all true: `configIs1080x1920`, `backingStoreIs1080x1920`, `noAccidentalDprMultiplier`, `activeSceneIsHome`, `requiredTexturesLoaded`, `sourceSizesMeetRequired`, `noStaleSvgResources`, `noStaleSvgTextureKeys`, `browserErrorsZero`.
+
+## 2026-07-13 Runtime allowlist and HQ payload polish
+
+- 기준 증상: HQ gate가 stage-2의 `edge 35.8`, `5.00MiB`와 player/star/fx-hit/fx-collect의 512KiB 초과를 포함해 6건 실패했다. 기존 `publicDir: assets`는 source-only README와 scaffold SVG도 dist로 복사했다.
+- 분류: Class L Asset Fidelity (`oversized-runtime-source`) 및 Class F/G runtime file-set evidence, severity 3.
+- 수정: stage-2를 1080×1920 Lanczos PNG로 변환하고, player를 프레임별 330px 내용이 336px cell에 중앙 배치된 1344×336 sheet로 변경했다. star/fx-collect는 940×940, fx-hit은 896×896으로 rightsizing했다. promptHash와 imagegen provenance는 보존했다.
+- player alpha pads: frame0 `21/34/21/34`, frame1 `21/35/22/35`, frame2 `21/28/21/29`, frame3 `21/37/21/37`. runtime display는 277×277로 유지된다.
+- delivery: `assetLayout=runtime-assets-v1`, `publicDir:false`, package-local canonical helper를 적용했다. Loader 16 unique path와 runtime manifest 16개가 일치하며 source-only README/SVG 4개는 dist에서 제외된다.
+- payload: runtime assets `14,329,679 → 9,728,843` bytes, 전체 dist `15,853,741 → 11,242,064` bytes. 예산은 `10,485,760` bytes다.
+- 증거: `qa-captures/runtime-assets-2026-07-13/{before,after}/asset-contact.png`, `after/{390x844-home,390x844-game,1080x1920-game}.png`, `after/state-sample.json`.
+- 검증: build PASS, dist-runtime PASS, production-demo PASS, image-quality PASS, HQ PASS(11 assets), visual-layout PASS(3 viewports), scene-composite PASS 및 pixel inspection PASS. 시각 검사에서 resampling artifact가 없어 imagegen 재생성은 필요하지 않았다.

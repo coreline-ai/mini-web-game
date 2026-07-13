@@ -81,3 +81,13 @@ From `qa-captures/2026-07-10/asset-fidelity-runtime-sample.json`:
 
 - No open severity-1 or severity-2 defects for this baseline cleanup.
 - Remaining project-level work is the broader cross-game implementation from `dev_game/docs/full-resolution-upgrade-workload-2026-07-10.md`.
+
+## Runtime asset delivery migration — 2026-07-13
+
+- Replaced Vite `publicDir` copying with the canonical manifest allowlist plugin.
+- 36 logical runtime entries resolve to 33 physical files: three stage backgrounds are safely deduplicated across `stageBackgrounds` and `images`, and loader cache-buster queries normalize to the same URLs.
+- `assets/imagegen/raw/**`, `assets/imagegen/sheets/**`, unused `player_supervisor.png`, and the audio README remain preserved but are excluded from `dist`.
+- Exact build bytes: `25,236,584 -> 11,779,491` (`13,457,093` bytes removed from delivery).
+- Runtime payload: `10,251,290 / 12,582,912` bytes; source-only preservation: 33 files / `13,430,240` bytes.
+- PASS: build, `qa:dist-runtime`, production-demo QA, image-quality QA (27 assets), HQ screen QA, and both full/manifest-only imagegen verification with the Pillow-enabled Python runtime.
+- Browser visual/scene reruns were deferred to integration after the workspace-wide browser concurrency ceiling was reached.

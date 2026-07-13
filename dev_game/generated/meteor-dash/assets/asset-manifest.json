@@ -36,7 +36,7 @@
   "images": [
     {
       "id": "player",
-      "path": "assets/characters/player.webp",
+      "path": "assets/images/production/characters/player.webp",
       "type": "sprite",
       "role": "player",
       "minWidth": 2048,
@@ -64,11 +64,12 @@
         "promptHash": "b69253db283f5988",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hazard",
-      "path": "assets/enemies/hazard.webp",
+      "path": "assets/images/production/enemies/hazard.webp",
       "type": "sprite",
       "role": "hazard",
       "minWidth": 1024,
@@ -93,11 +94,12 @@
         "promptHash": "e58638a99f23c485",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collectible",
-      "path": "assets/items/collectible.webp",
+      "path": "assets/images/production/items/collectible.webp",
       "type": "sprite",
       "role": "collectible",
       "minWidth": 1024,
@@ -122,11 +124,12 @@
         "promptHash": "3fbaadcd0a9709a0",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "shield",
-      "path": "assets/items/shield.webp",
+      "path": "assets/images/production/items/shield.webp",
       "type": "sprite",
       "role": "powerup",
       "minWidth": 1024,
@@ -151,11 +154,12 @@
         "promptHash": "21d52b1d28caf3d4",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame",
-      "path": "assets/ui/btn-frame.webp",
+      "path": "assets/images/production/ui/btn-frame.webp",
       "type": "ui",
       "role": "ui-icon",
       "minWidth": 1320,
@@ -180,11 +184,12 @@
         "promptHash": "45521281744b94c6",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame-slim",
-      "path": "assets/ui/btn-frame-slim.webp",
+      "path": "assets/images/production/ui/btn-frame-slim.webp",
       "type": "ui",
       "role": "ui-icon",
       "minWidth": 1320,
@@ -209,11 +214,12 @@
         "promptHash": "7e23071279fd9f3c",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame-dialog",
-      "path": "assets/ui/btn-frame-dialog.webp",
+      "path": "assets/images/production/ui/btn-frame-dialog.webp",
       "type": "ui",
       "role": "ui-icon",
       "minWidth": 1380,
@@ -238,11 +244,12 @@
         "promptHash": "893b58212069e8fb",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-pause",
-      "path": "assets/ui/btn-pause.webp",
+      "path": "assets/images/production/ui/btn-pause.webp",
       "type": "ui",
       "role": "ui-icon",
       "minWidth": 768,
@@ -267,11 +274,12 @@
         "promptHash": "10db9585d5bc6ea8",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-hit",
-      "path": "assets/effects/fx-hit.webp",
+      "path": "assets/images/production/effects/fx-hit.webp",
       "type": "fx",
       "role": "feedback",
       "minWidth": 1024,
@@ -296,11 +304,12 @@
         "promptHash": "e67cf16a7dadbf92",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-collect",
-      "path": "assets/effects/fx-collect.webp",
+      "path": "assets/images/production/effects/fx-collect.webp",
       "type": "fx",
       "role": "feedback",
       "minWidth": 1024,
@@ -325,7 +334,8 @@
         "promptHash": "4f7a9f24d485840f",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "audio": [
@@ -338,7 +348,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collect",
@@ -349,7 +360,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hit",
@@ -360,7 +372,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_over",
@@ -371,7 +384,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_loop",
@@ -382,7 +396,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "meteor-dash"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "qualityTier": "production-demo",
@@ -390,7 +405,7 @@
     {
       "id": "stage-1",
       "stage": 1,
-      "path": "assets/backgrounds/stage-1.webp",
+      "path": "assets/images/production/backgrounds/stage-1.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -419,12 +434,13 @@
         "promptHash": "f0ccc42da7ad3d9d",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-2",
       "stage": 2,
-      "path": "assets/backgrounds/stage-2.webp",
+      "path": "assets/images/production/backgrounds/stage-2.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -453,12 +469,13 @@
         "promptHash": "3f04ffcaac3de96f",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-3",
       "stage": 3,
-      "path": "assets/backgrounds/stage-3.webp",
+      "path": "assets/images/production/backgrounds/stage-3.webp",
       "quality": "production-demo",
       "source": "generated-for-game",
       "minWidth": 1170,
@@ -487,7 +504,8 @@
         "promptHash": "f97a4d744f28a64a",
         "quality": "high",
         "remasteredAt": "2026-07-09T15:09:26.871Z"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "assetPlan": "asset-plan.json",
@@ -504,5 +522,36 @@
     "toolMode": "built-in-image_gen",
     "lastRunAt": "2026-07-09T15:09:26.871Z",
     "remaster": "Meteor Dash native FHD runtime refresh from generated imagegen sheets"
-  }
+  },
+  "assetLayout": {
+    "version": "production-images-v1",
+    "runtimeImageRoot": "assets/images/production"
+  },
+  "runtimeBudgetBytes": 3145728,
+  "files": [
+    {
+      "id": "source-audio-README-md",
+      "type": "source",
+      "path": "assets/audio/README.md",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-collectible-svg",
+      "type": "source",
+      "path": "assets/images/collectible.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-hazard-svg",
+      "type": "source",
+      "path": "assets/images/hazard.svg",
+      "delivery": "source"
+    },
+    {
+      "id": "source-images-player-svg",
+      "type": "source",
+      "path": "assets/images/player.svg",
+      "delivery": "source"
+    }
+  ]
 }

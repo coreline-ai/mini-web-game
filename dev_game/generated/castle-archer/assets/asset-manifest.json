@@ -1,5 +1,10 @@
 {
   "assetsVersion": "1.1.0-full-resolution-loader-cleanup",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 22020096,
   "imagePolicy": {
     "allowedFormats": [
       "png",
@@ -24,6 +29,7 @@
     {
       "id": "player",
       "path": "assets/characters/player.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "player",
       "minWidth": 512,
@@ -59,6 +65,7 @@
     {
       "id": "enemy-basic",
       "path": "assets/enemies/goblin-basic-sheet.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -113,6 +120,7 @@
     {
       "id": "enemy-shield",
       "path": "assets/enemies/goblin-shield-sheet.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -167,6 +175,7 @@
     {
       "id": "enemy-runner",
       "path": "assets/enemies/goblin-runner-sheet.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -222,6 +231,7 @@
     {
       "id": "enemy-brute",
       "path": "assets/enemies/orc-brute-sheet.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -283,6 +293,7 @@
     {
       "id": "hazard",
       "path": "assets/enemies/hazard.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -330,6 +341,7 @@
     {
       "id": "shield-goblin",
       "path": "assets/enemies/shield-goblin.png",
+      "delivery": "source",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 256,
@@ -362,6 +374,7 @@
     {
       "id": "runner-goblin",
       "path": "assets/enemies/runner-goblin.png",
+      "delivery": "source",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 256,
@@ -395,6 +408,7 @@
     {
       "id": "brute-orc",
       "path": "assets/enemies/brute-orc.png",
+      "delivery": "source",
       "type": "sprite",
       "role": "enemy",
       "minWidth": 768,
@@ -443,6 +457,7 @@
     {
       "id": "collectible",
       "path": "assets/items/collectible.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "collectible",
       "minWidth": 1024,
@@ -493,6 +508,7 @@
     {
       "id": "arrow",
       "path": "assets/items/arrow.png",
+      "delivery": "runtime",
       "type": "sprite",
       "role": "projectile",
       "minWidth": 192,
@@ -527,6 +543,7 @@
       "id": "btn-frame",
       "type": "ui",
       "path": "assets/ui/btn-frame.png",
+      "delivery": "runtime",
       "role": "button",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -562,6 +579,7 @@
       "id": "btn-pause",
       "type": "ui",
       "path": "assets/ui/btn-pause.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -609,6 +627,7 @@
       "id": "heart",
       "type": "ui",
       "path": "assets/ui/heart.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -636,6 +655,7 @@
       "id": "icon-sound-on",
       "type": "ui",
       "path": "assets/ui/icon-sound-on.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -683,6 +703,7 @@
       "id": "icon-sound-off",
       "type": "ui",
       "path": "assets/ui/icon-sound-off.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -730,6 +751,7 @@
       "id": "icon-settings",
       "type": "ui",
       "path": "assets/ui/icon-settings.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -777,6 +799,7 @@
       "id": "icon-home",
       "type": "ui",
       "path": "assets/ui/icon-home.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -821,6 +844,7 @@
       "id": "icon-retry",
       "type": "ui",
       "path": "assets/ui/icon-retry.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -865,6 +889,7 @@
       "id": "icon-close",
       "type": "ui",
       "path": "assets/ui/icon-close.png",
+      "delivery": "runtime",
       "role": "ui-icon",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -909,6 +934,7 @@
       "id": "fx-hit",
       "type": "fx",
       "path": "assets/effects/fx-hit.png",
+      "delivery": "runtime",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -936,6 +962,7 @@
       "id": "fx-collect",
       "type": "fx",
       "path": "assets/effects/fx-collect.png",
+      "delivery": "runtime",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -963,6 +990,7 @@
       "id": "fx-sparkle",
       "type": "fx",
       "path": "assets/effects/fx-sparkle.png",
+      "delivery": "runtime",
       "role": "feedback",
       "requiresAlpha": true,
       "quality": "production-demo",
@@ -991,6 +1019,7 @@
     {
       "id": "ui_click",
       "path": "assets/audio/ui_click.wav",
+      "delivery": "runtime",
       "type": "ui",
       "required": true,
       "maxDurationMs": 1000,
@@ -1002,6 +1031,7 @@
     {
       "id": "collect",
       "path": "assets/audio/collect.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "maxDurationMs": 3000,
@@ -1013,6 +1043,7 @@
     {
       "id": "hit",
       "path": "assets/audio/hit.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "maxDurationMs": 3000,
@@ -1024,6 +1055,7 @@
     {
       "id": "game_over",
       "path": "assets/audio/game_over.wav",
+      "delivery": "runtime",
       "type": "sfx",
       "required": true,
       "maxDurationMs": 3000,
@@ -1035,6 +1067,7 @@
     {
       "id": "game_loop",
       "path": "assets/audio/game_loop.wav",
+      "delivery": "runtime",
       "type": "bgm",
       "required": true,
       "loopable": true,
@@ -1049,6 +1082,7 @@
     {
       "id": "stage-1",
       "path": "assets/backgrounds/stage-1.png",
+      "delivery": "runtime",
       "quality": "production-demo",
       "minWidth": 1080,
       "minHeight": 1920,
@@ -1074,6 +1108,7 @@
     {
       "id": "stage-2",
       "path": "assets/backgrounds/stage-2.png",
+      "delivery": "runtime",
       "quality": "production-demo",
       "minWidth": 1080,
       "minHeight": 1920,
@@ -1099,6 +1134,7 @@
     {
       "id": "stage-3",
       "path": "assets/backgrounds/stage-3.png",
+      "delivery": "runtime",
       "quality": "production-demo",
       "minWidth": 1080,
       "minHeight": 1920,

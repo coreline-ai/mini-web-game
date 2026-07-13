@@ -36,35 +36,35 @@ export const ASSET_KEYS = {
 };
 
 export const SPRITESHEET_PATHS = [
-  { key: ASSET_KEYS.player, path: 'characters/player.webp', frameWidth: 512, frameHeight: 512 },
+  { key: ASSET_KEYS.player, path: 'images/production/characters/player.webp', frameWidth: 512, frameHeight: 512 },
 ];
 
 export const BOOT_IMAGE_PATHS = {
-  [ASSET_KEYS.ui.loadingShell]: 'backgrounds/stage-1.webp',
+  [ASSET_KEYS.ui.loadingShell]: 'images/production/backgrounds/stage-1.webp',
 };
 
 export const IMAGE_PATHS = {
-  [ASSET_KEYS.hazard]: 'enemies/hazard.webp',
-  [ASSET_KEYS.collectible]: 'items/collectible.webp',
-  [ASSET_KEYS.ui.frame]: 'ui/btn-frame.png',
-  [ASSET_KEYS.ui.pause]: 'ui/btn-pause.png',
-  [ASSET_KEYS.ui.menuPanel]: 'ui/menu-panel.png',
-  [ASSET_KEYS.ui.modalPanel]: 'ui/modal-panel.png',
-  [ASSET_KEYS.ui.hudPanel]: 'ui/hud-panel.png',
-  [ASSET_KEYS.ui.newsPanel]: 'ui/news-panel.png',
-  [ASSET_KEYS.ui.goalStrip]: 'ui/goal-strip.png',
-  [ASSET_KEYS.ui.stockCard]: 'ui/stock-card.png',
-  [ASSET_KEYS.ui.stockCardSelected]: 'ui/stock-card-selected.png',
-  [ASSET_KEYS.ui.actionBuy]: 'ui/action-buy.png',
-  [ASSET_KEYS.ui.actionSell]: 'ui/action-sell.png',
-  [ASSET_KEYS.ui.actionHedge]: 'ui/action-hedge.png',
-  [ASSET_KEYS.ui.actionCash]: 'ui/action-cash.png',
-  [ASSET_KEYS.fx.hit]: 'effects/fx-hit.webp',
-  [ASSET_KEYS.fx.collect]: 'effects/fx-collect.webp',
-  [ASSET_KEYS.backgrounds.stage1]: 'backgrounds/stage-1.webp',
-  [ASSET_KEYS.backgrounds.stage2]: 'backgrounds/stage-2.webp',
-  [ASSET_KEYS.backgrounds.stage3]: 'backgrounds/stage-3.webp',
-  [ASSET_KEYS.backgrounds.stage4]: 'backgrounds/stage-4.webp',
+  [ASSET_KEYS.hazard]: 'images/production/enemies/hazard.webp',
+  [ASSET_KEYS.collectible]: 'images/production/items/collectible.webp',
+  [ASSET_KEYS.ui.frame]: 'images/production/ui/btn-frame.png',
+  [ASSET_KEYS.ui.pause]: 'images/production/ui/btn-pause.png',
+  [ASSET_KEYS.ui.menuPanel]: 'images/production/ui/menu-panel.png',
+  [ASSET_KEYS.ui.modalPanel]: 'images/production/ui/modal-panel.png',
+  [ASSET_KEYS.ui.hudPanel]: 'images/production/ui/hud-panel.png',
+  [ASSET_KEYS.ui.newsPanel]: 'images/production/ui/news-panel.png',
+  [ASSET_KEYS.ui.goalStrip]: 'images/production/ui/goal-strip.png',
+  [ASSET_KEYS.ui.stockCard]: 'images/production/ui/stock-card.png',
+  [ASSET_KEYS.ui.stockCardSelected]: 'images/production/ui/stock-card-selected.png',
+  [ASSET_KEYS.ui.actionBuy]: 'images/production/ui/action-buy.png',
+  [ASSET_KEYS.ui.actionSell]: 'images/production/ui/action-sell.png',
+  [ASSET_KEYS.ui.actionHedge]: 'images/production/ui/action-hedge.png',
+  [ASSET_KEYS.ui.actionCash]: 'images/production/ui/action-cash.png',
+  [ASSET_KEYS.fx.hit]: 'images/production/effects/fx-hit.webp',
+  [ASSET_KEYS.fx.collect]: 'images/production/effects/fx-collect.webp',
+  [ASSET_KEYS.backgrounds.stage1]: 'images/production/backgrounds/stage-1.webp',
+  [ASSET_KEYS.backgrounds.stage2]: 'images/production/backgrounds/stage-2.webp',
+  [ASSET_KEYS.backgrounds.stage3]: 'images/production/backgrounds/stage-3.webp',
+  [ASSET_KEYS.backgrounds.stage4]: 'images/production/backgrounds/stage-4.webp',
 };
 
 export const AUDIO_PATHS = {

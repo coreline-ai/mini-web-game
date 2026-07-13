@@ -1,5 +1,5 @@
 {
-  "assetsVersion": "1.1.0-full-resolution-loader-cleanup",
+  "assetsVersion": "1.2.0-runtime-assets-hq-optimized",
   "imagePolicy": {
     "allowedFormats": [
       "png",
@@ -72,7 +72,8 @@
       "sourceSize": {
         "width": 2944,
         "height": 736
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fruit",
@@ -107,7 +108,8 @@
       "optimizedSourceSize": {
         "width": 768,
         "height": 768
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "balloon",
@@ -142,7 +144,8 @@
       "optimizedSourceSize": {
         "width": 512,
         "height": 768
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "arrow",
@@ -177,7 +180,8 @@
       "optimizedSourceSize": {
         "width": 512,
         "height": 1024
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-frame",
@@ -206,7 +210,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "1753bbe763184beb"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "btn-pause",
@@ -235,7 +240,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "ede747ca05b5358b"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "icon-sound-on",
@@ -264,7 +270,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "2b15edd3ecf5a52c"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "icon-sound-off",
@@ -293,7 +300,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "59b3a51e361ab4f3"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "icon-home",
@@ -322,7 +330,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "745841fbc0d22347"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "icon-retry",
@@ -351,7 +360,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
         "promptHash": "ba010cb7b41e35e9"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-hit",
@@ -380,7 +390,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
         "promptHash": "b346681672e6558a"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "fx-collect",
@@ -409,7 +420,8 @@
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
         "promptHash": "1af1a581ab8c759e"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "audio": [
@@ -422,7 +434,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "collect",
@@ -433,7 +446,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "hit",
@@ -444,7 +458,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_over",
@@ -455,7 +470,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "game_loop",
@@ -466,7 +482,8 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "jungle-arcshot"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "qualityTier": "production-demo",
@@ -493,7 +510,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "0709d3330804612f",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-2",
@@ -517,7 +535,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "c8270df63438f1b3",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "stage-3",
@@ -535,13 +554,18 @@
         "modelVerified": false,
         "postProcessing": [
           "chroma-key-removal",
-          "autocrop-resize"
+          "autocrop-resize",
+          "lanczos-resample-1080x1920",
+          "lossless-png-optimization"
         ],
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "319e85594c6ad4a8",
         "quality": "high"
-      }
+      },
+      "delivery": "runtime",
+      "width": 1080,
+      "height": 1920
     }
   ],
   "assetPlan": "asset-plan.json",
@@ -558,5 +582,73 @@
     "toolMode": "built-in-image_gen",
     "lastRunAt": "2026-07-08T09:00:00+09:00",
     "polishSession": "polish-2026-07-08-1080-canvas"
-  }
+  },
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 12582912,
+  "hqScreenAssets": [],
+  "files": [
+    {
+      "id": "audio-readme",
+      "path": "assets/audio/README.md",
+      "type": "documentation",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-player-svg",
+      "path": "assets/images/player.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-hazard-svg",
+      "path": "assets/images/hazard.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    },
+    {
+      "id": "scaffold-collectible-svg",
+      "path": "assets/images/collectible.svg",
+      "type": "scaffold",
+      "delivery": "source"
+    },
+    {
+      "id": "source-player-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-player-sheet-20260707.png",
+      "type": "provenance",
+      "delivery": "source"
+    },
+    {
+      "id": "source-player-alpha-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-player-sheet-20260707-alpha.png",
+      "type": "provenance",
+      "delivery": "source"
+    },
+    {
+      "id": "source-target-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
+      "type": "provenance",
+      "delivery": "source"
+    },
+    {
+      "id": "source-target-alpha-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707-alpha.png",
+      "type": "provenance",
+      "delivery": "source"
+    },
+    {
+      "id": "source-ui-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
+      "type": "provenance",
+      "delivery": "source"
+    },
+    {
+      "id": "source-ui-alpha-sheet",
+      "path": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707-alpha.png",
+      "type": "provenance",
+      "delivery": "source"
+    }
+  ]
 }

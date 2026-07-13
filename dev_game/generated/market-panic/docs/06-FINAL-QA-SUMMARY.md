@@ -1004,3 +1004,13 @@ Re-verification after the hotfix:
 |---|---|
 | `npm run build` | Pass |
 | `factory:visual-layout-qa --port 4201` | Pass across `390x844`, `430x932`, `1080x1920` |
+
+## 2026-07-13 Runtime Asset Delivery Migration
+
+- Moved 22 active runtime images to `assets/images/production/**` without changing file bytes; all before/after SHA-256 values matched.
+- Preserved 9 PNG generation sources, 3 scaffold SVGs, and `assets/audio/README.md` as 13 source-only files.
+- Added explicit runtime/source delivery metadata, an 8 MiB runtime budget, the package-local canonical delivery helper, and `publicDir: false`.
+- Added `runtimePath` to asset-plan entries while preserving their generation `path`, prompt, and provenance fields.
+- Runtime manifest and loader paths agree on 27 physical files; loader-only and manifest-only counts are both 0.
+- Dist size changed from 19,602,205 bytes to 6,601,255 bytes. Runtime assets total 2,977,701 bytes.
+- PASS: build, dist-runtime QA, asset QA, image-quality QA, HQ-screen QA (22 assets), production-demo QA, curated browser smoke, and visual-layout QA at `390x844`, `430x932`, `1080x1920`, and `1280x900`.

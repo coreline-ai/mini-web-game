@@ -12,13 +12,19 @@
     "factory:imagegen": "node generator/scripts/codex-imagegen.mjs",
     "factory:asset-qa": "node generator/scripts/asset-qa.mjs",
     "factory:browser-smoke": "node generator/scripts/browser-smoke.mjs",
-    "factory:qa": "npm run factory:validate && npm run factory:smoke && npm run factory:asset-qa && npm run factory:browser-smoke",
+    "factory:runtime-asset-delivery-test": "node generator/scripts/runtime-asset-delivery-test.mjs",
+    "factory:dist-runtime-qa": "node generator/scripts/dist-runtime-qa.mjs",
+    "factory:qa": "npm run factory:validate && npm run factory:smoke && npm run factory:runtime-asset-delivery-test && npm run factory:asset-qa && npm run factory:browser-smoke",
     "factory:production-demo-qa": "node generator/scripts/production-demo-qa.mjs",
     "factory:visual-layout-qa": "node generator/scripts/visual-layout-qa.mjs",
     "factory:scene-composite-qa": "node generator/scripts/scene-composite-qa.mjs",
     "factory:image-quality-qa": "node generator/scripts/image-quality-qa.mjs",
     "factory:hq-screen-quality-qa": "node generator/scripts/hq-screen-quality-qa.mjs",
-    "factory:production-gate": "node generator/scripts/production-gate.mjs"
+    "factory:production-gate": "node generator/scripts/production-gate.mjs",
+    "games:list": "node generator/scripts/run-curated-games.mjs list",
+    "games:build": "node generator/scripts/run-curated-games.mjs build",
+    "games:dev": "node generator/scripts/run-curated-games.mjs dev",
+    "games:smoke": "node generator/scripts/run-curated-games.mjs smoke"
   },
   "devDependencies": {
     "playwright": "^1.61.1"
