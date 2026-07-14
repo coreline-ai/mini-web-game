@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "custom-loop-shell",
+    "title": "Custom Loop Shell",
+    "description": "A validation fixture for a custom-loop game shell.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#08120f",
+    "scaleMode": "fit"
+  },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "foundation",
+  "runtimeConfig": "src/game/config/customGameConfig.js",
+  "rules": {
+    "durationSeconds": 180,
+    "goal": "complete-the-custom-objective",
+    "progressMetric": "objective-progress",
+    "requiredObjectives": ["primary-objective"],
+    "failConditions": ["time-expired"],
+    "commands": [
+      {
+        "id": "primary-action",
+        "label": "Primary Action",
+        "input": "tap",
+        "costs": {}
+      }
+    ]
+  },
+  "requiredAssetRoles": ["command-unit", "protected-objective", "status-icon"],
+  "captureMatrix": "qa/capture-matrix.json",
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui-click.wav",
+      "success": "audio/success.wav",
+      "failure": "audio/failure.wav"
+    },
+    "music": {
+      "home": "audio/home-loop.wav",
+      "gameplay": "audio/gameplay-loop.wav"
+    }
+  },
+  "ui": {
+    "showPause": true,
+    "showProgressMetric": true,
+    "helpRequired": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "pauseWhenHidden": true,
+    "maxTargetDpr": 3
+  }
+}

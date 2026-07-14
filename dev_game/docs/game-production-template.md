@@ -372,3 +372,7 @@ new-game/
 ├── src/
 └── README.md
 ```
+
+## Schema v2 custom-loop vertical slice
+
+기존 arcade Foundation 의미가 맞지 않으면 v2 `custom-shell`로 시작한다. 이 shell은 gameplay 완료물이 아니며, 1스테이지 vertical slice를 먼저 완성한다. 구현 완료 전 `implementationStatus: foundation`, 완료 후에만 `production-demo`를 사용한다. Rules Contract, required asset roles, declared capture matrix, first-play clarity, one-shot transition input, audio/persistence/long-run adapter를 포함하고 `factory:production-gate -- --mode custom-loop-full`로 검증한다. 에셋 해상도와 패딩 숫자는 production demo quality contract의 authoritative 표만 참조한다.

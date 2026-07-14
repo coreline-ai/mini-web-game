@@ -1,0 +1,406 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coreline-ai.local/dev-game/game-spec.schema.json",
+  "title": "dev_game mobile portrait arcade game spec",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "game",
+    "canvas",
+    "player",
+    "hazards",
+    "scoring",
+    "difficulty",
+    "lives",
+    "session",
+    "theme",
+    "audio",
+    "ui",
+    "performance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string"
+    },
+    "game": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "orientation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "orientation": {
+          "const": "portrait"
+        },
+        "target": {
+          "const": "mobile-web"
+        }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "required": [
+        "width",
+        "height",
+        "backgroundColor",
+        "scaleMode"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 320
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 568
+        },
+        "backgroundColor": {
+          "type": "string",
+          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+        },
+        "scaleMode": {
+          "enum": [
+            "fit",
+            "cover"
+          ]
+        }
+      }
+    },
+    "player": {
+      "type": "object",
+      "required": [
+        "moveMode",
+        "speed",
+        "hitbox"
+      ],
+      "properties": {
+        "moveMode": {
+          "enum": [
+            "drag",
+            "tap-lane",
+            "swipe"
+          ]
+        },
+        "speed": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "hitbox": {
+          "type": "object",
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "type": "number",
+              "minimum": 8
+            },
+            "height": {
+              "type": "number",
+              "minimum": 8
+            }
+          }
+        }
+      }
+    },
+    "hazards": {
+      "type": "object",
+      "required": [
+        "type",
+        "label",
+        "spawnRateStart",
+        "spawnRateMax",
+        "fallSpeedStart",
+        "fallSpeedMax",
+        "damage",
+        "poolSize"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spawnRateStart": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "spawnRateMax": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fallSpeedStart": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fallSpeedMax": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "damage": {
+          "type": "number",
+          "minimum": 0
+        },
+        "poolSize": {
+          "type": "integer",
+          "minimum": 20
+        }
+      }
+    },
+    "collectibles": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "label",
+        "spawnRate",
+        "scoreValue"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        },
+        "spawnRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "scoreValue": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "required": [
+        "survivalPointsPerSecond",
+        "collectiblePoints",
+        "highScoreLocalStorageKey"
+      ],
+      "properties": {
+        "survivalPointsPerSecond": {
+          "type": "number",
+          "minimum": 0
+        },
+        "collectiblePoints": {
+          "type": "number",
+          "minimum": 0
+        },
+        "highScoreLocalStorageKey": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "difficulty": {
+      "type": "object",
+      "required": [
+        "curve",
+        "rampEverySeconds",
+        "maxLevel"
+      ],
+      "properties": {
+        "curve": {
+          "enum": [
+            "linear"
+          ]
+        },
+        "rampEverySeconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxLevel": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "lives": {
+      "type": "object",
+      "required": [
+        "start",
+        "max"
+      ],
+      "properties": {
+        "start": {
+          "const": 1
+        },
+        "max": {
+          "const": 1
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "required": [
+        "countdownSeconds",
+        "maxDurationSeconds"
+      ],
+      "properties": {
+        "countdownSeconds": {
+          "const": 0
+        },
+        "maxDurationSeconds": {
+          "type": "null"
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "required": [
+        "preset",
+        "colors"
+      ],
+      "properties": {
+        "preset": {
+          "type": "string",
+          "minLength": 1
+        },
+        "colors": {
+          "type": "object",
+          "required": [
+            "background",
+            "player",
+            "hazard",
+            "collectible",
+            "ui"
+          ],
+          "properties": {
+            "background": {
+              "type": "string",
+              "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+            },
+            "player": {
+              "type": "string",
+              "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+            },
+            "hazard": {
+              "type": "string",
+              "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+            },
+            "collectible": {
+              "type": "string",
+              "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+            },
+            "ui": {
+              "type": "string",
+              "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+            }
+          }
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "sfx",
+        "music"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "sfx": {
+          "type": "object",
+          "required": [
+            "start",
+            "hit",
+            "score",
+            "gameOver"
+          ],
+          "properties": {
+            "start": {
+              "type": "string"
+            },
+            "hit": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            },
+            "gameOver": {
+              "type": "string"
+            }
+          }
+        },
+        "music": {
+          "type": "object",
+          "required": [
+            "gameplay"
+          ],
+          "properties": {
+            "gameplay": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "required": [
+        "showScore",
+        "showLives",
+        "showPause",
+        "showRestart"
+      ],
+      "properties": {
+        "showScore": {
+          "type": "boolean"
+        },
+        "showLives": {
+          "const": false
+        },
+        "showPause": {
+          "type": "boolean"
+        },
+        "showRestart": {
+          "type": "boolean"
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "required": [
+        "targetFps",
+        "objectPooling",
+        "pauseWhenHidden"
+      ],
+      "properties": {
+        "targetFps": {
+          "enum": [
+            30,
+            60
+          ]
+        },
+        "objectPooling": {
+          "type": "boolean"
+        },
+        "pauseWhenHidden": {
+          "const": true
+        }
+      }
+    }
+  }
+}

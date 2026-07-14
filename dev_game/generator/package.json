@@ -24,6 +24,13 @@
     "scene-composite-qa": "node scripts/scene-composite-qa.mjs",
     "image-quality-qa": "node scripts/image-quality-qa.mjs",
     "hq-screen-quality-qa": "node scripts/hq-screen-quality-qa.mjs",
+    "captured-state-qa": "node scripts/captured-state-qa.mjs",
+    "first-play-clarity-qa": "node scripts/first-play-clarity-qa.mjs",
+    "input-hostility-qa": "node scripts/input-hostility-qa.mjs",
+    "session-continuity-qa": "node scripts/session-continuity-qa.mjs",
+    "docs-runtime-sync-qa": "node scripts/docs-runtime-sync-qa.mjs",
+    "qa-session-report": "node scripts/qa-session-report.mjs",
+    "migrate-spec-v2": "node scripts/migrate-spec-v2.mjs",
     "production-gate": "node scripts/production-gate.mjs"
   },
   "engines": {

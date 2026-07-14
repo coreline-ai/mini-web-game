@@ -237,3 +237,11 @@ MVP 진행 중 placeholder는 허용될 수 있지만, **완료 보고 대상 pr
 ```
 
 위 표현은 completion audit이 실제로 모든 요구를 증명할 때만 사용한다.
+
+## Schema v1/v2 실행 분기
+
+- `game-spec.v1.schema.json`: 기존 arcade-vertical Foundation 호환.
+- `game-spec.v2.schema.json`: 신규 custom-loop. `buildDecision`, `implementationStatus`, `runtimeConfig`, `rules`, `requiredAssetRoles`, `captureMatrix`를 실제 구현 의미대로 기록한다.
+- `--template custom-shell`은 gameplay를 추측하지 않는다. 1스테이지 vertical slice의 장르 고유 시스템을 직접 구현한 뒤 Production Gate로 승격한다.
+- v1 변환은 `factory:migrate-spec-v2 -- --spec <v1> --out <v2> --mode custom-loop` skeleton을 사용하고 모든 TODO를 사람이 검토한다.
+- v2 완료는 고정 Scene 목록이 아니라 declared capture states, Rules Contract, clarity, hostile input, session continuity와 same-run QA report로 판정한다.

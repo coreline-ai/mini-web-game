@@ -24,6 +24,10 @@ generated/*
 !generated/rush-lane-racer/**
 !generated/sky-archer/
 !generated/sky-archer/**
+!generated/firebreak-commander/
+!generated/firebreak-commander/**
+!generated/dev-plan/
+!generated/dev-plan/implement_20260711_223729.md
 
 generated/*/node_modules/
 generated/*/dist/
@@ -32,3 +36,6 @@ generated/*/scratch/
 generated/*/tmp/
 generated/*/__pycache__/
 generated/**/*.pyc
+
+# macOS metadata must never enter generated game commits.
+**/.DS_Store

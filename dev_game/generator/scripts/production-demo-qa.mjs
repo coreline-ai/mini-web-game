@@ -395,6 +395,14 @@ function validateStageBackgrounds(projectDir, manifest, spec, args, errors) {
 function validateImages(projectDir, manifest, spec, args, errors) {
   const images = Array.isArray(manifest.images) ? manifest.images : [];
   if (images.length === 0) errors.push('asset-manifest.images must not be empty');
+  if (spec.schemaVersion === '2.0.0') {
+    const roles = new Set(images.map((image) => String(image?.role || '').toLowerCase()));
+    const backgroundRoles = new Set((manifest.stageBackgrounds || []).map((entry) => String(entry?.role || '').toLowerCase()));
+    for (const required of spec.requiredAssetRoles || []) {
+      const found = required === 'stage-background' ? backgroundRoles.has(required) : roles.has(required);
+      if (!found) errors.push(`custom-loop required asset role missing: ${required}`);
+    }
+  }
   for (const image of images) {
     if (!image || typeof image !== 'object') { errors.push('images entry must be an object'); continue; }
     const label = image.id || image.path || '<unknown image>';
@@ -460,6 +468,12 @@ function qaProject(projectDir, args) {
   if (!fs.existsSync(manifestFile)) errors.push('assets/asset-manifest.json missing');
   if (!fs.existsSync(specFile)) errors.push('src/game/data/game-spec.json missing');
   if (!fs.existsSync(packageFile)) errors.push('package.json missing');
+  if (fs.existsSync(specFile)) {
+    const earlySpec = readJson(specFile, errors);
+    if (earlySpec?.schemaVersion === '2.0.0' && earlySpec.implementationStatus !== 'production-demo') {
+      errors.push(`custom-loop implementationStatus must be "production-demo" (got ${earlySpec.implementationStatus || 'missing'})`);
+    }
+  }
   if (errors.length) return errors;
 
   const manifest = readJson(manifestFile, errors);
@@ -468,6 +482,14 @@ function qaProject(projectDir, args) {
 
   if (manifest.qualityTier !== 'production-demo') {
     errors.push('asset-manifest.qualityTier must be "production-demo"');
+  }
+  if (spec.schemaVersion === '2.0.0') {
+    if (spec.implementationStatus !== 'production-demo') {
+      errors.push(`custom-loop implementationStatus must be "production-demo" (got ${spec.implementationStatus || 'missing'})`);
+    }
+    for (const [field, rel] of [['runtimeConfig', spec.runtimeConfig], ['captureMatrix', spec.captureMatrix]]) {
+      if (!rel || !fs.existsSync(path.resolve(projectDir, rel))) errors.push(`custom-loop ${field} file missing: ${rel || 'unset'}`);
+    }
   }
   if (spec?.game?.id && path.basename(projectDir) !== spec.game.id) {
     errors.push(`project directory name (${path.basename(projectDir)}) should match spec.game.id (${spec.game.id})`);

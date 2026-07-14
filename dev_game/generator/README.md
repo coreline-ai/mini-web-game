@@ -86,6 +86,18 @@ npm run build
 ## 안전 규칙
 
 - `--force`는 무조건 삭제하지 않습니다. 기본 생성 루트(`dev_game/generated/<game-id>`), 빈 디렉터리, 또는 `.dev-game-generated.json` 마커가 있는 기존 생성물만 덮어씁니다.
-- `game-spec.schema.json`은 CLI 검증에서 실제로 로드되며, 수치 범위·색상·현재 starter 미지원 필드를 함께 검증합니다.
+- CLI는 `schemaVersion`에 따라 `game-spec.v1.schema.json` 또는 `game-spec.v2.schema.json`을 로드하며, 수치 범위·색상·배열·추가 필드를 검증합니다.
 - 현재 starter는 one-hit survival만 지원합니다. `lives.start/max`는 1, `ui.showLives`는 false여야 합니다.
 - `browser-smoke`가 Chromium 바이너리를 찾지 못하면 `npx playwright install chromium` 또는 CI의 `npm --prefix dev_game exec playwright install chromium`을 실행합니다.
+
+## Schema v2 custom-loop
+
+기존 `arcade-vertical`은 `game-spec.v1.schema.json` 호환 경로입니다. player/falling-hazard/collectible 의미가 맞지 않는 신규 게임은 `game-spec.v2.schema.json`과 `--template custom-shell`을 사용합니다.
+
+```bash
+node generator/src/cli.mjs --spec generator/examples/custom-loop-shell.spec.json --template custom-shell --out generated/custom-loop-shell
+node generator/scripts/migrate-spec-v2.mjs --spec <v1.json> --out <v2.json> --mode custom-loop
+npm run factory:production-gate -- --project generated/<game-id> --mode custom-loop-full
+```
+
+custom-shell은 gameplay를 추측하지 않으며 `implementationStatus: foundation` 상태에서는 Production Demo QA가 실패합니다. 장르 고유 vertical slice, rules, required asset roles, capture matrix, clarity/input/session adapter를 구현한 뒤에만 `production-demo`로 승격합니다.

@@ -1,0 +1,896 @@
+{
+  "assetsVersion": "1.0.0",
+  "qualityTier": "production-demo",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "firebreak-commander",
+    "noSharedRuntimeAssets": true
+  },
+  "assetFidelity": {
+    "logicalCanvas": {
+      "width": 390,
+      "height": 844
+    },
+    "maxTargetDpr": 3,
+    "physicalCanvasTarget": {
+      "width": 1170,
+      "height": 2532
+    },
+    "widePhysicalCanvasTarget": {
+      "width": 1290,
+      "height": 2796
+    }
+  },
+  "imagePolicy": {
+    "allowedFormats": [
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 4096,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44,
+    "transparentPadding": {
+      "standardPercent": [
+        6,
+        10
+      ],
+      "rotationOrStrongFxMaxPercent": 12,
+      "measurement": "virtual-cell design clearance; silhouette whitespace is not counted as authored padding"
+    }
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "openai-builtin-image_gen (version opaque)",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in",
+    "generatedFor": "firebreak-commander"
+  },
+  "sceneFirst": {
+    "artboards": [
+      "assets/artboards/home.png",
+      "assets/artboards/game.png",
+      "assets/artboards/pause.png",
+      "assets/artboards/gameover.png"
+    ],
+    "sliceMap": "assets/artboards/slice-map.json",
+    "contactSheets": [
+      "assets/qa/contact-sheets/response-objects.png",
+      "assets/qa/contact-sheets/fire-ui-fx.png",
+      "assets/qa/contact-sheets/game-comparison.png",
+      "assets/qa/contact-sheets/all-production-assets.png",
+      "assets/qa/contact-sheets/final-runtime-captures.png"
+    ]
+  },
+  "stageBackgrounds": [
+    {
+      "id": "dry-front",
+      "stage": 1,
+      "path": "assets/backgrounds/stage-1-dry-front.webp",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1290,
+      "minHeight": 2796,
+      "sourceWidth": 2160,
+      "sourceHeight": 3840,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "ecc3ee30ef186c19",
+        "quality": "high",
+        "rawPath": "assets/_source/stage-1-dry-front-raw.png",
+        "rawWidth": 941,
+        "rawHeight": 1672,
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+      }
+    },
+    {
+      "id": "wind-shift",
+      "stage": 2,
+      "path": "assets/backgrounds/stage-2-wind-shift.webp",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1290,
+      "minHeight": 2796,
+      "sourceWidth": 2160,
+      "sourceHeight": 3840,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e2d7968613e766f3",
+        "quality": "high",
+        "rawPath": "assets/_source/stage-2-wind-shift-raw.png",
+        "rawWidth": 941,
+        "rawHeight": 1672,
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+      }
+    },
+    {
+      "id": "ember-night",
+      "stage": 3,
+      "path": "assets/backgrounds/stage-3-ember-night.webp",
+      "role": "stage-background",
+      "quality": "production-demo",
+      "minWidth": 1290,
+      "minHeight": 2796,
+      "sourceWidth": 2160,
+      "sourceHeight": 3840,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 390,
+        "logicalHeight": 844
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d17175ab11e5f0a0",
+        "quality": "high",
+        "rawPath": "assets/_source/stage-3-ember-night-raw.png",
+        "rawWidth": 941,
+        "rawHeight": 1672,
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+      }
+    }
+  ],
+  "images": [
+    {
+      "id": "response-helicopter",
+      "path": "assets/images/production/response-helicopter.png",
+      "type": "sprite",
+      "role": "response-unit",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 112,
+        "logicalHeight": 74
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 0,
+          "y": 0,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "fire-engine",
+      "path": "assets/images/production/fire-engine.png",
+      "type": "sprite",
+      "role": "response-unit",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 34,
+        "logicalHeight": 34
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 341,
+          "y": 0,
+          "width": 342,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "firebreak-dozer",
+      "path": "assets/images/production/firebreak-dozer.png",
+      "type": "sprite",
+      "role": "command-unit",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 54,
+        "logicalHeight": 54
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 683,
+          "y": 0,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "pine-ridge-village",
+      "path": "assets/images/production/pine-ridge-village.png",
+      "type": "sprite",
+      "role": "protected-objective",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 66,
+        "logicalHeight": 66
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 0,
+          "y": 768,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "power-substation",
+      "path": "assets/images/production/power-substation.png",
+      "type": "sprite",
+      "role": "protected-objective",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 66,
+        "logicalHeight": 66
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 341,
+          "y": 768,
+          "width": 342,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "wildlife-refuge",
+      "path": "assets/images/production/wildlife-refuge.png",
+      "type": "sprite",
+      "role": "protected-objective",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 1024,
+      "sourceHeight": 1024,
+      "display": {
+        "logicalWidth": 66,
+        "logicalHeight": 66
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "db681dff3ed96122",
+        "quality": "high",
+        "rawPath": "assets/_source/response-objects-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/response-objects-sheet.png",
+        "cropBox": {
+          "x": 683,
+          "y": 768,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "fx-fire",
+      "path": "assets/images/production/fx-fire.png",
+      "type": "fx",
+      "role": "hazard-fx",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 31,
+        "logicalHeight": 31
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 0,
+          "y": 0,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          12
+        ],
+        "kind": "rotation-fx"
+      }
+    },
+    {
+      "id": "fx-water",
+      "path": "assets/images/production/fx-water.png",
+      "type": "fx",
+      "role": "response-unit",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 34,
+        "logicalHeight": 34
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 341,
+          "y": 0,
+          "width": 342,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          12
+        ],
+        "kind": "rotation-fx"
+      }
+    },
+    {
+      "id": "fx-smoke",
+      "path": "assets/images/production/fx-smoke.png",
+      "type": "fx",
+      "role": "hazard-fx",
+      "quality": "production-demo",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 21,
+        "logicalHeight": 21
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 683,
+          "y": 0,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          12
+        ],
+        "kind": "rotation-fx"
+      }
+    },
+    {
+      "id": "ui-wind",
+      "path": "assets/images/production/ui-wind.png",
+      "type": "ui",
+      "role": "risk-indicator",
+      "quality": "production-demo",
+      "minWidth": 128,
+      "minHeight": 128,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 27,
+        "logicalHeight": 27
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 0,
+          "y": 768,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          12
+        ],
+        "kind": "rotation-fx"
+      }
+    },
+    {
+      "id": "ui-pause",
+      "path": "assets/images/production/ui-pause.png",
+      "type": "ui",
+      "role": "status-icon",
+      "quality": "production-demo",
+      "minWidth": 128,
+      "minHeight": 128,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 52,
+        "logicalHeight": 52
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 341,
+          "y": 768,
+          "width": 342,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    },
+    {
+      "id": "ui-containment",
+      "path": "assets/images/production/ui-containment.png",
+      "type": "ui",
+      "role": "status-icon",
+      "quality": "production-demo",
+      "minWidth": 128,
+      "minHeight": 128,
+      "requiresAlpha": true,
+      "sourceWidth": 768,
+      "sourceHeight": 768,
+      "display": {
+        "logicalWidth": 92,
+        "logicalHeight": 92
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5af1f5b45cbe167",
+        "quality": "high",
+        "rawPath": "assets/_source/fire-ui-fx-sheet.png",
+        "rawWidth": 1024,
+        "rawHeight": 1536,
+        "sourceSheet": "assets/_source/fire-ui-fx-sheet.png",
+        "cropBox": {
+          "x": 683,
+          "y": 768,
+          "width": 341,
+          "height": 768
+        },
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+      },
+      "transparentPadding": {
+        "targetPercent": 10,
+        "allowedRangePercent": [
+          6,
+          10
+        ],
+        "kind": "standard"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/production/ui_click.wav",
+      "type": "ui",
+      "quality": "production-demo",
+      "sha256": "fe55a421e9cc3ba0103ac65b36495881c167311bba5d83c046d72b9b6383ed67",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "draw_firebreak",
+      "path": "assets/audio/production/draw_firebreak.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "03ede5a38b9f53610fd9246b26c19d38578a72189d0a3c212914e9de6c77015c",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "water_drop",
+      "path": "assets/audio/production/water_drop.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "bde28af67d207d34f560ccebad197f293d08cf201dceeba65289d56756ea0d4c",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "truck_deploy",
+      "path": "assets/audio/production/truck_deploy.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "3abbec116509dee508b6afd6a66541c21934218f6296b1cde6a4af96bad81d60",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "fire_ignite",
+      "path": "assets/audio/production/fire_ignite.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "e566dbc588926b26a3a93d46cdfda2fff21282550356ea219dcd3817cf4e4c61",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "fire_extinguish",
+      "path": "assets/audio/production/fire_extinguish.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "b9fb0cd3beb43de20ca832c7e90fd7164bcb4dc5667c0c787b312a1f89ac31bc",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "wind_shift",
+      "path": "assets/audio/production/wind_shift.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "67b712ff370d8f05c7ffb27d7a069f0d643f568e7bb8179cc701b7cabb174e0d",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "objective_warning",
+      "path": "assets/audio/production/objective_warning.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "854802d7ba944f557aeb9e53dcb5c596b079602e81f36130a26be55329ca2192",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "stage_clear",
+      "path": "assets/audio/production/stage_clear.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "a78341f301aed5fc274a553f23cc8dff68a917886e41328dabb6c60280a4f096",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/production/game_over.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "sha256": "ededa3dc1d1f0c341e423dae7d33fb9dc8b6e7d2cdea7c34bebcb1b8e3987383",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "home_ambient",
+      "path": "assets/audio/production/home_ambient.wav",
+      "type": "bgm",
+      "quality": "production-demo",
+      "sha256": "a6c7531409dead34fb87598e2af239e3a0620fb576ab873aab41520464fcb43a",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    },
+    {
+      "id": "fireline_loop",
+      "path": "assets/audio/production/fireline_loop.wav",
+      "type": "bgm",
+      "quality": "production-demo",
+      "sha256": "4617e06e6c4fcaf82bc4ee6b82904b5f9e8985d7288ebe3af5d485e86dd00593",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "firebreak-commander",
+        "method": "project-local-synthesis",
+        "generator": "scripts/generate_audio.py"
+      }
+    }
+  ],
+  "requiredAssetRoles": [
+    "stage-background",
+    "response-unit",
+    "protected-objective",
+    "hazard-fx",
+    "command-unit",
+    "risk-indicator",
+    "status-icon"
+  ],
+  "hqScreenAssets": [
+    {
+      "id": "firebreak-dozer",
+      "path": "assets/images/production/firebreak-dozer.png",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true
+    },
+    {
+      "id": "pine-ridge-village",
+      "path": "assets/images/production/pine-ridge-village.png",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true
+    },
+    {
+      "id": "fx-fire",
+      "path": "assets/images/production/fx-fire.png",
+      "minWidth": 256,
+      "minHeight": 256,
+      "requiresAlpha": true
+    },
+    {
+      "id": "ui-wind",
+      "path": "assets/images/production/ui-wind.png",
+      "minWidth": 128,
+      "minHeight": 128,
+      "requiresAlpha": true
+    },
+    {
+      "id": "ui-pause",
+      "path": "assets/images/production/ui-pause.png",
+      "minWidth": 128,
+      "minHeight": 128,
+      "requiresAlpha": true
+    }
+  ]
+}

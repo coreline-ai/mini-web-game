@@ -3,11 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { buildCustomShellFiles } from './custom-shell.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_OUT_ROOT = path.resolve(ROOT, '..', 'generated');
-const SCHEMA_PATH = path.join(ROOT, 'schemas', 'game-spec.schema.json');
+const SCHEMA_PATH = path.join(ROOT, 'schemas', 'game-spec.v1.schema.json');
+const SCHEMA_V2_PATH = path.join(ROOT, 'schemas', 'game-spec.v2.schema.json');
 const RUNTIME_ASSET_HELPER_PATH = path.join(ROOT, 'templates', 'runtime-asset-delivery.mjs');
 const GENERATED_MARKER = '.dev-game-generated.json';
 
@@ -37,7 +39,7 @@ function parseArgs(argv) {
 }
 
 function help() {
-  return `dev-game — scaffold a mobile portrait Phaser/Vite arcade game\n\nUsage:\n  node src/cli.mjs --spec examples/poop-dodge.spec.json --out ../generated/poop-dodge-demo\n  node src/cli.mjs --name "Poop Rush" --title "Poop Rush" --out ../generated/poop-rush\n\nOptions:\n  --name <name>             Project/package name when --spec is omitted\n  --title <text>            Display title override\n  --spec <file>             Game spec JSON\n  --out <dir>               Output directory, default ../generated/<game-id>\n  --template <name>         Only arcade-vertical is supported\n  --width <number>          Canvas width override\n  --height <number>         Canvas height override\n  --controls <drag|tap-lane|swipe>\n  --theme <preset>\n  --difficulty <easy|normal|hard>\n  --with-pwa                Add web manifest/icons placeholder\n  --with-sfx / --no-sfx     Generate procedural WAV placeholders, default on\n  --dry-run                 Print file list without writing\n  --validate-only           Validate spec only\n  --force                   Overwrite output directory\n`;
+  return `dev-game — scaffold a mobile web Phaser/Vite game\n\nUsage:\n  node src/cli.mjs --spec examples/poop-dodge.spec.json --out ../generated/poop-dodge-demo\n  node src/cli.mjs --spec examples/custom-loop-shell.spec.json --template custom-shell --out ../generated/custom-loop-shell\n  node src/cli.mjs --name "Poop Rush" --title "Poop Rush" --out ../generated/poop-rush\n\nOptions:\n  --name <name>             Project/package name when --spec is omitted\n  --title <text>            Display title override\n  --spec <file>             Game spec JSON (v1 arcade or v2 custom-loop)\n  --out <dir>               Output directory, default ../generated/<game-id>\n  --template <name>         arcade-vertical | custom-shell\n  --width <number>          Canvas width override\n  --height <number>         Canvas height override\n  --controls <drag|tap-lane|swipe>\n  --theme <preset>\n  --difficulty <easy|normal|hard>\n  --with-pwa                Add web manifest/icons placeholder\n  --with-sfx / --no-sfx     Generate procedural WAV placeholders, default on\n  --dry-run                 Print file list without writing\n  --validate-only           Validate spec only\n  --force                   Overwrite output directory\n`;
 }
 
 function slugify(input) {
@@ -66,8 +68,8 @@ function isPlainObject(value) {
   return !!value && typeof value === 'object' && !Array.isArray(value);
 }
 
-function loadGameSpecSchema() {
-  return JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+function loadGameSpecSchema(spec) {
+  return JSON.parse(fs.readFileSync(spec?.schemaVersion === '2.0.0' ? SCHEMA_V2_PATH : SCHEMA_PATH, 'utf8'));
 }
 
 function describeType(value) {
@@ -110,6 +112,11 @@ function validateSchemaNode(schema, value, pathName, errors) {
     if (schema.maximum !== undefined && value > schema.maximum) errors.push(`${pathName}: must be <= ${schema.maximum}`);
     if (schema.exclusiveMinimum !== undefined && value <= schema.exclusiveMinimum) errors.push(`${pathName}: must be > ${schema.exclusiveMinimum}`);
   }
+  if (Array.isArray(value)) {
+    if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${pathName}: must contain at least ${schema.minItems} items`);
+    if (schema.maxItems !== undefined && value.length > schema.maxItems) errors.push(`${pathName}: must contain at most ${schema.maxItems} items`);
+    if (schema.items) value.forEach((item, index) => validateSchemaNode(schema.items, item, `${pathName}[${index}]`, errors));
+  }
   if (isPlainObject(value) && schema.properties) {
     for (const key of schema.required || []) {
       if (!(key in value)) errors.push(`${pathName}.${key}: required`);
@@ -117,12 +124,15 @@ function validateSchemaNode(schema, value, pathName, errors) {
     for (const [key, child] of Object.entries(schema.properties)) {
       if (key in value) validateSchemaNode(child, value[key], `${pathName}.${key}`, errors);
     }
+    if (schema.additionalProperties === false) {
+      for (const key of Object.keys(value)) if (!(key in schema.properties)) errors.push(`${pathName}.${key}: additional property is not allowed`);
+    }
   }
 }
 
 function validateBySchema(spec) {
   const errors = [];
-  validateSchemaNode(loadGameSpecSchema(), spec, 'spec', errors);
+  validateSchemaNode(loadGameSpecSchema(spec), spec, 'spec', errors);
   return errors.map((e) => e.replace(/^spec\./, ''));
 }
 
@@ -146,7 +156,7 @@ function isEmptyDirectory(dir) {
 function hasGeneratedMarker(dir) {
   try {
     const marker = JSON.parse(fs.readFileSync(path.join(dir, GENERATED_MARKER), 'utf8'));
-    return marker?.generator === 'dev_game' && marker?.schemaVersion === '1.0.0';
+    return marker?.generator === 'dev_game' && ['1.0.0', '2.0.0'].includes(marker?.schemaVersion);
   } catch {
     return false;
   }
@@ -196,7 +206,7 @@ function readSpec(opts) {
     const raw = fs.readFileSync(path.resolve(opts.spec), 'utf8');
     const patch = JSON.parse(raw);
     if (!isPlainObject(patch)) throw new Error('Spec root must be an object');
-    spec = deepMerge(spec, patch);
+    spec = patch.schemaVersion === '2.0.0' ? structuredClone(patch) : deepMerge(spec, patch);
   }
   if (opts.name && isPlainObject(spec.game)) spec.game.id = slugify(opts.name);
   if (opts.title && isPlainObject(spec.game)) spec.game.title = opts.title;
@@ -216,22 +226,27 @@ function validateSpec(spec) {
   if (isPlainObject(spec.canvas)) {
     req(spec.canvas.height > spec.canvas.width, 'canvas.height', 'must be portrait and greater than width');
   }
-  if (isPlainObject(spec.hazards)) {
+  if (spec.schemaVersion !== '2.0.0' && isPlainObject(spec.hazards)) {
     req(spec.hazards.spawnRateStart >= spec.hazards.spawnRateMax, 'hazards.spawnRateStart', 'must be >= spawnRateMax so difficulty ramps faster over time');
     req(spec.hazards.fallSpeedMax >= spec.hazards.fallSpeedStart, 'hazards.fallSpeedMax', 'must be >= fallSpeedStart');
   }
-  if (isPlainObject(spec.lives)) {
+  if (spec.schemaVersion !== '2.0.0' && isPlainObject(spec.lives)) {
     req(spec.lives.start === 1 && spec.lives.max === 1, 'lives', 'current arcade starter supports one-hit survival only');
   }
-  if (isPlainObject(spec.session)) {
+  if (spec.schemaVersion !== '2.0.0' && isPlainObject(spec.session)) {
     req(spec.session.countdownSeconds === 0, 'session.countdownSeconds', 'countdown is not implemented in this starter');
     req(spec.session.maxDurationSeconds === null, 'session.maxDurationSeconds', 'time limit is not implemented in this starter');
   }
-  if (isPlainObject(spec.ui)) {
+  if (spec.schemaVersion !== '2.0.0' && isPlainObject(spec.ui)) {
     req(spec.ui.showScore === true, 'ui.showScore', 'score HUD is required in this starter');
     req(spec.ui.showLives === false, 'ui.showLives', 'lives HUD is not implemented in this one-hit starter');
     req(spec.ui.showPause === true, 'ui.showPause', 'pause button is required in this starter');
     req(spec.ui.showRestart === true, 'ui.showRestart', 'retry flow is required in this starter');
+  }
+  if (spec.schemaVersion === '2.0.0' && spec.buildDecision === 'custom-loop') {
+    req(!('player' in spec), 'player', 'must not contain the arcade player contract in a custom-loop spec');
+    req(!('hazards' in spec), 'hazards', 'must not contain the arcade falling-hazard contract in a custom-loop spec');
+    req(!('collectibles' in spec), 'collectibles', 'must not contain the arcade coin contract in a custom-loop spec');
   }
   return [...new Set(errors)];
 }
@@ -243,6 +258,7 @@ function escapeHtml(s) {
 function jsString(s) { return JSON.stringify(String(s)); }
 
 function buildFiles(spec, opts) {
+  if (spec.schemaVersion === '2.0.0' || opts.template === 'custom-shell') return buildCustomShellFiles(spec);
   const files = new Map();
   const title = spec.game.title;
   const id = spec.game.id;
@@ -344,7 +360,7 @@ import { SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constant
   files.set('src/game/ui/LoadingUI.js', `import Phaser from 'phaser';
 import { SPEC } from '../data/spec.js';\n\nexport default class LoadingUI {\n  constructor(scene) {\n    this.scene = scene;\n    const { width, height } = SPEC.canvas;\n    scene.add.rectangle(0, 0, width, height, 0x0b1024).setOrigin(0);\n    this.title = scene.add.text(width / 2, height * 0.34, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '34px', color: '#ffffff', align: 'center', stroke: '#000000', strokeThickness: 5 }).setOrigin(0.5);\n    this.tip = scene.add.text(width / 2, height * 0.47, 'Loading assets...', { fontFamily: 'Arial', fontSize: '16px', color: '#b9d7ff', align: 'center' }).setOrigin(0.5);\n    this.barBack = scene.add.rectangle(width / 2, height * 0.58, width * 0.72, 18, 0xffffff, 0.18).setOrigin(0.5);\n    this.bar = scene.add.rectangle(width * 0.14, height * 0.58, 4, 18, 0x39e98a, 1).setOrigin(0, 0.5);\n    this.percent = scene.add.text(width / 2, height * 0.63, '0%', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff' }).setOrigin(0.5);\n  }\n  setProgress(v) {\n    const { width } = SPEC.canvas;\n    const p = Phaser.Math.Clamp(v, 0, 1);\n    this.bar.width = Math.max(4, width * 0.72 * p);\n    this.percent.setText(Math.round(p * 100) + '%');\n  }\n}\n`);
 
-  files.set('src/game/ui/MobileButton.js', `export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58) {\n  const _k = 'btnui_' + width + 'x' + height;
+  files.set('src/game/ui/MobileButton.js', `export function makeTextButton(scene, x, y, label, onClick, width = 190, height = 58, options = {}) {\n  const _k = 'btnui_' + width + 'x' + height;
     if (!scene.textures.exists('ui_frame') && !scene.textures.exists(_k)) {
       const g = scene.make.graphics({ add: false });
       const r = Math.min(22, height / 2);
@@ -354,11 +370,11 @@ import { SPEC } from '../data/spec.js';\n\nexport default class LoadingUI {\n  c
       g.lineStyle(2.5, 0xffffff, 0.9); g.strokeRoundedRect(1, 1, width - 2, height - 2, r);
       g.generateTexture(_k, width, height); g.destroy();
     }
-    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { bg.setDisplaySize(width * 0.96, height * 0.96); txt.setScale(0.96); onClick?.(); });\n  bg.on('pointerup', () => { bg.setDisplaySize(width, height); txt.setScale(1); });\n  bg.on('pointerout', () => { bg.setDisplaySize(width, height); txt.setScale(1); });\n  return { bg, txt, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
+    const bg = scene.textures.exists('ui_frame') ? scene.add.image(x, y, 'ui_frame').setDisplaySize(width, height) : scene.add.image(x, y, _k);\n  const txt = scene.add.text(x, y, label, { fontFamily: 'Arial Black, Arial', fontSize: '24px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setOrigin(0.5);\n  let fired = false; let enabled = options.disabled !== true;\n  const resetVisual = () => { bg.setDisplaySize(width, height); txt.setScale(1); };\n  const setEnabled = (value) => { enabled = !!value; if (enabled && !fired) bg.setInteractive({ useHandCursor: true }); else bg.disableInteractive(); resetVisual(); };\n  if (enabled) bg.setInteractive({ useHandCursor: true });\n  bg.on('pointerdown', () => { if (!enabled || fired) return; bg.setDisplaySize(width * 0.96, height * 0.96); txt.setScale(0.96); if (options.fireOn === 'pointerdown') { if (options.oneShot) { fired = true; bg.disableInteractive(); } onClick?.(); } });\n  bg.on('pointerup', () => { if (!enabled || fired) return; resetVisual(); if (options.fireOn !== 'pointerdown') { if (options.oneShot) { fired = true; bg.disableInteractive(); } onClick?.(); } });\n  bg.on('pointerout', resetVisual);\n  return { bg, txt, resetVisual, setEnabled, destroy: () => { bg.destroy(); txt.destroy(); } };\n}\n`);
 
   files.set('src/game/systems/LayoutRegistry.js', `// Publishes visible UI bounds (in CSS/viewport pixels) to window.__GAME_LAYOUT_BOUNDS__
 // so visual-layout-qa can detect HUD overlap and safe-area violations.
-export function publishLayout(scene, entries) {
+export function publishLayout(scene, entries, options = {}) {
   const s = scene.scale;
   const b = s && s.canvasBounds;
   const gw = s && s.gameSize && s.gameSize.width;
@@ -373,11 +389,11 @@ export function publishLayout(scene, entries) {
     const r = o.getBounds();
     out.push({ id: e.id, x: b.left + r.x * sx, y: b.top + r.y * sy, width: r.width * sx, height: r.height * sy, visible: true });
   }
-  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: (scene.scene && scene.scene.key) || '', items: out };
+  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: (scene.scene && scene.scene.key) || '', items: out, requiredIds: options.requiredIds || entries.map((entry) => entry.id) };
 }
 
 export function clearLayout() {
-  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: '', items: [] };
+  if (typeof window !== 'undefined') window.__GAME_LAYOUT_BOUNDS__ = { scene: '', items: [], requiredIds: [] };
 }
 `);
 
@@ -446,15 +462,15 @@ export const Juice = {
 };
 `);
 
-  files.set('src/game/ui/HudUI.js',`import { SPEC } from '../data/spec.js';\nimport { makeTextButton } from './MobileButton.js';\n\nexport default class HudUI {\n  constructor(scene, onPause) {\n    const { width } = SPEC.canvas;\n    this.scoreText = scene.add.text(18, 18, 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setDepth(20);\n    this.levelText = scene.add.text(18, 44, 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: '14px', color: '#b9d7ff', stroke: '#000000', strokeThickness: 3 }).setDepth(20);\n    if (scene.textures.exists('ui_pause')) {\n      const img = scene.add.image(width - 46, 42, 'ui_pause').setDisplaySize(56, 56).setInteractive({ useHandCursor: true });\n      img.on('pointerdown', () => { img.setScale(img.scaleX * 0.92, img.scaleY * 0.92); onPause && onPause(); });\n      img.on('pointerup', () => img.setDisplaySize(56, 56));\n      img.on('pointerout', () => img.setDisplaySize(56, 56));\n      this.pause = { bg: img, txt: img, destroy: () => img.destroy() };\n    } else {\n      this.pause = makeTextButton(scene, width - 54, 38, 'Ⅱ', onPause, 58, 48);\n    }\n    this.pause.bg.setDepth(20); this.pause.txt.setDepth(21);\n  }\n  update(score, level) {\n    this.scoreText.setText('SCORE ' + score);\n    this.levelText.setText('LV ' + level);\n  }\n  setVisible(v) {\n    this.scoreText.setVisible(v); this.levelText.setVisible(v); this.pause.bg.setVisible(v); this.pause.txt.setVisible(v);\n  }\n}\n`);
+  files.set('src/game/ui/HudUI.js',`import { SPEC } from '../data/spec.js';\nimport { makeTextButton } from './MobileButton.js';\n\nexport default class HudUI {\n  constructor(scene, onPause) {\n    const { width } = SPEC.canvas;\n    this.scoreText = scene.add.text(18, 18, 'SCORE 0', { fontFamily: 'Arial Black, Arial', fontSize: '18px', color: '#ffffff', stroke: '#000000', strokeThickness: 4 }).setDepth(20);\n    this.levelText = scene.add.text(18, 44, 'LV 1', { fontFamily: 'Arial Black, Arial', fontSize: '14px', color: '#b9d7ff', stroke: '#000000', strokeThickness: 3 }).setDepth(20);\n    if (scene.textures.exists('ui_pause')) {\n      const img = scene.add.image(width - 46, 42, 'ui_pause').setDisplaySize(56, 56).setInteractive({ useHandCursor: true });\n      let fired = false;\n      img.on('pointerdown', () => { if (!fired) img.setDisplaySize(52, 52); });\n      img.on('pointerup', () => { if (fired) return; fired = true; img.disableInteractive(); img.setDisplaySize(56, 56); onPause && onPause(); });\n      img.on('pointerout', () => img.setDisplaySize(56, 56));\n      this.pause = { bg: img, txt: img, destroy: () => img.destroy() };\n    } else {\n      this.pause = makeTextButton(scene, width - 54, 38, 'Ⅱ', onPause, 58, 48, { oneShot: true });\n    }\n    this.pause.bg.setDepth(20); this.pause.txt.setDepth(21);\n  }\n  update(score, level) {\n    this.scoreText.setText('SCORE ' + score);\n    this.levelText.setText('LV ' + level);\n  }\n  setVisible(v) {\n    this.scoreText.setVisible(v); this.levelText.setVisible(v); this.pause.bg.setVisible(v); this.pause.txt.setVisible(v);\n  }\n}\n`);
 
   files.set('src/game/scenes/BootScene.js', `import Phaser from 'phaser';\nimport { SCENES } from '../data/spec.js';\nimport { SaveData } from '../systems/SaveData.js';\n\nexport default class BootScene extends Phaser.Scene {\n  constructor() { super(SCENES.BOOT); }\n  create() {\n    SaveData.getSettings();\n    this.scene.start(SCENES.LOADING);\n  }\n}\n`);
 
-  files.set('src/game/scenes/LoadingScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport LoadingUI from '../ui/LoadingUI.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';\n\nexport default class LoadingScene extends Phaser.Scene {\n  constructor() { super(SCENES.LOADING); }\n  preload() {\n    this.loadingUI = new LoadingUI(this);\n    this.load.on('progress', (v) => this.loadingUI.setProgress(v));\n    this.load.image(ASSET_KEYS.player, 'images/player.svg');\n    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');\n    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');\n    if (SPEC.audio?.enabled) {\n      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);\n      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);\n      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);\n      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);\n      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);\n    }\n  }\n  create() {\n    const items = (this.loadingUI && this.loadingUI.title) ? [{ id: 'loading', obj: this.loadingUI.title }] : [];\n    publishLayout(this, items);\n    const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');\n    if (hold) { if (typeof window !== 'undefined') window.__RELEASE_LOADING__ = () => this.scene.start(SCENES.HOME); } else { this.time.delayedCall(250, () => this.scene.start(SCENES.HOME)); }\n  }\n}\n`);
+  files.set('src/game/scenes/LoadingScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport LoadingUI from '../ui/LoadingUI.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';\n\nexport default class LoadingScene extends Phaser.Scene {\n  constructor() { super(SCENES.LOADING); }\n  preload() {\n    this.loadingUI = new LoadingUI(this);\n    this.load.on('progress', (v) => this.loadingUI.setProgress(v));\n    this.load.image(ASSET_KEYS.player, 'images/player.svg');\n    this.load.image(ASSET_KEYS.hazard, 'images/hazard.svg');\n    this.load.image(ASSET_KEYS.collectible, 'images/collectible.svg');\n    if (SPEC.audio?.enabled) {\n      this.load.audio(ASSET_KEYS.sfxStart, SPEC.audio.sfx.start);\n      this.load.audio(ASSET_KEYS.sfxHit, SPEC.audio.sfx.hit);\n      this.load.audio(ASSET_KEYS.sfxCollect, SPEC.audio.sfx.score);\n      this.load.audio(ASSET_KEYS.sfxGameOver, SPEC.audio.sfx.gameOver);\n      this.load.audio(ASSET_KEYS.musicGameplay, SPEC.audio.music.gameplay);\n    }\n  }\n  create() {\n    const items = this.loadingUI ? [{ id: 'loading-title', obj: this.loadingUI.title }, { id: 'loading-status', obj: this.loadingUI.tip }, { id: 'loading-bar-back', obj: this.loadingUI.barBack }, { id: 'loading-bar-fill', obj: this.loadingUI.bar }, { id: 'loading-percent', obj: this.loadingUI.percent }] : [];\n    publishLayout(this, items, { requiredIds: items.map((item) => item.id) });\n    const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');\n    if (hold) { if (typeof window !== 'undefined') window.__RELEASE_LOADING__ = () => this.scene.start(SCENES.HOME); } else { this.time.delayedCall(250, () => this.scene.start(SCENES.HOME)); }\n  }\n}\n`);
 
   files.set('src/game/scenes/HomeScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { ASSET_KEYS } from '../constants/gameKeys.js';\nimport { SaveData } from '../systems/SaveData.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';
 
-export default class HomeScene extends Phaser.Scene {\n  constructor() { super(SCENES.HOME); }\n  create() {\n    AudioManager.stopMusic();\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x0b1024).setOrigin(0);\n    this.add.image(width / 2, height * 0.38, ASSET_KEYS.player).setDisplaySize(130, 130);\n    this.titleText = this.add.text(width / 2, height * 0.18, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '38px', color: '#fff', align: 'center', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    this.bestText = this.add.text(width / 2, height * 0.55, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: '22px', color: '#ffd54a', stroke: '#000', strokeThickness: 4 }).setOrigin(0.5);\n    this.playBtn = makeTextButton(this, width / 2, height * 0.68, 'PLAY', () => { AudioManager.unlock(this); AudioManager.playSfx(this, ASSET_KEYS.sfxStart, 0.55); this.scene.start(SCENES.GAME); }, 220, 64);\n    this.soundBtn = makeTextButton(this, width / 2, height * 0.78, AudioManager.mute ? 'SOUND OFF' : 'SOUND ON', () => { AudioManager.setMute(this, !AudioManager.mute); this.scene.restart(); }, 220, 52);
+export default class HomeScene extends Phaser.Scene {\n  constructor() { super(SCENES.HOME); }\n  create() {\n    AudioManager.stopMusic();\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x0b1024).setOrigin(0);\n    this.add.image(width / 2, height * 0.38, ASSET_KEYS.player).setDisplaySize(130, 130);\n    this.titleText = this.add.text(width / 2, height * 0.18, SPEC.game.title, { fontFamily: 'Arial Black, Arial', fontSize: '38px', color: '#fff', align: 'center', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    this.bestText = this.add.text(width / 2, height * 0.55, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: '22px', color: '#ffd54a', stroke: '#000', strokeThickness: 4 }).setOrigin(0.5);\n    this.playBtn = makeTextButton(this, width / 2, height * 0.68, 'PLAY', () => { AudioManager.unlock(this); AudioManager.playSfx(this, ASSET_KEYS.sfxStart, 0.55); this.scene.start(SCENES.GAME); }, 220, 64, { oneShot: true });\n    this.soundBtn = makeTextButton(this, width / 2, height * 0.78, AudioManager.mute ? 'SOUND OFF' : 'SOUND ON', () => { AudioManager.setMute(this, !AudioManager.mute); this.scene.restart(); }, 220, 52, { oneShot: true });
     this._homeLayout = [{ id: 'title', obj: this.titleText }, { id: 'best', obj: this.bestText }, { id: 'play', obj: this.playBtn.bg }, { id: 'sound', obj: this.soundBtn.bg }];
     const pub = () => publishLayout(this, this._homeLayout);
     pub();
@@ -490,7 +506,7 @@ import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';\nimpo
     Juice.shake(this); Juice.flash(this, 0xff5555); Juice.burst(this, this.player.x, this.player.y, 0xff5555, 'fx_hit');\n    AudioManager.playSfx(this, ASSET_KEYS.sfxHit, 0.65);\n    AudioManager.playSfx(this, ASSET_KEYS.sfxGameOver, 0.55);\n    AudioManager.stopMusic();\n    this.physics.pause();\n    this.scene.start(SCENES.GAMEOVER, { score: this.score.getScore(), coins: this.score.coins });\n  }\n  openPause() {\n    if (this.isOver || this.scene.isPaused()) return;\n    AudioManager.pauseMusic();\n    this.hud.setVisible(false);\n    this.scene.launch(SCENES.PAUSE);\n    this.scene.pause();\n  }\n  onResume() {\n    if (!this.isOver) this.hud.setVisible(true);\n  }\n  cleanup() {\n    this.input.off('pointerdown', this.onPointer, this);\n    this.input.off('pointermove', this.onPointer, this);\n    this.events.off(Phaser.Scenes.Events.RESUME, this.onResume, this);\n    if (this.visibilityHandler) document.removeEventListener('visibilitychange', this.visibilityHandler);
     clearLayout();\n  }\n}\n`);
 
-  files.set('src/game/scenes/PauseScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';\n\nexport default class PauseScene extends Phaser.Scene {\n  constructor() { super(SCENES.PAUSE); }\n  create() {\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x000000, 0.62).setOrigin(0);\n    this.pausedText = this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '46px', color: '#fff', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    this.resumeBtn = makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 230, 62);\n    this.pHomeBtn = makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 230, 62);
+  files.set('src/game/scenes/PauseScene.js', `import Phaser from 'phaser';\nimport { SCENES, SPEC } from '../data/spec.js';\nimport { AudioManager } from '../systems/AudioManager.js';\nimport { makeTextButton } from '../ui/MobileButton.js';\n\nimport { publishLayout } from '../systems/LayoutRegistry.js';\n\nexport default class PauseScene extends Phaser.Scene {\n  constructor() { super(SCENES.PAUSE); }\n  create() {\n    const { width, height } = SPEC.canvas;\n    this.add.rectangle(0, 0, width, height, 0x000000, 0.62).setOrigin(0);\n    this.pausedText = this.add.text(width / 2, height * 0.3, 'PAUSED', { fontFamily: 'Arial Black, Arial', fontSize: '46px', color: '#fff', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);\n    this.resumeBtn = makeTextButton(this, width / 2, height * 0.48, 'RESUME', () => { this.scene.stop(); this.scene.resume(SCENES.GAME); AudioManager.resumeMusic(); }, 230, 62, { oneShot: true });\n    this.pHomeBtn = makeTextButton(this, width / 2, height * 0.59, 'HOME', () => { AudioManager.stopMusic(); this.scene.stop(SCENES.GAME); this.scene.start(SCENES.HOME); }, 230, 62, { oneShot: true });
     this._pauseLayout = [{ id: 'paused', obj: this.pausedText }, { id: 'resume', obj: this.resumeBtn.bg }, { id: 'home', obj: this.pHomeBtn.bg }];
     const pub = () => publishLayout(this, this._pauseLayout);
     pub();
@@ -631,8 +647,10 @@ function main() {
   try {
     const opts = parseArgs(process.argv.slice(2));
     if (opts.help) { console.log(help()); return; }
-    if (opts.template !== 'arcade-vertical') throw new Error('Only --template arcade-vertical is supported in this scoped factory.');
+    if (!['arcade-vertical', 'custom-shell'].includes(opts.template)) throw new Error('Supported templates: arcade-vertical, custom-shell.');
     const spec = readSpec(opts);
+    if (spec.schemaVersion === '2.0.0' && opts.template !== 'custom-shell') opts.template = 'custom-shell';
+    if (spec.schemaVersion !== '2.0.0' && opts.template === 'custom-shell') throw new Error('--template custom-shell requires schemaVersion 2.0.0.');
     const errors = validateSpec(spec);
     if (errors.length) {
       console.error('Spec validation failed:');

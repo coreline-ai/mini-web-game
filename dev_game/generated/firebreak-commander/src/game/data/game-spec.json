@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "firebreak-commander",
+    "title": "Firebreak Commander",
+    "description": "Draw firebreaks and deploy wildfire response crews before the wind reaches Pine Ridge.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#071711",
+    "scaleMode": "fit"
+  },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "production-demo",
+  "runtimeConfig": "src/game/config/firebreakConfig.js",
+  "rules": {
+    "durationSeconds": 180,
+    "goal": "active-fire-zero",
+    "progressMetric": "activeFireCells",
+    "requiredObjectives": [
+      "village",
+      "substation"
+    ],
+    "failConditions": [
+      "required-objective-lost",
+      "time-expired-with-active-fire"
+    ],
+    "commands": [
+      {
+        "id": "firebreak",
+        "label": "방화선",
+        "input": "숲·초지를 연속으로 드래그",
+        "costs": {
+          "fuelPerCell": 3
+        }
+      },
+      {
+        "id": "helicopter",
+        "label": "헬기",
+        "input": "불꽃 칸을 탭",
+        "costs": {
+          "water": 20,
+          "fuel": 8
+        }
+      },
+      {
+        "id": "engine",
+        "label": "소방차",
+        "input": "남쪽 회색 도로 칸을 탭",
+        "costs": {
+          "fuel": 10,
+          "maxUnits": 2
+        }
+      }
+    ]
+  },
+  "requiredAssetRoles": [
+    "stage-background",
+    "response-unit",
+    "protected-objective",
+    "hazard-fx",
+    "command-unit",
+    "risk-indicator",
+    "status-icon"
+  ],
+  "captureMatrix": "qa/capture-matrix.json",
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/production/ui_click.wav",
+      "hit": "audio/production/fire_ignite.wav",
+      "score": "audio/production/fire_extinguish.wav",
+      "firebreak": "audio/production/draw_firebreak.wav",
+      "water": "audio/production/water_drop.wav",
+      "engine": "audio/production/truck_deploy.wav",
+      "warning": "audio/production/objective_warning.wav",
+      "windShift": "audio/production/wind_shift.wav",
+      "extinguish": "audio/production/fire_extinguish.wav",
+      "stageClear": "audio/production/stage_clear.wav",
+      "gameOver": "audio/production/game_over.wav"
+    },
+    "music": {
+      "home": "audio/production/home_ambient.wav",
+      "gameplay": "audio/production/fireline_loop.wav"
+    }
+  },
+  "ui": {
+    "showPause": true,
+    "showProgressMetric": true,
+    "helpRequired": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "pauseWhenHidden": true,
+    "maxTargetDpr": 3
+  }
+}

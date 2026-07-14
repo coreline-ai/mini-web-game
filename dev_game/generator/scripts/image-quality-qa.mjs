@@ -28,8 +28,10 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const REQUIRED_METHOD = 'codex-gpt-imagegen-skill';
-const CORE_ROLES = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'projectile', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'target', 'goal', 'scanner', 'conveyor']);
-const UI_ROLES = new Set(['ui-icon', 'ui-panel', 'button', 'panel']);
+const CUSTOM_CORE_ROLES = ['response-unit', 'protected-objective', 'command-unit'];
+const CORE_ROLES = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'projectile', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'target', 'goal', 'scanner', 'conveyor', ...CUSTOM_CORE_ROLES]);
+const UI_ROLES = new Set(['ui-icon', 'ui-panel', 'button', 'panel', 'risk-indicator', 'status-icon']);
+const FX_ROLES = new Set(['feedback', 'hazard-fx']);
 const GAMEPLAY_OBJECT_LIKE = new Set(['hazard', 'obstacle', 'enemy', 'boss', 'target', 'goal', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile', 'scanner', 'conveyor']);
 const CROP_SAFE_ROLES = new Set([...GAMEPLAY_OBJECT_LIKE, 'player', 'collectible', 'reward']);
 const COLLECT_LIKE = new Set(['collectible', 'reward']);
@@ -178,6 +180,8 @@ function main() {
   const manifestFile = path.join(projectDir, 'assets/asset-manifest.json');
   if (!fs.existsSync(manifestFile)) { console.error('assets/asset-manifest.json missing'); process.exit(1); }
   const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+  const specFile = path.join(projectDir, 'src/game/data/game-spec.json');
+  const spec = fs.existsSync(specFile) ? JSON.parse(fs.readFileSync(specFile, 'utf8')) : {};
   const errors = [];
 
   const bgs = Array.isArray(manifest.stageBackgrounds) ? manifest.stageBackgrounds : [];
@@ -186,15 +190,20 @@ function main() {
   // ---- 필수 집합 (임의 생략 금지) ----
   if (bgs.length < 3) errors.push(`stage backgrounds must be >= 3 (found ${bgs.length})`);
   const roleOf = (e) => String(e.role || '').toLowerCase();
-  if (!imgs.some((e) => roleOf(e) === 'player')) errors.push('required core asset missing: role "player"');
-  if (!imgs.some((e) => GAMEPLAY_OBJECT_LIKE.has(roleOf(e)))) {
+  const requiredRoles = spec.schemaVersion === '2.0.0' ? spec.requiredAssetRoles : (manifest.requiredRoles || []);
+  for (const role of requiredRoles || []) {
+    if (role === 'stage-background') { if (!bgs.some((entry) => ['stage-background', 'background'].includes(roleOf(entry)))) errors.push('required asset role missing: stage-background'); }
+    else if (!imgs.some((entry) => roleOf(entry) === role)) errors.push(`required asset role missing: ${role}`);
+  }
+  if (spec.schemaVersion !== '2.0.0' && !imgs.some((e) => roleOf(e) === 'player')) errors.push('required core asset missing: role "player"');
+  if (spec.schemaVersion !== '2.0.0' && !imgs.some((e) => GAMEPLAY_OBJECT_LIKE.has(roleOf(e)))) {
     errors.push('required core asset missing: gameplay object/target role (hazard/vehicle/parcel/sort-bin/target/etc.)');
   }
   const hasCollectibleSpec = Boolean(manifest.requiresCollectibleAssets || manifest.requiredRoles?.includes?.('collectible'));
   if (hasCollectibleSpec && !imgs.some((e) => COLLECT_LIKE.has(roleOf(e)))) errors.push('required core asset missing: collectible-like role');
   const hasPauseButton = imgs.some((e) => /(^|[-_])pause($|[-_])|button_pause|btn-pause/i.test(String(e.id || '')));
-  const hasAnyButton = imgs.some((e) => /button|btn/i.test(String(e.id || '')) || roleOf(e) === 'ui-icon');
-  const hasFeedback = imgs.some((e) => roleOf(e) === 'feedback' || String(e.type || '').toLowerCase() === 'fx' || /^fx[-_]|stamp|combo/i.test(String(e.id || '')));
+  const hasAnyButton = imgs.some((e) => /button|btn|pause/i.test(String(e.id || '')) || UI_ROLES.has(roleOf(e)));
+  const hasFeedback = imgs.some((e) => FX_ROLES.has(roleOf(e)) || String(e.type || '').toLowerCase() === 'fx' || /^fx[-_]|stamp|combo/i.test(String(e.id || '')));
   if (!hasAnyButton) errors.push('required UI asset missing: at least one generated button/ui-icon');
   if (!hasPauseButton) errors.push('required UI asset missing: generated pause button/icon');
   if (!hasFeedback) errors.push('required feedback/FX image missing: stamp/combo/fx asset');
@@ -212,7 +221,7 @@ function main() {
     const role = roleOf(e);
     if (CORE_ROLES.has(role)) push(e, 'core');
     else if (e.id === 'btn-frame' || e.id === 'btn-pause' || UI_ROLES.has(role) || e.type === 'ui') push(e, 'ui');
-    else if (String(e.id || '').startsWith('fx-') || e.type === 'fx' || role === 'feedback') push(e, 'fx');
+    else if (String(e.id || '').startsWith('fx-') || e.type === 'fx' || FX_ROLES.has(role)) push(e, 'fx');
   }
 
   // ---- provenance 강제 (imagegen 스킬 산출물만 허용) ----
@@ -310,6 +319,9 @@ function main() {
     for (const e of errors) console.error(`- ${e}`);
     process.exit(1);
   }
+  const reportFile = path.join(projectDir, 'qa-captures/image-quality-results.json');
+  fs.mkdirSync(path.dirname(reportFile), { recursive: true });
+  fs.writeFileSync(reportFile, `${JSON.stringify({ ok: true, assets: present.length, requiredRoles: requiredRoles || [] }, null, 2)}\n`);
   console.log(`Image quality QA OK: ${projectDir} (${present.length} assets at role-aware production-demo bar)`);
 }
 

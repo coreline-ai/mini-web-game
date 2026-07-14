@@ -147,3 +147,14 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 브라우저 smoke 결과:
 미구현/다음 단계:
 ```
+
+## 8. v1 arcade와 v2 custom-shell 선택
+
+회피/낙하 hazard/collectible 구조가 실제 핵심 루프면 v1 `arcade-vertical`을 사용한다. 그 필드가 설명용 허위 메타데이터가 된다면 v2 spec과 `custom-shell`을 선택한다.
+
+```bash
+node dev_game/generator/src/cli.mjs --spec <v2-spec.json> --template custom-shell --out dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --mode custom-loop-full
+```
+
+custom-shell 생성 직후는 Foundation이다. 1스테이지 vertical slice, 전용 BGM/SFX, rules snapshot, required asset roles, capture matrix와 QA adapter를 구현하기 전에는 `implementationStatus`를 `production-demo`로 바꾸지 않는다.

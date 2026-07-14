@@ -1,0 +1,31 @@
+{
+  "name": "firebreak-commander",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5188",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:logic": "node qa/logic-qa.mjs",
+    "test:balance": "node qa/balance-qa.mjs",
+    "test:all": "npm run test:logic && npm run test:balance",
+    "test:browser": "node qa/interaction-qa.mjs",
+    "test:lifecycle": "node qa/lifecycle-soak-qa.mjs",
+    "test:clarity": "node qa/clarity-qa.mjs",
+    "test:screens": "node qa/all-screens-layout-qa.mjs",
+    "test:touch-target": "node qa/touch-target-qa.mjs",
+    "test:rules": "node qa/rules-sync-qa.mjs",
+    "test:hostile-input": "node qa/input-hostility-qa.mjs",
+    "test:session": "node qa/session-continuity-qa.mjs"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

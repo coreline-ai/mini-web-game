@@ -1,0 +1,57 @@
+{
+  "capturedAt": "2026-07-12T10:35:52+09:00",
+  "schemaV1Examples": [
+    "bullseye-rush.spec.json",
+    "castle-archer.spec.json",
+    "jungle-arcshot.spec.json",
+    "market-panic.spec.json",
+    "parcel-sort-rush.spec.json",
+    "poop-dodge.spec.json",
+    "road-stream-racer.spec.json",
+    "rush-lane-racer.spec.json",
+    "sky-archer.spec.json",
+    "target-shooter-rush.spec.json"
+  ],
+  "factoryQa": "PASS",
+  "firebreak": {
+    "build": "PASS",
+    "logic": {
+      "passed": 10,
+      "total": 10
+    },
+    "balance": {
+      "scenarios": 9
+    },
+    "clarityAssertions": 10,
+    "interactionAssertions": 11,
+    "lifecycle": {
+      "pauseResume": 10,
+      "retries": 5,
+      "soakMode": "logical-180-second"
+    },
+    "screens": {
+      "captures": 36,
+      "overlaps": 0,
+      "outOfBounds": 0,
+      "browserErrors": 0
+    },
+    "manifest": {
+      "qualityTier": "production-demo",
+      "assetIsolation": {
+        "mode": "per-game",
+        "generatedFor": "firebreak-commander",
+        "noSharedRuntimeAssets": true
+      },
+      "roles": [
+        "collectible",
+        "feedback",
+        "goal",
+        "hazard",
+        "player",
+        "reward",
+        "ui-icon",
+        "vehicle"
+      ]
+    }
+  }
+}

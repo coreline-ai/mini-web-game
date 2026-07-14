@@ -12,6 +12,8 @@ const outNoSfx = path.join(tmpRoot, 'poop-dodge-smoke-no-sfx');
 const cli = path.join(root, 'src/cli.mjs');
 const spec = path.join(root, 'examples/poop-dodge.spec.json');
 const canonicalRuntimeHelper = path.join(root, 'templates/runtime-asset-delivery.mjs');
+const customSpec = path.join(root, 'examples/custom-loop-shell.spec.json');
+const customOut = path.join(tmpRoot, 'custom-loop-shell');
 
 function run(args) {
   const result = spawnSync(process.execPath, [cli, ...args], { stdio: 'inherit' });
@@ -50,6 +52,7 @@ function readJson(base, rel) {
 
 fs.rmSync(out, { recursive: true, force: true });
 fs.rmSync(outNoSfx, { recursive: true, force: true });
+fs.rmSync(customOut, { recursive: true, force: true });
 run(['--force', '--spec', spec, '--out', out]);
 
 const required = [
@@ -135,6 +138,12 @@ if (noSfxManifest.audio.length !== 0) {
 assertFile(outNoSfx, 'scripts/runtime-asset-delivery.mjs');
 assertNoFile(outNoSfx, 'assets/audio/ui_click.wav');
 
+run(['--force', '--spec', customSpec, '--template', 'custom-shell', '--out', customOut]);
+for (const rel of ['src/game/systems/SaveData.js', 'src/game/systems/AudioManager.js', 'src/game/systems/LayoutRegistry.js', 'src/game/ui/MobileButton.js', 'qa/capture-matrix.json']) assertFile(customOut, rel);
+for (const forbidden of ['src/game/systems/Spawner.js', 'assets/images/player.svg', 'assets/images/hazard.svg', 'assets/images/collectible.svg']) assertNoFile(customOut, forbidden);
+const customSource = fs.readdirSync(path.join(customOut, 'src/game/scenes')).map((name) => readText(customOut, `src/game/scenes/${name}`)).join('\n');
+if (/falling|coin|one-hit/i.test(customSource)) throw new Error('custom-shell leaked arcade Foundation gameplay');
+
 const protectedOut = path.join(tmpRoot, 'protected-victim');
 fs.rmSync(protectedOut, { recursive: true, force: true });
 fs.mkdirSync(protectedOut, { recursive: true });
@@ -160,4 +169,5 @@ runExpectFail(['--validate-only', '--spec', badRoot], 'Spec root must be an obje
 
 console.log(`Smoke generation OK: ${out}`);
 console.log(`Smoke no-sfx OK: ${outNoSfx}`);
+console.log(`Smoke custom-loop shell OK: ${customOut}`);
 fs.rmSync(tmpRoot, { recursive: true, force: true });

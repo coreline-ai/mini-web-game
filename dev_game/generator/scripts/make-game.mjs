@@ -77,7 +77,8 @@ function main() {
   const node = process.execPath;
   // derive the game id (production-demo-qa requires out-dir basename === spec.game.id)
   let id = 'new-game';
-  if (args.spec) { try { id = JSON.parse(fs.readFileSync(path.resolve(args.spec), 'utf8'))?.game?.id || id; } catch {} }
+  let sourceSpec = null;
+  if (args.spec) { try { sourceSpec = JSON.parse(fs.readFileSync(path.resolve(args.spec), 'utf8')); id = sourceSpec?.game?.id || id; } catch {} }
   else if (args.name) id = String(args.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || id;
 
   // resolve output dir
@@ -95,6 +96,13 @@ function main() {
   if (args.spec) scaffoldArgs.push('--spec', path.resolve(args.spec));
   else { scaffoldArgs.push('--name', args.name); if (args.title) scaffoldArgs.push('--title', args.title); }
   run('1/4 Scaffold (Phaser/Vite Foundation)', node, scaffoldArgs);
+
+  if (sourceSpec?.schemaVersion === '2.0.0' && sourceSpec?.buildDecision === 'custom-loop') {
+    console.log('\n✔ Custom-loop shell generated safely.');
+    console.log('  Generic productionize/imagegen is intentionally not run because it would invent arcade player/hazard/coin semantics.');
+    console.log('  Implement the genre-defining loop and project QA adapters, then run factory:production-gate -- --mode custom-loop-full.');
+    return;
+  }
 
   // 2) productionize (docs + asset-plan + manifest)
   run('2/4 Productionize (docs + asset-plan + manifest)', node, [path.join(SCRIPTS, 'productionize.mjs'), '--project', out, '--stages', String(args.stages)]);

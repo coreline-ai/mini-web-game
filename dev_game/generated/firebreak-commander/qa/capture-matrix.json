@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "viewports": [
+    { "width": 390, "height": 844, "dpr": 2 },
+    { "width": 430, "height": 932, "dpr": 2 },
+    { "width": 1080, "height": 1920, "dpr": 1 }
+  ],
+  "states": [
+    { "id": "loading", "expectedScene": "Loading", "requiredIds": ["loading-title", "loading-percent", "loading-status"] },
+    { "id": "home", "expectedScene": "Home", "requiredIds": ["title", "tagline", "mission-panel", "play", "briefing", "sound"] },
+    { "id": "rules", "expectedScene": "Tutorial", "requiredIds": ["tutorial-title", "tutorial-subtitle", "goal-panel", "action-panel-1", "action-panel-2", "action-panel-3", "strategy-panel", "begin", "back"] },
+    { "id": "first-run-coach", "expectedScene": "Game", "requiredIds": ["time", "objectives", "pause", "help", "playfield", "coach-title", "coach-goal", "coach-steps", "coach-tip", "coach-start"] },
+    { "id": "game-initial", "expectedScene": "Game", "requiredIds": ["time", "score", "wind", "resources", "objectives", "pause", "help", "playfield", "firebreak-button", "helicopter-button", "engine-button"] },
+    { "id": "firebreak-selected", "expectedScene": "Game", "requiredIds": ["playfield", "firebreak-button", "command-hint"] },
+    { "id": "wind-shift", "expectedScene": "Game", "requiredIds": ["wind", "wind-icon", "pause"], "assertions": { "debugEquals": { "stagePhase": "WIND SHIFT", "windDirection": "SE" }, "minBackingScale": 1 } },
+    { "id": "ember-night", "expectedScene": "Game", "requiredIds": ["wind", "playfield", "alert-text"], "assertions": { "debugEquals": { "stagePhase": "EMBER NIGHT", "windDirection": "S" } } },
+    { "id": "help-reopened", "expectedScene": "Game", "requiredIds": ["coach-title", "coach-goal", "coach-start"] },
+    { "id": "pause", "expectedScene": "Pause", "requiredIds": ["paused", "resume", "home"] },
+    { "id": "result-win", "expectedScene": "GameOver", "requiredIds": ["gameover", "reason", "status-panel", "stars", "score", "retry", "home"], "terminal": "win" },
+    { "id": "result-loss", "expectedScene": "GameOver", "requiredIds": ["gameover", "reason", "status-panel", "stars", "score", "retry", "home"], "terminal": "loss" }
+  ]
+}

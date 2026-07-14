@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "game": "firebreak-commander",
+  "artboardSize": {
+    "width": 2160,
+    "height": 3840
+  },
+  "logicalViewport": {
+    "width": 390,
+    "height": 844
+  },
+  "scenes": [
+    {
+      "id": "home",
+      "artboard": "assets/artboards/home.png",
+      "runtimeCapture": "qa-captures/home-final.png",
+      "purpose": "runtime recomposition reference"
+    },
+    {
+      "id": "game",
+      "artboard": "assets/artboards/game.png",
+      "runtimeCapture": "qa-captures/game-phase-2-wind-shift.png",
+      "purpose": "runtime recomposition reference"
+    },
+    {
+      "id": "pause",
+      "artboard": "assets/artboards/pause.png",
+      "runtimeCapture": "qa-captures/pause-final.png",
+      "purpose": "runtime recomposition reference"
+    },
+    {
+      "id": "gameover",
+      "artboard": "assets/artboards/gameover.png",
+      "runtimeCapture": "qa-captures/result-loss-final.png",
+      "purpose": "runtime recomposition reference"
+    }
+  ],
+  "sourceSheets": [
+    {
+      "path": "assets/_source/response-objects-sheet.png",
+      "grid": {
+        "columns": 3,
+        "rows": 2
+      },
+      "processor": "scripts/process_object_sheet.py"
+    },
+    {
+      "path": "assets/_source/fire-ui-fx-sheet.png",
+      "grid": {
+        "columns": 3,
+        "rows": 2
+      },
+      "processor": "scripts/process_fx_sheet.py"
+    }
+  ],
+  "ownership": {
+    "background": [
+      "mountains",
+      "sky",
+      "non-functional haze",
+      "outer-edge forest"
+    ],
+    "runtime": [
+      "terrain grid",
+      "fire",
+      "risk preview",
+      "firebreak",
+      "helicopter",
+      "engine",
+      "objectives",
+      "water FX"
+    ],
+    "ui": [
+      "HUD",
+      "wind",
+      "resources",
+      "objective integrity",
+      "command dock",
+      "runtime text"
+    ]
+  }
+}
