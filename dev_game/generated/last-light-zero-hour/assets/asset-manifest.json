@@ -1,0 +1,765 @@
+{
+  "assetsVersion": "1.0.0",
+  "qualityTier": "production-demo",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "last-light-zero-hour",
+    "noSharedRuntimeAssets": true
+  },
+  "assetFidelity": {
+    "logicalCanvas": {
+      "width": 1440,
+      "height": 2560
+    },
+    "maxTargetDpr": 2,
+    "physicalCanvasTarget": {
+      "width": 1440,
+      "height": 2560
+    }
+  },
+  "runtimeBudgetBytes": 20971520,
+  "imagePolicy": {
+    "allowedFormats": [
+      "png",
+      "jpg",
+      "jpeg"
+    ],
+    "maxSpriteKB": 4096,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44,
+    "transparentPadding": {
+      "standardPercent": [
+        4,
+        14
+      ],
+      "rotationOrStrongFxMaxPercent": 18
+    }
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 4096,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 350
+  },
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "openai-builtin-image_gen (version opaque)",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in",
+    "generatedFor": "last-light-zero-hour"
+  },
+  "stageBackgrounds": [
+    {
+      "id": "phase-1-dawn",
+      "stage": 1,
+      "path": "assets/backgrounds/bg-dawn.jpg",
+      "role": "stage-background",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "minWidth": 1440,
+      "minHeight": 2560,
+      "sourceWidth": 1440,
+      "sourceHeight": 2560,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1440,
+        "logicalHeight": 2560
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "3174eb51f97c5dc48c3480fff7e38ae4156460d94bffefda6239408479944a93"
+      },
+      "sha256": "c3dfbaee0e68275753bf43b8c606d8970b5d247d4828e75e5ee0048d3bef9bd6"
+    },
+    {
+      "id": "phase-2-day",
+      "stage": 2,
+      "path": "assets/backgrounds/bg-day.jpg",
+      "role": "stage-background",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "minWidth": 1440,
+      "minHeight": 2560,
+      "sourceWidth": 1440,
+      "sourceHeight": 2560,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1440,
+        "logicalHeight": 2560
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "ea6ad028c846cf559ae757ac8b6256b1d99c4689f66d6a5da6c9926cd38b0b22"
+      },
+      "sha256": "1c48ebb68cfe38b0461bf6410e53cdade1add680b6c3234fe96f89d02a1801fd"
+    },
+    {
+      "id": "phase-3-dusk",
+      "stage": 3,
+      "path": "assets/backgrounds/bg-dusk.jpg",
+      "role": "stage-background",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "minWidth": 1440,
+      "minHeight": 2560,
+      "sourceWidth": 1440,
+      "sourceHeight": 2560,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1440,
+        "logicalHeight": 2560
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "afe09ab8d748d87c0dd70144e77151eaf6a92f5c9e5efd8e8baec3b694b5d780"
+      },
+      "sha256": "d339153ea4c9df64e0fba5241a920e977b96f3e4cb439bd38ab1eaa13250f2b3"
+    },
+    {
+      "id": "phase-4-night",
+      "stage": 4,
+      "path": "assets/backgrounds/bg-night.jpg",
+      "role": "stage-background",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "minWidth": 1440,
+      "minHeight": 2560,
+      "sourceWidth": 1440,
+      "sourceHeight": 2560,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1440,
+        "logicalHeight": 2560
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "6f406fa1f745f255e4b27c39fca0e0901bb72a0094386c110b742e793e079fc2"
+      },
+      "sha256": "d9de095ac014362fffeabd3f38296709884594bd51b2077dcc968ef4174f2f8a"
+    },
+    {
+      "id": "phase-5-bloodmoon",
+      "stage": 5,
+      "path": "assets/backgrounds/bg-bloodmoon.jpg",
+      "role": "stage-background",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "minWidth": 1440,
+      "minHeight": 2560,
+      "sourceWidth": 1440,
+      "sourceHeight": 2560,
+      "display": {
+        "fit": "cover",
+        "logicalWidth": 1440,
+        "logicalHeight": 2560
+      },
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "a7ba19d9a047e4f9ba240e1a04abacd103626d4b497a86c87ca09283410b02ee"
+      },
+      "sha256": "3bab4022efcecf02e83370ca09bc683d17eb20ea7832d0094854d285c4fed486"
+    }
+  ],
+  "images": [
+    {
+      "id": "player-gunner-motion",
+      "path": "assets/sprites/player/player-gunner-motion.png",
+      "role": "response-unit-motion-sheet",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "e5f018578fdf2f30477a88ee62371547b7e95a443691a99e1080c6636eca7e80"
+      },
+      "sha256": "9fb14f4f15f2ffa0df32f2c081d4d52dba7198a33dec15e2147523168262ff33",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "player-gunner-preview",
+      "path": "assets/sprites/player/player-gunner-preview.png",
+      "role": "player",
+      "type": "sprite",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "dc7c723be2efbf54d2eb38e8dc983ac86e0cb5132cb9a4fcf348757c1b77dfd1"
+      },
+      "sha256": "bcccbf405ba3917a67087f383e56294a8fa90378f783921335cb1beccf6d6272",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "weapon-models",
+      "path": "assets/sprites/player/weapon-models.png",
+      "role": "weapon",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1280,
+      "minHeight": 384,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "43650216b12e306d7d4f729c97c4c531d1ab54de4556689f887bf216d76473b5"
+      },
+      "sha256": "f260e4990933a2f9e6524ea2ee65dd69476603ddcee43409563711567af1749d",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "zombie-walker-motion",
+      "path": "assets/sprites/enemies/zombie-walker-motion.png",
+      "role": "enemy-motion-sheet",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "402d30bff74895ea6f0f960cda82a3c1ce05ef39428d3ca94b46a8506aeed6d8"
+      },
+      "sha256": "40644c04d1878f6378600029dba1e2f9957aa308a195ca2968d4b47a625dc99b",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "zombie-walker-preview",
+      "path": "assets/sprites/enemies/zombie-walker-preview.png",
+      "role": "enemy",
+      "type": "sprite",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "7827b2c6be1684bd41612f0267f7a1d0beed8224e155c6cecf3071ee2770a952"
+      },
+      "sha256": "c51ce82ae1bdcde2966e8ae4904ba2e46cc8b04085eac8034af7c29f7ffc4622",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "zombie-runner-motion",
+      "path": "assets/sprites/enemies/zombie-runner-motion.png",
+      "role": "enemy-motion-sheet",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "eae35b81ebf0769c662fa3fdf8f1b279b3548028ff8a2d83ff21c24117c51c86"
+      },
+      "sha256": "13a45c19df16d080a7d21b4a6ebe4c8a5afd83153c6a9f1198b88add84694664",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "zombie-brute-motion",
+      "path": "assets/sprites/enemies/zombie-brute-motion.png",
+      "role": "elite-enemy",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "f2c28e77c683c286e60a6a8a6a9c24581281549a0d4b4be93eb714ba3ba2d3b5"
+      },
+      "sha256": "2a5badc7d1c7fba99c039b0e74180694fbe5d22dac18545c2fe67fa0fd0b0fcc",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "titan-motion",
+      "path": "assets/sprites/boss/titan-motion.png",
+      "role": "boss-motion-sheet",
+      "type": "sprite-sheet",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "4f882d2fe7ca658272fc5766dd44af3c4535ab019fafb5760ccf44f17494b207"
+      },
+      "sha256": "ada0613091907b267f7085fd0d88156672904264808ae9fee8b44c464290706b",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "titan-preview",
+      "path": "assets/sprites/boss/titan-preview.png",
+      "role": "boss",
+      "type": "sprite",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 512,
+      "minHeight": 512,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "78610a3895c3177ef80fbf96aaddb6ac8f1753e81f9eb412ae21c23130d33dde"
+      },
+      "sha256": "cae84a5e1799706cd2ddfcd488e3f3aa3752ce6c94f70f5dd908f0e416e2d3da",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "ui-pause",
+      "path": "assets/ui/ui-pause.png",
+      "role": "pause-button",
+      "type": "ui",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "6be33208b7a6dcc47ca4ee41b16198c170d0d9e4d498e93f461d59371209beeb"
+      },
+      "sha256": "bce04892390370bb21c20cfac8ddb52dba7b394512e64667f7e13b39449d690f",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "ui-weapon-card",
+      "path": "assets/ui/ui-weapon-card.png",
+      "role": "button",
+      "type": "ui",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "7f5fe6c43be830a8e87ed7e0387067840bf3b404625675c9dd2ce114191a525b"
+      },
+      "sha256": "3bca5430cc36c5aa6b142ce3c6252a8fea74ec2ca71dfa3348fcb64b2f101e97",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    },
+    {
+      "id": "fx-infected-burst",
+      "path": "assets/fx/fx-infected-burst.png",
+      "role": "feedback",
+      "type": "fx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "5e6c7ea739254ad7e1301fb0d45c27af98e6cdd86e661bef65b4b7c406d16285"
+      },
+      "sha256": "23cc087b5b2221389016999828fa8ae652efd3b090fd2eaad28a16970b0ece6a",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui-start",
+      "path": "assets/audio/ui-start.wav",
+      "type": "ui",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "e05c002bac0c869670675083e237a6a5994affcef9473e0159458567c6678354"
+      },
+      "sha256": "4ca22f10b951326b3ee125da97d1fb871ddc267d7178b9f958e7d64336cc8377"
+    },
+    {
+      "id": "gatling",
+      "path": "assets/audio/gatling.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "33a86103a4989a0697cf044a9bf459af23f21967c79f543ee86248bfc0a77363"
+      },
+      "sha256": "723d0562f36887c4f69a34854d774c7a9d6d48a73c27858b3a04c6f0867454ae"
+    },
+    {
+      "id": "scatter",
+      "path": "assets/audio/scatter.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "e1f92433f754e9f1213d5bdcc3c1b89881a89e9ab4ce8b06c09dcdbfc41f287e"
+      },
+      "sha256": "a7c7a588d36ef1cd8abd8f01abbb0a06d708d2db724cf9a7ffd2d6839f981f3b"
+    },
+    {
+      "id": "arc",
+      "path": "assets/audio/arc.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "404fcfb394d23199f6d95f1f36bd2beb6df8564f993f44517f6015fcd16101a9"
+      },
+      "sha256": "8803c423f1d05fbf63517c8898a12942d69fd4ffe55850f04c709fc9b3ef59b3"
+    },
+    {
+      "id": "rocket",
+      "path": "assets/audio/rocket.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "c58dd0a3760008c901839e21a0a5ae6cc92e3765513823ca9553e6ef5f733b36"
+      },
+      "sha256": "5cdd8c4cb2806d8bcc98a1d96fefedd22c0b3f9836ab2ae2a5f3bc307e075d54"
+    },
+    {
+      "id": "rail",
+      "path": "assets/audio/rail.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "fdf0d7533af5b16df5f12f5b4d22f35742db435d36b424d8fb72525b89182659"
+      },
+      "sha256": "e7cbd8f830f3b64abbc0214292baea7e4e2876826039d6608c10fc6ee4dc93dc"
+    },
+    {
+      "id": "impact",
+      "path": "assets/audio/impact.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "6f61f46c23a66607af759dcd348ac132846385d8f39534e69b6cd934bdabad8b"
+      },
+      "sha256": "1dcdbc8ec2963f1cc0b50dd3a6ee6df06104aa9a58027d23393371ebeaaa5dcf"
+    },
+    {
+      "id": "explosion",
+      "path": "assets/audio/explosion.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "4e33d57d8955b3138a0c0e71822fdb227c5de4a585022f3355c2a72a52adb4c8"
+      },
+      "sha256": "13211ef722f94ca32b35d1bda41fa1f0679973b361d95a0843ff741147ab0de9"
+    },
+    {
+      "id": "core-pickup",
+      "path": "assets/audio/core-pickup.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "859c5e1824f05e5fb32825df700253181ec1163213a451da8469a8a1cc566b36"
+      },
+      "sha256": "0c22990dbc9b31996f4ea68c9ae50ea364efc6bf0e0b26ace350a0e020e73562"
+    },
+    {
+      "id": "overheat",
+      "path": "assets/audio/overheat.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "beb016e6965c6b4bccde8bc01c9844a95df70a409c04983b3b9612afec5413a0"
+      },
+      "sha256": "0edab6d6b7bd44a26f9afadaa0ac863304a43b2fd1fa93a7db2453f85893322f"
+    },
+    {
+      "id": "zombie",
+      "path": "assets/audio/zombie.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "49460b7bbbd3aad3f2cba09864f5e8b01a220ea8c077e9fa996de367e7984af0"
+      },
+      "sha256": "8a26b6a1f033bbf1059be8118d442d13c9c9a46b67f3565b74570545a1be240a"
+    },
+    {
+      "id": "last-stand",
+      "path": "assets/audio/last-stand.wav",
+      "type": "sfx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": false,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "8e8754b6fdfb43bd85ef27e2f38fc3839f2c741ca229d66646cdc608c2f76897"
+      },
+      "sha256": "6042dbd8e8b2052da55b762c979c2d1261fbe95db2e5f9da2629000df8838da3"
+    },
+    {
+      "id": "survival-loop",
+      "path": "assets/audio/survival-loop.wav",
+      "type": "bgm",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "procedural-audio-synthesis",
+        "model": "python-wave-synth-v1",
+        "sourceSkill": "game-audio",
+        "promptHash": "4648af17c8dd68195222406cbe78b20ac7d2beee67db600d9dfa7c1e2873ed1e"
+      },
+      "sha256": "1ad9e421d49ce95e8ebc0e17c62877b85747b44dfcae6332c47b02838d03ee61"
+    }
+  ],
+  "files": []
+}

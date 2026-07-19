@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "last-light-zero-hour",
+    "title": "LAST LIGHT: 제로 아워",
+    "description": "2041년 감염 도시의 마지막 정화 장치 헬리오 코어를 지키며 낮과 밤을 넘어 끝없이 몰려오는 변이체를 상대하는 세로형 2K 무한 생존 슈팅 게임.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1440,
+    "height": 2560,
+    "backgroundColor": "#071218",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 900,
+    "hitbox": {
+      "width": 96,
+      "height": 126
+    }
+  },
+  "hazards": {
+    "type": "adaptive-zombie-swarm",
+    "label": "감염체",
+    "spawnRateStart": 1250,
+    "spawnRateMax": 80,
+    "fallSpeedStart": 115,
+    "fallSpeedMax": 760,
+    "damage": 10,
+    "poolSize": 220
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "감염 결정",
+    "spawnRate": 0.18,
+    "scoreValue": 25
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 12,
+    "collectiblePoints": 25,
+    "highScoreLocalStorageKey": "last_light_zero_hour_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 20,
+    "maxLevel": 999
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "stylized-realism-apocalypse",
+    "colors": {
+      "background": "#071218",
+      "player": "#e5b966",
+      "hazard": "#182e2d",
+      "collectible": "#8df7d6",
+      "ui": "#f2ead6"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui-start.wav",
+      "hit": "audio/impact.wav",
+      "score": "audio/core-pickup.wav",
+      "gameOver": "audio/last-stand.wav"
+    },
+    "music": {
+      "gameplay": "audio/survival-loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  }
+}
