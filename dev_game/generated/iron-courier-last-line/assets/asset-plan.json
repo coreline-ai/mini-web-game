@@ -1,0 +1,20 @@
+{
+  "gameId": "iron-courier-last-line",
+  "qualityTier": "production-demo",
+  "visualDirection": "Original HD 2D neo-arcade side-scrolling action; crisp silhouettes, steel-blue industrial harbor palette, cyan player identity and orange danger accents.",
+  "sceneFirst": true,
+  "canvas": { "width": 1280, "height": 720, "sourceArtboardWidth": 3840, "sourceArtboardHeight": 2160 },
+  "spriteContract": { "playerCellWidth": 384, "playerCellHeight": 512, "playerFrames": 8, "baselineY": 470, "rootAnchor": "midpoint-between-feet", "background": "transparent" },
+  "artboards": [
+    "assets/artboards/harbor-infiltration-artboard.png",
+    "assets/artboards/container-escort-artboard.png",
+    "assets/artboards/iron-mole-arena-artboard.png"
+  ],
+  "generationRules": [
+    "All final images are generated specifically for this game through the built-in Codex imagegen skill.",
+    "No franchise characters, vehicles, sprites, logos, UI, music or distinctive expression are copied.",
+    "Raw chroma-key sources and cleaned transparent runtime assets are retained separately.",
+    "Animation identity, equal virtual cells, fixed baseline and root anchor take priority over dramatic composition.",
+    "Runtime backgrounds are 3840x2160 RGB; sprites are RGBA with transparent corners and safe padding."
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "gameId": "iron-courier-last-line",
+  "auditDate": "2026-07-12",
+  "status": "complete",
+  "verdict": "production-demo-asset-fidelity-approved",
+  "current": {
+    "manifestImages": 125,
+    "registeredAnimationFamilies": 11,
+    "physicalEntityAnimationFrames": 252,
+    "worldSegments": 8,
+    "continuousBackgroundZones": 3,
+    "parallaxLayersPerZone": 4,
+    "terrainPiecesAtRuntime": 159,
+    "productionPlaceholderCounts": {
+      "placeholderTextures": 0,
+      "generatedProductionTextures": 0,
+      "primitiveProductionVisuals": 0
+    },
+    "assetBudget": {
+      "initialMiB": 51.84,
+      "initialBudgetMiB": 64,
+      "decodedRgbaMiB": 309.32,
+      "decodedBudgetMiB": 320,
+      "status": "pass"
+    },
+    "runtimeCells": {
+      "playerEnemy": "384x384",
+      "vehicleBoss": "512x512"
+    }
+  },
+  "batches": [
+    {
+      "id": "batch-1-world-and-rescue",
+      "priority": "P0",
+      "families": [
+        "harbor-far-mid-near",
+        "container-warehouse-far-mid-near",
+        "bridge-boss-far-mid-near",
+        "zone-transition-strips",
+        "terrain-and-platform-tileset",
+        "rescue-technician-animation",
+        "rescue-medic-animation",
+        "rescue-artillery-animation"
+      ],
+      "acceptance": [
+        "no-fullscreen-background-jump",
+        "three-layer-parallax",
+        "no-dotted-ground-strip",
+        "three-rescue-characters-use-approved-sprites"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "batch-2-character-animation",
+      "priority": "P0",
+      "families": [
+        "player-all-states",
+        "enemy-rifle-all-states",
+        "enemy-shield-all-states",
+        "enemy-grenadier-all-states",
+        "enemy-drone-all-states"
+      ],
+      "targetFrames": {
+        "player": 58,
+        "enemiesMin": 92,
+        "enemiesMax": 116
+      },
+      "acceptance": [
+        "state-to-animation-coverage-100-percent",
+        "fixed-cell-baseline-root",
+        "attack-frame-and-projectile-sync",
+        "death-animation-before-disable"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "batch-3-combat-world-visuals",
+      "priority": "P1",
+      "families": [
+        "five-destructible-prop-families",
+        "player-enemy-boss-projectiles",
+        "weapon-supply-crates-and-icons",
+        "muzzle-impact-explosion-smoke-warning-vfx"
+      ],
+      "acceptance": [
+        "gameplay-white-texture-count-zero",
+        "destructible-state-images-present",
+        "weapon-id-selects-distinct-projectile-visual",
+        "animated-vfx-for-each-damage-class"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "batch-4-vehicle-and-boss",
+      "priority": "P1",
+      "families": [
+        "transport-drive-damage-repair-destroy",
+        "crane-sentinel-parts-and-attacks",
+        "iron-mole-parts-three-phases-and-destroy"
+      ],
+      "acceptance": [
+        "visual-state-follows-health",
+        "boss-phase-changes-parts-and-weak-point",
+        "no-single-static-sprite-phase-simulation"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "batch-5-ui-props-artboards",
+      "priority": "P1-P2",
+      "families": [
+        "mobile-control-icons-and-bases",
+        "hud-nine-slice-and-status-icons",
+        "pause-result-home-button-panels",
+        "environment-props-and-foreground-overlays",
+        "seven-scene-approval-artboards"
+      ],
+      "acceptance": [
+        "consistent-ui-render-ownership",
+        "text-remains-runtime-rendered",
+        "no-primitive-placeholder-look",
+        "all-seven-scene-artboards-approved"
+      ],
+      "status": "completed"
+    },
+    {
+      "id": "batch-6-qa-and-gates",
+      "priority": "P0",
+      "families": [
+        "asset-coverage-gate",
+        "animation-coverage-gate",
+        "background-continuity-video",
+        "same-session-state-samples",
+        "four-viewport-production-gates"
+      ],
+      "acceptance": [
+        "placeholder-textures-zero",
+        "missing-required-animation-states-zero",
+        "background-seams-zero",
+        "browser-errors-zero",
+        "all-production-gates-pass"
+      ],
+      "status": "completed"
+    }
+  ],
+  "evidence": {
+    "before": "assets/qa/asset-coverage/before/",
+    "after": "assets/qa/asset-coverage/after-phase7/",
+    "artboards": "assets/qa/artboards/",
+    "coverage": "assets/qa/asset-coverage/current.json",
+    "performance": "assets/qa/performance/asset-budget.json",
+    "runtime": "assets/qa/asset-coverage/after-phase7/runtime-art-qa.json",
+    "stability": "assets/qa/stability/runtime-stability-qa.json",
+    "backgroundContinuity": "assets/qa/background-continuity/background-continuity.json",
+    "layout": "assets/qa/layout/",
+    "sceneComposite": "assets/qa/scene-composite/",
+    "finalGate": "assets/qa/final-gate-report.json",
+    "completionAudit": "assets/qa/completion-audit.json",
+    "dpr3": "assets/qa/dpr/dpr3-asset-qa.json",
+    "finalCompletionQa": "assets/qa/final-completion-qa.json"
+  },
+  "finalMetrics": {
+    "placeholderTextures": 0,
+    "missingRequiredAnimations": 0,
+    "backgroundSeams": 0,
+    "duplicateVisibleEntities": 0,
+    "lingeringTransientGraphics": 0,
+    "browserErrors": 0,
+    "activeBgmMax": 1,
+    "soakSeconds": 600,
+    "restartPasses": 10,
+    "dpr3MinimumSourceRatio": 1.05
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "canvas": { "width": 3840, "height": 2160, "runtimeWidth": 1280, "runtimeHeight": 720 },
+  "scenes": [
+    {
+      "id": "harbor-infiltration",
+      "artboard": "assets/artboards/harbor-infiltration-artboard.png",
+      "runtime": "assets/runtime/backgrounds/harbor-infiltration.webp",
+      "role": "stage-background",
+      "displaySize": { "width": 1280, "height": 720 },
+      "safePadding": 0,
+      "sliceMode": "plain"
+    },
+    {
+      "id": "container-escort",
+      "artboard": "assets/artboards/container-escort-artboard.png",
+      "runtime": "assets/runtime/backgrounds/container-escort.webp",
+      "role": "stage-background",
+      "displaySize": { "width": 1280, "height": 720 },
+      "safePadding": 0,
+      "sliceMode": "plain"
+    },
+    {
+      "id": "iron-mole-arena",
+      "artboard": "assets/artboards/iron-mole-arena-artboard.png",
+      "runtime": "assets/runtime/backgrounds/iron-mole-arena.webp",
+      "role": "stage-background",
+      "displaySize": { "width": 1280, "height": 720 },
+      "safePadding": 0,
+      "sliceMode": "plain"
+    },
+    {
+      "id": "player-run",
+      "artboard": "assets/qa/contact-sheets/player-run.png",
+      "runtime": "assets/runtime/characters/player/player-run.png",
+      "role": "player",
+      "displaySize": { "width": 92, "height": 132 },
+      "safePadding": 24,
+      "sliceMode": "sprite-sheet",
+      "frame": { "columns": 4, "rows": 2, "width": 384, "height": 512, "baselineY": 470 }
+    }
+  ]
+}

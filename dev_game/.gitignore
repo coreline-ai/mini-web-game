@@ -26,12 +26,16 @@ generated/*
 !generated/sky-archer/**
 !generated/firebreak-commander/
 !generated/firebreak-commander/**
+!generated/iron-courier-last-line/
+!generated/iron-courier-last-line/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 
 generated/*/node_modules/
 generated/*/dist/
 generated/*/qa-captures/
+**/.playwright-cli/
+generated/iron-courier-last-line/assets/qa/
 generated/*/scratch/
 generated/*/tmp/
 generated/*/__pycache__/

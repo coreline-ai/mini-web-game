@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "iron-courier-last-line",
+    "title": "철갑특송: 라스트 라인",
+    "description": "A mobile-first original 2D side-scrolling run-and-gun production demo with rescue, escort, destruction and three-phase boss combat.",
+    "orientation": "landscape",
+    "target": "mobile-web"
+  },
+  "canvas": { "width": 1280, "height": 720, "backgroundColor": "#07131d", "scaleMode": "fit" },
+  "player": { "moveMode": "virtual-joystick", "speed": 285, "hitbox": { "width": 58, "height": 122 } },
+  "hazards": { "type": "enemy-ordnance", "label": "Enemy projectiles", "poolSize": 140, "damage": 1 },
+  "collectibles": { "enabled": true, "label": "Weapon supply", "spawnRate": 0, "scoreValue": 250 },
+  "scoring": { "survivalPointsPerSecond": 0, "collectiblePoints": 250, "highScoreLocalStorageKey": "iron_courier_last_line_save_v1" },
+  "difficulty": { "curve": "linear", "rampEverySeconds": 60, "maxLevel": 8 },
+  "lives": { "start": 1, "max": 1 },
+  "session": { "countdownSeconds": 0, "maxDurationSeconds": null },
+  "theme": { "preset": "hd-neo-arcade", "colors": { "background": "#07131d", "player": "#49d8d1", "hazard": "#e84a4a", "collectible": "#ffc857", "ui": "#f7e7bd" } },
+  "audio": { "enabled": true, "sfx": { "start": "assets/audio/ui.wav", "hit": "assets/audio/hit.wav", "score": "assets/audio/rescue.wav", "gameOver": "assets/audio/boss_alert.wav" }, "music": { "gameplay": "assets/audio/stage_loop.wav" } },
+  "ui": { "showScore": true, "showLives": false, "showPause": true, "showRestart": true },
+  "performance": { "targetFps": 60, "objectPooling": true, "pauseWhenHidden": true }
+}

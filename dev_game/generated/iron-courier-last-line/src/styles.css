@@ -1,0 +1,8 @@
+:root { color-scheme: dark; font-family: Inter, Pretendard, system-ui, sans-serif; background: #050b11; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; background: radial-gradient(circle at 50% 30%, #16354a, #050b11 64%); touch-action: none; user-select: none; }
+body { position: fixed; inset: 0; }
+#game { position: fixed; inset: 0; width: 100vw; height: 100dvh; overflow: hidden; }
+canvas { display: block; touch-action: none; }
+#rotate-hint { display: none; position: fixed; z-index: 99; inset: 0; place-items: center; padding: 24px; color: #f7e7bd; background: #07131d; font-size: 22px; font-weight: 800; text-align: center; }
+@media (orientation: portrait) and (max-width: 700px) { #rotate-hint { display: grid; } }

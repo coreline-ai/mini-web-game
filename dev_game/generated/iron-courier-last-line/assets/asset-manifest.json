@@ -1,0 +1,6366 @@
+{
+  "assetsVersion": "1.0.0",
+  "qualityTier": "production-demo",
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "gpt 이미지젠 스킬",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen"
+  },
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "iron-courier-last-line",
+    "noSharedRuntimeAssets": true
+  },
+  "stageBackgrounds": [
+    {
+      "id": "harbor-infiltration",
+      "path": "assets/runtime/backgrounds/harbor-infiltration.webp",
+      "quality": "production-demo",
+      "minWidth": 3840,
+      "minHeight": 2160,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "2b905fb89c7c183a421e8f8ee7f58d8e38874db92b365a77c170c96279515395",
+        "postProcessing": [
+          "source-preserved",
+          "lanczos-resize-3840x2160"
+        ]
+      },
+      "family": "harbor-infiltration",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "runtimeSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image"
+    },
+    {
+      "id": "container-escort",
+      "path": "assets/runtime/backgrounds/container-escort.webp",
+      "quality": "production-demo",
+      "minWidth": 3840,
+      "minHeight": 2160,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "6dfcae36ca67b31340022c46b0652ca84144b2a7ca2aae39311bbb20176be051",
+        "postProcessing": [
+          "source-preserved",
+          "lanczos-resize-3840x2160"
+        ]
+      },
+      "family": "container-escort",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "runtimeSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image"
+    },
+    {
+      "id": "iron-mole-arena",
+      "path": "assets/runtime/backgrounds/iron-mole-arena.webp",
+      "quality": "production-demo",
+      "minWidth": 3840,
+      "minHeight": 2160,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "f9059fa994ee78943c9529f2f46e160d311dff794fe07d96b964f50cd5cc4b58",
+        "postProcessing": [
+          "source-preserved",
+          "lanczos-resize-3840x2160"
+        ]
+      },
+      "family": "iron-mole-arena",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "runtimeSize": {
+        "width": 3840,
+        "height": 2160
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image"
+    }
+  ],
+  "images": [
+    {
+      "id": "player-run",
+      "path": "assets/runtime/characters/player/player-run.png",
+      "type": "sprite",
+      "role": "player",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "dc80e22e005520b21456b2013e6f93f080c73ada01d7115ec49c08c51b090ccd",
+        "postProcessing": [
+          "chroma-key-removal",
+          "despill",
+          "equal-cell-repack",
+          "baseline-y-470",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "detail-grounded-baseline-y-372"
+        ]
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 364,
+      "rootAnchor": "foot-ground-center",
+      "family": "player",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "status": "approved",
+      "renderOwner": "phaser-spritesheet"
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/runtime/ui/pause-button.png",
+      "type": "ui",
+      "role": "ui-icon",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "8a6bffa2db2af5b7ec76eb95539a865e7dd7f410da694d03152bce285a5a5323"
+      },
+      "family": "ui",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image"
+    },
+    {
+      "id": "fx-explosion",
+      "path": "assets/runtime/vfx/fx-explosion.png",
+      "type": "fx",
+      "role": "feedback",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a6f1203a7287200c2762647e99c98d19fc59335fb92189c9ab2359f4da8ac1a7"
+      },
+      "family": "vfx",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image-transient"
+    },
+    {
+      "id": "background-midground-industrial",
+      "path": "assets/runtime/backgrounds/layers/industrial-midground.png",
+      "type": "background-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 2172,
+        "height": 724
+      },
+      "runtimeSize": {
+        "width": 2172,
+        "height": 724
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "740c15eac8e42d002e0cd8f1ac71e1ae57ed1237e5fbb4e5bc770c3d44663547",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-foreground-harbor",
+      "path": "assets/runtime/backgrounds/layers/harbor-foreground.png",
+      "type": "background-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 2172,
+        "height": 724
+      },
+      "runtimeSize": {
+        "width": 2172,
+        "height": 724
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "971839953d2b2bdf543b6b337fc940cbf3014adf64aef4072d6c24bb3382b9cf",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-left",
+      "path": "assets/runtime/environment/terrain/ground-left.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 379,
+        "height": 178
+      },
+      "runtimeSize": {
+        "width": 379,
+        "height": 178
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-center-a",
+      "path": "assets/runtime/environment/terrain/ground-center-a.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 389,
+        "height": 150
+      },
+      "runtimeSize": {
+        "width": 389,
+        "height": 150
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-center-b",
+      "path": "assets/runtime/environment/terrain/ground-center-b.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 388,
+        "height": 150
+      },
+      "runtimeSize": {
+        "width": 388,
+        "height": 150
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-right",
+      "path": "assets/runtime/environment/terrain/ground-right.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 386,
+        "height": 178
+      },
+      "runtimeSize": {
+        "width": 386,
+        "height": 178
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-damaged",
+      "path": "assets/runtime/environment/terrain/ground-damaged.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 373,
+        "height": 158
+      },
+      "runtimeSize": {
+        "width": 373,
+        "height": 158
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-platform-catwalk",
+      "path": "assets/runtime/environment/terrain/platform-catwalk.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 385,
+        "height": 149
+      },
+      "runtimeSize": {
+        "width": 385,
+        "height": 149
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-platform-support",
+      "path": "assets/runtime/environment/terrain/platform-support.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 399,
+        "height": 248
+      },
+      "runtimeSize": {
+        "width": 399,
+        "height": 248
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "terrain-ground-heavy",
+      "path": "assets/runtime/environment/terrain/ground-heavy.png",
+      "type": "tile",
+      "role": "environment-prop",
+      "family": "terrain-tile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 397,
+        "height": 178
+      },
+      "runtimeSize": {
+        "width": 397,
+        "height": 178
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "ee21e50c99d46cac39219a66957be772db634974fbed7e19366c2b0913d8c8d5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill"
+        ]
+      },
+      "renderOwner": "phaser-static-sprite",
+      "baseline": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "rescue-technician",
+      "path": "assets/runtime/characters/rescue/technician-actions.png",
+      "type": "sprite",
+      "role": "rescue",
+      "family": "rescue",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "2b8f7f99d9ac5f533e6c2bd2180f02945e72342159da10fa66aeb41631f47289",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "global-component-recovery",
+          "cross-cell-overflow-reconstruction",
+          "detached-neighbor-removal",
+          "visual-center-x-192",
+          "baseline-y-496"
+        ]
+      },
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 512,
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "rescue-medic",
+      "path": "assets/runtime/characters/rescue/medic-actions.png",
+      "type": "sprite",
+      "role": "rescue",
+      "family": "rescue",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "d9798c2b43ee960d8e125c38e4c21f95e2d4ed7e4245ba9e535fcd5a866cc967",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "global-component-recovery",
+          "cross-cell-overflow-reconstruction",
+          "detached-neighbor-removal",
+          "visual-center-x-192",
+          "baseline-y-496"
+        ]
+      },
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 512,
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "rescue-artillery",
+      "path": "assets/runtime/characters/rescue/artillery-actions.png",
+      "type": "sprite",
+      "role": "rescue",
+      "family": "rescue",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5cb5536086964e9b7951928ed4f0e96b37d9efd07ee1338134288bc5123639db",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "global-component-recovery",
+          "cross-cell-overflow-reconstruction",
+          "detached-neighbor-removal",
+          "visual-center-x-192",
+          "baseline-y-496"
+        ]
+      },
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 512,
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "enemy-rifle-actions",
+      "path": "assets/runtime/characters/enemies/rifle-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "enemy",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "8c820fd09fbd0cb3eea18246fc1264914ef261754ad3db6da0057b2e8a95586a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "position-only-root-normalization"
+        ]
+      },
+      "entityRole": "enemy",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "enemy-shield-actions",
+      "path": "assets/runtime/characters/enemies/shield-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "enemy",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "3758a17812588e085bc3fb2b77ce7161caa1986d480fd5b3ee10f5dc653145ea",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "position-only-root-normalization"
+        ]
+      },
+      "entityRole": "enemy",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "enemy-grenadier-actions",
+      "path": "assets/runtime/characters/enemies/grenadier-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "enemy",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5053ac05c3f019f8620ee6ca79ace0b72811ef42ec8e677611693579b3779f60",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "position-only-root-normalization"
+        ]
+      },
+      "entityRole": "enemy",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "enemy-drone-actions",
+      "path": "assets/runtime/characters/enemies/drone-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "enemy",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 360,
+      "rootAnchor": "center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "f6c49b2a4c6122e4bb0e05bfcf765936f80c84eb38d15980ace02b2c461d3606",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "position-only-root-normalization"
+        ]
+      },
+      "entityRole": "enemy",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "player-movement-actions",
+      "path": "assets/runtime/characters/player/player-movement-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "player",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 364,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "e6acc969d90831bf5be3797461f9ca1a3ef0de25421d889605cb05ffa82cc8af",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell",
+          "crouch-baseline-alignment",
+          "raw-rgb-restoration",
+          "opaque-color-preservation",
+          "edge-only-despill",
+          "identity-lock",
+          "visual-centroid-x-192",
+          "grounded-baseline-y-360",
+          "detail-grounded-baseline-y-372"
+        ]
+      },
+      "entityRole": "player",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "player-combat-actions",
+      "path": "assets/runtime/characters/player/player-combat-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "player",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "1e653cc169546500040d1b305c52c9a58527b726a7552a16d96055507aac9e65",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-layout",
+          "512-virtual-cell-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      },
+      "entityRole": "player",
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "player-shoot-polished",
+      "path": "assets/runtime/characters/player/player-shoot-polished.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "shoot-forward",
+        "shoot-forward",
+        "shoot-forward",
+        "shoot-forward",
+        "shoot-diagonal",
+        "shoot-diagonal",
+        "shoot-diagonal",
+        "shoot-diagonal",
+        "shoot-up",
+        "shoot-up",
+        "shoot-up",
+        "shoot-up"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 1536,
+        "height": 768
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 364,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "derivedFrom": "player-combat-actions",
+      "provenance": {
+        "source": "derived-from-approved-runtime-asset",
+        "generatedFor": "iron-courier-last-line",
+        "method": "deterministic-position-only-repack",
+        "postProcessing": [
+          "identity-lock",
+          "tiny-component-cleanup",
+          "no-baked-muzzle-flash",
+          "foot-baseline-alignment",
+          "four-frame-micro-recoil",
+          "transparent-rgb-sanitize",
+          "detail-grounded-baseline-y-372"
+        ]
+      }
+    },
+    {
+      "id": "fuel-intact",
+      "path": "assets/runtime/environment/destructibles/fuel-intact.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 215,
+        "height": 329
+      },
+      "runtimeSize": {
+        "width": 215,
+        "height": 329
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "fuel-damaged",
+      "path": "assets/runtime/environment/destructibles/fuel-damaged.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 240,
+        "height": 340
+      },
+      "runtimeSize": {
+        "width": 240,
+        "height": 340
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "fuel-destroyed",
+      "path": "assets/runtime/environment/destructibles/fuel-destroyed.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 243,
+        "height": 324
+      },
+      "runtimeSize": {
+        "width": 243,
+        "height": 324
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "container-lock-intact",
+      "path": "assets/runtime/environment/destructibles/container-lock-intact.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 321,
+        "height": 287
+      },
+      "runtimeSize": {
+        "width": 321,
+        "height": 287
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "container-lock-broken",
+      "path": "assets/runtime/environment/destructibles/container-lock-broken.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 344,
+        "height": 286
+      },
+      "runtimeSize": {
+        "width": 344,
+        "height": 286
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "bridge-joint-intact",
+      "path": "assets/runtime/environment/destructibles/bridge-joint-intact.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 341,
+        "height": 274
+      },
+      "runtimeSize": {
+        "width": 341,
+        "height": 274
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "bridge-joint-cracked",
+      "path": "assets/runtime/environment/destructibles/bridge-joint-cracked.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 341,
+        "height": 274
+      },
+      "runtimeSize": {
+        "width": 341,
+        "height": 274
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "power-cell-intact",
+      "path": "assets/runtime/environment/destructibles/power-cell-intact.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 219,
+        "height": 336
+      },
+      "runtimeSize": {
+        "width": 219,
+        "height": 336
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "93c7f7dd69a27c3efbf8e8364101c83902032e0e275ad3ba807c17268439c459",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "crane-part-intact",
+      "path": "assets/runtime/environment/destructibles/crane-part-intact.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 270,
+        "height": 331
+      },
+      "runtimeSize": {
+        "width": 270,
+        "height": 331
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "crane-part-damaged",
+      "path": "assets/runtime/environment/destructibles/crane-part-damaged.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 269,
+        "height": 341
+      },
+      "runtimeSize": {
+        "width": 269,
+        "height": 341
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "crane-part-detached",
+      "path": "assets/runtime/environment/destructibles/crane-part-detached.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 417,
+        "height": 342
+      },
+      "runtimeSize": {
+        "width": 417,
+        "height": 342
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "bridge-joint-destroyed",
+      "path": "assets/runtime/environment/destructibles/bridge-joint-destroyed.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 397,
+        "height": 183
+      },
+      "runtimeSize": {
+        "width": 397,
+        "height": 183
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "power-cell-damaged",
+      "path": "assets/runtime/environment/destructibles/power-cell-damaged.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 254,
+        "height": 308
+      },
+      "runtimeSize": {
+        "width": 254,
+        "height": 308
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "power-cell-overload",
+      "path": "assets/runtime/environment/destructibles/power-cell-overload.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "destructible",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 255,
+        "height": 308
+      },
+      "runtimeSize": {
+        "width": 255,
+        "height": 308
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "pickup-shotgun",
+      "path": "assets/runtime/environment/destructibles/pickup-shotgun.png",
+      "type": "pickup",
+      "role": "pickup",
+      "family": "pickup",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 331,
+        "height": 232
+      },
+      "runtimeSize": {
+        "width": 331,
+        "height": 232
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "pickup-rocket",
+      "path": "assets/runtime/environment/destructibles/pickup-rocket.png",
+      "type": "pickup",
+      "role": "pickup",
+      "family": "pickup",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 330,
+        "height": 232
+      },
+      "runtimeSize": {
+        "width": 330,
+        "height": 232
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5fa89760f793b77bd7336b1a51d2b5e738804a7f669bc4d71400ec674697a22e",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-rifle",
+      "path": "assets/runtime/weapons/projectiles/projectile-rifle.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 290,
+        "height": 60
+      },
+      "runtimeSize": {
+        "width": 350,
+        "height": 85
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-shotgun",
+      "path": "assets/runtime/weapons/projectiles/projectile-shotgun.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 202,
+        "height": 91
+      },
+      "runtimeSize": {
+        "width": 249,
+        "height": 121
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-rocket",
+      "path": "assets/runtime/weapons/projectiles/projectile-rocket.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 307,
+        "height": 155
+      },
+      "runtimeSize": {
+        "width": 370,
+        "height": 195
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-grenade",
+      "path": "assets/runtime/weapons/projectiles/projectile-grenade.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 203,
+        "height": 206
+      },
+      "runtimeSize": {
+        "width": 250,
+        "height": 252
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-enemy-bolt",
+      "path": "assets/runtime/weapons/projectiles/projectile-enemy-bolt.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 342,
+        "height": 83
+      },
+      "runtimeSize": {
+        "width": 410,
+        "height": 111
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-drone-pulse",
+      "path": "assets/runtime/weapons/projectiles/projectile-drone-pulse.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 189,
+        "height": 206
+      },
+      "runtimeSize": {
+        "width": 234,
+        "height": 254
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-boss-missile",
+      "path": "assets/runtime/weapons/projectiles/projectile-boss-missile.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 350,
+        "height": 203
+      },
+      "runtimeSize": {
+        "width": 420,
+        "height": 250
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-crane-hook",
+      "path": "assets/runtime/weapons/projectiles/projectile-crane-hook.png",
+      "type": "projectile",
+      "role": "projectile",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 345,
+        "height": 143
+      },
+      "runtimeSize": {
+        "width": 413,
+        "height": 181
+      },
+      "status": "approved",
+      "renderOwner": "phaser-image",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "fx-explosion-sequence",
+      "path": "assets/runtime/vfx/explosion-sequence.png",
+      "type": "sprite",
+      "role": "feedback",
+      "family": "vfx",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "status": "approved",
+      "renderOwner": "phaser-spritesheet",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "03232b7e3a37a49b4120f1240193083645af9e6f5cfdc0bed57f4efeb222e35a",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim"
+        ]
+      },
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "transport-actions",
+      "path": "assets/runtime/characters/vehicle/transport-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "transport",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 256,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "baseline": 244,
+      "rootAnchor": "wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "c5b6b10b751edfb7b34ab40e0232b43fcc7fe760eabbc619390456b3b5f17528",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-repack",
+          "baseline-y-496",
+          "large-actor-512-runtime-cell",
+          "trimmed-2to1-uniform-runtime-cell"
+        ]
+      },
+      "entityRole": "vehicle",
+      "attachments": {
+        "frontWheel": [
+          0.78,
+          0.78
+        ],
+        "rearWheel": [
+          0.22,
+          0.78
+        ],
+        "roofCargo": [
+          0.46,
+          0.24
+        ],
+        "repairPanel": [
+          0.48,
+          0.5
+        ],
+        "exhaust": [
+          0.12,
+          0.42
+        ]
+      },
+      "familyAliases": [
+        "vehicle"
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "boss-crane-actions",
+      "path": "assets/runtime/characters/bosses/crane-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "boss-crane",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "baseline": 496,
+      "rootAnchor": "chassis-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "925147990aa82c8d5d3c60633306e4a5c23192f8af124e8aa25739d2e30246e8",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-repack",
+          "baseline-y-496",
+          "large-actor-512-runtime-cell"
+        ]
+      },
+      "entityRole": "boss",
+      "attachments": {
+        "body": [
+          0.5,
+          0.7
+        ],
+        "boom": [
+          0.48,
+          0.25
+        ],
+        "claw": [
+          0.18,
+          0.58
+        ],
+        "turret": [
+          0.72,
+          0.34
+        ],
+        "cable": [
+          0.23,
+          0.42
+        ],
+        "core": [
+          0.54,
+          0.52
+        ],
+        "cargo": [
+          0.34,
+          0.64
+        ]
+      },
+      "familyAliases": [
+        "boss"
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "boss-iron-mole-actions",
+      "path": "assets/runtime/characters/bosses/iron-mole-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "family": "boss-iron-mole",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "baseline": 496,
+      "rootAnchor": "track-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "7dd4b0ee54973e076e3ebad1f21801d6fe9a54d6a283c7967155a05fd4591568",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-repack",
+          "baseline-y-496",
+          "large-actor-512-runtime-cell"
+        ]
+      },
+      "entityRole": "boss",
+      "attachments": {
+        "chassis": [
+          0.5,
+          0.64
+        ],
+        "tracks": [
+          0.52,
+          0.8
+        ],
+        "drill": [
+          0.12,
+          0.57
+        ],
+        "turret": [
+          0.54,
+          0.28
+        ],
+        "missilePod": [
+          0.7,
+          0.3
+        ],
+        "core": [
+          0.52,
+          0.5
+        ],
+        "armorFront": [
+          0.27,
+          0.52
+        ],
+        "armorRear": [
+          0.76,
+          0.54
+        ]
+      },
+      "familyAliases": [
+        "boss"
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-mid-harbor",
+      "path": "assets/runtime/backgrounds/zones/mid-harbor.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "harbor",
+      "layer": "mid",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-mid-yard",
+      "path": "assets/runtime/backgrounds/zones/mid-yard.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "yard",
+      "layer": "mid",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-mid-arena",
+      "path": "assets/runtime/backgrounds/zones/mid-arena.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "arena",
+      "layer": "mid",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-near-harbor",
+      "path": "assets/runtime/backgrounds/zones/near-harbor.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "harbor",
+      "layer": "near",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-near-yard",
+      "path": "assets/runtime/backgrounds/zones/near-yard.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "yard",
+      "layer": "near",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-near-arena",
+      "path": "assets/runtime/backgrounds/zones/near-arena.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "arena",
+      "layer": "near",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-ambience-harbor",
+      "path": "assets/runtime/backgrounds/zones/ambience-harbor.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "harbor",
+      "layer": "ambience",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-ambience-yard",
+      "path": "assets/runtime/backgrounds/zones/ambience-yard.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "yard",
+      "layer": "ambience",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "background-ambience-arena",
+      "path": "assets/runtime/backgrounds/zones/ambience-arena.png",
+      "type": "parallax-layer",
+      "role": "background-layer",
+      "family": "background-layer",
+      "zone": "arena",
+      "layer": "ambience",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "renderOwner": "phaser-tile-sprite",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "65dad922c299989cf76285b2724daec90122fd0de0759137d5153d8d5411837a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "transparent-rgb-sanitize"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-weapon-rifle",
+      "path": "assets/runtime/ui/icons/weapon-rifle.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 734,
+        "height": 498
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-weapon-shotgun",
+      "path": "assets/runtime/ui/icons/weapon-shotgun.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 696,
+        "height": 498
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-weapon-rocket",
+      "path": "assets/runtime/ui/icons/weapon-rocket.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 742,
+        "height": 500
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-rescue-technician",
+      "path": "assets/runtime/ui/icons/rescue-technician.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 708,
+        "height": 734
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-rescue-medic",
+      "path": "assets/runtime/ui/icons/rescue-medic.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 700,
+        "height": 732
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-rescue-artillery",
+      "path": "assets/runtime/ui/icons/rescue-artillery.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 666,
+        "height": 752
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-warning-plate",
+      "path": "assets/runtime/ui/icons/warning-plate.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 684,
+        "height": 580
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-mission-complete",
+      "path": "assets/runtime/ui/icons/mission-complete.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 762,
+        "height": 734
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-mission-failed",
+      "path": "assets/runtime/ui/icons/mission-failed.png",
+      "type": "hud-icon",
+      "role": "hud-icon",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeSize": {
+        "width": 684,
+        "height": 580
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a99cd2ba71b4814b4c213baa3bfedc18fd06fecb0780ccc8b9b91ab9bd466af2",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "equal-cell-crop",
+          "alpha-bbox-trim",
+          "lanczos-2x-runtime"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "ui-joystick-base",
+      "path": "assets/runtime/ui/joystick-base.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 750,
+        "height": 752
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 750,
+        "height": 752
+      }
+    },
+    {
+      "id": "ui-joystick-knob",
+      "path": "assets/runtime/ui/joystick-knob.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 426,
+        "height": 434
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 426,
+        "height": 434
+      }
+    },
+    {
+      "id": "ui-action-fire",
+      "path": "assets/runtime/ui/action-fire.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 700,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 700,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-jump",
+      "path": "assets/runtime/ui/action-jump.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 704,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 704,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-grenade",
+      "path": "assets/runtime/ui/action-grenade.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 722,
+        "height": 682
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 722,
+        "height": 682
+      }
+    },
+    {
+      "id": "ui-action-pause",
+      "path": "assets/runtime/ui/action-pause.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 366,
+        "height": 378
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 366,
+        "height": 378
+      }
+    },
+    {
+      "id": "ui-hud-frame",
+      "path": "assets/runtime/ui/hud-frame.png",
+      "type": "ui-frame",
+      "role": "ui-frame",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 730,
+        "height": 352
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 730,
+        "height": 352
+      }
+    },
+    {
+      "id": "ui-menu-button-base",
+      "path": "assets/runtime/ui/menu-button-base.png",
+      "type": "ui-frame",
+      "role": "ui-frame",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 770,
+        "height": 342
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 770,
+        "height": 342
+      }
+    },
+    {
+      "id": "ui-action-fire-pressed",
+      "path": "assets/runtime/ui/action-fire-pressed.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 700,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 700,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-fire-disabled",
+      "path": "assets/runtime/ui/action-fire-disabled.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 700,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 700,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-jump-pressed",
+      "path": "assets/runtime/ui/action-jump-pressed.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 704,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 704,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-jump-disabled",
+      "path": "assets/runtime/ui/action-jump-disabled.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 704,
+        "height": 698
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 704,
+        "height": 698
+      }
+    },
+    {
+      "id": "ui-action-grenade-pressed",
+      "path": "assets/runtime/ui/action-grenade-pressed.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 722,
+        "height": 682
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 722,
+        "height": 682
+      }
+    },
+    {
+      "id": "ui-action-grenade-disabled",
+      "path": "assets/runtime/ui/action-grenade-disabled.png",
+      "type": "ui-control",
+      "role": "ui-control",
+      "family": "ui",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 722,
+        "height": 682
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "fe5752e515e4ce901697d97d24a2e61dd6cac2fdf9f2f7ae16f25aa27e0a9124",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 722,
+        "height": 682
+      }
+    },
+    {
+      "id": "prop-shipping-crate",
+      "path": "assets/runtime/environment/props/prop-shipping-crate.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 339,
+        "height": 325
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 339,
+        "height": 325
+      }
+    },
+    {
+      "id": "prop-barricade",
+      "path": "assets/runtime/environment/props/prop-barricade.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 351,
+        "height": 226
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 351,
+        "height": 226
+      }
+    },
+    {
+      "id": "prop-chain-fence",
+      "path": "assets/runtime/environment/props/prop-chain-fence.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 362,
+        "height": 414
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 362,
+        "height": 414
+      }
+    },
+    {
+      "id": "prop-flood-lamp",
+      "path": "assets/runtime/environment/props/prop-flood-lamp.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 178,
+        "height": 401
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 178,
+        "height": 401
+      }
+    },
+    {
+      "id": "prop-pipe-cluster",
+      "path": "assets/runtime/environment/props/prop-pipe-cluster.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 334,
+        "height": 417
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 334,
+        "height": 417
+      }
+    },
+    {
+      "id": "prop-warning-plate",
+      "path": "assets/runtime/environment/props/prop-warning-plate.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 303,
+        "height": 302
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 303,
+        "height": 302
+      }
+    },
+    {
+      "id": "prop-cable-hook",
+      "path": "assets/runtime/environment/props/prop-cable-hook.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 384,
+        "height": 315
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 384,
+        "height": 315
+      }
+    },
+    {
+      "id": "prop-debris",
+      "path": "assets/runtime/environment/props/prop-debris.png",
+      "type": "prop",
+      "role": "environment-prop",
+      "family": "environment-prop",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 376,
+        "height": 318
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "225ac4670056d9ae16a8d567026eb18cbee39b3557506a257049f09633f4e716",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "grid-rule-detection",
+          "alpha-bbox-trim"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 376,
+        "height": 318
+      }
+    },
+    {
+      "id": "fx-hit-spark-sequence",
+      "path": "assets/runtime/vfx/hit-spark-sequence.png",
+      "type": "sprite",
+      "role": "combat-vfx",
+      "family": "vfx",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "runtimeSize": {
+        "width": 2048,
+        "height": 1024
+      },
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "frames": 4,
+      "totalFrames": 8,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "c3834c9d799f990819081312c4051c037c3392db43712616fde853594f32c8b5",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceSize": {
+        "width": 2048,
+        "height": 1024
+      }
+    },
+    {
+      "id": "combat-vfx-muzzle-rifle",
+      "path": "assets/runtime/vfx/muzzle-rifle.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "muzzle-rifle",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "1dc7f7cb319c5e264118c4d7f5dc414c524cd85303a665527cb3c815653c9f1e",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-muzzle-shotgun",
+      "path": "assets/runtime/vfx/muzzle-shotgun.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "muzzle-shotgun",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "9988bf178be0d3950d2906a4c0dcd3702931c7c44006a614601c0a317a4232bc",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-muzzle-rocket",
+      "path": "assets/runtime/vfx/muzzle-rocket.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "muzzle-rocket",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "d10c44e973848d49d46a192db27244a4548dc5584dfd55f4526b51a3be37d30d",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-armor-spark",
+      "path": "assets/runtime/vfx/armor-spark.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "armor-spark",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "b7ea5390afa3c8122c07bea91133a9cbf9e4bdd9bc112b4bdeaf238339683fee",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-explosion-small",
+      "path": "assets/runtime/vfx/explosion-small.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "explosion-small",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "6f1cfc106e220820738b2c008e147b8885af2019158aa294b9e3697643fc2dd3",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-explosion-medium",
+      "path": "assets/runtime/vfx/explosion-medium.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "explosion-medium",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5d420140332fa7de99403c2051064fb12284cafead398e8fbb9b67f0c192face",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-explosion-large",
+      "path": "assets/runtime/vfx/explosion-large.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "explosion-large",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "a447b509be1f670321acc0eaa9726376c42c0ce3886efc4d16bffc6742e6f0fe",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-smoke-puff",
+      "path": "assets/runtime/vfx/smoke-puff.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "smoke-puff",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "8f1b418b3ae8e561d7f454697ce8fd53938a41f5765b6d836ce721d61f974445",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-fire-burst",
+      "path": "assets/runtime/vfx/fire-burst.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "fire-burst",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "e990c69a6625b9c53d1cca01560380f4cad411f1b1ccb8641084e433bb53d243",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-dust-cloud",
+      "path": "assets/runtime/vfx/dust-cloud.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "dust-cloud",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "69f3376dba5bfd5ae8fe4e08ff09f2cd67744e8eae7efd26f67cead150b8fbe3",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-shell-casing",
+      "path": "assets/runtime/vfx/shell-casing.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "shell-casing",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "cfe34ce18645e2e72c947c645f93ce0252ef90151767259b37425a1c8a3ca679",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-rocket-exhaust",
+      "path": "assets/runtime/vfx/rocket-exhaust.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "rocket-exhaust",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "45f6b8f3dc939d1241e175fbf0e4b84075b48e06f92c245c3e1eed9b46d9472c",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-warning-artillery",
+      "path": "assets/runtime/vfx/warning-artillery.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "warning-artillery",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "885ad5e0a41cebcdedd02d6f91eab4d21f5a10bcbd2ab1aaf96ba4c8649bd455",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-warning-boss",
+      "path": "assets/runtime/vfx/warning-boss.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "warning-boss",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "12cd1b7689b1b6eb99da848d4fbe4ffae990fb8af314ca49ed802472ceade3bf",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-rescue-flash",
+      "path": "assets/runtime/vfx/rescue-flash.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "rescue-flash",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "58aacf84a99ecaf460d96e4df68a7144da9e5c4f07d1b08dfc37f8a4830dcf74",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "combat-vfx-shield-impact",
+      "path": "assets/runtime/vfx/shield-impact.png",
+      "type": "sprite",
+      "role": "vfx",
+      "family": "vfx",
+      "variant": "shield-impact",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "runtimeSize": {
+        "width": 512,
+        "height": 512
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "renderOwner": "phaser-image-transient",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "458e20c186ecaf938a61172135c67751b6a288f41104a9ae687d15d94d981df9",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-crop",
+          "alpha-bbox-fit",
+          "transparent-rgb-sanitize"
+        ]
+      }
+    },
+    {
+      "id": "transport-extension-a",
+      "path": "assets/runtime/characters/vehicle/transport-extension-a.webp",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "vehicle",
+      "family": "transport",
+      "states": [
+        "idle",
+        "idle",
+        "idle",
+        "drive",
+        "drive",
+        "drive",
+        "drive",
+        "drive",
+        "drive",
+        "hit",
+        "damaged",
+        "damaged",
+        "damaged",
+        "damaged",
+        "damaged",
+        "damaged"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 16,
+      "rows": 4,
+      "frameWidth": 512,
+      "frameHeight": 256,
+      "sourceSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "baseline": 244,
+      "rootAnchor": "wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "facbbcd46ac46fb5b91fe72171938b967a894503f11b05c6edb4fa87c4e70c9a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "trimmed-2to1-uniform-runtime-cell"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "transport-extension-b",
+      "path": "assets/runtime/characters/vehicle/transport-extension-b.webp",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "vehicle",
+      "family": "transport",
+      "states": [
+        "damaged",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "critical",
+        "repair",
+        "repair",
+        "repair",
+        "repair",
+        "repair",
+        "destroyed"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 16,
+      "rows": 4,
+      "frameWidth": 512,
+      "frameHeight": 256,
+      "sourceSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "baseline": 244,
+      "rootAnchor": "wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "c51cb072cef5f55954b7af7d92c7b40eca496a13da81b37dd45426d16a900ae7",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "trimmed-2to1-uniform-runtime-cell"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "transport-extension-c",
+      "path": "assets/runtime/characters/vehicle/transport-extension-c.webp",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "vehicle",
+      "family": "transport",
+      "states": [
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed",
+        "destroyed-safety",
+        "destroyed-safety",
+        "destroyed-safety",
+        "destroyed-safety",
+        "destroyed-safety",
+        "destroyed-safety"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 16,
+      "rows": 4,
+      "frameWidth": 512,
+      "frameHeight": 256,
+      "sourceSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "runtimeSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "baseline": 244,
+      "rootAnchor": "wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "d1d1aaae9248ef1fbb3029ae0834bfd767d50c7fe6b79b7bbb4eadbbc7caca04",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "trimmed-2to1-uniform-runtime-cell"
+        ]
+      },
+      "pivot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "projectile-shield-pistol",
+      "path": "assets/runtime/weapons/projectiles/projectile-shield-pistol.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 410,
+        "height": 111
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-enemy-bolt",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "projectile-enemy-grenade",
+      "path": "assets/runtime/weapons/projectiles/projectile-enemy-grenade.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 250,
+        "height": 252
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-grenade",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "projectile-crane-burst",
+      "path": "assets/runtime/weapons/projectiles/projectile-crane-burst.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 410,
+        "height": 111
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-enemy-bolt",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "projectile-mole-cannon",
+      "path": "assets/runtime/weapons/projectiles/projectile-mole-cannon.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 420,
+        "height": 250
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-boss-missile",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "projectile-mole-overdrive",
+      "path": "assets/runtime/weapons/projectiles/projectile-mole-overdrive.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 234,
+        "height": 254
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-drone-pulse",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "projectile-artillery-shell",
+      "path": "assets/runtime/weapons/projectiles/projectile-artillery-shell.png",
+      "type": "sprite",
+      "role": "projectile-variant",
+      "family": "projectile",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "sourceSize": {
+        "width": 443,
+        "height": 443
+      },
+      "runtimeSize": {
+        "width": 420,
+        "height": 250
+      },
+      "renderOwner": "phaser-image",
+      "status": "approved",
+      "derivedFrom": "projectile-boss-missile",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5a79b3de8f2f46f3886bafeda5b9c1a75abfa04059ca3d5b41d1465d99b4a656",
+        "postProcessing": [
+          "equal-cell-crop",
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "alpha-bbox-trim",
+          "transparent-rgb-sanitize",
+          "alpha-tight-crop-12px-gutter",
+          "identity-preserving-color-variant",
+          "alpha-tight-crop-12px-gutter"
+        ]
+      }
+    },
+    {
+      "id": "player-extension-a",
+      "path": "assets/runtime/characters/player/player-extension-a.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "jump",
+        "jump",
+        "fall",
+        "crouch",
+        "grenade",
+        "grenade",
+        "grenade",
+        "grenade"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "1edea8c7ac9dba39c3e059d8bd3b453b5da7753e7a9b351dced6589008d015ec",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "transparent-rgb-sanitize",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "player-extension-b",
+      "path": "assets/runtime/characters/player/player-extension-b.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "shoot-forward",
+        "shoot-forward",
+        "shoot-diagonal",
+        "shoot-diagonal",
+        "shoot-up",
+        "shoot-up",
+        "melee",
+        "melee",
+        "melee",
+        "melee",
+        "melee",
+        "hurt"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "98ee9ffe62b98e291fbc17cabb907545e9424253bf0fbffd869ed76485e8b09c",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "transparent-rgb-sanitize",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "player-extension-c",
+      "path": "assets/runtime/characters/player/player-extension-c.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "grenade",
+        "hurt",
+        "death",
+        "death",
+        "death",
+        "death",
+        "death",
+        "death",
+        "death",
+        "death",
+        "idle-safety",
+        "idle-safety"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "7f04c4f19f50f6b82794bd9c4b600a86f02fd675be810a3bafd1ed869b2a0668",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "transparent-rgb-sanitize",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "rifle-extension-a",
+      "path": "assets/runtime/characters/enemies/rifle-extension-a.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-rifle",
+      "states": [
+        "idle",
+        "idle",
+        "run",
+        "run",
+        "run",
+        "run",
+        "aim",
+        "aim",
+        "fire",
+        "recoil",
+        "hurt",
+        "death"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "5f94ad5d6d87b60152f2cdad29d648369bc2b7c55f686c179018fd82fde3cd2d",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "rifle-extension-b",
+      "path": "assets/runtime/characters/enemies/rifle-extension-b.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-rifle",
+      "states": [
+        "idle",
+        "idle",
+        "aim",
+        "aim",
+        "fire",
+        "recoil",
+        "hurt",
+        "hurt",
+        "death",
+        "death",
+        "death",
+        "death"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "9c2a946693ba913a91de64d246cf596273b12f25888aa5126560177492c6561b",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "shield-extension-a",
+      "path": "assets/runtime/characters/enemies/shield-extension-a.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-shield",
+      "states": [
+        "idle",
+        "idle",
+        "march",
+        "march",
+        "march",
+        "guard",
+        "guard",
+        "bash",
+        "bash",
+        "stagger",
+        "shield-break",
+        "death"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "cb218f785b711dd9825dce46813e0e34791cf21dd66d7f670f753a98da0d0d4a",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "shield-extension-b",
+      "path": "assets/runtime/characters/enemies/shield-extension-b.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-shield",
+      "states": [
+        "march",
+        "march",
+        "march",
+        "guard",
+        "guard",
+        "bash",
+        "bash",
+        "bash",
+        "shield-break",
+        "shield-break",
+        "death",
+        "death"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "0122da4bf7d911e93d823c922b5c814226fe51b4a4979212b328609d82a1ee57",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "grenadier-extension-a",
+      "path": "assets/runtime/characters/enemies/grenadier-extension-a.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-grenadier",
+      "states": [
+        "idle",
+        "idle",
+        "run",
+        "run",
+        "run",
+        "windup",
+        "windup",
+        "throw",
+        "throw",
+        "recover",
+        "hurt",
+        "death"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "7b4d7ea9679e2c15f673283cce6b8942a8fccb4e5df78151160a6ac503b6c8e4",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "drone-extension-a",
+      "path": "assets/runtime/characters/enemies/drone-extension-a.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "enemy",
+      "family": "enemy-drone",
+      "states": [
+        "hover",
+        "hover",
+        "hover",
+        "bank-left",
+        "bank-left",
+        "bank-right",
+        "bank-right",
+        "charge",
+        "charge",
+        "fire",
+        "hit",
+        "explode"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 12,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "sourceSize": {
+        "width": 2048,
+        "height": 1536
+      },
+      "runtimeSize": {
+        "width": 1536,
+        "height": 1152
+      },
+      "baseline": 192,
+      "rootAnchor": "center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "sourceSkill": "imagegen",
+        "promptHash": "e7fa001c4065e44f7a45f0ede44205965a78fc9991f39f127d83c15b27c735e6",
+        "postProcessing": [
+          "chroma-key-removal",
+          "soft-matte",
+          "despill",
+          "proportional-cell-repack",
+          "tiny-component-cleanup",
+          "512-virtual-cell-normalization",
+          "position-only-root-normalization",
+          "mobile-384-virtual-cell"
+        ]
+      }
+    },
+    {
+      "id": "player-run-fire-actions",
+      "path": "assets/runtime/characters/player/player-run-fire-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-forward",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-diagonal",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up",
+        "run-fire-up"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 4,
+      "totalFrames": 24,
+      "rows": 6,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "baseline": 364,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "derived-from-approved-runtime-assets",
+        "method": "identity-locked-upper-lower-composite",
+        "postProcessing": [
+          "grounded-baseline-normalization",
+          "run-phase-preservation",
+          "aim-bucket-fire-pose",
+          "identity-lock"
+        ]
+      }
+    },
+    {
+      "id": "player-air-fire-actions",
+      "path": "assets/runtime/characters/player/player-air-fire-actions.png",
+      "type": "spritesheet",
+      "role": "animation-sheet",
+      "entityRole": "player",
+      "family": "player",
+      "states": [
+        "jump-fire-forward",
+        "fall-fire-forward",
+        "jump-fire-diagonal",
+        "fall-fire-diagonal",
+        "jump-fire-up",
+        "fall-fire-up"
+      ],
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "frames": 2,
+      "totalFrames": 6,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "baseline": 364,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "status": "approved",
+      "provenance": {
+        "source": "derived-from-approved-runtime-assets",
+        "method": "identity-locked-upper-lower-composite",
+        "postProcessing": [
+          "grounded-baseline-normalization",
+          "run-phase-preservation",
+          "aim-bucket-fire-pose",
+          "identity-lock"
+        ]
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui-click",
+      "path": "assets/audio/ui.wav",
+      "type": "ui",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    },
+    {
+      "id": "rifle",
+      "path": "assets/audio/rifle.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    },
+    {
+      "id": "explosion",
+      "path": "assets/audio/grenade.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    },
+    {
+      "id": "rescue",
+      "path": "assets/audio/rescue.wav",
+      "type": "sfx",
+      "required": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    },
+    {
+      "id": "stage-bgm",
+      "path": "assets/audio/stage_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    },
+    {
+      "id": "boss-bgm",
+      "path": "assets/audio/boss_loop.wav",
+      "type": "bgm",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "iron-courier-last-line",
+        "method": "procedural-audio-synthesis"
+      }
+    }
+  ],
+  "logicalCanvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "maxTargetDpr": 3,
+  "physicalCanvasTarget": {
+    "width": 3840,
+    "height": 2160
+  },
+  "assetCoverageContract": {
+    "version": "1.0.0",
+    "requiredFamilies": [
+      "background-layer",
+      "terrain-tile",
+      "player",
+      "enemy",
+      "rescue",
+      "destructible",
+      "projectile",
+      "pickup",
+      "vehicle",
+      "boss",
+      "vfx",
+      "ui"
+    ],
+    "forbiddenProductionVisuals": [
+      "__WHITE",
+      "runtime-generated-gameplay-texture",
+      "unapproved-circle-rectangle-gameplay-visual"
+    ],
+    "allowedRuntimeVisuals": [
+      "runtime-text",
+      "dynamic-health-fill",
+      "camera-mask",
+      "dynamic-loading-progress",
+      "cinematic-color-grade",
+      "modal-input-mask"
+    ],
+    "requiredEvidence": [
+      "activeTextureKeys",
+      "activeAnimationKeys",
+      "placeholderTextures",
+      "backgroundZoneBlend",
+      "browserErrors"
+    ]
+  },
+  "animations": [
+    {
+      "family": "player",
+      "states": [
+        "idle",
+        "run",
+        "jump",
+        "fall",
+        "crouch",
+        "shoot-forward",
+        "shoot-diagonal",
+        "shoot-up",
+        "grenade",
+        "melee",
+        "hurt",
+        "death"
+      ],
+      "requiredStates": [
+        "idle",
+        "run",
+        "jump",
+        "fall",
+        "crouch",
+        "shoot-forward",
+        "shoot-diagonal",
+        "shoot-up",
+        "grenade",
+        "melee",
+        "hurt",
+        "death"
+      ],
+      "status": "approved",
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "idle": 6,
+        "run": 8,
+        "jump": 3,
+        "fall": 2,
+        "crouch": 2,
+        "shoot-forward": 4,
+        "shoot-diagonal": 4,
+        "shoot-up": 4,
+        "grenade": 6,
+        "melee": 6,
+        "hurt": 3,
+        "death": 10
+      },
+      "totalFrames": 58,
+      "runtimeCell": {
+        "width": 384,
+        "height": 384
+      },
+      "runtimeOptimization": "mobile-384-virtual-cell"
+    },
+    {
+      "family": "rescue-technician",
+      "states": [
+        "bound-idle",
+        "struggle",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "requiredStates": [
+        "bound-idle",
+        "struggle",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "bound-idle": 2,
+        "struggle": 2,
+        "freed": 1,
+        "ability": 1,
+        "exit": 2
+      },
+      "totalFrames": 8,
+      "physicalFrames": 8
+    },
+    {
+      "family": "rescue-medic",
+      "states": [
+        "bound-idle",
+        "signal",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "requiredStates": [
+        "bound-idle",
+        "signal",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "bound-idle": 2,
+        "signal": 2,
+        "freed": 1,
+        "ability": 1,
+        "exit": 2
+      },
+      "totalFrames": 8,
+      "physicalFrames": 8
+    },
+    {
+      "family": "rescue-artillery",
+      "states": [
+        "bound-idle",
+        "radio",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "requiredStates": [
+        "bound-idle",
+        "radio",
+        "freed",
+        "ability",
+        "exit"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "centered-foot-baseline",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "bound-idle": 2,
+        "radio": 2,
+        "freed": 1,
+        "ability": 1,
+        "exit": 2
+      },
+      "totalFrames": 8,
+      "physicalFrames": 8
+    },
+    {
+      "family": "enemy-rifle",
+      "states": [
+        "idle",
+        "run",
+        "aim",
+        "fire",
+        "recoil",
+        "hurt",
+        "death"
+      ],
+      "requiredStates": [
+        "idle",
+        "run",
+        "aim",
+        "fire",
+        "recoil",
+        "hurt",
+        "death"
+      ],
+      "status": "approved",
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "idle": 6,
+        "run": 6,
+        "aim": 5,
+        "fire": 3,
+        "recoil": 2,
+        "hurt": 4,
+        "death": 6
+      },
+      "totalFrames": 32,
+      "runtimeCell": {
+        "width": 384,
+        "height": 384
+      },
+      "runtimeOptimization": "mobile-384-virtual-cell"
+    },
+    {
+      "family": "enemy-shield",
+      "states": [
+        "idle",
+        "march",
+        "guard",
+        "bash",
+        "stagger",
+        "shield-break",
+        "death"
+      ],
+      "requiredStates": [
+        "idle",
+        "march",
+        "guard",
+        "bash",
+        "stagger",
+        "shield-break",
+        "death"
+      ],
+      "status": "approved",
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "idle": 3,
+        "march": 8,
+        "guard": 5,
+        "bash": 6,
+        "stagger": 2,
+        "shield-break": 4,
+        "death": 4
+      },
+      "totalFrames": 32,
+      "runtimeCell": {
+        "width": 384,
+        "height": 384
+      },
+      "runtimeOptimization": "mobile-384-virtual-cell"
+    },
+    {
+      "family": "enemy-grenadier",
+      "states": [
+        "idle",
+        "run",
+        "windup",
+        "throw",
+        "recover",
+        "hurt",
+        "death"
+      ],
+      "requiredStates": [
+        "idle",
+        "run",
+        "windup",
+        "throw",
+        "recover",
+        "hurt",
+        "death"
+      ],
+      "status": "approved",
+      "baseline": 360,
+      "rootAnchor": "foot-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "idle": 3,
+        "run": 5,
+        "windup": 3,
+        "throw": 3,
+        "recover": 2,
+        "hurt": 2,
+        "death": 2
+      },
+      "totalFrames": 20,
+      "runtimeCell": {
+        "width": 384,
+        "height": 384
+      },
+      "runtimeOptimization": "mobile-384-virtual-cell"
+    },
+    {
+      "family": "enemy-drone",
+      "states": [
+        "hover",
+        "bank-left",
+        "bank-right",
+        "charge",
+        "fire",
+        "hit",
+        "explode"
+      ],
+      "requiredStates": [
+        "hover",
+        "bank-left",
+        "bank-right",
+        "charge",
+        "fire",
+        "hit",
+        "explode"
+      ],
+      "status": "approved",
+      "baseline": 256,
+      "rootAnchor": "center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "hover": 5,
+        "bank-left": 3,
+        "bank-right": 3,
+        "charge": 3,
+        "fire": 2,
+        "hit": 2,
+        "explode": 2
+      },
+      "totalFrames": 20,
+      "runtimeCell": {
+        "width": 384,
+        "height": 384
+      },
+      "runtimeOptimization": "mobile-384-virtual-cell"
+    },
+    {
+      "family": "transport",
+      "states": [
+        "idle",
+        "drive",
+        "hit",
+        "damaged",
+        "critical",
+        "repair",
+        "destroyed"
+      ],
+      "requiredStates": [
+        "idle",
+        "drive",
+        "hit",
+        "damaged",
+        "critical",
+        "repair",
+        "destroyed"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "frameCounts": {
+        "idle": 4,
+        "drive": 8,
+        "hit": 2,
+        "damaged": 8,
+        "critical": 10,
+        "repair": 6,
+        "destroyed": 12
+      },
+      "totalFrames": 50,
+      "attachments": {
+        "frontWheel": [
+          0.78,
+          0.78
+        ],
+        "rearWheel": [
+          0.22,
+          0.78
+        ],
+        "roofCargo": [
+          0.46,
+          0.24
+        ],
+        "repairPanel": [
+          0.48,
+          0.5
+        ],
+        "exhaust": [
+          0.12,
+          0.42
+        ]
+      },
+      "runtimeCell": {
+        "width": 512,
+        "height": 512
+      },
+      "runtimeOptimization": "large-actor-512-runtime-cell"
+    },
+    {
+      "family": "boss-crane",
+      "states": [
+        "idle",
+        "burst",
+        "hook-launch",
+        "hook-return",
+        "stagger",
+        "damaged",
+        "death"
+      ],
+      "requiredStates": [
+        "idle",
+        "burst",
+        "hook-launch",
+        "hook-return",
+        "stagger",
+        "damaged",
+        "death"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "track-or-wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "attachments": {
+        "body": [
+          0.5,
+          0.7
+        ],
+        "boom": [
+          0.48,
+          0.25
+        ],
+        "claw": [
+          0.18,
+          0.58
+        ],
+        "turret": [
+          0.72,
+          0.34
+        ],
+        "cable": [
+          0.23,
+          0.42
+        ],
+        "core": [
+          0.54,
+          0.52
+        ],
+        "cargo": [
+          0.34,
+          0.64
+        ]
+      },
+      "runtimeCell": {
+        "width": 512,
+        "height": 512
+      },
+      "runtimeOptimization": "large-actor-512-runtime-cell",
+      "totalFrames": 8,
+      "physicalFrames": 8,
+      "unusedPhysicalFrames": [
+        6
+      ]
+    },
+    {
+      "family": "boss-iron-mole",
+      "states": [
+        "phase-1",
+        "phase-2",
+        "phase-3",
+        "armor-break",
+        "core-exposed",
+        "hit",
+        "destroyed"
+      ],
+      "requiredStates": [
+        "phase-1",
+        "phase-2",
+        "phase-3",
+        "armor-break",
+        "core-exposed",
+        "hit",
+        "destroyed"
+      ],
+      "status": "approved",
+      "baseline": 496,
+      "rootAnchor": "track-or-wheel-ground-center",
+      "renderOwner": "phaser-spritesheet",
+      "attachments": {
+        "chassis": [
+          0.5,
+          0.64
+        ],
+        "tracks": [
+          0.52,
+          0.8
+        ],
+        "drill": [
+          0.12,
+          0.57
+        ],
+        "turret": [
+          0.54,
+          0.28
+        ],
+        "missilePod": [
+          0.7,
+          0.3
+        ],
+        "core": [
+          0.52,
+          0.5
+        ],
+        "armorFront": [
+          0.27,
+          0.52
+        ],
+        "armorRear": [
+          0.76,
+          0.54
+        ]
+      },
+      "runtimeCell": {
+        "width": 512,
+        "height": 512
+      },
+      "runtimeOptimization": "large-actor-512-runtime-cell",
+      "totalFrames": 8,
+      "physicalFrames": 8,
+      "sharedPhysicalFrames": {
+        "phase-3/core-exposed": 4
+      }
+    }
+  ],
+  "animationEvents": [
+    {
+      "family": "player",
+      "state": "shoot-forward",
+      "event": "weaponSystem:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "player",
+      "state": "shoot-diagonal",
+      "event": "weaponSystem:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "player",
+      "state": "shoot-up",
+      "event": "weaponSystem:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "player",
+      "state": "grenade",
+      "event": "weaponSystem:grenadeThrown",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "player",
+      "state": "melee",
+      "event": "melee:hit",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "enemy-rifle",
+      "state": "fire",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "enemy-shield",
+      "state": "bash",
+      "event": "melee:hit",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "enemy-grenadier",
+      "state": "throw",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "enemy-drone",
+      "state": "fire",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "boss-crane",
+      "state": "burst",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "boss-crane",
+      "state": "hook-launch",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "boss-iron-mole",
+      "state": "phase-1",
+      "event": "projectile:fired",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "boss-iron-mole",
+      "state": "phase-2",
+      "event": "phase:attack",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    },
+    {
+      "family": "boss-iron-mole",
+      "state": "phase-3",
+      "event": "phase:attack",
+      "frame": 0,
+      "maxDeltaFrames": 1,
+      "syncOwner": "runtime-event"
+    }
+  ],
+  "enemyAnimationTotalFrames": 104,
+  "transportAnimationTotalFrames": 50,
+  "runtimeAnimationCell": {
+    "width": 384,
+    "height": 384,
+    "reason": "mobile-dpr3-memory-budget"
+  },
+  "prunedRuntimeAssets": [
+    "boss-dock-reclaimer",
+    "boss-iron-mole",
+    "enemy-grenadier",
+    "enemy-rifle-scavenger",
+    "enemy-sentry-drone",
+    "enemy-shield-breacher",
+    "vehicle-armored-transport"
+  ],
+  "physicalEntityAnimationFrames": 252,
+  "runtimeLargeActorCell": {
+    "width": 512,
+    "height": 512,
+    "roles": [
+      "vehicle",
+      "boss"
+    ],
+    "reason": "large-screen-silhouette-fidelity"
+  },
+  "detailPolishContract": {
+    "playerGroundedBaseline": 364,
+    "terrainSurfaceGutterPx": 0,
+    "atlasFrame": {
+      "width": 512,
+      "height": 256,
+      "baseline": 244
+    },
+    "atlasRuntimeDisplay": {
+      "width": 426.7,
+      "height": 213.35
+    },
+    "atlasOpaqueTarget": {
+      "width": [
+        360,
+        400
+      ],
+      "height": [
+        155,
+        175
+      ]
+    }
+  }
+}
