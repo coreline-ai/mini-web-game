@@ -70,11 +70,31 @@ export default class CombatFeedbackSystem {
   }
 
   explosion(x, y, radius, color = 0xff7a45) {
+    // High-resolution alpha FX supplies the fire/smoke silhouette while the
+    // vector rings below communicate the exact gameplay damage radius.
+    const rocketExplosion = this.scene.textures.exists(ASSET_KEYS.fxRocketExplosion)
+      ? this.scene.add.image(x, y, ASSET_KEYS.fxRocketExplosion)
+        .setDepth(35)
+        .setDisplaySize(radius * 2.7, radius * 2.7)
+        .setRotation(Math.random() * Math.PI * 2)
+        .setAlpha(0.96)
+      : null;
     const core = this.scene.add.circle(x, y, 34, 0xfff6cf, 1).setDepth(36);
     const fireball = this.scene.add.circle(x, y, 70, color, 0.72).setDepth(35);
     const shockwave = this.scene.add.circle(x, y, 42, color, 0.08).setStrokeStyle(22, 0xffb169, 0.96).setDepth(34);
     const blastArea = this.scene.add.circle(x, y, radius, color, 0.045).setStrokeStyle(8, color, 0.38).setDepth(32).setScale(0.15);
     this.scene.tweens.add({ targets: core, scale: 4.8, alpha: 0, duration: 450, ease: 'Cubic.easeOut', onComplete: () => core.destroy() });
+    if (rocketExplosion) {
+      this.scene.tweens.add({
+        targets: rocketExplosion,
+        scaleX: rocketExplosion.scaleX * 1.17,
+        scaleY: rocketExplosion.scaleY * 1.17,
+        alpha: 0,
+        duration: 760,
+        ease: 'Cubic.easeOut',
+        onComplete: () => rocketExplosion.destroy(),
+      });
+    }
     this.scene.tweens.add({ targets: fireball, scale: Math.max(2.2, radius / 105), alpha: 0, duration: 700, ease: 'Cubic.easeOut', onComplete: () => fireball.destroy() });
     this.scene.tweens.add({ targets: shockwave, scale: radius / 42, alpha: 0, duration: 850, ease: 'Cubic.easeOut', onComplete: () => shockwave.destroy() });
     this.scene.tweens.add({ targets: blastArea, scale: 1, alpha: 0, duration: 900, ease: 'Quad.easeOut', onComplete: () => blastArea.destroy() });

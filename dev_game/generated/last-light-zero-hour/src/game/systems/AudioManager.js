@@ -6,6 +6,11 @@ export const AudioManager = {
   unlocked: false,
   lastPlayed: new Map(),
   mute: SaveData.getSettings().mute,
+  // Keep combat readable on phone speakers. Individual sounds are authored
+  // below full scale, then given a final bus trim so dense firefights cannot
+  // suddenly jump in volume as several effects overlap.
+  sfxBus: 0.68,
+  musicBus: 0.12,
   unlock(scene) {
     if (this.unlocked) return;
     this.unlocked = true;
@@ -21,12 +26,12 @@ export const AudioManager = {
     const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
     if (minGap && now - (this.lastPlayed.get(key) || 0) < minGap) return;
     this.lastPlayed.set(key, now);
-    scene.sound.play(key, { volume, rate });
+    scene.sound.play(key, { volume: Math.min(0.5, volume * this.sfxBus), rate });
   },
   playGameplayMusic(scene) {
     if (this.mute || !scene.cache.audio.exists(ASSET_KEYS.musicGameplay)) return;
     if (this.currentMusic?.isPlaying) return;
-    this.currentMusic = scene.sound.add(ASSET_KEYS.musicGameplay, { loop: true, volume: 0.22 });
+    this.currentMusic = scene.sound.add(ASSET_KEYS.musicGameplay, { loop: true, volume: this.musicBus });
     this.currentMusic.play();
   },
   stopMusic() { if (this.currentMusic) { this.currentMusic.stop(); this.currentMusic.destroy(); this.currentMusic = null; } },

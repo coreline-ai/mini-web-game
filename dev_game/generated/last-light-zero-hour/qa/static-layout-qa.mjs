@@ -25,5 +25,10 @@ for (const [w, h] of viewports) {
   const cssWidth = canvas.width * scale; const cssHeight = canvas.height * scale;
   if (cssWidth > w + 0.01 || cssHeight > h + 0.01) errors.push(`FIT overflow at ${w}x${h}`);
 }
+// Result title and epilogue must never be crossed by the bordered panel line.
+const resultLayout = { panelTop: 530, titleBottom: 322, epilogueBottom: 494 };
+if (resultLayout.titleBottom >= resultLayout.panelTop || resultLayout.epilogueBottom >= resultLayout.panelTop) {
+  errors.push('game-over title or epilogue intersects the result-panel top border');
+}
 if (errors.length) throw new Error(errors.join('\n'));
 console.log(JSON.stringify({ ok: true, assertions: boxes.length + viewports.length + 1, viewports: viewports.map((v) => v.join('x')), boxes: boxes.map((b) => b.id) }, null, 2));

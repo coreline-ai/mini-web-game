@@ -523,6 +523,34 @@
         ],
         "kind": "motion-sheet"
       }
+    },
+    {
+      "id": "fx-rocket-explosion-v1",
+      "path": "assets/fx/rocket-explosion-v1.png",
+      "role": "rocket-explosion-feedback",
+      "type": "fx",
+      "quality": "production-demo",
+      "delivery": "runtime",
+      "minWidth": 1024,
+      "minHeight": 1024,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-light-zero-hour",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "080cf5ca76e73dfb405abbbf9666dfc6da528ef15d22964b29642a11a328dd66"
+      },
+      "sha256": "54c4ab27aa71ab339a011aa41fbfc25e080b028faa4e17ab14bc8ef675aa439f",
+      "transparentPadding": {
+        "targetPercent": 8,
+        "allowedRangePercent": [
+          2,
+          18
+        ],
+        "kind": "motion-sheet"
+      }
     }
   ],
   "audio": [
@@ -538,11 +566,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "e05c002bac0c869670675083e237a6a5994affcef9473e0159458567c6678354"
       },
-      "sha256": "4ca22f10b951326b3ee125da97d1fb871ddc267d7178b9f958e7d64336cc8377"
+      "sha256": "b51840f4aff5d3999df209efd9ab1918c0818a273c5115e6b5cdc261a1d01bda"
     },
     {
       "id": "gatling",
@@ -556,11 +584,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "33a86103a4989a0697cf044a9bf459af23f21967c79f543ee86248bfc0a77363"
       },
-      "sha256": "723d0562f36887c4f69a34854d774c7a9d6d48a73c27858b3a04c6f0867454ae"
+      "sha256": "1206f5b501f921b78a7d19db84b319342e0cc1d19c211c7dd813b2549a695ddf"
     },
     {
       "id": "scatter",
@@ -574,11 +602,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "e1f92433f754e9f1213d5bdcc3c1b89881a89e9ab4ce8b06c09dcdbfc41f287e"
       },
-      "sha256": "a7c7a588d36ef1cd8abd8f01abbb0a06d708d2db724cf9a7ffd2d6839f981f3b"
+      "sha256": "d727b276622a9f1d032a424b1f79827d3dba14e598b2a3278094f402e4c4ebe5"
     },
     {
       "id": "arc",
@@ -592,11 +620,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "404fcfb394d23199f6d95f1f36bd2beb6df8564f993f44517f6015fcd16101a9"
       },
-      "sha256": "8803c423f1d05fbf63517c8898a12942d69fd4ffe55850f04c709fc9b3ef59b3"
+      "sha256": "464d7308f93057e7ccca09e138c9d1276e153541fa34650eebf997277ad19325"
     },
     {
       "id": "rocket",
@@ -610,11 +638,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "c58dd0a3760008c901839e21a0a5ae6cc92e3765513823ca9553e6ef5f733b36"
       },
-      "sha256": "5cdd8c4cb2806d8bcc98a1d96fefedd22c0b3f9836ab2ae2a5f3bc307e075d54"
+      "sha256": "5fefcca6e6ecb5b633204777133b436dff7f573774ef021fdaff036f7244c238"
     },
     {
       "id": "rail",
@@ -628,11 +656,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "fdf0d7533af5b16df5f12f5b4d22f35742db435d36b424d8fb72525b89182659"
       },
-      "sha256": "e7cbd8f830f3b64abbc0214292baea7e4e2876826039d6608c10fc6ee4dc93dc"
+      "sha256": "ebd4cc91f6de4803c4d1a91a356e3ede82ab48a765000e90d925d452835f10b0"
     },
     {
       "id": "impact",
@@ -646,11 +674,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "6f61f46c23a66607af759dcd348ac132846385d8f39534e69b6cd934bdabad8b"
       },
-      "sha256": "1dcdbc8ec2963f1cc0b50dd3a6ee6df06104aa9a58027d23393371ebeaaa5dcf"
+      "sha256": "0f08885c15ae4c6b095f9a0ad427f3a2e0ccb4baa046447ff223a04b1f9dea1f"
     },
     {
       "id": "explosion",
@@ -664,11 +692,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "4e33d57d8955b3138a0c0e71822fdb227c5de4a585022f3355c2a72a52adb4c8"
       },
-      "sha256": "13211ef722f94ca32b35d1bda41fa1f0679973b361d95a0843ff741147ab0de9"
+      "sha256": "8321ab66de137e90483c20dbfb4b8b58fb2c572242b810b60d894743c38c7d05"
     },
     {
       "id": "core-pickup",
@@ -682,11 +710,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "859c5e1824f05e5fb32825df700253181ec1163213a451da8469a8a1cc566b36"
       },
-      "sha256": "0c22990dbc9b31996f4ea68c9ae50ea364efc6bf0e0b26ace350a0e020e73562"
+      "sha256": "4b2ba32784d918fa8ffdbdac59ec2ea45b355f55750e6858d435e9e6b74469fd"
     },
     {
       "id": "overheat",
@@ -700,11 +728,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "beb016e6965c6b4bccde8bc01c9844a95df70a409c04983b3b9612afec5413a0"
       },
-      "sha256": "0edab6d6b7bd44a26f9afadaa0ac863304a43b2fd1fa93a7db2453f85893322f"
+      "sha256": "89a6c451b29f91ffaca8555fb5656477125f2df429bdff1cda55410cf0039a6a"
     },
     {
       "id": "zombie",
@@ -718,11 +746,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "49460b7bbbd3aad3f2cba09864f5e8b01a220ea8c077e9fa996de367e7984af0"
       },
-      "sha256": "8a26b6a1f033bbf1059be8118d442d13c9c9a46b67f3565b74570545a1be240a"
+      "sha256": "d873fe072b850b46833959d9a776530f1fe5807b2a6cc137fc9d22187faecdbc"
     },
     {
       "id": "last-stand",
@@ -736,11 +764,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "8e8754b6fdfb43bd85ef27e2f38fc3839f2c741ca229d66646cdc608c2f76897"
       },
-      "sha256": "6042dbd8e8b2052da55b762c979c2d1261fbe95db2e5f9da2629000df8838da3"
+      "sha256": "1ea39e0b8a6d8a0388e40e0d4a52f31ed096c5862865f6e0ab8f7adf8dc2d927"
     },
     {
       "id": "survival-loop",
@@ -754,11 +782,11 @@
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
         "method": "procedural-audio-synthesis",
-        "model": "python-wave-synth-v1",
+        "model": "python-wave-synth-v2",
         "sourceSkill": "game-audio",
         "promptHash": "4648af17c8dd68195222406cbe78b20ac7d2beee67db600d9dfa7c1e2873ed1e"
       },
-      "sha256": "1ad9e421d49ce95e8ebc0e17c62877b85747b44dfcae6332c47b02838d03ee61"
+      "sha256": "dea69769342763552f22962268c17a6128fa9037ec3986b33e6d72d45098426b"
     }
   ],
   "files": []

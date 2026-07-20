@@ -26,7 +26,7 @@ def image_provenance(prompt):
 def audio_provenance(name):
     return {
         "source": "generated-for-game", "generatedFor": GAME,
-        "method": "procedural-audio-synthesis", "model": "python-wave-synth-v1", "sourceSkill": "game-audio",
+        "method": "procedural-audio-synthesis", "model": "python-wave-synth-v2", "sourceSkill": "game-audio",
         "promptHash": prompt_hash(name),
     }
 
@@ -56,6 +56,7 @@ image_specs = [
     ("ui-pause", "assets/ui/ui-pause.png", "pause-button", "ui", 1024, 1024),
     ("ui-weapon-card", "assets/ui/ui-weapon-card.png", "button", "ui", 1024, 1024),
     ("fx-infected-burst", "assets/fx/fx-infected-burst.png", "feedback", "fx", 1024, 1024),
+    ("fx-rocket-explosion-v1", "assets/fx/rocket-explosion-v1.png", "rocket-explosion-feedback", "fx", 1024, 1024),
 ]
 images = []
 for id_, path, role, type_, w, h in image_specs:

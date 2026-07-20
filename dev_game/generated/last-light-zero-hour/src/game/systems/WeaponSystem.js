@@ -111,11 +111,13 @@ export default class WeaponSystem {
     for (let i = 0; i < cfg.pellets; i += 1) {
       const t = cfg.pellets === 1 ? 0 : i / (cfg.pellets - 1) - 0.5;
       const a = angle + t * cfg.spread;
-      this.spawnBullet(new Phaser.Math.Vector2(Math.cos(a), Math.sin(a)), 1120, cfg.damage, { type: 'scatter', pierce: 0, life: 2400, knockback: 34 });
+      this.spawnBullet(new Phaser.Math.Vector2(Math.cos(a), Math.sin(a)), 1120, cfg.damage, {
+        type: 'scatter', pierce: 0, life: 2400, knockback: 34, executeNonBoss: cfg.executeNonBoss,
+      });
     }
     const p = this.muzzlePoint(aim, 120); this.feedback.muzzle(p.x, p.y, angle, 0xffb56d, 1.5);
     this.scene.cameras.main.shake(110, 0.006);
-    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxShotgun, 0.56, 1, 250);
+    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxShotgun, 0.46, 1, 250);
   }
 
   fireArc(cfg, aim) {
@@ -125,20 +127,27 @@ export default class WeaponSystem {
     const hit = new Set(); let current = first; let fromX = this.player.x; let fromY = this.player.y;
     for (let i = 0; i < cfg.chains && current; i += 1) {
       this.feedback.arcBolt(fromX, fromY, current.x, current.y, cfg.color, i === 0 ? 1.18 : 0.9);
-      this.director.damage(current, cfg.damage * Math.pow(0.83, i), fromX, fromY, 12, i === 0);
+      // The coil is an execution charge: each of its ten links clears one
+      // non-boss infected regardless of wave health scaling. Titans still
+      // absorb normal falling damage so a charged weapon cannot skip a boss.
+      const isBoss = !!current.getData('cfg')?.boss;
+      const damage = cfg.executeNonBoss && !isBoss
+        ? Math.max(cfg.damage, current.getData('hp') || cfg.damage)
+        : cfg.damage * Math.pow(0.9, i);
+      this.director.damage(current, damage, fromX, fromY, 12, i === 0);
       this.feedback.impact(current.x, current.y, cfg.color);
       hit.add(current); fromX = current.x; fromY = current.y;
       current = this.director.findNearest(fromX, fromY, cfg.chainRange || 480, hit);
     }
     this.feedback.arcPulse(this.player.x, this.player.y, cfg.color);
-    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxArc, 0.52, 1, 300);
+    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxArc, 0.4, 1, 300);
   }
 
   fireRocket(cfg, aim, angle) {
     const bullet = this.spawnBullet(aim, 690, cfg.damage, { type: 'rocket', radius: cfg.radius, life: 1650, pierce: 0 });
     if (bullet) bullet.setTint(0xff8661).setScale(1.65);
     const p = this.muzzlePoint(aim); this.feedback.muzzle(p.x, p.y, angle, 0xff7048, 1.35);
-    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxRocket, 0.55, 1, 350);
+    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxRocket, 0.42, 1, 350);
   }
 
   fireRail(cfg, aim) {
@@ -158,7 +167,7 @@ export default class WeaponSystem {
     }
     this.scene.tweens.add({ targets: g, alpha: 0, duration: 310, onComplete: () => g.destroy() });
     this.scene.cameras.main.shake(280, 0.013);
-    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxRail, 0.62, 1, 600);
+    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxRail, 0.46, 1, 600);
   }
 
   raycastTarget(aim, maxDistance) {
@@ -195,7 +204,11 @@ export default class WeaponSystem {
       bullet.disableBody(true, true);
       return;
     }
-    const result = this.director.damage(enemy, data.damage, bullet.x, bullet.y, data.knockback || 0, false);
+    const isBoss = !!enemy.getData('cfg')?.boss;
+    const damage = data.executeNonBoss && !isBoss
+      ? Math.max(data.damage, enemy.getData('hp') || data.damage)
+      : data.damage;
+    const result = this.director.damage(enemy, damage, bullet.x, bullet.y, data.knockback || 0, false);
     this.feedback.impact(bullet.x, bullet.y, data.type === 'scatter' ? 0xffb16b : 0xffe7a0);
     if (result.killed) this.feedback.infectedBurst(enemy.x, enemy.y, data.type === 'scatter' ? 1.2 : 0.8);
     if ((data.pierce || 0) <= 0) bullet.disableBody(true, true); else data.pierce -= 1;
@@ -210,7 +223,7 @@ export default class WeaponSystem {
       this.director.damage(enemy, scaled, x, y, 78, distance < radius * 0.32);
       this.feedback.infectedBurst(enemy.x, enemy.y, 1.1);
     }
-    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxExplosion, 0.62, 1, 280);
+    AudioManager.playSfx(this.scene, ASSET_KEYS.sfxExplosion, 0.46, 1, 280);
   }
 
   cleanupBullets() {

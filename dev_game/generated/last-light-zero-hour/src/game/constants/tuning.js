@@ -10,6 +10,9 @@ export const TUNING = {
   playerDisplay: 272,
   safeTop: 54,
   safeSide: 52,
+  // The radio/HUD occupies the upper 386 logical pixels. Large bosses must
+  // enter below that protected text area rather than slide behind it.
+  bossEntryY: 650,
   maxEnemies: 140,
   maxBullets: 260,
 };

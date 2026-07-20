@@ -8,15 +8,15 @@ export const WEAPONS = {
   },
   scatter: {
     id: 'scatter', name: '스캐터 캐논', short: '산탄', frame: 1,
-    damage: 25, pellets: 7, spread: 0.34, fireMs: 520, energyCost: 34,
+    damage: 120, pellets: 7, spread: 0.34, fireMs: 520, energyCost: 34, executeNonBoss: true,
     chargePerSecond: 8.2, chargePerKill: 3.1, unlockLevel: 0,
-    description: '전장 끝까지 퍼지는 부채꼴 넉백', color: 0xffa657,
+    description: '일반 감염체 한 발 처형 · 전장 관통', color: 0xffa657,
   },
   arc: {
     id: 'arc', name: '아크 코일', short: '연쇄전격', frame: 2,
-    damage: 34, chains: 5, range: 1500, chainRange: 480, fireMs: 620, energyCost: 42,
+    damage: 68, chains: 10, range: 1500, chainRange: 560, fireMs: 620, energyCost: 42, executeNonBoss: true,
     chargePerSecond: 6.4, chargePerKill: 4.7, unlockLevel: 0,
-    description: '첫 표적에서 주변 5개체로 번지는 번개', color: 0x71e7ff,
+    description: '최대 10체 즉사 연쇄전격', color: 0x71e7ff,
   },
   rocket: {
     id: 'rocket', name: '헬파이어 로켓', short: '로켓', frame: 3,

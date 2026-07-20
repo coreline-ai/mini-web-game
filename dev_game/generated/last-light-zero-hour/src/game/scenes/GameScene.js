@@ -19,7 +19,8 @@ export default class GameScene extends Phaser.Scene {
     this.isOver = false;
     this.hasCleanedUp = false;
     this.runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    this.stats = { elapsed: 0, kills: 0, elites: 0, bosses: 0, cores: 0, score: 0, hp: 100, maxHp: 100 };
+    this.godMode = typeof location !== 'undefined' && new URLSearchParams(location.search).get('godMode') === '1';
+    this.stats = { elapsed: 0, kills: 0, elites: 0, bosses: 0, cores: 0, score: 0, hp: 100, maxHp: 100, invincible: this.godMode };
     this.invulnerableUntil = 0;
     this.layoutClock = 0;
     this.forcedElapsed = null;
@@ -49,7 +50,7 @@ export default class GameScene extends Phaser.Scene {
     this.weapon = new WeaponSystem(this, this.player, this.director, this.feedback, {
       onSelected: (id) => {
         this.weaponModel.setFrame(['gatling', 'scatter', 'arc', 'rocket', 'rail'].indexOf(id));
-        if (id === 'arc') this.hud?.showToast('연쇄 전격 · 첫 적에서 주변 5개체로 번지는 번개', '#71e7ff');
+        if (id === 'arc') this.hud?.showToast('연쇄 전격 · 최대 10체 즉사 전격', '#71e7ff');
       },
       onUnavailable: (id, missing) => this.hud?.showToast(`충전 부족 · ${Math.ceil(missing)}% 필요`, '#ffb49d'),
       onOverheat: () => this.hud?.showToast('기관포 과열 · 충전 무기로 교대하라', '#ff9b7e'),
@@ -66,6 +67,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.pickups, this.onPickup, undefined, this);
 
     this.narrative.set('HELIOS // DAY 01', '05:42 — 헬리오 코어 재가동. 북쪽 접근로의 감염체를 차단하라.');
+    if (this.godMode) this.hud.showToast('테스트 무적 모드 · HP ∞', '#8df7d6');
     AudioManager.playGameplayMusic(this);
     this.visibilityHandler = () => { if (document.hidden && !this.isOver) this.openPause(); };
     document.addEventListener('visibilitychange', this.visibilityHandler);
@@ -150,7 +152,9 @@ export default class GameScene extends Phaser.Scene {
     shot.enableBody(true, enemy.x, enemy.y, true, true).setTexture(ASSET_KEYS.infectedShot).setDisplaySize(62, 62).setDepth(25).setAlpha(1);
     shot.body.setAllowGravity(false); shot.body.setCircle(24, 4, 4);
     shot.setVelocity(dir.x * 360, dir.y * 360).setData({ damage, created: this.time.now });
-    AudioManager.playSfx(this, ASSET_KEYS.sfxZombie, 0.18, Phaser.Math.FloatBetween(0.88, 1.08), 450);
+    // Ranged infected use a short spit/hiss at a restrained level. The old
+    // long low-pitched cue was replayed every 450ms and could dominate combat.
+    AudioManager.playSfx(this, ASSET_KEYS.sfxZombie, 0.1, Phaser.Math.FloatBetween(0.94, 1.07), 1200);
   }
 
   onEnemyShotHit(_player, shot) {
@@ -162,6 +166,9 @@ export default class GameScene extends Phaser.Scene {
 
   damagePlayer(amount, source) {
     if (this.isOver || this.time.now < this.invulnerableUntil) return;
+    // QA/playtest-only mode, explicitly enabled by ?godMode=1. Hits still
+    // consume enemy projectiles, but HP and the game-over state never change.
+    if (this.godMode) return;
     this.invulnerableUntil = this.time.now + 270;
     this.stats.hp = Math.max(0, this.stats.hp - amount);
     this.player.setTintFill(0xffa38f);
@@ -260,7 +267,7 @@ export default class GameScene extends Phaser.Scene {
     window.__GAME_QA_STATE__ = {
       scene: SCENES.GAME, elapsed: this.stats.elapsed, day: phaseState.day, phase: phaseState.phase.id,
       hp: this.stats.hp, kills: this.stats.kills, cores: this.stats.cores, activeEnemies: wave.active,
-      bossActive: !!wave.boss, player: { x: this.player.x, y: this.player.y }, weapon: this.weapon.state(),
+      bossActive: !!wave.boss, invincible: this.godMode, player: { x: this.player.x, y: this.player.y }, weapon: this.weapon.state(),
     };
   }
 
@@ -268,11 +275,12 @@ export default class GameScene extends Phaser.Scene {
     if (typeof window === 'undefined') return;
     window.__GAME_DEBUG__ = {
       spawn: (type = 'walker', count = 1) => { for (let i = 0; i < count; i += 1) this.director.spawn(type); },
-      boss: () => this.director.spawn('titan', SPEC.canvas.width / 2, 260, Math.floor(this.stats.elapsed / 180) + 1),
+      boss: () => this.director.spawn('titan', SPEC.canvas.width / 2, TUNING.bossEntryY, Math.floor(this.stats.elapsed / 180) + 1),
       surge: () => this.director.forceSurge(20000),
       damage: (amount = 10) => this.damagePlayer(amount, { x: this.player.x, y: this.player.y - 100 }),
       charge: () => { Object.keys(this.weapon.energy).forEach((id) => { if (id !== 'gatling') this.weapon.energy[id] = 100; }); },
       setTime: (seconds) => { this.forcedElapsed = Math.max(0, Number(seconds) || 0); this.stats.elapsed = this.forcedElapsed; },
+      godMode: (enabled = true) => { this.godMode = !!enabled; this.stats.invincible = this.godMode; },
       killAll: () => this.director.activeEnemies().forEach((enemy) => this.director.damage(enemy, 99999, enemy.x, enemy.y, 0, true)),
     };
   }

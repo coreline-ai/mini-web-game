@@ -36,6 +36,7 @@ export default class BattleLoadingScene extends Phaser.Scene {
     this.queueImage(ASSET_KEYS.uiPause, 'ui/ui-pause.png');
     this.queueImage(ASSET_KEYS.uiWeaponCard, 'ui/ui-weapon-card.png');
     this.queueImage(ASSET_KEYS.fxInfectedBurst, 'fx/fx-infected-burst.png');
+    this.queueImage(ASSET_KEYS.fxRocketExplosion, 'fx/rocket-explosion-v1.png');
     ['dawn', 'day', 'dusk', 'night', 'bloodmoon'].forEach((name, index) => this.queueImage(`bg_${index}`, `backgrounds/bg-${name}.jpg`));
 
     if (SPEC.audio?.enabled) {

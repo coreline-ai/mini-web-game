@@ -53,7 +53,10 @@ export default class EnemyWaveDirector {
     const bossTime = (day - 1) * 180 + 120;
     if (elapsed >= bossTime && !this.spawnedBossDays.has(day)) {
       this.spawnedBossDays.add(day);
-      this.spawn('titan', SPEC.canvas.width / 2, -260, day);
+      // A titan is tall enough to overlap the top HUD if it spawns offscreen.
+      // Start it beneath the radio panel so its full silhouette enters inside
+      // the readable combat field, then let it advance toward the player.
+      this.spawn('titan', SPEC.canvas.width / 2, TUNING.bossEntryY, day);
       this.surgeUntil = this.scene.time.now + 9500;
     }
     const interval = this.scene.time.now < this.surgeUntil ? state.interval * 0.56 : state.interval;

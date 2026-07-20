@@ -12,6 +12,7 @@ export const ASSET_KEYS = {
   uiPause: 'ui_pause',
   uiWeaponCard: 'ui_weapon_card',
   fxInfectedBurst: 'fx_infected_burst',
+  fxRocketExplosion: 'fx_rocket_explosion',
   backgrounds: ['bg_0', 'bg_1', 'bg_2', 'bg_3', 'bg_4'],
   sfxStart: 'sfx_start',
   sfxGatling: 'sfx_gatling',

@@ -55,8 +55,8 @@ export default class HudUI {
     this.coreText.setText(`결정 ${stats.cores}`);
     const hpRatio = Math.max(0, Math.min(1, stats.hp / stats.maxHp));
     this.hpFill.width = 720 * hpRatio;
-    this.hpFill.fillColor = hpRatio > 0.55 ? 0x78d3a5 : hpRatio > 0.25 ? 0xe2a652 : 0xdb594e;
-    this.hpLabel.setText(`HP ${Math.ceil(stats.hp)}`);
+    this.hpFill.fillColor = stats.invincible ? 0x8df7d6 : hpRatio > 0.55 ? 0x78d3a5 : hpRatio > 0.25 ? 0xe2a652 : 0xdb594e;
+    this.hpLabel.setText(stats.invincible ? 'HP ∞' : `HP ${Math.ceil(stats.hp)}`);
     this.cards.forEach((card) => {
       const selected = card.id === weaponState.selected;
       card.bg.setStrokeStyle(selected ? 9 : 5, selected ? WEAPONS[card.id].color : 0x58736e, selected ? 1 : 0.78);
