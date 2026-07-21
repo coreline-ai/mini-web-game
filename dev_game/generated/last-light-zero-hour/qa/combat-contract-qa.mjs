@@ -14,6 +14,8 @@ const loading = read('src/game/scenes/LoadingScene.js');
 const battleLoading = read('src/game/scenes/BattleLoadingScene.js');
 const home = read('src/game/scenes/HomeScene.js');
 const feedback = read('src/game/systems/CombatFeedbackSystem.js');
+const weaponSystem = read('src/game/systems/WeaponSystem.js');
+const hud = read('src/game/ui/HudUI.js');
 const gdd = read('docs/01-GDD.md');
 
 const assertions = [];
@@ -30,9 +32,9 @@ assert(manifest.images.filter((a) => a.type === 'sprite-sheet').length >= 6, 'si
 assert(/WEAPON_ORDER = \['gatling', 'scatter', 'arc', 'rocket', 'rail'\]/.test(weapons), 'five switchable weapons are configured');
 assert(/heatPerShot/.test(weapons) && /coolPerSecond/.test(weapons), 'gatling heat and cooling are configured');
 assert(/chargePerSecond/.test(weapons) && /chargePerKill/.test(weapons), 'special weapons charge from time and kills');
-assert(/type: 'scatter'.*life: 2400/.test(read('src/game/systems/WeaponSystem.js')), 'scatter pellets cross the full battlefield');
-assert(/chains: 10, range: 1500, chainRange: 560/.test(weapons) && /executeNonBoss: true/.test(weapons) && /arcBolt/.test(feedback), 'arc coil visibly executes a ten-target chain-lightning identity');
-assert(/radius: 360/.test(weapons) && /blastArea/.test(feedback) && /shockwave/.test(feedback) && /rocketTrail/.test(feedback) && /fxRocketExplosion/.test(feedback), 'rocket uses a wider blast radius with trail, generated explosion art and layered feedback');
+assert(/type: 'scatter'.*life: 2400/.test(weaponSystem), 'scatter pellets cross the full battlefield');
+assert(/chains: 10, range: 2600, chainRange: 560/.test(weapons) && /executeNonBoss: true/.test(weapons) && /arcBolt/.test(feedback), 'arc coil visibly executes a ten-target chain-lightning identity across the full visible combat field');
+assert(/radius: 520/.test(weapons) && /executeNonBoss: true/.test(weapons) && /blastArea/.test(feedback) && /shockwave/.test(feedback) && /rocketTrail/.test(feedback) && /fxRocketExplosion/.test(feedback), 'rocket uses a wider execution blast radius with trail, generated explosion art and layered feedback');
 assert(/getManualAim/.test(game) && /findNearest/.test(game), 'manual aim and nearest-target auto aim are both wired');
 assert(/combatTop/.test(game) && /combatBottom/.test(game), 'player movement is clamped to the lower combat zone');
 assert(/activeEnemies/.test(director) && /separationRadius/.test(director), 'swarm separation steering is implemented');
@@ -46,5 +48,17 @@ assert(!/sideEntry/.test(director) && /Between\(-210, -80\)/.test(director), 'in
 assert(/__GAME_QA_STATE__/.test(game) && /__GAME_DEBUG__/.test(game), 'runtime QA state and debug hooks are exposed');
 assert(/godMode/.test(game) && /HP ∞/.test(read('src/game/ui/HudUI.js')), 'query-enabled invincibility mode is visible as HP infinity');
 assert(/this\.active = true/.test(controller) && /this\.move/.test(controller), 'drag controller produces simultaneous movement and aim');
+assert(/nextFire = Object\.fromEntries/.test(weaponSystem) && /nextFire\.gatling/.test(weaponSystem), 'gatling has its own fire schedule instead of sharing a global weapon cooldown');
+assert(/activateSpecial\(id, aimVector\)/.test(weaponSystem) && /fireGatlingChannel\(aimVector\)/.test(weaponSystem), 'charged special cards and gatling use independent fire channels');
+assert(!/delayedCall\(260, \(\) => this\.select\('gatling'\)\)/.test(weaponSystem), 'special firing no longer schedules a forced return that can cancel another card input');
+assert(/activateWeaponCard\(id\)/.test(game) && /weapon\.activateSpecial\(id, this\.currentAim\)/.test(game), 'weapon card input immediately passes the latest aim to the special fire channel');
+assert(/onNoTarget/.test(weaponSystem) && /연쇄전격 표적 없음 · 충전 유지/.test(game), 'arc coil preserves its charge when no valid target exists');
+assert(/READY · 탭/.test(hud) && /재사용 \$\{cooldown\.toFixed\(1\)\}초/.test(hud) && /AUTO/.test(hud), 'weapon cards expose ready, cooldown and automatic-fire states');
+assert(/explode\(bullet\.x, bullet\.y, data\.radius, data\.damage, data\.executeNonBoss\)/.test(weaponSystem) && /executeNonBoss && !isBoss/.test(weaponSystem), 'rocket explosion executes every non-boss infected inside its blast radius while bosses retain scaled damage');
+assert(/toggleAutoHunt\(\)/.test(game) && /getAutoHuntMove\(\)/.test(game) && /tryAutoHuntSpecial\(aim, nearest\)/.test(game), 'auto hunt toggles autonomous lane movement and special-weapon decisions');
+assert(/자동 사냥 ON/.test(hud) && /auto-hunt/.test(hud) && /onAutoHunt/.test(hud), 'top HUD exposes a visible auto-hunt toggle control');
+assert(/autoHunt: this\.autoHuntEnabled/.test(game), 'runtime QA state reports whether automatic hunting is active');
+assert(/findNearest\(this\.player\.x, this\.player\.y, 2700\)/.test(game) && /nearby\.length >= 4/.test(game) && /targetDistance <= 2700/.test(game), 'auto hunt proactively uses special weapons against visible advancing threats');
+assert(/autoHuntSpecialCursor/.test(game) && /Every charged special gets a turn/.test(game) && /nearby\.length >= 4 \? 260 : 520/.test(game), 'dense auto hunt rotates through ready specials at a high-priority barrage cadence');
 
 console.log(JSON.stringify({ ok: true, assertions: assertions.length, details: assertions }, null, 2));

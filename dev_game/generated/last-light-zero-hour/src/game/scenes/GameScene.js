@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
+import { WEAPONS } from '../data/weaponConfig.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
 import { TUNING } from '../constants/tuning.js';
 import { AudioManager } from '../systems/AudioManager.js';
@@ -24,6 +25,15 @@ export default class GameScene extends Phaser.Scene {
     this.invulnerableUntil = 0;
     this.layoutClock = 0;
     this.forcedElapsed = null;
+    this.currentAim = new Phaser.Math.Vector2(0, -1);
+    this.specialWeaponVisualSerial = 0;
+    this.autoHuntEnabled = false;
+    this.autoHuntMove = new Phaser.Math.Vector2();
+    this.autoHuntTarget = new Phaser.Math.Vector2(TUNING.playerStartX, TUNING.playerStartY);
+    this.autoHuntNextDecision = 0;
+    this.autoHuntNextSpecial = 0;
+    this.autoHuntSpecialCursor = 0;
+    this.autoHuntLastSpecial = null;
 
     this.dayNight = new DayNightSystem(this, (phase, day, index) => this.onPhaseChanged(phase, day, index));
     this.coreAura = this.add.circle(SPEC.canvas.width / 2, SPEC.canvas.height * 0.795, 225, 0xe5b966, 0.045).setStrokeStyle(12, 0xe5b966, 0.16).setDepth(-4);
@@ -48,17 +58,16 @@ export default class GameScene extends Phaser.Scene {
       onBossCharge: () => this.hud?.showToast('타이탄 돌진 · 하단을 드래그해 회피', '#ff9f88'),
     });
     this.weapon = new WeaponSystem(this, this.player, this.director, this.feedback, {
-      onSelected: (id) => {
-        this.weaponModel.setFrame(['gatling', 'scatter', 'arc', 'rocket', 'rail'].indexOf(id));
-        if (id === 'arc') this.hud?.showToast('연쇄 전격 · 최대 10체 즉사 전격', '#71e7ff');
-      },
       onUnavailable: (id, missing) => this.hud?.showToast(`충전 부족 · ${Math.ceil(missing)}% 필요`, '#ffb49d'),
+      onCooldown: (id, seconds) => this.hud?.showToast(`${this.weaponLabel(id)} 재사용 · ${seconds.toFixed(1)}초`, '#b5d8eb'),
+      onNoTarget: () => this.hud?.showToast('연쇄전격 표적 없음 · 충전 유지', '#b5d8eb'),
       onOverheat: () => this.hud?.showToast('기관포 과열 · 충전 무기로 교대하라', '#ff9b7e'),
       onCooled: () => this.hud?.showToast('기관포 냉각 완료', '#9de8d6'),
+      onSpecialActivated: (id) => this.onSpecialActivated(id),
       onFired: (id) => this.onWeaponFired(id),
     });
     this.controller = new HybridAimController(this);
-    this.hud = new HudUI(this, () => this.openPause(), (id) => this.weapon.select(id));
+    this.hud = new HudUI(this, () => this.openPause(), (id) => this.activateWeaponCard(id), () => this.toggleAutoHunt());
 
     this.createCombatTextures();
     this.enemyShots = this.physics.add.group({ maxSize: 70, allowGravity: false });
@@ -104,7 +113,9 @@ export default class GameScene extends Phaser.Scene {
     const nearest = this.director.findNearest(this.player.x, this.player.y, 1750);
     const autoAim = nearest ? new Phaser.Math.Vector2(nearest.x - this.player.x, nearest.y - this.player.y).normalize() : new Phaser.Math.Vector2(0, -1);
     const aim = manualAim || autoAim;
-    const move = this.controller.getMoveVector();
+    this.currentAim.copy(aim);
+    const autoHuntActive = this.autoHuntEnabled && !manualAim;
+    const move = autoHuntActive ? this.getAutoHuntMove() : this.controller.getMoveVector();
     const moveSpeed = 790;
     this.player.x = Phaser.Math.Clamp(this.player.x + move.x * moveSpeed * delta / 1000, TUNING.combatLeft, TUNING.combatRight);
     this.player.y = Phaser.Math.Clamp(this.player.y + move.y * moveSpeed * delta / 1000, TUNING.combatTop, TUNING.combatBottom);
@@ -118,16 +129,129 @@ export default class GameScene extends Phaser.Scene {
     this.player.setRotation(0);
     this.weaponModel.setPosition(this.player.x + aim.x * 20, this.player.y + aim.y * 20).setRotation(weaponRotation);
     this.player.anims.timeScale = move.lengthSq() > 0.02 ? 1.5 : 0.82;
+    if (autoHuntActive) this.tryAutoHuntSpecial(aim, nearest);
     this.weapon.update(delta, aim, !!manualAim || !!nearest);
 
     this.updateEnemyShots(delta);
     this.updatePickups(delta);
     this.narrative.update(delta);
     this.stats.score = Math.floor(this.stats.elapsed * 12 + this.stats.kills * 22 + this.stats.elites * 90 + this.stats.bosses * 900);
-    this.hud.update(this.stats, phaseState, this.weapon.state());
+    this.hud.update(this.stats, phaseState, this.weapon.state(), this.autoHuntEnabled);
     this.layoutClock += delta;
     if (this.layoutClock > 240) { this.layoutClock = 0; this.publishLayout(); }
     this.publishQaState(phaseState, wave);
+  }
+
+  weaponLabel(id) {
+    return ({ scatter: '산탄', arc: '연쇄전격', rocket: '로켓', rail: '레일' })[id] || '무기';
+  }
+
+  toggleAutoHunt() {
+    this.autoHuntEnabled = !this.autoHuntEnabled;
+    this.autoHuntNextDecision = 0;
+    this.autoHuntNextSpecial = this.time.now + 260;
+    this.autoHuntSpecialCursor = 0;
+    this.autoHuntLastSpecial = null;
+    this.hud?.setAutoHunt(this.autoHuntEnabled);
+    this.hud?.showToast(this.autoHuntEnabled
+      ? '자동 사냥 ON · 이동·회피·특수무기 자동 운용'
+      : '자동 사냥 OFF · 직접 조작으로 복귀', this.autoHuntEnabled ? '#a8f5d8' : '#f6e6bc');
+  }
+
+  getAutoHuntMove() {
+    const now = this.time.now;
+    if (now >= this.autoHuntNextDecision) {
+      const lanes = [TUNING.combatLeft + 135, SPEC.canvas.width / 2, TUNING.combatRight - 135];
+      const enemies = this.director.activeEnemies();
+      let bestLane = lanes[0]; let bestScore = Infinity;
+      for (const lane of lanes) {
+        let score = Math.abs(lane - this.player.x) * 0.1;
+        for (const enemy of enemies) {
+          const cfg = enemy.getData('cfg') || {};
+          const dx = enemy.x - lane;
+          const dy = Math.max(0, this.player.y - enemy.y);
+          const threat = cfg.boss ? 6 : cfg.elite ? 3 : enemy.getData('type') === 'runner' ? 1.7 : 1;
+          score += threat * 360000 / (dx * dx + dy * dy + 115000);
+        }
+        if (score < bestScore) { bestScore = score; bestLane = lane; }
+      }
+      this.autoHuntTarget.set(bestLane, TUNING.playerStartY);
+      this.autoHuntNextDecision = now + 420;
+    }
+    this.autoHuntMove.set(this.autoHuntTarget.x - this.player.x, this.autoHuntTarget.y - this.player.y);
+    if (this.autoHuntMove.lengthSq() < 26 * 26) return this.autoHuntMove.set(0, 0);
+    return this.autoHuntMove.normalize();
+  }
+
+  tryAutoHuntSpecial(aim, nearest) {
+    const now = this.time.now;
+    if (now < this.autoHuntNextSpecial) return;
+    const weaponState = this.weapon.state();
+    const canUse = (id) => {
+      const cfg = WEAPONS[id];
+      return weaponState.energy[id] + 0.001 >= cfg.energyCost && (weaponState.cooldown[id] || 0) <= 0.01;
+    };
+    // Auto hunt deliberately sees farther than the gatling.  A special weapon
+    // must clear an advancing wave before the regular gun has thinned it.
+    const nearby = this.director.activeEnemies().filter((enemy) => Phaser.Math.Distance.Between(this.player.x, this.player.y, enemy.x, enemy.y) <= 2700);
+    const target = nearest || this.director.findNearest(this.player.x, this.player.y, 2700);
+    const specialAim = target
+      ? new Phaser.Math.Vector2(target.x - this.player.x, target.y - this.player.y).normalize()
+      : aim;
+    const boss = nearby.find((enemy) => enemy.getData('cfg')?.boss);
+    const elite = nearby.find((enemy) => enemy.getData('cfg')?.elite);
+    const targetDistance = target ? Phaser.Math.Distance.Between(this.player.x, this.player.y, target.x, target.y) : Infinity;
+    const viable = {
+      scatter: !!target && targetDistance <= 2700,
+      arc: !!target && nearby.length >= 2 && targetDistance <= 2600,
+      rocket: !!target && nearby.length >= 3 && targetDistance <= 1750,
+      rail: !!target && (boss || elite || nearby.length >= 7),
+    };
+
+    // Every charged special gets a turn while a crowd is present.  This makes
+    // auto hunt a special-weapon barrage under pressure instead of a gatling
+    // mode that occasionally happens to fire one card.
+    let order;
+    if (boss || elite) order = ['rail', 'rocket', 'arc', 'scatter'];
+    else if (nearby.length >= 7) order = ['rocket', 'arc', 'rail', 'scatter'];
+    else if (nearby.length >= 4) order = ['rocket', 'arc', 'scatter'];
+    else if (nearby.length >= 2) order = ['arc', 'scatter'];
+    else order = ['scatter'];
+
+    let weaponId = null;
+    for (let step = 0; step < order.length; step += 1) {
+      const index = (this.autoHuntSpecialCursor + step) % order.length;
+      const candidate = order[index];
+      if (viable[candidate] && canUse(candidate)) {
+        weaponId = candidate;
+        this.autoHuntSpecialCursor = (index + 1) % order.length;
+        break;
+      }
+    }
+    const fired = weaponId ? this.weapon.activateSpecial(weaponId, specialAim) : false;
+    if (fired) this.autoHuntLastSpecial = weaponId;
+    // Dense waves consume ready specials in quick succession; during a quiet
+    // lane the cadence backs off to avoid spending a card without a target.
+    this.autoHuntNextSpecial = now + (fired ? (nearby.length >= 4 ? 260 : 520) : 220);
+  }
+
+  activateWeaponCard(id) {
+    if (id === 'gatling') {
+      this.hud?.showToast('기관포 자동사격 활성', '#e5c77a');
+      return false;
+    }
+    return this.weapon.activateSpecial(id, this.currentAim);
+  }
+
+  onSpecialActivated(id) {
+    const messages = {
+      scatter: ['스캐터 캐논 · 전장 관통 산탄', '#ffbf7d'],
+      arc: ['연쇄전격 · 최대 10체 즉사 전격', '#71e7ff'],
+      rocket: ['헬파이어 로켓 · 범위 폭발', '#ff9b7e'],
+      rail: ['레일 랜스 · 전장 관통', '#c6f8ff'],
+    };
+    const [message, color] = messages[id] || ['특수무기 발동', '#f6e6bc'];
+    this.hud?.showToast(message, color);
   }
 
   dodgeToward(point) {
@@ -140,6 +264,22 @@ export default class GameScene extends Phaser.Scene {
   }
 
   onWeaponFired(id) {
+    if (id !== 'gatling') {
+      const serial = ++this.specialWeaponVisualSerial;
+      const frame = ['gatling', 'scatter', 'arc', 'rocket', 'rail'].indexOf(id);
+      this.weaponModel.setFrame(frame);
+      this.tweens.killTweensOf(this.weaponModel);
+      const scale = id === 'rail' ? 0.78 : 0.86;
+      this.weaponModel.setScale((100 / 256) * scale, (150 / 384) * scale);
+      this.tweens.add({ targets: this.weaponModel, scaleX: 100 / 256, scaleY: 150 / 384, duration: 190, ease: 'Back.easeOut' });
+      this.time.delayedCall(210, () => {
+        if (serial === this.specialWeaponVisualSerial && this.weaponModel?.active) this.weaponModel.setFrame(0);
+      });
+      return;
+    }
+    // Keep the special weapon silhouette visible for its short recoil cue;
+    // firing the gatling still continues in the simulation during this window.
+    if (this.time.now < (this.weapon?.specialFlashUntil || 0)) return;
     const scale = id === 'gatling' ? 0.94 : id === 'rail' ? 0.78 : 0.86;
     this.tweens.killTweensOf(this.weaponModel);
     this.weaponModel.setScale((100 / 256) * scale, (150 / 384) * scale);
@@ -267,7 +407,7 @@ export default class GameScene extends Phaser.Scene {
     window.__GAME_QA_STATE__ = {
       scene: SCENES.GAME, elapsed: this.stats.elapsed, day: phaseState.day, phase: phaseState.phase.id,
       hp: this.stats.hp, kills: this.stats.kills, cores: this.stats.cores, activeEnemies: wave.active,
-      bossActive: !!wave.boss, invincible: this.godMode, player: { x: this.player.x, y: this.player.y }, weapon: this.weapon.state(),
+      bossActive: !!wave.boss, invincible: this.godMode, autoHunt: this.autoHuntEnabled, autoHuntLastSpecial: this.autoHuntLastSpecial, player: { x: this.player.x, y: this.player.y }, weapon: this.weapon.state(),
     };
   }
 

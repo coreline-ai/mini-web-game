@@ -14,15 +14,17 @@ export const WEAPONS = {
   },
   arc: {
     id: 'arc', name: '아크 코일', short: '연쇄전격', frame: 2,
-    damage: 68, chains: 10, range: 1500, chainRange: 560, fireMs: 620, energyCost: 42, executeNonBoss: true,
+    damage: 68, chains: 10, range: 2600, chainRange: 560, fireMs: 620, energyCost: 42, executeNonBoss: true,
     chargePerSecond: 6.4, chargePerKill: 4.7, unlockLevel: 0,
     description: '최대 10체 즉사 연쇄전격', color: 0x71e7ff,
   },
   rocket: {
     id: 'rocket', name: '헬파이어 로켓', short: '로켓', frame: 3,
-    damage: 116, radius: 360, fireMs: 1050, energyCost: 62,
+    // A charged rocket is the panic-clear tool: every non-boss infected in
+    // the visible blast zone is removed even after late-wave health scaling.
+    damage: 180, radius: 520, fireMs: 1050, energyCost: 62, executeNonBoss: true,
     chargePerSecond: 4.5, chargePerKill: 7.4, unlockLevel: 0,
-    description: '대형 감염체 범위 폭발', color: 0xff7c54,
+    description: '주변 감염체 즉시 정리 범위 폭발', color: 0xff7c54,
   },
   rail: {
     id: 'rail', name: '레일 랜스', short: '레일', frame: 4,

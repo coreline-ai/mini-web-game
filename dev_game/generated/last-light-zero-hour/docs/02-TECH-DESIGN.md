@@ -27,7 +27,7 @@
 ## 핵심 시스템
 
 - `HybridAimController`: 무입력 자동 조준, 드래그 중 수동 벡터 이동·조준.
-- `WeaponSystem`: 무기 전환, 기관포 열, 특수 무기 시간·처치 충전.
+- `WeaponSystem`: 기관포 자동사격·열 관리와 특수무기별 독립 즉시 발동, 시간·처치 충전.
 - `BulletPool`: 최대 탄체 수 제한, 재사용, 관통과 폭발.
 - `EnemyWaveDirector`: 단계별 예산, 군집 크기, 다방향 진입, 엘리트·보스 예약.
 - `SwarmMotionSystem`: 목표 추적, 개체 간 분리, 흔들림·지그재그·돌진.
