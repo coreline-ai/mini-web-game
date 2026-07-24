@@ -19,6 +19,10 @@ export default {
   width: SPEC.canvas.width,
   height: SPEC.canvas.height,
   backgroundColor: SPEC.canvas.backgroundColor,
+  // Phaser's loader receives bare runtime asset paths from the scene files.
+  // Resolve them against Vite's dev/production public base so the same build
+  // works at the repository root locally and under the GitHub Pages subpath.
+  loader: { baseURL: import.meta.env.BASE_URL },
   scale: {
     mode: SPEC.canvas.scaleMode === 'cover' ? Phaser.Scale.ENVELOP : Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

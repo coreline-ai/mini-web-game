@@ -112,6 +112,14 @@
 
 > GitHub Pages 상시 호스팅 · PC/모바일 브라우저에서 바로 실행됩니다.
 
+### 🧟 LAST LIGHT: 제로 아워
+
+감염 도시의 헬리오 코어를 지키는 세로형 생존 슈팅 게임입니다.
+
+[▶ LAST LIGHT 플레이](https://coreline-ai.github.io/mini-web-game/last-light-zero-hour/)
+
+> 기존 게임과 같은 GitHub Pages 사이트의 하위 경로에서 실행됩니다.
+
 ### 💻 로컬에서 실행
 
 ```bash

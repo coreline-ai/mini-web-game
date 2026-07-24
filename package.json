@@ -10,6 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:e2e": "node scripts/gameover-save-smoke.mjs",
+    "test:pages-smoke": "node scripts/pages-artifact-smoke.mjs",
     "test": "npm run test:e2e"
   },
   "dependencies": {

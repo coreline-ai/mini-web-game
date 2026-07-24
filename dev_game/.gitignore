@@ -28,6 +28,8 @@ generated/*
 !generated/firebreak-commander/**
 !generated/iron-courier-last-line/
 !generated/iron-courier-last-line/**
+!generated/last-light-zero-hour/
+!generated/last-light-zero-hour/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 

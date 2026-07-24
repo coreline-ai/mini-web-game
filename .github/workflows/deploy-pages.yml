@@ -3,6 +3,16 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - 'src/**'
+      - 'assets/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.js'
+      - 'scripts/pages-artifact-smoke.mjs'
+      - 'dev_game/generated/last-light-zero-hour/**'
+      - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
 # GITHUB_TOKEN 권한: Pages 배포에 필요
@@ -25,11 +35,42 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            dev_game/generated/last-light-zero-hour/package-lock.json
+      - uses: actions/configure-pages@v5
+
+      # Existing root game.
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+
+      # LAST LIGHT: 제로 아워, published below the project-site path.
+      - run: npm --prefix dev_game/generated/last-light-zero-hour ci
+      - run: npm --prefix dev_game/generated/last-light-zero-hour run build
+      - run: npm --prefix dev_game/generated/last-light-zero-hour run qa:dist-runtime
+      - run: npm --prefix dev_game/generated/last-light-zero-hour run test:combat
+      - run: npm --prefix dev_game/generated/last-light-zero-hour run qa:static-layout
+
+      # One Pages artifact contains both apps without replacing the existing URL.
+      - name: Assemble Pages artifact
+        run: |
+          mkdir -p pages-dist/last-light-zero-hour
+          cp -R dist/. pages-dist/
+          cp -R dev_game/generated/last-light-zero-hour/dist/. pages-dist/last-light-zero-hour/
+          test -f pages-dist/index.html
+          test -f pages-dist/last-light-zero-hour/index.html
+          test -f pages-dist/last-light-zero-hour/runtime-asset-manifest.json
+
+      - name: Install Chromium for Pages smoke
+        run: npm exec playwright install --with-deps chromium
+      - name: Smoke test assembled Pages artifact
+        run: npm run test:pages-smoke
+        env:
+          PAGES_ARTIFACT_ROOT: pages-dist
+
+      - uses: actions/upload-pages-artifact@v4
         with:
-          path: dist
+          path: pages-dist
 
   deploy:
     needs: build
