@@ -6,14 +6,59 @@
 >
 > **전제:** Claude는 이미지를 만들지 못한다(네이티브 이미지 생성 도구 없음). 프로덕션급 이미지 에셋은
 > `gpt 이미지젠 스킬`(`codex exec` → `.system/imagegen`, ChatGPT 인증, 외부 인증값 불필요)으로만 나온다.
+> **다만 그것이 "Claude는 이 파이프라인을 못 쓴다"는 뜻은 아니다** — Claude는 `codex exec`를 서브프로세스로
+> 띄워 같은 아트를 얻는다. 실행 절차는 [호스트 어댑터](#호스트-어댑터)를 따른다.
 >
-> **⭐ 추천 — Codex 전용으로 게임 개발 → 프로덕션 MVP (최고 완성도):** 게임 코드와 프로덕션급 이미지
-> 에셋을 **모두 Codex 한 환경에서 네이티브로 생산**한다. 크로스툴 핸드오프가 없어 가장 높은 완성도의
-> 프로덕션 MVP가 나온다. 아트 완성도를 최우선으로 하면 이 경로를 권장.
+> **⭐ 최고 완성도 — Codex 단독:** 게임 코드와 이미지 에셋을 **모두 Codex 한 환경에서 네이티브로 생산**한다.
+> 크로스툴 핸드오프가 없어 가장 높은 완성도의 프로덕션 MVP가 나온다. 아트 완성도 최우선이면 이 경로.
 >
-> **완성도 높은 게임 (하이브리드) = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).**
+> **하이브리드 = Claude(엔진·로직·QA·프롬프트) + Codex(프로덕션 이미지 에셋).** shell-out 어댑터로 한 세션에서 처리한다.
 >
-> **Claude 단독 = 2D 플레이스홀더 / 저품질 (비추천).** Codex 단계를 건너뛰면 `image-quality-qa`에서 FAIL한다.
+> **금지 — Claude가 직접 만든 2D 플레이스홀더로 완료 보고.** `image-quality-qa`에서 FAIL하며, 게이트를 낮춰 우회해서도 안 된다.
+> 아트를 못 만드는 환경이면 `--skip-art`로 구조만 만들고 **production-demo 미통과**로 보고한다.
+
+## 호스트 어댑터
+
+이 파이프라인은 특정 CLI 전용이 아니다. **게이트는 프로세스가 아니라 산출물을 검사한다** — `production-demo-qa`는 manifest의 provenance만 확인하고 누가 스크립트를 실행했는지 묻지 않는다. 그래서 아래 두 어댑터가 같은 완료 판정을 공유한다.
+
+| 자기 진단 | 어댑터 | 아트 취득 경로 |
+|---|---|---|
+| 내장 `image_gen` 도구를 직접 쓸 수 있다 | `codex-native` | 내장 imagegen 직접 호출 또는 `factory:imagegen` |
+| 쓸 수 없다 (Claude Code 등) | `claude-shellout` | `factory:imagegen` — 내부에서 `codex exec`를 스폰한다 |
+
+`codex-imagegen.mjs`는 평범한 Node 스크립트이고 `codex exec`를 서브프로세스로 띄운다. **호출자가 Codex일 필요가 없다.** 어댑터 선택은 사람이 지정하지 않고 아래 Step 0이 판정한다.
+
+### Step 0 — 능력 확인 (아트 전 필수)
+
+```bash
+npm --prefix dev_game run factory:host-preflight            # 정적 검사, 무비용
+npm --prefix dev_game run factory:host-preflight -- --deep  # 실제 1장 생성까지 검증
+npm --prefix dev_game run factory:host-preflight -- --json  # 기계 판독
+```
+
+codex 바이너리(실호출 검증) · `codex login status` 인증 · chroma-key helper 존재 · python3+PIL을 확인하고, 실패 시 항목별 복구 방법과 함께 exit 1 한다. `factory:make`는 이 검사를 스테이지 0으로 자동 실행하므로 **아트 불가 호스트는 스캐폴드조차 만들지 않고 중단**한다(`--skip-art` 지정 시 생략).
+
+정적 검사는 "설치·인증은 정상인데 image_gen이 응답하지 않는" 상태를 잡지 못한다. 장시간 생성을 시작하기 전 `--deep` 1회 실행을 권장한다.
+
+### 실행 규약 — 장시간 생성 다루기
+
+이미지 1장이 약 40초, 게임 1개의 계획 자산은 3~25개다. 즉 한 번의 `--only all`이 수 분~십수 분이며, **호출자의 명령 타임아웃(예: Claude Code Bash 툴 최대 600초)을 넘기는 것이 정상**이다. 따라서:
+
+1. **본 생성은 백그라운드 1회**로 돌리고 로그를 폴링한다. 청크 분할을 1차 수단으로 쓰지 않는다.
+   ```bash
+   npm --prefix dev_game run factory:imagegen -- --project <dir> --only all
+   ```
+2. **중단·실패 시 재개**한다. 같은 명령에 `--skip-existing`을 붙이면 검증을 통과한 자산은 건너뛰고 없거나 깨진 것만 다시 만든다.
+   ```bash
+   npm --prefix dev_game run factory:imagegen -- --project <dir> --only all --skip-existing
+   ```
+3. **개별 자산만 재시도**할 때는 `--id` 글롭 또는 `--only <카테고리>`로 좁힌다. 실패 시 스크립트가 재시도 명령을 직접 출력한다.
+   ```bash
+   npm --prefix dev_game run factory:imagegen -- --project <dir> --only sprites --skip-existing --id "hero*"
+   ```
+4. **preflight 실패로 아트가 불가능하면** `--skip-art`로 구조만 만들고 production-demo 미통과로 보고한다. 플레이스홀더를 채워 완료로 보고하지 않는다.
+
+`--skip-existing`은 디스크 자산을 "새로 생성했을 때와 같은 기준"으로 검증한다 — 크기 미달이나 알파 없는(투명화 실패) 자산은 재사용하지 않고 재생성하며, 파싱할 수 없는 포맷은 덮어쓰지 않고 보존한다.
 
 ## 한 번에 만들기 (make-game) — 권장
 
@@ -33,13 +78,14 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 ## 전체 흐름
 
 ```
-아이디어 → cli.mjs(스캐폴드) → productionize.mjs → codex-imagegen.mjs → 게이트
-             Foundation         기획문서5+asset-plan   실제 AI 아트 생성      production-gate GREEN
-                                +배경 골격+manifest    +게임에 배선
+아이디어 → host-preflight → cli.mjs(스캐폴드) → productionize.mjs → codex-imagegen.mjs → 게이트
+             아트 가능?        Foundation         기획문서5+asset-plan   실제 AI 아트 생성      production-gate GREEN
+             불가면 여기서 중단                    +배경 골격+manifest    +게임에 배선
 ```
 
 | 단계 | 스크립트 | 산출물 |
 |---|---|---|
+| 0. 호스트 확인 | `factory:host-preflight` | 아트 취득 가능 여부 판정 — 불가 시 스캐폴드 전에 중단 (`--skip-art`면 생략) |
 | 1. 스캐폴드 | `cli.mjs` | Phaser/Vite Foundation(씬·시스템·SVG 플레이스홀더) |
 | 2. 프로덕션화 | `factory:productionize -- --project <dir>` | 기획문서 01~05 + `asset-plan.json`(에셋별 생성 프롬프트+스타일가이드) + 래스터 배경 골격 + manifest(stageBackgrounds·assetIsolation·provenance) |
 | 3. **AI 아트 생성** | `factory:imagegen -- --project <dir> [--only all\|backgrounds\|sprites\|wire]` | `asset-plan.json` 프롬프트로 실제 배경·스프라이트 PNG 생성, manifest 품질 승격, 게임 코드가 에셋을 로드/표시하도록 배선 |
@@ -55,6 +101,8 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 - **스프라이트**: flat 크로마키 배경으로 생성 후 `~/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py --auto-key border`로 투명화.
 - 생성/존재하는 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", sourceSkill:"imagegen", promptHash:<hash>}`로 승격하고, 배경 3종+핵심 스프라이트가 모두 실아트면 `qualityTier:"production-demo"`로 올린다.
 - `--only wire`: 재생성 없이, 이미 존재하는(또는 외부 생성/복원된) 에셋으로 **게임 코드만 배선**(LoadingScene가 PNG 경로 로드, StageManager가 배경 표시) + manifest 승격.
+- `--skip-existing` / `--id <glob>`: 중단된 실행을 재개하거나 실패한 자산만 다시 만든다. 자세한 규약은 [호스트 어댑터](#호스트-어댑터)의 실행 규약 참조.
+- 크로마키 제거에 실패한 자산은 **불투명 상태로 조용히 통과하지 않는다** — 자산별 사유(helper 부재 / 실행 실패)를 출력하고 exit 1 한다. helper 부재는 Step 0에서 미리 잡힌다.
 
 ### 게임 연동 (wireGameToAssets)
 `publicDir: assets`이므로 `assets/characters/player.png` → Phaser 로드 경로 `characters/player.png`.
@@ -62,6 +110,71 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/ge
 - StageManager: `bg_0..N` 텍스처로 배경 표시 + 난이도 레벨↑ 시 크로스페이드 전환
 - HomeScene: 단색 → `bg_0` 이미지
 
+
+## Path A / Path B — 자동 경로와 수동 경로
+
+아트를 만드는 경로는 둘이고 **둘 다 적법**하다. 게이트는 산출물만 보므로 판정 기준도 같다.
+
+| | Path A — 자동 | Path B — 수동 |
+|---|---|---|
+| 입력 | `asset-plan.json` | `art-prompts.md` |
+| 실행 | `factory:imagegen` | 에이전트가 built-in `image_gen`을 직접 호출 |
+| 프롬프트 | 스크립트가 조립 | 사람이 씬별로 작성·기록 |
+| 적합한 상황 | 표준 아케이드, 대량 자산 | custom-loop, 씬별 세밀 연출 (예: `firebreak-commander`) |
+| manifest | 스크립트가 기록 | **작성자가 직접 기록 — 아래 계약 준수 필수** |
+
+Path A는 provenance를 자동으로 채우므로 실수할 여지가 없다. Path B는 사람이 채우므로 아래 체크리스트가 계약이다.
+
+### Path B 최소 계약 — 게이트가 실제로 검사하는 필드 전수
+
+`factory:production-demo-qa -- --require-gpt-imagegen` 기준이며, 각 항목은 `production-demo-qa.mjs`의 검사와 1:1 대응한다. 모든 필드는 `entry.provenance.X`에 두는 것을 권장하지만 `entry.X`도 fallback으로 허용된다.
+
+**A. 모든 엔트리(`stageBackgrounds` + `images`) — 상시 검사**
+
+| # | 필드 | 요구 |
+|---|---|---|
+| 1 | `provenance.source` | `"generated-for-game"` |
+| 2 | `provenance.generatedFor` | 게임 id와 정확히 일치 |
+| 3 | `provenance.reusedFrom` / `copiedFrom` / `sourceProject` | **없어야 한다** (재사용·공유 자산 금지) |
+| 4 | `provenance.sourceApi` / `sourceService` | **없어야 한다** (외부 이미지 서비스 경로 금지) |
+| 5 | `provenance.method` | `openai-` · `service-` · `sdk-` 로 **시작하면 거부** |
+
+**B. 모든 엔트리 — `--require-gpt-imagegen` 시 추가 검사**
+
+| # | 필드 | 요구 |
+|---|---|---|
+| 6 | `provenance.method` | `"codex-gpt-imagegen-skill"` |
+| 7 | `provenance.model` | `"gpt 이미지젠 스킬"` 또는 `"openai-builtin-image_gen (version opaque)"` |
+| 8 | `provenance.sourceSkill` | `"imagegen"` |
+| 9 | `provenance.promptHash` | 비어 있지 않은 문자열 |
+
+**C. manifest 최상위 `imagegen` 블록**
+
+| # | 필드 | 요구 |
+|---|---|---|
+| 10 | `imagegen.method` | `"codex-gpt-imagegen-skill"` |
+| 11 | `imagegen.model` | 7번과 같은 허용 집합 |
+| 12 | `imagegen.sourceSkill` | `"imagegen"` |
+
+**D. 계약 외 권장 산출물** — 게이트가 강제하진 않지만 Path B의 재현성을 만든다.
+
+- `art-prompts.md`에 씬별 프롬프트 원문 기록
+- 네이티브 원본을 `assets/_source/**`에 보존하고, 리샘플했다면 `provenance.nativeSize`·`rawPath` 기록 → [§2.0.5 Declared Resample](production-demo-quality-contract.md#declared-resample--네이티브-출력이-마스터-규격에-못-미칠-때)
+
+### ⚠️ method / model 혼동 함정
+
+**5번과 7번이 정반대로 동작한다.**
+
+```jsonc
+// 올바름
+"method": "codex-gpt-imagegen-skill",
+"model":  "openai-builtin-image_gen (version opaque)"   // ← model에는 허용값
+
+// 즉시 FAIL — method가 openai- 로 시작하면 외부 서비스로 간주되어 거부된다
+"method": "openai-builtin-image_gen",
+```
+
+`model`의 `openai-builtin-image_gen (version opaque)`은 **허용값**이지만, 같은 문자열을 `method`에 넣으면 규칙 5에 걸려 거부된다. 두 필드를 바꿔 넣으면 에러 메시지만으로는 원인을 알기 어려우니 주의한다. `model`이 두 값을 모두 허용하는 이유는 built-in 도구가 모델 버전을 노출하지 않기 때문이며, provenance를 증명하는 것은 `method` + `sourceSkill`이다.
 
 ## Scene-first Artboard Workflow — 전체 화면 먼저, 분리 후 검증
 
@@ -95,7 +208,7 @@ dev_game/.tmp/scene-composite-qa/<game-id>/*.png
 
 1. **provenance 강제**: `production-gate`가 `--require-gpt-imagegen`을 상시 주입 — 모든 manifest 이미지에 `method:"codex-gpt-imagegen-skill"`·`model`·`sourceSkill`·`promptHash`가 없으면 FAIL.
 2. **역할별 픽셀 게이트** (`factory:image-quality-qa`, production-gate 내장): 본 프로젝트(똥 피하기) 출시 에셋 실측을 기준으로 하되, 신규 장르의 실제 표시 크기와 role을 반영해 판정한다.
-   - 배경: **≥1080×1920** + 색수 ≥8000 + 엣지분산 ≥100 (본 게임: 1080×1920 / 16K~25K / 172~480)
+   - 배경: 해상도 하한은 [§2.0.5](production-demo-quality-contract.md#205-공통-고해상도-에셋-규격--authoritative-source) + 색수 ≥8000 + 엣지분산 ≥100 (본 게임 실측: 16K~25K / 172~480)
    - 코어 스프라이트: role별 최소변(플레이어 320px+, 택배/소품 220px+, chute/목표물 260px+ 등) + 색 ≥3000 + 엣지 ≥150 + 투명 필수
    - UI ≥96px·색1500·엣지100 / FX·feedback ≥128px·색3000·엣지200
    - **placeholder 자동 탈락**: 색<2000 또는 엣지<60 (절차적 draft는 색≈1085/엣지≈16 → 절대 통과 불가)
@@ -107,7 +220,7 @@ dev_game/.tmp/scene-composite-qa/<game-id>/*.png
 이미지 품질이 부족하면 수정 코드로 덮지 말고 다시 생성한다. 프롬프트에는 다음을 명시한다.
 
 - `high-quality mobile game production asset`, `crisp clean outline`, `consistent lighting`, `no watermark`, `no random text`
-- 배경: `vertical 1080x1920 or larger`, `safe central play area`, `layered depth`, `no characters`, `no UI`
+- 배경: `vertical portrait`, `safe central play area`, `layered depth`, `no characters`, `no UI` — 요청 픽셀 크기는 §2.0.5 제작 원본 규격을 그대로 쓴다
 - 스프라이트/버튼/패널: `flat solid chroma-key background`, `generous padding`, `not cropped`, `no shadow touching edge`, `consistent style sheet`
 - UI: 버튼은 원본 비율 유지가 쉬운 9-slice/rounded rectangle 형태, 상단 하이라이트가 글자와 겹치지 않게 요청
 - 실패 기준: blurry, squashed, clipped, gray/chroma residue, mismatched style, duplicated icon/text, canvas보다 작은 background
@@ -154,7 +267,7 @@ node dev_game/generator/scripts/production-gate.mjs --project dev_game/generated
 ## 한계 / 주의
 - 이미지 생성은 Codex ChatGPT 계정 쿼터를 소비한다(자율 nested 에이전트, 이미지당 ~40초).
 - built-in imagegen 경로는 투명 배경을 직접 보장하지 않으므로 스프라이트는 flat 크로마키 배경으로 생성 후 제거에 의존한다(테두리 자동감지). 복잡한 실루엣은 재시도가 필요할 수 있다.
-- 에셋은 **최대 네이티브 해상도로 생성**하고 게임에서 축소 표시한다(크리스프). 배경은 canvas 이상, 권장 2160×3840 원본을 우선한다.
+- 에셋은 **최대 네이티브 해상도로 생성**하고 게임에서 축소 표시한다(크리스프). 제작 원본 규격은 §2.0.5를 따른다. 네이티브 출력이 그에 못 미치면 배경에 한해 [Declared Resample](production-demo-quality-contract.md#declared-resample--네이티브-출력이-마스터-규격에-못-미칠-때)을 적용하며(raw 보존 + `nativeSize` 기록), 스프라이트/UI/FX는 확대하지 않고 재생성한다.
 - 이미지가 흐리거나 찌그러지거나 스타일이 맞지 않거나 배경/패널 잔여물이 보이면 통합하지 말고 더 강한 고품질 프롬프트로 재생성한다.
 - 생성된 프로젝트(`generated/*`)는 `.gitignore` 대상 — 재현 자산은 파이프라인 스크립트지 산출물이 아니다.
 

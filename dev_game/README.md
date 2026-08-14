@@ -167,20 +167,30 @@ Archetype은 빠르게 시작하기 위한 참고 패턴이다.
 
 ## Game Factory Skill 설치
 
-이 저장소는 재사용 가능한 스킬을 함께 제공합니다. 설치 스크립트로 대상별 자동 설치:
+이 저장소는 재사용 가능한 스킬을 함께 제공합니다.
+
+| 스킬 | 용도 |
+|---|---|
+| `game-factory` | 아이디어 → 프로덕션급 데모 게임 생성 |
+| `game-polish` | 생성된 게임의 후보정(결함 분류 → 수정 → 재캡처) |
+| `game-feel-motion-skill` | 게임 필·UI 모션·피드백 애니메이션 설계와 모션 에셋 파이프라인 |
+| `game-asset-creation` | 2D 스프라이트/시트 제작·편집·정렬 검수 |
+
+설치 스크립트로 대상별 자동 설치:
 
 ```bash
 ./scripts/install_game_factory_skill.sh          # Codex (~/.codex/skills)
 ./scripts/install_game_factory_skill.sh claude   # Claude Code (~/.claude/skills)
-./scripts/install_game_factory_skill.sh all      # 둘 다
+./scripts/install_game_factory_skill.sh repo     # 저장소 내 심링크 검증/복구
+./scripts/install_game_factory_skill.sh all      # 위 셋 모두
 ```
 
 수동 설치 (재설치 시 기존 폴더를 먼저 삭제해야 중첩 복사가 되지 않습니다):
 
 ```bash
 DEST="${CODEX_HOME:-$HOME/.codex}/skills"        # Claude는: "$HOME/.claude/skills"
-mkdir -p "$DEST" && rm -rf "$DEST/game-factory"
-cp -R skills/game-factory "$DEST/game-factory"
+mkdir -p "$DEST"
+for s in skills/*/SKILL.md; do d=$(dirname "$s"); rm -rf "$DEST/$(basename "$d")"; cp -R "$d" "$DEST/"; done
 ```
 
 설치 후 도구를 다시 시작하고 호출합니다:
@@ -191,4 +201,19 @@ Claude Code: /game-factory  또는  "새 게임 만들어줘: ..."
 ```
 
 이 저장소 안에서 작업할 때는 설치 없이도 동작합니다 — 프로젝트 스킬 `.claude/skills/game-factory/SKILL.md`가 자동 발견됩니다.
-`skills/game-factory/`(설치용)와 `.claude/skills/game-factory/`(프로젝트용)는 **항상 동일해야 하며**, CI가 두 복사본의 diff를 검사합니다.
+
+### 단일 정본 구조
+
+`skills/`가 **유일한 실체**이고, 저장소 안의 두 런타임 경로는 그것을 가리키는 심링크입니다. 사본이 하나뿐이라 리포 레벨 드리프트가 구조적으로 불가능합니다.
+
+```text
+skills/<name>/            ← 정본. 스킬 수정은 여기서만 한다
+.claude/skills/<name>  →  ../../skills/<name>    (Claude Code)
+.agents/skills/<name>  →  ../../skills/<name>    (Codex/OpenAI)
+~/.codex/skills/<name>    사용자 설치 = 실사본 (저장소 미마운트 대비)
+~/.claude/skills/<name>   사용자 설치 = 실사본
+```
+
+스킬 목록은 스크립트가 **자동 발견**합니다 — `skills/` 아래에서 `SKILL.md`를 가진 디렉터리가 스킬입니다. 새 스킬을 추가할 때 스크립트를 고칠 필요가 없고, 반대로 `SKILL.md`가 없으면(단일 md 파일이나 일반 폴더) 스킬로 잡히지 않습니다. 디렉터리명은 frontmatter의 `name`과 일치해야 하며 drift-check가 이를 검사합니다.
+
+검증은 `./scripts/check_skill_drift.sh`(또는 `npm --prefix dev_game run factory:skill-drift`)가 담당합니다 — 심링크 무결성과 사용자 설치본의 신선도를 검사하며, `factory:qa`와 CI에 `--skip-user`로 편입되어 있습니다. 심링크가 깨졌으면 `./scripts/install_game_factory_skill.sh repo`로 복구합니다.

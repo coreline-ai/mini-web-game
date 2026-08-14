@@ -306,7 +306,19 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 | UI 버튼 | 1024×320 이상 | 9-slice 또는 비율 고정 |
 | 정사각형 아이콘/FX | 512~1024px | 128~256px 렌더 |
 
-배경은 위 고정 규격과 `cover` 후 DPR 물리 캔버스를 덮는 계산값 중 더 큰 원본을 사용한다. 배경에는 실제 플레이 오브젝트를 굽지 않고 중앙 플레이 영역의 디테일을 줄이며 외곽에 집중한다. 한글·점수·버튼 문구는 이미지에 굽지 않는다. 일반 스프라이트의 가상 셀 제작 패딩은 6~10%이고, 회전 아이콘·강한 FX만 `transparentPadding.kind`와 사유를 manifest에 남기고 최대 12%를 허용한다. 색상뿐 아니라 아이콘과 실루엣으로 역할을 구분한다. 최종 판정은 원본 단독이 아니라 실제 390×844 렌더와 declared capture-state contact sheet를 우선한다.
+"런타임 권장" 열은 **기본 배포 크기**이지 하한이 아니다. 배경의 실제 하한은 `cover` 후 DPR 물리 캔버스를 덮는 계산값이며(→ [Class L 규칙 4](post-production-qa-contract.md#l-asset-fidelity-contract--최종-화면-에셋-품질--dpr-정합성)), 제작 원본은 위 고정 규격과 그 계산값 중 **더 큰 쪽**을 쓴다. 배경에는 실제 플레이 오브젝트를 굽지 않고 중앙 플레이 영역의 디테일을 줄이며 외곽에 집중한다. 한글·점수·버튼 문구는 이미지에 굽지 않는다. 일반 스프라이트의 가상 셀 제작 패딩은 6~10%이고, 회전 아이콘·강한 FX만 `transparentPadding.kind`와 사유를 manifest에 남기고 최대 12%를 허용한다. 색상뿐 아니라 아이콘과 실루엣으로 역할을 구분한다. 최종 판정은 원본 단독이 아니라 실제 390×844 렌더와 declared capture-state contact sheet를 우선한다.
+
+### Declared Resample — 네이티브 출력이 마스터 규격에 못 미칠 때
+
+built-in `image_gen`의 네이티브 출력 크기는 제어할 수 없고 위 제작 원본 규격보다 작을 수 있다(실측 사례: 941×1672). 이때 **배경에 한해** 다음을 모두 지키면 리샘플을 허용한다.
+
+1. 네이티브 원본을 `assets/_source/<id>-raw.<ext>`에 **보존**한다. 삭제하거나 덮어쓰지 않는다.
+2. 마스터 규격으로 리샘플한다(Lanczos 등 고품질 필터).
+3. manifest provenance에 `nativeSize`(네이티브 실측), `resampledTo`(리샘플 결과), `resampleMethod`를 기록한다.
+4. **리샘플 크기를 네이티브 크기로 기록하지 않는다.** 이 오인 기록은 그 자체로 계약 위반이다.
+5. 스프라이트·UI·FX는 리샘플 대상이 아니다. 미달이면 **재생성**한다(업스케일은 셀 격자·알파 bbox·패딩 계약을 깨뜨린다).
+
+리샘플은 디테일을 늘리지 않는다. 목적은 런타임 업스케일과 흐림을 피하고 출처를 정직하게 남기는 것이며, **캡처에서 품질 부족이 확인되면 리샘플이 아니라 재생성이 우선이다**([Class L 규칙 9](post-production-qa-contract.md#l-asset-fidelity-contract--최종-화면-에셋-품질--dpr-정합성)). 규칙 1~4를 갖추지 않은 확대는 declared resample이 아니라 `source-too-small` 결함이다.
 
 schema v2/custom-loop는 `requiredAssetRoles`를 필수로 선언하며 공통 role은 `response-unit`, `protected-objective`, `hazard-fx`, `command-unit`, `risk-indicator`, `status-icon`을 포함한다. v1의 `player/hazard/collectible`은 compatibility alias일 뿐 custom-loop 필수 조건이 아니다.
 

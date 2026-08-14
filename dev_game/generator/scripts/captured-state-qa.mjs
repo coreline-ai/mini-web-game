@@ -122,7 +122,10 @@ async function run(args) {
         await page.screenshot({ path: file });
         screenshotFiles.push(file); screenshotLabels.push(state.id);
       }
-      states.push({ id: state.id, expectedScene: state.expectedScene, layoutScene: sample.layout.scene, requiredIds: required, missingRequiredIds, overlaps, outOfBounds, assertionFailures, backingScale: sample.backing.width / sample.canvas.width, terminal: state.terminal || 'none', debug: sample.debug, rules: sample.rules });
+      // Class L evidence: the contract asserts backingScale against the spec's maxTargetDpr,
+      // so the raw CSS/backing sizes and the device DPR have to survive into the sample —
+      // backingScale alone cannot show WHICH side was wrong.
+      states.push({ id: state.id, expectedScene: state.expectedScene, layoutScene: sample.layout.scene, requiredIds: required, missingRequiredIds, overlaps, outOfBounds, assertionFailures, devicePixelRatio: sample.dpr, canvasCssSize: { width: sample.canvas.width, height: sample.canvas.height }, canvasBackingStoreSize: { width: sample.backing.width, height: sample.backing.height }, backingScale: sample.backing.width / sample.canvas.width, terminal: state.terminal || 'none', debug: sample.debug, rules: sample.rules });
       report.totals.captures += 1; report.totals.overlaps += overlaps.length; report.totals.outOfBounds += outOfBounds.length; report.totals.missingRequiredIds += missingRequiredIds.length; report.totals.assertionFailures += assertionFailures.length;
     }
     const contactSheet = path.join(outputRoot, `contact-${label.replace('@', '-dpr')}.png`);

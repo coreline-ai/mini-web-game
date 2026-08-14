@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "factory:skill-drift": "bash ../scripts/check_skill_drift.sh",
+    "factory:host-preflight": "node generator/scripts/host-preflight.mjs",
     "factory:make": "node generator/scripts/make-game.mjs",
     "factory:validate": "node generator/src/cli.mjs --validate-only --spec generator/examples/poop-dodge.spec.json",
     "factory:dry-run": "node generator/src/cli.mjs --dry-run --spec generator/examples/poop-dodge.spec.json --out generated/poop-dodge-demo",
@@ -14,7 +16,7 @@
     "factory:browser-smoke": "node generator/scripts/browser-smoke.mjs",
     "factory:runtime-asset-delivery-test": "node generator/scripts/runtime-asset-delivery-test.mjs",
     "factory:dist-runtime-qa": "node generator/scripts/dist-runtime-qa.mjs",
-    "factory:qa": "npm run factory:validate && npm run factory:smoke && npm run factory:runtime-asset-delivery-test && npm run factory:asset-qa && npm run factory:browser-smoke",
+    "factory:qa": "npm run factory:skill-drift -- --skip-user && npm run factory:validate && npm run factory:smoke && npm run factory:runtime-asset-delivery-test && npm run factory:asset-qa && npm run factory:browser-smoke",
     "factory:production-demo-qa": "node generator/scripts/production-demo-qa.mjs",
     "factory:visual-layout-qa": "node generator/scripts/visual-layout-qa.mjs",
     "factory:scene-composite-qa": "node generator/scripts/scene-composite-qa.mjs",

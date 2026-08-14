@@ -104,7 +104,7 @@ Apply the fix rules of the matched class from the contract. Non-negotiable speci
 - Class I: state-transition buttons are one-shot (disable on fire); scene transitions block prior-scene input; overlays fully block underlying gameplay input; pressed visuals restore on `pointerup`/`pointerout`.
 - Class J: save wrapper recovers from corrupted JSON with defaults; `visibilitychange` auto-pauses or clamps delta; resize recomputes safe-area.
 - Class K: scene `shutdown`/`destroy` releases all listeners/timers/tweens; retry is a full state reset, never partial.
-- Class L: classify the cause first (`source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership`), then fix at the source: regenerate undersized/clipped art or fix runtime scale/crop/anchor — never patch around it with CSS filters/sharpening. Assert `backingScale >= min(devicePixelRatio, maxTargetDpr)` and `sourcePixels >= renderedLogicalPixels * maxTargetDpr`.
+- Class L: classify the cause first (`source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership`), then fix at the source: regenerate undersized/clipped art or fix runtime scale/crop/anchor — never patch around it with CSS filters/sharpening. Assert `backingScale >= min(devicePixelRatio, maxTargetDpr)` and `sourcePixels >= renderedLogicalPixels * maxTargetDpr`. A background larger than its native generation is **not** automatically a defect: with a preserved raw under `assets/_source/**` and `provenance.nativeSize` recorded it is a legitimate declared resample (contract rule 9-1); without both it is `source-too-small`. Sprites/UI/FX have no such allowance — an upscaled one is always a defect.
 
 ### 5. Re-capture under original repro conditions
 
@@ -115,7 +115,7 @@ After each fix batch:
 - For class A fixes, drive ≥10 consecutive hit/respawn cycles and assert entity visibility state each cycle.
 - For class H/I fixes, re-run the audio and input-hostility sweeps from step 1.
 - For class J/K fixes, re-run the persistence sweep and the ≥2 min long-run sweep, sampling FPS / active tween / timer counts for monotonic-growth (leak) signals.
-- For class L fixes, re-run `factory:hq-screen-quality-qa` and record DPR fields in the state-sample JSON (`devicePixelRatio`, `maxTargetDpr`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`, `logicalCanvas`, `physicalCanvasTarget`), with before/after captures at the same repro DPR.
+- For class L fixes, run both gates — `factory:hq-screen-quality-qa` for manifest asset fidelity, and `factory:captured-state-qa` for DPR evidence. The capture run records `devicePixelRatio` and `backingScale` in the state-sample JSON; compare them against the spec's `maxTargetDpr`, `logicalCanvas`, and `physicalCanvasTarget` (`generator/schemas/game-spec.v2.schema.json`). Pair before/after captures at the same repro DPR.
 
 A green capture from an unrelated path is not evidence.
 
@@ -154,7 +154,7 @@ If any symptom remains, report **후보정 미완료** with the open defect list
 ## Scope limits
 
 - No new game creation, no scaffold regeneration, no asset-pipeline changes — route those to `game-factory`.
-- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`.
+- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`. Host adapter and long-run execution rules are the same too — check `factory:host-preflight` first and regenerate individual assets with `factory:imagegen -- --skip-existing --id "<asset-id>"` so a targeted fix does not rebuild the whole art set (`dev_game/docs/ai-art-pipeline.md#호스트-어댑터`).
 - Do not add features during polish. Difficulty/progression fixes (classes D/E) adjust existing systems to the contract; new mechanics are a `game-factory` expansion request.
 
 ## Response format
@@ -171,3 +171,7 @@ End with:
 - Regression checklist entries added this session
 - Contract promotions (new symptom signatures added to `post-production-qa-contract.md`, if any)
 - Open defects by severity and next fix plan, or clean-exit confirmation
+
+## 공통 QA Session 재사용
+
+기존 schema v2/custom-loop 게임의 full sweep는 개별 결과를 수동 조합하지 말고 `factory:production-gate -- --mode custom-loop-full`을 실행한다. `qa-captures/qa-session-report.json`의 visual, clarity, input, audio, persistence, longRun, assetFidelity, gates를 결함 분류 H~L의 공통 증거로 재사용한다. Capture Matrix의 원래 state/viewport에서 수정 전후를 비교하며, Rules Contract 또는 GDD 숫자가 어긋난 경우 `docs-runtime drift`로 분류하고 `factory:docs-runtime-sync-qa`까지 재실행한다. 첫 플레이 목표·승패·첫 행동·진행 지표·도움말 정지가 누락된 경우 `first-play comprehension` 결함으로 분류한다.

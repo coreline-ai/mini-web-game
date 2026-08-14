@@ -7,14 +7,18 @@ on:
       - 'dev_game/**'
       - 'skills/**'
       - '.claude/skills/**'
+      - '.agents/skills/**'
       - 'scripts/install_game_factory_skill.sh'
+      - 'scripts/check_skill_drift.sh'
       - '.github/workflows/dev-game-factory.yml'
   pull_request:
     paths:
       - 'dev_game/**'
       - 'skills/**'
       - '.claude/skills/**'
+      - '.agents/skills/**'
       - 'scripts/install_game_factory_skill.sh'
+      - 'scripts/check_skill_drift.sh'
       - '.github/workflows/dev-game-factory.yml'
   schedule:
     - cron: '0 18 * * *'
@@ -29,12 +33,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Check skill copies are in sync
+      - name: Check skill topology (single source + symlinks)
         run: |
-          diff -ru skills/game-factory .claude/skills/game-factory \
-            || { echo '::error::skills/game-factory and .claude/skills/game-factory have diverged — sync them (SKILL.md must be identical).'; exit 1; }
-          diff -ru skills/game-polish .claude/skills/game-polish \
-            || { echo '::error::skills/game-polish and .claude/skills/game-polish have diverged — sync them (SKILL.md must be identical).'; exit 1; }
+          ./scripts/check_skill_drift.sh --skip-user \
+            || { echo '::error::skill topology broken — skills/ is the single source; .claude/skills and .agents/skills must be symlinks to it. Run scripts/install_game_factory_skill.sh repo'; exit 1; }
       - uses: actions/setup-node@v4
         with:
           node-version: 20

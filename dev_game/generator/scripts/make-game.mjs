@@ -2,6 +2,7 @@
 // make-game.mjs — ONE-COMMAND production-MVP pipeline.
 // Runs the whole dev_game flow end to end and produces a high-quality first
 // production-demo game:
+//   0) preflight     host-preflight  can this host make art at all? (skipped with --skip-art)
 //   1) scaffold      cli.mjs         Phaser/Vite Foundation
 //   2) productionize productionize   planning docs + asset-plan + manifest(provenance)
 //   3) ai-art        codex-imagegen  real AI backgrounds/sprites/ui/fx + game wiring
@@ -90,6 +91,22 @@ function main() {
   }
 
   console.log(`make-game → ${out}`);
+
+  // 0) host preflight — the art step needs a working codex host, and finding that out in
+  // stage 3 means a scaffold and a productionize pass are already on disk. Skipped for
+  // --skip-art, which does not need an art host at all.
+  if (!args.skipArt) {
+    const pfArgs = [path.join(SCRIPTS, 'host-preflight.mjs')];
+    if (args.codex) pfArgs.push('--codex', args.codex);
+    const pf = spawnSync(node, pfArgs, { stdio: 'inherit' });
+    if (pf.status !== 0) {
+      console.error('\n✗ 0/4 Host preflight failed — this host cannot generate image assets.');
+      console.error('  Fix the blockers above, or rerun with --skip-art to build structure only.');
+      console.error('  A --skip-art build does NOT satisfy the production-demo contract; report it');
+      console.error('  as production-demo 미통과 rather than shipping placeholder art.');
+      process.exit(1);
+    }
+  }
 
   // 1) scaffold
   const scaffoldArgs = [CLI, '--out', out, '--force', ...args.passthrough];

@@ -345,6 +345,11 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 7. **UI 소유권 일관성**: 한 화면의 주요 읽기/입력 UI는 같은 렌더링 계층과 품질 정책으로 통일한다. DOM/CSS를 쓰는 것은 가능하지만, 일부 HUD만 DOM으로 땜질하고 뉴스/카드/버튼은 저해상도 캔버스 텍스트로 남기는 혼합 품질은 미통과다. 각 UI의 `renderOwner`(`phaser`, `dom-css`, `generated-texture`)를 샘플에 기록한다.
 8. **프롬프트 예방**: 배경 imagegen 프롬프트에는 플레이어/적/카드/버튼/텍스트 같은 런타임 UI가 구워지지 않도록 명시한다. 런타임 스프라이트와 겹칠 가능성이 있으면 배경을 재생성하거나 런타임 소유권을 제거한다.
 9. **재생성 우선 판단**: 소스 자체가 저해상도, 잘림, 과투명, 알파 박스 오염, 압축 잔여물, 잘못된 방향을 포함하면 CSS 필터/샤픈/임시 확대가 아니라 신규 생성 또는 소스 수정으로 해결한다. 런타임 스케일/크롭/anchor가 원인이면 코드에서 고친다.
+9-1. **무단 업스케일과 declared resample 구분**: 배경이 마스터 규격보다 큰 크기로 저장되어 있다는 사실만으로 결함/적법을 판정하지 않는다. 판별자는 **raw 보존 + `provenance.nativeSize` 기록**이다.
+   - 둘 다 갖춘 경우 → [§2.0.5 Declared Resample](production-demo-quality-contract.md#declared-resample--네이티브-출력이-마스터-규격에-못-미칠-때)을 따른 적법 산출물. 결함으로 분류하지 않는다.
+   - 하나라도 없으면 → `source-too-small` 결함. 네이티브 크기를 숨긴 확대이므로 재생성 또는 declared resample 절차로 다시 만든다.
+   - 적법한 declared resample이어도 캡처에서 흐림이 확인되면 규칙 9에 따라 **재생성이 우선**이다. 리샘플은 크기 요건을 만족시킬 뿐 디테일을 만들지 않는다.
+   - 스프라이트/UI/FX에는 declared resample이 없다. 확대되어 있으면 raw·nativeSize 유무와 무관하게 결함이다.
 10. **뉴스/콘텐츠 밀도**: 같은 화면 품질 결함이 콘텐츠 반복감에서 오면 이벤트 데이터 쿼터와 중복 검사를 함께 적용한다.
 11. **원인 분류 후 수정**: L 결함은 최소한 `source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership` 중 하나로 원인을 분류한 뒤 수정한다.
 12. **에셋 품질 상승 루프**: 역할별 목표 표시 크기와 DPR 기준을 먼저 계산하고, 생성/수정 프롬프트에 방향·패딩·투명 배경·텍스트 금지·배경 내 런타임 오브젝트 금지를 명시한다. 통합 후에는 source/crop/runtime contact sheet로 확인한다.
@@ -353,7 +358,8 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 
 - 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다.
 - `390x844`, `430x932`, `1080x1920` 캡처에서 레이아웃 겹침과 픽셀 컴포지트 이상이 없는지 확인한다. 흐림/잘림 지적이 DPR 문제라면 같은 repro DPR에서 before/after를 남긴다.
-- 상태 샘플에 `devicePixelRatio`, `maxTargetDpr`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`, `logicalCanvas`, `physicalCanvasTarget`을 기록하고 `backingScale >= min(devicePixelRatio, maxTargetDpr)` 또는 문서화된 고해상도 논리 캔버스 전략을 assert한다.
+- DPR 증거는 `factory:captured-state-qa`가 만든다(`factory:hq-screen-quality-qa`는 manifest 에셋 fidelity와 market-event 깊이를 보는 별개 게이트이며 DPR을 측정하지 않는다). 캡처가 상태 샘플에 기록하는 값은 `devicePixelRatio`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`이고, 비교 기준인 `maxTargetDpr`·`logicalCanvas`·`physicalCanvasTarget`은 spec(`generator/schemas/game-spec.v2.schema.json`)이 선언한다. 둘을 대조해 `backingScale >= min(devicePixelRatio, maxTargetDpr)` 또는 문서화된 고해상도 논리 캔버스 전략을 assert한다.
+- 배경에 `provenance.nativeSize`가 있으면 raw(`assets/_source/**`) 실재를 함께 확인한다. 한쪽만 있으면 규칙 9-1에 따라 `source-too-small`로 분류한다.
 - 핵심 배경은 cover-fit 계산 후 `sourceWidth/sourceHeight >= requiredCoverSourceSize`를 assert한다. 런타임 sprites/UI/icons/buttons는 `sourceFrameSize >= renderedLogicalSize * sampledTargetDpr`를 assert하고 업스케일 항목을 실패로 기록한다.
 - 아이콘/버튼/스탬프는 `sourceAlphaBbox`, `runtimeBounds`, `safePadding`, `clippedEdges: []`, `outOfBounds: []`를 샘플에 기록한다. `getBounds()`만 통과하고 실제 알파가 잘린 경우는 실패다.
 - before/after 캡처를 같은 화면 상태로 보존하고, 최종 캡처의 핵심 텍스처 키와 렌더 소유권(`phaser`, `dom-css`, `generated-texture`)을 상태 샘플에 기록한다.
