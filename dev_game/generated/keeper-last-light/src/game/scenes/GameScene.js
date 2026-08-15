@@ -60,7 +60,7 @@ export default class GameScene extends Phaser.Scene {
 
     // ── 램프 버튼 (생성된 아트를 쓰되, 없으면 절차적 폴백은 두지 않는다.
     //    혼합 소유(Class L)를 만들지 않기 위해 아트가 없으면 로드 에러로 드러낸다.)
-    const lampY = height * 0.885;
+    const lampY = height * 0.895;
     this.lampSize = px(140);
     this.lamp = this.add.image(width / 2, lampY, 'btn-lamp')
       .setDisplaySize(this.lampSize, this.lampSize).setDepth(20).setInteractive({ useHandCursor: true });
@@ -153,34 +153,63 @@ export default class GameScene extends Phaser.Scene {
   buildCodePanel(width, height) {
     // 화면을 세 층으로 나눈다: 바다(항로) → 코드 패널 → 램프.
     //
-    // 패널 이미지의 **안쪽 필드**는 이미지의 세로 14.8~85.2% / 가로 7.1~92.8%뿐이다(실측).
-    // 3행(라벨·코드·버퍼)을 넣으면 필드 높이 165를 넘겨 라벨이 위 테두리를, 버퍼가 아래
-    // 테두리를 침범했다. 요청과 코드를 한 줄에 나란히 놓아 2행으로 줄인다 —
-    // 읽는 순서(무엇을 원하나 → 어떤 코드인가)도 왼→오른쪽으로 자연스러워진다.
-    const panelY = height * 0.745;
-    const panelH = px(78);
+    // 패널은 **9-slice**로 그린다. setDisplaySize로 늘리면 가로·세로 배율이 달라져
+    // (실측: 가로 1.037배 / 세로 0.457배) 테두리가 좌우만 1.47배 두꺼워지고 모서리
+    // 라운딩이 타원으로 찌그러지며 금속 베벨이 뭉개져 지저분한 얼룩으로 보인다.
+    // 9-slice는 모서리를 원본 배율 그대로 두고 가운데만 늘리므로 이 왜곡이 구조적으로 없다.
+    // 계약 §2.0.5도 UI에 "9-slice 또는 비율 고정"을 지정한다.
+    //
+    // 모서리 크기는 자산의 평평한 안쪽 필드가 시작되는 지점(실측): 좌 73 / 우 74 / 상하 76.
+    const SLICE = { left: 73, right: 74, top: 76, bottom: 76 };
+    const SLICE_SCALE = 0.4; // 테두리가 화면에서 10 CSS로 보이는 배율
+    const panelY = height * 0.755;
+    const panelH = px(88);
     const panelW = width - px(36);
+
     if (this.textures.exists('panel-code')) {
-      this.panel = this.add.image(width / 2, panelY, 'panel-code')
-        .setDisplaySize(panelW, panelH).setDepth(18);
+      this.panel = this.add.nineslice(
+        width / 2, panelY, 'panel-code', undefined,
+        panelW / SLICE_SCALE, panelH / SLICE_SCALE,
+        SLICE.left, SLICE.right, SLICE.top, SLICE.bottom,
+      ).setScale(SLICE_SCALE).setDepth(18);
     } else {
       this.panel = this.add.rectangle(width / 2, panelY, panelW, panelH, PALETTE.panel, 0.9)
         .setStrokeStyle(px(2), PALETTE.accentDim).setDepth(18);
     }
-    const fieldLeft = width / 2 - panelW / 2 + panelW * 0.071;
-    const fieldRight = width / 2 + panelW / 2 - panelW * 0.072;
-    const inset = px(26);
 
-    this.targetLabel = this.add.text(fieldLeft + inset, panelY - px(14), '대기 중', {
-      fontFamily: 'Arial', fontSize: font(13), color: PALETTE.textDim,
+    // 텍스트가 놓일 안쪽 필드. 9-slice라 테두리 두께가 배율에 정확히 비례한다.
+    const bx = SLICE.left * SLICE_SCALE;
+    const by = SLICE.top * SLICE_SCALE;
+    this.field = {
+      left: width / 2 - panelW / 2 + bx,
+      right: width / 2 + panelW / 2 - SLICE.right * SLICE_SCALE,
+      centerY: panelY,
+      top: panelY - panelH / 2 + by,
+      bottom: panelY + panelH / 2 - SLICE.bottom * SLICE_SCALE,
+    };
+    const inset = px(22);
+
+    this.targetLabel = this.add.text(this.field.left + inset, panelY, '대기 중', {
+      fontFamily: 'Arial', fontSize: font(14), color: PALETTE.textDim,
     }).setOrigin(0, 0.5).setDepth(19);
-    this.targetCode = this.add.text(fieldRight - inset, panelY - px(14), '—', {
-      fontFamily: 'Arial Black,Arial', fontSize: font(15), color: '#ffcf6b',
+    this.targetCode = this.add.text(this.field.right - inset, panelY, '—', {
+      fontFamily: 'Arial Black,Arial', fontSize: font(16), color: '#ffcf6b',
     }).setOrigin(1, 0.5).setDepth(19);
-    // 입력 중 플레이어가 계속 보는 줄이라 가장 크게, 가운데에 둔다.
-    this.bufferText = this.add.text(width / 2, panelY + px(14), '', {
-      fontFamily: 'Arial Black,Arial', fontSize: font(16), color: '#f4e9d6',
+    this.bufferText = this.add.text(width / 2, panelY, '', {
+      fontFamily: 'Arial Black,Arial', fontSize: font(18), color: '#f4e9d6',
     }).setOrigin(0.5).setDepth(19);
+  }
+
+  // 행 개수에 따라 수직 정렬을 다시 잡는다. 입력 전에는 버퍼 줄이 비어 있는데 자리를
+  // 차지하고 있어서, 보이는 내용이 위로 쏠리고 아래 절반이 텅 비어 보였다.
+  layoutPanelRows(hasBuffer) {
+    const cy = this.field.centerY;
+    const dy = px(12);
+    const topY = hasBuffer ? cy - dy : cy;
+    this.targetLabel.y = topY;
+    this.targetCode.y = topY;
+    this.bufferText.y = cy + dy;
+    this.bufferText.setVisible(hasBuffer);
   }
 
   bindLamp() {
@@ -315,7 +344,9 @@ export default class GameScene extends Phaser.Scene {
       this.targetLabel.setText('대기 중');
       this.targetCode.setText('—');
     }
-    this.bufferText.setText(renderCode(this.input_.buffer));
+    const typed = renderCode(this.input_.buffer);
+    this.bufferText.setText(typed);
+    this.layoutPanelRows(typed.length > 0);
   }
 
   refreshHud() {
