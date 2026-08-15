@@ -24,6 +24,7 @@
 // Usage: node generator/scripts/image-quality-qa.mjs --project <generated-game-dir>
 
 import fs from 'node:fs';
+import { BACKGROUND_EDGE_MIN, ROLE_MIN_SIDE, FILL_FLOOR } from './lib/quality-thresholds.mjs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -47,7 +48,7 @@ const COLLECT_LIKE = new Set(['collectible', 'reward']);
 // NOTE: kept strict per explicit user instruction ("그 정도의 품질만 통과"). The productionize
 // ART BIBLE already forces this style into every prompt, so on-style assets land far under these.
 const T = {
-  background: { minW: 1080, minH: 1920, colors: 8000, edge: 60, hfMax: 3.6 },
+  background: { minW: 1080, minH: 1920, colors: 8000, edge: BACKGROUND_EDGE_MIN, hfMax: 3.6 },
   core: { minSide: 256, colors: 3000, edge: 150, alpha: true, hfMax: 8.0 },
   // ui hfMax 7.0: 소형(256²) 아이콘은 굵은 외곽선/림이 프레임 평균에서 차지하는 비율이 커서
   // hf가 구조적으로 높게 측정된다 (실측: 대형 버튼 2.6-3.8 vs 깨끗한 256² 하트 6.2).
@@ -57,20 +58,6 @@ const T = {
   placeholder: { colors: 2000, edge: 60 },
 };
 
-const ROLE_MIN_SIDE = {
-  player: 320,
-  parcel: 220,
-  vehicle: 300,
-  'sort-bin': 260,
-  scanner: 160,
-  conveyor: 256,
-  collectible: 192,
-  reward: 192,
-  item: 192,
-  powerup: 192,
-  target: 192,
-  goal: 192,
-};
 
 function parseArgs(argv) {
   const args = {};
@@ -285,8 +272,7 @@ function main() {
         // 형태 특성상 채움비가 낮은 게 정상이다. (실측: goblin 0.44, shield-goblin 0.35, arrow 0.12)
         // item/powerup 0.24: 가는 끈·손잡이 달린 오브젝트(풍선 실측 0.2745)는 bbox가 길어져
         // 채움비가 구조적으로 낮다. 진짜 hollow 결함(크로마가 몸통 관통)은 0.1x대 — 여전히 차단.
-        const FILL_FLOOR = { projectile: 0.08, hazard: 0.28, enemy: 0.28, obstacle: 0.28, boss: 0.28, target: 0.28, item: 0.24, powerup: 0.24 };
-        const fillFloor = FILL_FLOOR[role] ?? 0.58;
+                const fillFloor = FILL_FLOOR[role] ?? 0.58;
         if (r.alphaFillRatio < fillFloor) {
           errors.push(`${m.label} looks hollow/over-transparent inside bbox (alphaFillRatio=${r.alphaFillRatio} < ${fillFloor})`);
         }

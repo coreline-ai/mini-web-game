@@ -36,6 +36,7 @@ function parseArgs(argv) {
     else if (a === '--stages') args.stages = Number(argv[++i]);
     else if (a === '--codex') args.codex = argv[++i];
     else if (a === '--skip-art') args.skipArt = true;
+    else if (a === '--from') args.from = argv[++i];
     else if (a === '--gate') args.gate = argv[++i];
     else if (a === '--with-pwa') args.passthrough.push('--with-pwa');
     else if (a === '--no-sfx') args.passthrough.push('--no-sfx');
@@ -43,6 +44,7 @@ function parseArgs(argv) {
   }
   if (!args.help && !args.spec && !args.name) throw new Error('Provide --spec <file> or --name <name>');
   if (!['none', 'demo', 'full'].includes(args.gate)) throw new Error('--gate must be none|demo|full');
+  if (args.from && !['scaffold', 'productionize', 'art', 'qa'].includes(args.from)) throw new Error('--from must be scaffold|productionize|art|qa');
   return args;
 }
 
@@ -57,6 +59,7 @@ Options:
   --out <dir>                                output dir (default ../generated/<id>)
   --stages <n>                               stage backgrounds (default 3)
   --skip-art                                 scaffold + productionize only (no AI generation)
+  --from scaffold|productionize|art|qa       resume from a stage (earlier outputs must exist)
   --gate none|demo|full                      QA after build (default demo = production-demo-qa)
   --codex <bin>                              codex binary for image_gen (auto-detected)
   --with-pwa | --no-sfx                      passthrough to scaffolder`);
@@ -92,11 +95,27 @@ function main() {
 
   console.log(`make-game → ${out}`);
 
+  // --from 재개: 자동 재시도가 있어도 최종 실패는 남는다. 그때 처음부터 다시가 아니라
+  // 실패 지점부터 잇는다. 이전 단계 산출물이 없으면 명확히 거부한다.
+  const STAGES = ['scaffold', 'productionize', 'art', 'qa'];
+  const fromIdx = STAGES.indexOf(args.from || 'scaffold');
+  const stageOn = (name) => STAGES.indexOf(name) >= fromIdx;
+  if (fromIdx >= 1 && !fs.existsSync(path.join(out, 'src/game'))) {
+    throw new Error(`--from ${args.from}: no scaffold at ${out} — run from scaffold first`);
+  }
+  if (fromIdx >= 2 && !fs.existsSync(path.join(out, 'asset-plan.json'))) {
+    throw new Error(`--from ${args.from}: no asset-plan.json at ${out} — run from productionize first`);
+  }
+
   // 1) scaffold
-  const scaffoldArgs = [CLI, '--out', out, '--force', ...args.passthrough];
-  if (args.spec) scaffoldArgs.push('--spec', path.resolve(args.spec));
-  else { scaffoldArgs.push('--name', args.name); if (args.title) scaffoldArgs.push('--title', args.title); }
-  run('1/4 Scaffold (Phaser/Vite Foundation)', node, scaffoldArgs);
+  if (stageOn('scaffold')) {
+    const scaffoldArgs = [CLI, '--out', out, '--force', ...args.passthrough];
+    if (args.spec) scaffoldArgs.push('--spec', path.resolve(args.spec));
+    else { scaffoldArgs.push('--name', args.name); if (args.title) scaffoldArgs.push('--title', args.title); }
+    run('1/4 Scaffold (Phaser/Vite Foundation)', node, scaffoldArgs);
+  } else {
+    console.log(`▶ 1/4 Scaffold — skipped (--from ${args.from})`);
+  }
 
   if (sourceSpec?.schemaVersion === '2.0.0' && sourceSpec?.buildDecision === 'custom-loop') {
     console.log('\n✔ Custom-loop shell generated safely.');
@@ -106,7 +125,11 @@ function main() {
   }
 
   // 2) productionize (docs + asset-plan + manifest)
-  run('2/4 Productionize (docs + asset-plan + manifest)', node, [path.join(SCRIPTS, 'productionize.mjs'), '--project', out, '--stages', String(args.stages)]);
+  if (stageOn('productionize')) {
+    run('2/4 Productionize (docs + asset-plan + manifest)', node, [path.join(SCRIPTS, 'productionize.mjs'), '--project', out, '--stages', String(args.stages)]);
+  } else {
+    console.log(`▶ 2/4 Productionize — skipped (--from ${args.from})`);
+  }
 
   // host preflight — 아트 단계 직전에만 실행한다. custom-loop 셸은 이미지 생성을 하지
   // 않으므로, 분기보다 앞서 검사하면 Codex 없는 호스트에서 만들 수도 없는 것이 막힌다. — the art step needs a working codex host, and finding that out in
@@ -126,8 +149,8 @@ function main() {
   }
 
   // 3) AI art (backgrounds + sprites + ui + fx) + game wiring
-  if (args.skipArt) {
-    console.log('\n▶ 3/4 AI art — skipped (--skip-art). Run factory:imagegen later.');
+  if (args.skipArt || !stageOn('art')) {
+    console.log(args.skipArt ? '\n▶ 3/4 AI art — skipped (--skip-art). Run factory:imagegen later.' : `\n▶ 3/4 AI art — skipped (--from ${args.from})`);
   } else {
     const igArgs = [path.join(SCRIPTS, 'codex-imagegen.mjs'), '--project', out, '--only', 'all'];
     if (args.codex) igArgs.push('--codex', args.codex);

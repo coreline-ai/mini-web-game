@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import { BACKGROUND_EDGE_MIN } from './lib/quality-thresholds.mjs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import vm from 'node:vm';
@@ -176,7 +177,7 @@ function main() {
     if (entry.kind === 'background') {
       if (m.w < 1080 || m.h < 1920) errors.push(`${entry.id} must be at least 1080x1920`);
       if (m.colors < 8000) errors.push(`${entry.id} colors ${m.colors} < 8000`);
-      if (m.edge < 60) errors.push(`${entry.id} edge variance ${m.edge} < 60`);
+      if (m.edge < BACKGROUND_EDGE_MIN) errors.push(`${entry.id} edge variance ${m.edge} < ${BACKGROUND_EDGE_MIN}`);
       if (m.bytes > 3.5 * 1024 * 1024) errors.push(`${entry.id} file size ${(m.bytes / 1024 / 1024).toFixed(2)}MiB > 3.5MiB`);
       if (entry.provenance?.method !== 'codex-gpt-imagegen-skill') errors.push(`${entry.id} missing imagegen provenance`);
     } else if (entry.kind === 'manifest-image') {

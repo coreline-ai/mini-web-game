@@ -343,8 +343,18 @@ function buildAssetPlan(spec, themes) {
     theme: t.name,
     prompt: `${ART_BIBLE} ${BG_STYLE} Vertical PORTRAIT mobile game background, theme "${t.name}" for ${title}. Render at 1080x1920 portrait resolution OR LARGER (2K portrait preferred) — this is a hard minimum; never output below 1080x1920 and never shrink to any game/canvas size. Layered but SMOOTH parallax depth, empty readable center and bottom third for gameplay, no characters, no text, no UI, no border. Palette: ${styleGuide.palette}.`,
   }));
+  // 플레이어 기본은 '단일 스프라이트'다. 다프레임 시트는 image_gen이 구조적으로 가장 자주
+  // 실패하는 주문이고(셀 경계 잘림 — 프롬프트 강화 재생성으로도 복구 불가 사례 확인),
+  // 정작 시트가 필요 없는 게임에도 강제되고 있었다. 시트는 spec.player.sheet =
+  // { frames, cell }로 명시적으로 요청한 게임만 계획하며, 그때는 비중첩 계약 문구를
+  // 프롬프트에 자동 포함한다 (game-feel-motion-skill의 시트 계약).
+  const sheetReq = spec.player?.sheet;
+  const playerSprite = sheetReq && Number(sheetReq.frames) > 1
+    ? { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: Number(sheetReq.frames), frameSize: Number(sheetReq.cell) || 512, prompt: `${ART_BIBLE} ${CHARACTER_STYLE} A HORIZONTAL SPRITE SHEET at maximum resolution: exactly ${Number(sheetReq.frames)} equal-width cells in ONE row, each cell the SAME chibi mascot character for ${title} in a slightly different pose. NON-OVERLAP CONTRACT (mandatory): every cell keeps at least 12% empty margin on left and right and 10% above the head and below the feet; NOTHING — no limb, prop, glow or shadow — may touch or cross a cell boundary; identical character design, colors, scale and baseline in every cell. ${CHROMA}` }
+    : { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 512, height: 512, prompt: `${ART_BIBLE} ${CHARACTER_STYLE} A single chibi mascot character sprite for ${title}, front-facing at a slight 3/4 angle, bold silhouette readable at 96px, generous empty margin on all four sides so nothing touches the frame edge. ${CHROMA}` };
+
   const sprites = [
-    { id: 'player', role: 'player', path: 'assets/characters/player.png', width: 256, height: 256, frames: 4, frameSize: 512, prompt: `${ART_BIBLE} ${CHARACTER_STYLE} A HORIZONTAL SPRITE SHEET at maximum resolution (wide, at least 2048px total): exactly 4 equal-width cells in ONE row, each cell the SAME chibi mascot character for ${title} in a slightly different walk pose (frame1 legs together, frame2 mid-stride, frame3 together, frame4 opposite stride). CRITICAL: identical character design, identical colors, identical scale and vertical position in every cell; cells evenly spaced; character centered within each cell. ${CHROMA}` },
+    playerSprite,
     { id: 'hazard', role: 'hazard', path: 'assets/enemies/hazard.png', width: 256, height: 256, prompt: `${ART_BIBLE} A single "${spec.hazards?.label || 'hazard'}" obstacle sprite as a cute-but-clearly-dangerous glossy 3D-cartoon object, bold simple silhouette readable at 64px. ${CHROMA}` },
     { id: 'collectible', role: 'collectible', path: 'assets/items/collectible.png', width: 192, height: 192, prompt: `${ART_BIBLE} A single "${spec.collectibles?.label || 'reward'}" pickup sprite as an inviting glossy 3D-cartoon icon, positive and shiny, distinct from the hazard color, bold simple silhouette. ${CHROMA}` },
   ];
@@ -360,7 +370,7 @@ function buildAssetPlan(spec, themes) {
     { id: 'ui_click', type: 'ui' }, { id: 'collect', type: 'sfx' }, { id: 'hit', type: 'sfx' },
     { id: 'game_over', type: 'sfx' }, { id: 'game_loop', type: 'bgm' },
   ];
-  return { gameId: spec.game?.id, title, canvas: { width: w, height: h }, styleGuide, backgrounds, sprites, ui, fx, audio };
+  return { gameId: spec.game?.id, title, canvas: { width: w, height: h }, styleGuide, themeColors: spec.theme?.colors || {}, backgrounds, sprites, ui, fx, audio };
 }
 
 function artPromptsMd(plan) {
@@ -406,11 +416,18 @@ function main() {
   const h = plan.canvas.height;
 
   // 1) planning docs
-  writeFile(path.join(projectDir, 'docs/01-GDD.md'), docGDD(spec));
+  const DOC_BANNER = `> **자동 생성 문서 — arcade Foundation 기준.**
+  > 이 내용은 스펙 라벨을 반영한 낙하-회피 아케이드 서술이다. 게임이 \`hybrid\` 또는
+  > \`custom-loop\`라면(고유 시스템을 구현했다면) 이 문서는 실제 게임을 설명하지 않는
+  > **거짓 문서**가 되므로, 완료 보고 전에 실구현 기준으로 재작성해야 한다.
+  > 재작성 대상: 핵심 루프 · 조작 · 승패 조건 · 점수 · 난이도 축 · 콘텐츠 목록.
+  
+  `;
+  writeFile(path.join(projectDir, 'docs/01-GDD.md'), DOC_BANNER + docGDD(spec));
   writeFile(path.join(projectDir, 'docs/02-TECH-DESIGN.md'), docTech(spec));
   writeFile(path.join(projectDir, 'docs/03-ASSET-AUDIO-PLAN.md'), docAssetPlan(spec, plan));
   writeFile(path.join(projectDir, 'docs/04-QA-PLAN.md'), docQA(spec));
-  writeFile(path.join(projectDir, 'docs/05-ADVERSARIAL-REVIEW.md'), docAdversarial(spec));
+  writeFile(path.join(projectDir, 'docs/05-ADVERSARIAL-REVIEW.md'), DOC_BANNER + docAdversarial(spec));
 
   // 2) AI art-direction package
   writeFile(path.join(projectDir, 'asset-plan.json'), JSON.stringify(plan, null, 2) + '\n');

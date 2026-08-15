@@ -21,6 +21,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { findCodex, resolveCodexHome, chromaHelperPath, codexGenerate } from './lib/codex-host.mjs';
+import { BACKGROUND_EDGE_MIN, FILL_FLOOR, UI_HUE_MAX_DISTANCE } from './lib/quality-thresholds.mjs';
 
 function parseArgs(argv) {
   const args = { only: 'all', timeoutSec: 300 };
@@ -32,6 +33,7 @@ function parseArgs(argv) {
     else if (a === '--codex') args.codex = argv[++i];
     else if (a === '--timeout') args.timeoutSec = Number(argv[++i]);
     else if (a === '--skip-existing') args.skipExisting = true;
+    else if (a === '--no-runtime-export') args.noRuntimeExport = true;
     else if (a === '--id') args.id = argv[++i];
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -55,6 +57,8 @@ Options:
                       resumable instead of restarting every image.
   --id <glob>         Only process plan entries whose id matches (e.g. --id "stage-*")
   --timeout <sec>     Per-image timeout, default 300
+  --no-runtime-export Keep generated PNGs as-is instead of exporting runtime WebP
+                      (for games with a custom asset-layout contract)
   --codex <bin>       codex binary to drive
 
 Env:
@@ -148,6 +152,201 @@ function declaredResample(projectDir, bg, file, native) {
     resampleMethod: 'lanczos',
     rawPath: rawRel,
   };
+}
+
+
+// ---- generation-time verification -------------------------------------------------------
+// The babysitting loop this session kept repeating was: generate → gate finds the defect
+// minutes later → a human re-prompts. These helpers move the same measurements to the moment
+// of generation so the retry can happen inside the run, with the failure reason written into
+// the next prompt. Thresholds come from lib/quality-thresholds.mjs — the very numbers the
+// gates use — so "passes at generation" and "passes the gate" cannot drift apart.
+
+const RETRY_LIMIT = 2; // per asset, in addition to the first attempt
+
+const MEASURE_PY = [
+  'import sys, json, math, colorsys',
+  'from PIL import Image, ImageFilter, ImageStat',
+  'req = json.loads(sys.stdin.read())',
+  "im = Image.open(req['file'])",
+  'out = {}',
+  "if req['kind'] == 'background':",
+  "    rgb = im.convert('RGB')",
+  '    if rgb.width > 1440:',
+  '        rgb = rgb.resize((1440, round(rgb.height * 1440 / rgb.width)))',
+  "    out['edge'] = round(ImageStat.Stat(rgb.convert('L').filter(ImageFilter.FIND_EDGES)).var[0], 1)",
+  'else:',
+  "    rgba = im.convert('RGBA'); a = rgba.getchannel('A')",
+  '    mn, mx = a.getextrema()',
+  "    out['hasAlpha'] = mn < 250",
+  '    bb = a.getbbox()',
+  '    if bb:',
+  '        region = a.crop(bb)',
+  '        hist = region.point(lambda v: 255 if v > 200 else 0).histogram()',
+  "        out['fill'] = round(hist[255] / max(1, region.width * region.height), 3)",
+  "    frames = req.get('frames')",
+  '    if frames and frames > 1:',
+  '        w = rgba.width // frames; pads = []',
+  '        for i in range(frames):',
+  '            cb = a.crop((i * w, 0, (i + 1) * w, rgba.height)).getbbox()',
+  '            pads.append(None if not cb else [cb[0], cb[1], w - cb[2], rgba.height - cb[3]])',
+  "        out['pads'] = pads",
+  "    acc = req.get('accent')",
+  '    if acc:',
+  '        small = rgba.copy(); small.thumbnail((128, 128))',
+  '        hs = []',
+  '        for r3, g3, b3, al in small.getdata():',
+  '            if al < 200: continue',
+  '            h2, s2, v2 = colorsys.rgb_to_hsv(r3 / 255, g3 / 255, b3 / 255)',
+  '            if s2 > 0.3 and v2 > 0.25: hs.append(h2 * 360)',
+  '        if len(hs) >= 30:',
+  '            x = sum(math.cos(math.radians(h)) for h in hs); y = sum(math.sin(math.radians(h)) for h in hs)',
+  '            dom = math.degrees(math.atan2(y, x)) % 360',
+  "            av = acc.lstrip('#')",
+  '            ah = colorsys.rgb_to_hsv(int(av[0:2], 16) / 255, int(av[2:4], 16) / 255, int(av[4:6], 16) / 255)[0] * 360',
+  '            d = abs(dom - ah)',
+  "            out['hueDist'] = round(min(d, 360 - d), 1); out['domHue'] = round(dom, 1)",
+  'print(json.dumps(out))',
+].join('\n');
+
+function measureQuality(file, spec) {
+  const r = spawnSync('python3', ['-c', MEASURE_PY], { input: JSON.stringify({ file, ...spec }), encoding: 'utf8', timeout: 60000 });
+  if (r.status !== 0) return null;
+  try { return JSON.parse(String(r.stdout).trim().split('\n').pop()); } catch { return null; }
+}
+
+// The accent used for the hue check. New plans record themeColors; old plans fall back to
+// the hex values embedded in the styleGuide palette prose.
+function accentHexOf(plan) {
+  const c = plan.themeColors;
+  if (c && (c.collectible || c.player || c.ui)) return c.collectible || c.player || c.ui;
+  const hexes = String(plan.styleGuide?.palette || '').match(/#[0-9a-fA-F]{6}/g) || [];
+  return hexes[2] || hexes[1] || null;
+}
+
+// Verdict + the sentence that goes into the retry prompt. The hint names the exact defect —
+// re-sending an identical prompt just reproduces the identical failure.
+function verifyGenerated(kind, file, ctx = {}) {
+  if (kind === 'background') {
+    const m = measureQuality(file, { kind: 'background' });
+    if (!m) return { ok: true, note: 'unmeasurable' };
+    if (m.edge < BACKGROUND_EDGE_MIN) {
+      return { ok: false, short: `soft edge ${m.edge}`, hint: `the image came out too soft and blurry (edge variance ${m.edge}, minimum ${BACKGROUND_EDGE_MIN}) — render crisp, well-defined edges with clear separation between foreground shapes, mid-ground and skyline; avoid atmospheric haze and soft focus` };
+    }
+    return { ok: true, note: `edge ${m.edge}` };
+  }
+  const m = measureQuality(file, { kind: 'sprite', frames: ctx.frames, accent: ctx.accent });
+  if (!m) return { ok: true, note: 'unmeasurable' };
+  if (ctx.frames > 1 && Array.isArray(m.pads)) {
+    const touching = m.pads.map((p2, i) => (!p2 || p2.some((v) => v <= 0)) ? i + 1 : null).filter((v) => v !== null);
+    if (touching.length) {
+      return { ok: false, short: `cell clip f${touching.join(',')}`, hint: `frame(s) ${touching.join(', ')} touched or crossed the cell boundary — every cell must keep clearly visible empty margin on all four sides; no limb, prop, glow or shadow may reach a cell edge` };
+    }
+  }
+  const floor = FILL_FLOOR[String(ctx.role || '').toLowerCase()];
+  if (floor !== undefined && m.fill !== undefined && m.fill < floor) {
+    return { ok: false, short: `hollow fill ${m.fill}`, hint: `the subject came out hollow/over-transparent (opaque fill ${m.fill}, minimum ${floor}) — draw solid interior surfaces, not an outline` };
+  }
+  if (ctx.accent && m.hueDist !== undefined && m.hueDist > UI_HUE_MAX_DISTANCE) {
+    return { ok: false, short: `wrong hue ${m.hueDist}°`, hint: `the dominant colour came out ${Math.round(m.domHue)}° away from the required accent — the asset MUST use the accent colour ${ctx.accent}; absolutely no blue, no green, no unrelated colour family` };
+  }
+  return { ok: true };
+}
+
+function retryPrompt(basePrompt, hint) {
+  return `${basePrompt} PREVIOUS ATTEMPT REJECTED: ${hint}. Fix exactly this problem while keeping every other requirement unchanged.`;
+}
+
+// Deterministic edge decontamination — the manual polish step, now standard. remove_chroma's
+// 2px feather is structurally too small at ~1254px sources, leaving a magenta-tinted
+// semi-transparent band that reads as a dirty dark outline on bright backgrounds.
+const DECONTAM_PY = [
+  'import sys, json',
+  'from PIL import Image, ImageFilter',
+  'f = sys.argv[1]',
+  "im = Image.open(f).convert('RGBA')",
+  "a = im.getchannel('A')",
+  'er = a.filter(ImageFilter.MinFilter(7)).filter(ImageFilter.GaussianBlur(1.0))',
+  'px = im.load(); epx = er.load(); apx = a.load()',
+  'w, h = im.size',
+  'for y in range(h):',
+  '    for x in range(w):',
+  '        r, g, b, al = px[x, y]',
+  '        na = min(apx[x, y], epx[x, y])',
+  '        if na > 60 and r > 140 and b > 140 and g < 100:',
+  '            r = g; b = g',
+  '        px[x, y] = (r, g, b, na)',
+  'im.save(f)',
+].join('\n');
+
+function decontaminateEdges(file) {
+  const r = spawnSync('python3', ['-c', DECONTAM_PY, file], { encoding: 'utf8', timeout: 120000 });
+  return r.status === 0;
+}
+
+
+// ---- runtime export ----------------------------------------------------------------------
+// Masters ship nothing: a 2160x3840 PNG background is regeneration source material, not a
+// runtime asset, and shipping masters is exactly how night-market-wok blew the 16MB budget
+// (26.6MB) before this step existed as a manual procedure. Masters move to
+// assets/_source/masters/, runtime gets §2.0.5-sized WebP, and the generation receipt is
+// re-hashed against the runtime file so --skip-existing keeps working.
+const RUNTIME_BG = { width: 1440, height: 3120 }; // §2.2 여유 규격 — 430x932 DPR3까지 커버
+const RUNTIME_MAX_SIDE = { sprite: 512, fx: 384 };
+
+const EXPORT_PY = [
+  'import sys',
+  'from PIL import Image',
+  'src, dst, mode, a, b, q = sys.argv[1:7]',
+  'im = Image.open(src)',
+  "if mode == 'bg':",
+  "    im = im.convert('RGB').resize((int(a), int(b)), Image.LANCZOS)",
+  "elif mode == 'max' and int(a) > 0 and max(im.size) > int(a):",
+  '    r = int(a) / max(im.size)',
+  '    im = im.resize((round(im.width * r), round(im.height * r)), Image.LANCZOS)',
+  "im.save(dst, 'WEBP', quality=int(q), method=6)",
+].join('\n');
+
+function runtimeExportAll(projectDir, plan, manifest) {
+  const mastersDir = path.join(projectDir, 'assets/_source/masters');
+  const exported = [];
+  const convertOne = (item, kind, manifestList) => {
+    const relPath = item.path;
+    if (!relPath || !relPath.endsWith('.png')) return;
+    const abs = path.join(projectDir, relPath);
+    if (!fs.existsSync(abs) || !pngInfo(abs)) return;
+    const entry = (manifestList || []).find((x) => x.id === item.id);
+    // 영수증 없는 파일은 이 파이프라인의 산출물이 아니다 — 손대지 않는다.
+    if (!entry?.provenance?.outputSha256) return;
+    const webpRel = relPath.replace(/\.png$/, '.webp');
+    const webpAbs = path.join(projectDir, webpRel);
+    let argsPy;
+    if (kind === 'bg') {
+      const rawAbs = path.join(projectDir, 'assets/_source', `${item.id}-raw.png`);
+      const src = fs.existsSync(rawAbs) ? rawAbs : abs; // raw에서 1회 리샘플 — 2단 리샘플은 엣지를 두 번 뭉갠다
+      argsPy = [src, webpAbs, 'bg', String(RUNTIME_BG.width), String(RUNTIME_BG.height), '94'];
+    } else if (item.frames > 1) {
+      argsPy = [abs, webpAbs, 'none', '0', '0', '90']; // 시트는 셀 격자가 깨지므로 리사이즈 없이 변환만
+    } else {
+      const maxSide = RUNTIME_MAX_SIDE[kind] || 0;
+      argsPy = [abs, webpAbs, 'max', String(maxSide), '0', kind === 'ui' ? '90' : '88'];
+    }
+    const r = spawnSync('python3', ['-c', EXPORT_PY, ...argsPy], { encoding: 'utf8', timeout: 120000 });
+    if (r.status !== 0 || !fs.existsSync(webpAbs)) return;
+    fs.mkdirSync(mastersDir, { recursive: true });
+    const masterRel = 'assets/_source/masters/' + path.basename(relPath);
+    fs.renameSync(abs, path.join(projectDir, masterRel));
+    item.path = webpRel;
+    entry.path = webpRel;
+    entry.provenance.outputSha256 = sha256File(webpAbs);
+    entry.provenance.runtimeExport = { master: masterRel, quality: kind === 'bg' ? 94 : (kind === 'ui' ? 90 : 88) };
+    exported.push(`${item.id} → ${path.basename(webpRel)}`);
+  };
+  for (const bg of plan.backgrounds || []) convertOne(bg, 'bg', manifest.stageBackgrounds);
+  for (const sp of plan.sprites || []) convertOne(sp, 'sprite', manifest.images);
+  for (const u of plan.ui || []) convertOne(u, 'ui', manifest.images);
+  for (const f of plan.fx || []) convertOne(f, 'fx', manifest.images);
+  return exported;
 }
 
 // Glob matcher for --id ("stage-*", "btn-?", exact ids). No pattern -> everything matches.
@@ -364,6 +563,8 @@ function main() {
   const results = { backgrounds: [], sprites: [], ui: [], fx: [] };
   const opaque = [];
   const genFailures = [];
+  const retryStats = [];
+  const planAccent = accentHexOf(plan);
   const matchId = idMatcher(args.id);
   if (args.id) console.log(`id filter: ${args.id}`);
   if (args.skipExisting) console.log('skip-existing: reusing on-disk assets that already validate');
@@ -382,24 +583,39 @@ function main() {
         continue;
       }
       if (existing) process.stdout.write(`regenerating (${existing.note}) … `);
-      const gen = codexGenerate(codex, out, bg.prompt, args.timeoutSec);
-      const ok = gen.ok;
-      if (!ok) genFailures.push({ id: bg.id, group: 'background', ...gen });
-      let size = ok ? pngInfo(out) : null;
-      // §2.0.5 Declared Resample — image_gen's native size is not ours to choose, so lift it
-      // to the master spec while preserving the raw and recording the true native size.
-      let resample = null;
-      if (ok && size) {
-        resample = declaredResample(projectDir, bg, out, size);
-        if (resample) size = pngInfo(out) || size;
+      // 생성 → 즉시 검증 → 사유 주입 재생성(≤RETRY_LIMIT). 게이트에서 몇 분 뒤 발각되던
+      // 결함을 실행 내부에서 흡수한다.
+      let final = null; let hint = ''; let lastFail = null;
+      for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
+        const prompt = attempt === 0 ? bg.prompt : retryPrompt(bg.prompt, hint);
+        const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
+        if (!gen.ok) { hint = 'the generation call itself failed — produce the image again'; lastFail = { id: bg.id, group: 'background', ...gen }; }
+        else {
+          let size = pngInfo(out);
+          let resample = null;
+          if (size) { resample = declaredResample(projectDir, bg, out, size); if (resample) size = pngInfo(out) || size; }
+          if (!size || size.width < minW || size.height < minH) {
+            hint = 'the output was smaller than the required canvas — render at the largest available resolution';
+            lastFail = { id: bg.id, group: 'background', reason: 'too-small' };
+          } else {
+            const v = verifyGenerated('background', out);
+            if (v.ok) { final = { size, resample }; break; }
+            hint = v.hint; lastFail = { id: bg.id, group: 'background', reason: 'verify', detail: v.short };
+          }
+        }
+        if (attempt < RETRY_LIMIT) {
+          retryStats.push({ id: bg.id, group: 'background', attempt: attempt + 1, why: lastFail.detail || lastFail.reason });
+          process.stdout.write(`retry ${attempt + 1} (${lastFail.detail || lastFail.reason}) … `);
+        }
       }
-      const good = !!size && size.width >= minW && size.height >= minH;
-      const note = resample ? ` (declared resample from ${resample.nativeSize}, raw kept)` : '';
-      console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${note}${good ? '' : ' (TOO SMALL)'}` : '✗ FAILED');
+      const good = !!final;
+      if (!good && lastFail) genFailures.push(lastFail);
+      const note = final?.resample ? ` (declared resample from ${final.resample.nativeSize}, raw kept)` : '';
+      console.log(good ? `✔ ${final.size.width + 'x' + final.size.height}${note}` : '✗ FAILED (retries exhausted)');
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {
         const e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
-        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, { ...(resample || {}), outputSha256: sha256File(out) }); }
+        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, { ...(final.resample || {}), outputSha256: sha256File(out) }); }
       }
     }
   }
@@ -420,26 +636,34 @@ function main() {
       const chromaPrompt = sp.frames
         ? `${sp.prompt} Flat solid pure-magenta (#FF00FF) fills everywhere around and between the cells, hard edges, no glow, for chroma-key removal.`
         : `${sp.prompt} Center the subject on a FLAT SOLID pure-magenta (#FF00FF) background with no gradient and no shadow touching the edges, so the background can be removed by chroma key.`;
-      const gen = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
-      const ok = gen.ok;
-      if (!ok) genFailures.push({ id: sp.id, group: 'sprite', ...gen });
-      let transparent = false;
-      if (ok) {
-        const rc = removeChroma(codexHome, out);
-        transparent = rc.ok;
-        if (!rc.ok) opaque.push({ group: 'sprite', id: sp.id, ...rc });
+      let final = null; let hint = ''; let lastFail = null; let helperMissing = false;
+      for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
+        const prompt = attempt === 0 ? chromaPrompt : retryPrompt(chromaPrompt, hint);
+        const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
+        if (!gen.ok) { hint = 'the generation call itself failed — produce the image again'; lastFail = { id: sp.id, group: 'sprite', ...gen }; }
+        else {
+          const rc = removeChroma(codexHome, out);
+          if (!rc.ok && rc.reason === 'no-helper') { opaque.push({ group: 'sprite', id: sp.id, ...rc }); helperMissing = true; break; }
+          if (!rc.ok) { hint = 'chroma-key removal failed — the background must be perfectly flat pure magenta #FF00FF with hard edges, no gradient, nothing touching the frame'; lastFail = { id: sp.id, group: 'sprite', reason: 'chroma', detail: rc.detail }; }
+          else {
+            decontaminateEdges(out);
+            const cell = sp.frameSize || sp.height;
+            if (sp.frames && cell) autocropResize(out, sp.frames * cell, cell);
+            else { const sz = pngInfo(out); if (sz) autocropResize(out, sz.width, sz.height, 0.05); }
+            const v = verifyGenerated('sprite', out, { frames: sp.frames, role: sp.role });
+            if (v.ok) { final = { size: pngInfo(out) }; break; }
+            hint = v.hint; lastFail = { id: sp.id, group: 'sprite', reason: 'verify', detail: v.short };
+          }
+        }
+        if (attempt < RETRY_LIMIT) {
+          retryStats.push({ id: sp.id, group: 'sprite', attempt: attempt + 1, why: lastFail.detail || lastFail.reason });
+          process.stdout.write(`retry ${attempt + 1} (${lastFail.detail || lastFail.reason}) … `);
+        }
       }
-      // sprite sheet: normalize to N equal square cells so Phaser can slice it cleanly
-      const cell = sp.frameSize || sp.height;
-      if (ok && transparent && sp.frames && cell) autocropResize(out, sp.frames * cell, cell);
-      // 단일 스프라이트: 크롭 후 5% 투명 여백 — 잘림 없는 합성 + crop-edge 게이트 충족
-      else if (ok && transparent) {
-        const sz = pngInfo(out);
-        if (sz) autocropResize(out, sz.width, sz.height, 0.05);
-      }
-      const size = ok ? pngInfo(out) : null;
-      console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque — chroma removal failed)'}` : '✗ FAILED');
-      results.sprites.push({ id: sp.id, ok: ok && transparent });
+      const ok = !!final;
+      if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
+      console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
+      results.sprites.push({ id: sp.id, ok });
       if (ok && Array.isArray(manifest.images)) {
         let e = manifest.images.find((x) => x.id === sp.id);
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
@@ -467,29 +691,50 @@ function main() {
     }
     if (existing) process.stdout.write(`regenerating (${existing.note}) … `);
     const chromaPrompt = `${it.prompt} Render the subject centered on a FLAT SOLID pure-magenta (#FF00FF) background, no gradient, no shadow touching the edges, so the background can be removed by chroma key.`;
-    const gen = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
-    const ok = gen.ok;
-    if (!ok) genFailures.push({ id: it.id, group: it._group, ...gen });
-    let transparent = false;
-    if (ok) {
-      const rc = removeChroma(codexHome, out);
-      transparent = rc.ok;
-      if (!rc.ok) opaque.push({ group: it._group, id: it.id, ...rc });
+    // 버튼류만 hue를 검증한다 — order-ticket 같은 패널은 액센트와 다른 색이 정당하다.
+    const accent = it._group === 'ui' && /^btn/.test(String(it.id)) ? planAccent : null;
+    let final = null; let hint = ''; let lastFail = null; let helperMissing = false;
+    for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
+      const prompt = attempt === 0 ? chromaPrompt : retryPrompt(chromaPrompt, hint);
+      const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
+      if (!gen.ok) { hint = 'the generation call itself failed — produce the image again'; lastFail = { id: it.id, group: it._group, ...gen }; }
+      else {
+        const rc = removeChroma(codexHome, out);
+        if (!rc.ok && rc.reason === 'no-helper') { opaque.push({ group: it._group, id: it.id, ...rc }); helperMissing = true; break; }
+        if (!rc.ok) { hint = 'chroma-key removal failed — the background must be perfectly flat pure magenta #FF00FF with hard edges'; lastFail = { id: it.id, group: it._group, reason: 'chroma', detail: rc.detail }; }
+        else {
+          decontaminateEdges(out);
+          if (it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height, 0.04);
+          const v = verifyGenerated('sprite', out, { role: it.role, accent });
+          if (v.ok) { final = { size: pngInfo(out) }; break; }
+          hint = v.hint; lastFail = { id: it.id, group: it._group, reason: 'verify', detail: v.short };
+        }
+      }
+      if (attempt < RETRY_LIMIT) {
+        retryStats.push({ id: it.id, group: it._group, attempt: attempt + 1, why: lastFail.detail || lastFail.reason });
+        process.stdout.write(`retry ${attempt + 1} (${lastFail.detail || lastFail.reason}) … `);
+      }
     }
-    // UI frames/icons: crop away transparent padding + normalize to declared size so the
-    // game can scale them predictably (buttons vary in size).
-    if (ok && it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height, 0.04);
-    const size = ok ? pngInfo(out) : null;
-    console.log(ok ? `✔ ${size ? size.width + 'x' + size.height : '?'}${transparent ? ' (transparent)' : ' (opaque — chroma removal failed)'}` : '✗ FAILED');
-    // An opaque UI/FX asset is a failure like an opaque sprite is: it keeps a magenta plate
-    // in the composite. It used to be recorded as ok and let the run exit 0.
-    results[it._group].push({ id: it.id, ok: ok && transparent });
+    const ok = !!final;
+    if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
+    console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
+    results[it._group].push({ id: it.id, ok });
     if (ok && Array.isArray(manifest.images)) {
       let e = manifest.images.find((x) => x.id === it.id);
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
       e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.requiresAlpha = true;
       e.quality = 'production-demo';
       e.provenance = imagegenProvenance(plan.gameId, it.id, it.prompt, { outputSha256: sha256File(out) });
+    }
+  }
+
+  // 런타임 출력 — 마스터 보존 + WebP 배포 + 영수증 재계산. plan 경로가 바뀌므로
+  // 이후의 승격·배선이 전부 런타임 파일을 보게 된다.
+  if (!args.noRuntimeExport) {
+    const exported = runtimeExportAll(projectDir, plan, manifest);
+    if (exported.length) {
+      console.log(`runtime export: ${exported.length} asset(s) → WebP (masters kept in assets/_source/masters/)`);
+      fs.writeFileSync(planFile, JSON.stringify(plan, null, 2) + '\n');
     }
   }
 
@@ -567,9 +812,18 @@ function main() {
     for (const g of genFailures) {
       const why = g.reason === 'exec-failed' ? `codex exec exited ${g.status}`
         : g.reason === 'no-output' ? 'codex exec produced no file'
-        : 'output identical to the previous artefact (nothing was generated)';
+        : g.reason === 'unchanged-output' ? 'output identical to the previous artefact (nothing was generated)'
+        : g.reason === 'verify' ? 'failed generation-time verification after all retries'
+        : g.reason === 'chroma' ? 'chroma-key removal kept failing'
+        : g.reason === 'too-small' ? 'output stayed below the required canvas size'
+        : String(g.reason);
       console.log(`  ${g.group} ${g.id}: ${why}${g.detail ? ` — ${g.detail}` : ''}`);
     }
+  }
+
+  if (retryStats.length) {
+    console.log('');
+    console.log(`retries: ${retryStats.length} — ` + retryStats.map((r) => `${r.group} ${r.id} ×${r.attempt} (${r.why})`).join(', '));
   }
 
   const failed = all.filter((r) => !r.ok);

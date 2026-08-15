@@ -106,6 +106,10 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out generated/m
 - 생성/존재하는 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", sourceSkill:"imagegen", promptHash:<hash>}`로 승격하고, 배경 3종+핵심 스프라이트가 모두 실아트면 `qualityTier:"production-demo"`로 올린다.
 - `--only wire`: 재생성 없이, 이미 존재하는(또는 외부 생성/복원된) 에셋으로 **게임 코드만 배선**(LoadingScene가 PNG 경로 로드, StageManager가 배경 표시) + manifest 승격.
 - `--skip-existing` / `--id <glob>`: 중단된 실행을 재개하거나 실패한 자산만 다시 만든다. 자세한 규약은 [호스트 어댑터](#호스트-어댑터)의 실행 규약 참조.
+- **생성 직후 검증 + 자동 재시도**: 자산마다 생성 즉시 검증하고, 미달이면 실패 사유를 다음 프롬프트에 주입해 재생성한다(자산당 최대 2회 재시도). 검증 임계값은 `lib/quality-thresholds.mjs`가 단일 원본이며 게이트와 같은 숫자다. 검사 항목 — 배경: 엣지분산(런타임 스케일로 다운샘플 후 측정) / 시트: 셀별 사방 패딩 / 스프라이트: 알파·채움비 / `btn-*` UI: 주조색 hue vs 테마 액센트 거리. 재시도 소진 시 무음 폴백 없이 명시적 실패로 보고한다(무음 폴백은 Class L mixed-ownership을 만든다).
+- **다프레임 시트는 opt-in**: image_gen이 구조적으로 가장 자주 실패하는 주문이라(셀 경계 잘림 — 재생성으로도 복구 불가 사례 확인) 기본 player는 단일 스프라이트다. 시트가 필요하면 spec에 `player.sheet = { frames, cell }`을 명시하며, 그 경우 비중첩 계약 문구가 프롬프트에 자동 포함된다.
+- **크로마 테두리 정화 표준화**: `remove_chroma_key` 직후 3px 침식 + 잔여 자홍 중화를 자동 수행한다. 2px feather는 1254px급 원본에서 구조적으로 부족해 밝은 배경 위에서 지저분한 어두운 외곽선을 남긴다.
+- **런타임 출력 표준화**: 생성 완료 후 마스터 PNG는 `assets/_source/masters/`에 보존하고 런타임은 §2.0.5 크기의 WebP로 배포한다(배경은 raw에서 1회 리샘플). 생성 영수증(`outputSha256`)은 **런타임 파일 기준으로 재계산**되어 `--skip-existing`이 계속 동작한다. 사용자 정의 자산 레이아웃 게임은 `--no-runtime-export`로 제외한다.
 - 크로마키 제거에 실패한 자산은 **불투명 상태로 조용히 통과하지 않는다** — 자산별 사유(helper 부재 / 실행 실패)를 출력하고 exit 1 한다. helper 부재는 Step 0에서 미리 잡힌다.
 
 ### 게임 연동 (wireGameToAssets)
