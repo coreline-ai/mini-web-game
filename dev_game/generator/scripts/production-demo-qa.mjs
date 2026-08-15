@@ -180,13 +180,65 @@ function entryProvenance(entry) {
     toolMode: p.toolMode ?? entry?.toolMode,
     rawPath: p.rawPath ?? entry?.rawPath,
     promptHash: p.promptHash ?? entry?.promptHash,
+    derivedFrom: p.derivedFrom ?? entry?.derivedFrom,
   };
 }
 
-function validateEntryProvenance(entry, label, gameId, errors) {
+const DERIVED_SOURCE = 'derived-from-generated-for-game';
+
+// 파생 자산 — 이 게임 자신의 승인된 자산을 결정적으로 재조합해 만든 것(프레임 재배치,
+// 상·하체 합성 등). 재생성으로는 캐릭터 동일성이 유지되지 않으므로 정당한 제작 기법이다.
+//
+// 원래 source 규칙이 막으려던 것은 "다른 게임/공용 자산 재사용"이지 재조합이 아니다.
+// 그래서 파생을 인정하되, **부모가 같은 manifest 안에 있을 것**을 강제한다 — 이것이
+// 공유 자산 금지를 유지하는 유일한 방어선이다. 부모의 출처가 파생물의 출처를 증명한다.
+function isDerived(entry) {
+  return entryProvenance(entry).source === DERIVED_SOURCE;
+}
+
+function manifestEntryIndex(manifest) {
+  const byId = new Map();
+  for (const e of [...(manifest?.stageBackgrounds || []), ...(manifest?.images || [])]) {
+    if (e?.id) byId.set(e.id, e);
+  }
+  return byId;
+}
+
+// 부모 사슬을 따라가 generated-for-game 뿌리에 닿는지 확인한다. 순환은 무한 루프가
+// 아니라 명시적 에러로 끝낸다.
+function validateDerivedChain(entry, label, index, errors, seen = new Set()) {
   const p = entryProvenance(entry);
-  if (p.source !== 'generated-for-game') {
-    errors.push(`${label} provenance.source must be "generated-for-game"; shared/common runtime assets are forbidden`);
+  const parents = p.derivedFrom;
+  if (!Array.isArray(parents) || parents.length === 0) {
+    errors.push(`${label} declares provenance.source "${DERIVED_SOURCE}" but no provenance.derivedFrom parents; record which of this game's assets it was built from`);
+    return;
+  }
+  for (const pid of parents) {
+    if (seen.has(pid)) {
+      errors.push(`${label} has a circular derivation chain through "${pid}"`);
+      return;
+    }
+    const parent = index.get(pid);
+    if (!parent) {
+      errors.push(`${label} derives from "${pid}", which is not an asset of this game; derivation may only recombine this game's own assets`);
+      continue;
+    }
+    const ps = entryProvenance(parent).source;
+    if (ps === DERIVED_SOURCE) {
+      validateDerivedChain(parent, `${label} → ${pid}`, index, errors, new Set([...seen, pid]));
+    } else if (ps !== 'generated-for-game') {
+      errors.push(`${label} derives from "${pid}", whose provenance.source is "${ps || 'none'}"; every derivation root must be generated-for-game`);
+    }
+  }
+}
+
+function validateEntryProvenance(entry, label, gameId, errors, manifest = null) {
+  const p = entryProvenance(entry);
+  if (p.source !== 'generated-for-game' && p.source !== DERIVED_SOURCE) {
+    errors.push(`${label} provenance.source must be "generated-for-game" (or "${DERIVED_SOURCE}" for assets recombined from this game's own art); shared/common runtime assets are forbidden`);
+  }
+  if (p.source === DERIVED_SOURCE && manifest) {
+    validateDerivedChain(entry, label, manifestEntryIndex(manifest), errors);
   }
   if (p.generatedFor !== gameId) {
     errors.push(`${label} provenance.generatedFor must match this game id (${gameId})`);
@@ -208,6 +260,10 @@ function sha256OfFile(file) {
 
 function validateImagegenEntry(entry, label, projectDir, errors) {
   const p = entryProvenance(entry);
+  // 파생 자산은 imagegen이 만든 것이 아니다. method/model/sourceSkill/promptHash는 아트의
+  // 생성 출처를 묻는 검사이고, 파생물의 출처는 부모가 증명한다(validateDerivedChain).
+  // 여기서 imagegen 필드를 요구하면 정당한 재조합이 통과할 수 없다.
+  if (p.source === DERIVED_SOURCE) return;
   if (p.method !== REQUIRED_IMAGEGEN_METHOD) {
     errors.push(`${label} provenance.method must be "${REQUIRED_IMAGEGEN_METHOD}" when imagegen skill is required`);
   }
@@ -392,7 +448,7 @@ function validateStageBackgrounds(projectDir, manifest, spec, args, errors) {
     if (!bg || typeof bg !== 'object') { errors.push('stageBackgrounds entry must be an object'); continue; }
     if (!bg.id) errors.push(`stage background missing id: ${JSON.stringify(bg)}`);
     if (!bg.path) { errors.push(`${label} missing path`); continue; }
-    validateEntryProvenance(bg, label, spec?.game?.id, errors);
+    validateEntryProvenance(bg, label, spec?.game?.id, errors, manifest);
     if (bg.quality !== 'production-demo') errors.push(`${label} quality must be "production-demo"`);
     const ext = fileExt(bg.path);
     if (ext === 'svg' && !args.allowSvgBackgrounds) errors.push(`${label} uses SVG; production-demo stage backgrounds must be raster PNG/WebP/JPG`);
@@ -427,7 +483,7 @@ function validateImages(projectDir, manifest, spec, args, errors) {
     if (!image || typeof image !== 'object') { errors.push('images entry must be an object'); continue; }
     const label = image.id || image.path || '<unknown image>';
     if (!image.path) { errors.push(`${label} missing path`); continue; }
-    validateEntryProvenance(image, label, spec?.game?.id, errors);
+    validateEntryProvenance(image, label, spec?.game?.id, errors, manifest);
     const file = resolveAssetFile(projectDir, image.path, label, errors);
     if (!file || !fs.existsSync(file)) { errors.push(`${label} file missing: ${image.path}`); continue; }
     const ext = fileExt(image.path);
@@ -458,7 +514,7 @@ function validateAudio(projectDir, manifest, spec, errors) {
   for (const item of audio) {
     const label = item?.id || item?.path || '<unknown audio>';
     if (!item?.path) { errors.push(`${label} missing path`); continue; }
-    validateEntryProvenance(item, label, spec?.game?.id, errors);
+    validateEntryProvenance(item, label, spec?.game?.id, errors, manifest);
     const file = resolveAssetFile(projectDir, item.path, label, errors);
     if (!file || !fs.existsSync(file)) errors.push(`${label} file missing: ${item.path}`);
   }

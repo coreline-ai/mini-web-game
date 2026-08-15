@@ -1099,7 +1099,7 @@
       "status": "approved",
       "derivedFrom": "player-combat-actions",
       "provenance": {
-        "source": "derived-from-approved-runtime-asset",
+        "source": "derived-from-generated-for-game",
         "generatedFor": "iron-courier-last-line",
         "method": "deterministic-position-only-repack",
         "postProcessing": [
@@ -1111,7 +1111,11 @@
           "transparent-rgb-sanitize",
           "detail-grounded-baseline-y-372"
         ],
-        "provenanceVersion": "legacy-1"
+        "provenanceVersion": "legacy-1",
+        "derivedFrom": [
+          "player-combat-actions"
+        ],
+        "derivationScript": "scripts/create-player-shoot-polished.py"
       }
     },
     {
@@ -5662,7 +5666,7 @@
       "renderOwner": "phaser-spritesheet",
       "status": "approved",
       "provenance": {
-        "source": "derived-from-approved-runtime-assets",
+        "source": "derived-from-generated-for-game",
         "method": "identity-locked-upper-lower-composite",
         "postProcessing": [
           "grounded-baseline-normalization",
@@ -5670,7 +5674,13 @@
           "aim-bucket-fire-pose",
           "identity-lock"
         ],
-        "provenanceVersion": "legacy-1"
+        "provenanceVersion": "legacy-1",
+        "generatedFor": "iron-courier-last-line",
+        "derivedFrom": [
+          "player-run",
+          "player-shoot-polished"
+        ],
+        "derivationScript": "scripts/normalize-detail-assets.py"
       }
     },
     {
@@ -5700,7 +5710,7 @@
       "renderOwner": "phaser-spritesheet",
       "status": "approved",
       "provenance": {
-        "source": "derived-from-approved-runtime-assets",
+        "source": "derived-from-generated-for-game",
         "method": "identity-locked-upper-lower-composite",
         "postProcessing": [
           "grounded-baseline-normalization",
@@ -5708,7 +5718,13 @@
           "aim-bucket-fire-pose",
           "identity-lock"
         ],
-        "provenanceVersion": "legacy-1"
+        "provenanceVersion": "legacy-1",
+        "generatedFor": "iron-courier-last-line",
+        "derivedFrom": [
+          "player-movement-actions",
+          "player-shoot-polished"
+        ],
+        "derivationScript": "scripts/normalize-detail-assets.py"
       }
     }
   ],

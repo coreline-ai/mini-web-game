@@ -76,6 +76,37 @@ function run(label, cmd, cmdArgs) {
   }
 }
 
+// 게이트를 돌리지 않고 끝난 빌드에 남기는 표식. production-demo 미통과 상태를 산문이
+// 아니라 파일로 남겨, 나중에 "완료로 보고됐지만 검증된 적 없는 빌드"를 식별할 수 있게 한다.
+function writeIncompleteMarker(projectDir, reason) {
+  const file = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
+  const payload = {
+    status: 'production-demo-미통과',
+    reason,
+    note: reason === 'skip-art'
+      ? 'Built with --skip-art: no image assets were generated and no gate was run. This build must not be reported as complete.'
+      : 'Built with --gate none: no completion gate was run. This build must not be reported as complete.',
+    clearedBy: 'npm --prefix dev_game run factory:production-gate -- --project <dir>',
+    writtenAt: new Date().toISOString(),
+  };
+  try {
+    fs.writeFileSync(file, JSON.stringify(payload, null, 2) + '\n');
+    console.log(`  ▸ wrote ${path.basename(file)} — this build is NOT a production demo until the gate passes.`);
+  } catch {}
+}
+
+// 재개 실행에서 productionize가 덮어쓸 기획문서를 미리 알린다.
+function warnDocOverwrite(projectDir) {
+  const docsDir = path.join(projectDir, 'docs');
+  let existing = [];
+  try {
+    existing = fs.readdirSync(docsDir).filter((f) => /^0[1-5]-.*\.md$/.test(f));
+  } catch { return; }
+  if (!existing.length) return;
+  console.log(`  ⚠ productionize will rewrite ${existing.length} planning doc(s): ${existing.join(', ')}`);
+  console.log('    Hand edits in these files will be lost. Use --from art to resume past this stage.');
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
@@ -128,6 +159,9 @@ function main() {
 
   // 2) productionize (docs + asset-plan + manifest)
   if (stageOn('productionize')) {
+    // productionize는 기획문서 01~05를 다시 쓴다. 재개(--from) 실행에서 사람이 손본 문서가
+    // 조용히 사라지는 사고를 막기 위해, 덮어쓰기 전에 무엇이 사라지는지 알린다.
+    if (args.from && args.from !== 'scaffold') warnDocOverwrite(out);
     run('2/4 Productionize (docs + asset-plan + manifest)', node, [path.join(SCRIPTS, 'productionize.mjs'), '--project', out, '--stages', String(args.stages)]);
   } else {
     console.log(`▶ 2/4 Productionize — skipped (--from ${args.from})`);
@@ -168,13 +202,21 @@ function main() {
   // 4) QA
   if (args.gate === 'none' || args.skipArt) {
     console.log('\n▶ 4/4 QA — skipped.');
+    // 게이트를 건너뛴 빌드는 "판정 없음"이지 "통과"가 아니다. 사람이 산문 규칙을 지키는지에
+    // 기대는 대신, 산출물 자체에 미통과 상태를 남겨 나중에 기계가 읽을 수 있게 한다.
+    writeIncompleteMarker(out, args.skipArt ? 'skip-art' : 'gate-none');
   } else if (args.gate === 'full') {
     run('4/4 QA (full production-gate)', node, [path.join(SCRIPTS, 'production-gate.mjs'), '--project', out]);
   } else {
     run('4/4 QA (production-demo-qa)', node, [path.join(SCRIPTS, 'production-demo-qa.mjs'), '--project', out]);
   }
 
-  console.log(`\n✔ Done. Production-demo game at: ${out}`);
+  // 게이트를 돌리지 않은 빌드를 "Production-demo"라고 부르면 표식 파일과 정면으로
+  // 모순된다. 검증되지 않은 빌드는 스캐폴드라고 부른다.
+  const verified = !(args.gate === 'none' || args.skipArt);
+  console.log(verified
+    ? `\n✔ Done. Production-demo game at: ${out}`
+    : `\n▲ Done, but NOT a production demo — no completion gate ran. Scaffold at: ${out}`);
   console.log(`  Run it:  cd ${out} && npm install && npm run dev`);
   if (args.gate !== 'full') console.log('  Full gate:  npm --prefix dev_game run factory:production-gate -- --project ' + out);
 }

@@ -406,6 +406,43 @@ testCase('case 12: 게이트가 무영수증을 잡고, legacy-1은 통과시키
   check(MISMATCH.test(runGate(I).out), 'a receipt that does not hash-match the file must be reported as a mismatch');
 });
 
+// ── 13. 파생 자산(derived) 규칙 ─────────────────────────────────────────────
+// 파생 인정이 "다른 게임 자산 재사용" 금지를 뚫으면 안 된다. 부모가 같은 manifest 안의
+// generated-for-game 자산일 때만 통과해야 한다.
+testCase('case 13: 파생 자산은 같은 게임의 자산에서만 인정된다', () => {
+  const J = makeFixture('fixture-j');
+  setMode('ok');
+  runImagegen(J);
+  const mf = path.join(J, 'assets', 'asset-manifest.json');
+  const withDerived = (prov) => {
+    const m = manifestOf(J);
+    m.images = [{ id: 'derived-sheet', path: m.stageBackgrounds[0].path, type: 'sprite', role: 'player', quality: 'production-demo', provenance: prov }];
+    fs.writeFileSync(mf, JSON.stringify(m, null, 2));
+    return runGate(J).out;
+  };
+  const base = { source: 'derived-from-generated-for-game', generatedFor: 'fixture-j' };
+
+  check(/no provenance.derivedFrom parents/.test(withDerived({ ...base })),
+    'a derived asset without derivedFrom must be rejected');
+  check(/not an asset of this game/.test(withDerived({ ...base, derivedFrom: ['some-other-games-hero'] })),
+    'deriving from an id that is not in this manifest must be rejected (this is what keeps shared assets banned)');
+
+  const okOut = withDerived({ ...base, derivedFrom: ['stage-1'] });
+  check(!/derivedFrom|not an asset of this game|circular/.test(okOut),
+    `deriving from this game's own generated asset must pass, got:\n${okOut.slice(-300)}`);
+  check(!/derived-sheet provenance\.(method|model|sourceSkill|promptHash)/.test(okOut),
+    'a derived asset must not be asked for imagegen fields — its origin is proven by its parent');
+
+  // 순환: A가 B에서, B가 A에서 파생
+  const m = manifestOf(J);
+  m.images = [
+    { id: 'd-a', path: m.stageBackgrounds[0].path, type: 'sprite', role: 'player', quality: 'production-demo', provenance: { ...base, derivedFrom: ['d-b'] } },
+    { id: 'd-b', path: m.stageBackgrounds[0].path, type: 'sprite', role: 'player', quality: 'production-demo', provenance: { ...base, derivedFrom: ['d-a'] } },
+  ];
+  fs.writeFileSync(mf, JSON.stringify(m, null, 2));
+  check(/circular derivation chain/.test(runGate(J).out), 'a circular derivation chain must be reported, not looped on');
+});
+
 // ── 결과 ────────────────────────────────────────────────────────────────────
 console.log('');
 if (failures) {

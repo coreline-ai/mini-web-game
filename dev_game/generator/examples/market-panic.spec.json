@@ -3,7 +3,7 @@
   "game": {
     "id": "market-panic",
     "title": "마켓 패닉",
-    "description": "실시간 시장 뉴스를 읽고 종목 선택, 매수, 매도, 헤지, 현금 대응으로 마감 종까지 살아남는 모바일 세로형 전략 아케이드 게임.",
+    "description": "Foundation scaffold for a real-time market/trading strategy game: a one-hand portrait falling-hazard arcade (dodge hazards, catch collectibles) with themed naming and palette. This spec builds the arcade shell ONLY — the described loop is not expressible in schema v1. Intended game: 실시간 시장 뉴스를 읽고 종목 선택, 매수, 매도, 헤지, 현금 대응으로 마감 종까지 살아남는 모바일 세로형 전략 아케이드 게임.",
     "orientation": "portrait",
     "target": "mobile-web"
   },
@@ -212,5 +212,6 @@
         "masterTraderRisk": 50
       }
     ]
-  }
+  },
+  "_note": "GENRE TRAP WARNING — read before running factory:make with this spec. The `marketPanic` block below is a HAND-OFF CONTRACT for the custom implementation, not generator input: no code under dev_game/generator/src reads it, and schema v1 does not declare it (it passes validation only because additionalProperties is unset). Schema v1 has no vocabulary for news feeds, position sizing, buy/sell/hedge actions, or a closing-bell timer, so the mechanical fields describe a falling-hazard arcade and nothing else. Running this spec through factory:make yields a playable dodge-the-hazard game with themed labels — that is a scaffold, not the described game, and must not be reported as one. For a genre outside the v1 arcade vocabulary, use schema v2 with buildDecision 'custom-loop' instead of relabeling this one."
 }

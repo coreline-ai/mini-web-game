@@ -310,32 +310,6 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 - **v2 custom-loop 전용**: `custom-loop-full-qa`가 프로젝트의 `npm run test:lifecycle`을 실행하고, `qa-session-report`는 그 산출물(`qa-captures/lifecycle-soak-results.json`)의 **존재만** 확인한다(staleness 검사에서도 면제된다). 즉 2분 소크·retry 5회·단조 증가 판정은 **프로젝트가 스스로 작성한 테스트가 소유**하며, 공통 게이트에는 K 클래스 판정 로직이 없다.
 - **수동 (v1 및 lifecycle 테스트 미보유 프로젝트)**: 2분 이상 자동 플레이 + retry 5회 동안 `activeTweens`/타이머 수/displayList 크기/FPS를 주기 샘플링해 **사람이 단조 증가(누수 신호)를 확인한다.**
 
-### M. Physics Bounds Alignment — 보이는 스프라이트와 판정 body 정합성
-
-**문제 클래스**: 런타임 스프라이트는 의도 크기로 표시되지만 Arcade Physics body가 원본 텍스처 좌표계와 표시 좌표계를 혼용해 너무 작거나 한쪽으로 치우친 상태.
-
-**증상 시그니처**:
-
-- 코인/아이템이 플레이어와 시각적으로 겹치거나 가까이 지나가는데 수집되지 않음
-- 장애물이나 수집물이 보이는 크기 전체가 아니라 일부 작은 영역에서만 반응함
-- `setDisplaySize()` 이후 `body.setSize()`/`body.setCircle()` 값을 표시 픽셀처럼 넣었는데, 실제 body는 원본 텍스처 scale이 다시 곱해져 축소됨
-- 풀에서 재사용된 오브젝트가 이전 body 크기나 offset을 들고 다시 등장함
-
-**수정 규칙**:
-
-1. 물리 body의 의도 크기는 표시/world 픽셀 기준으로 선언하고, `setDisplaySize()` 이후 현재 `scaleX/scaleY`로 나누어 source-space body 크기로 변환한다.
-2. `body.setSize(..., true)` 또는 동등한 helper로 body를 중앙 정렬하고, 풀 재사용 스폰마다 시각 크기와 body 크기를 함께 리셋한다.
-3. 수집 아이템은 보이는 아이템 bounds와 수집 body가 같은 중심과 의도 크기를 갖게 한다. 원형 body를 쓰는 경우 radius와 offset도 표시 좌표에서 source 좌표로 변환한다.
-4. 플레이어의 충돌 body와 수집 sensor가 다른 의도를 가질 경우, 두 판정 영역을 명시적으로 분리하고 각각의 world 크기를 샘플에 기록한다.
-
-**검증 — 수동 캡처 검사 (자동 게이트 없음)**:
-
-- 같은 viewport에서 플레이어 bounds와 아이템 bounds를 강제 overlap시킨 뒤 `visualOverlap === true`인 케이스가 모두 수집되는지 **사람이 확인한다.**
-  **강제 overlap을 만들어 수집 성공을 assert하는 게이트 코드는 존재하지 않는다.** 판정 body가 표시 크기의 1/9여도 전 게이트가 GREEN이다.
-- 상태 샘플에 `displayWidth/displayHeight`, `body.width/body.height`, `body.center`, `body.offset`, `isCircle/radius`를 **기록하고** 의도 world body 크기와 사람이 비교한다.
-- 스폰 풀 재사용을 5회 이상 반복해 매번 body 크기와 중심이 동일하게 리셋되는지 사람이 확인한다.
-- M 클래스는 게이트가 아니라 **플레이 감각으로 먼저 드러난다** — "겹쳤는데 안 먹혀"라는 지적이 유일한 조기 신호이므로, 수집·충돌이 있는 게임은 캡처 세션에서 근접 통과를 의도적으로 시도한다.
-
 ### L. Asset Fidelity Contract — 최종 화면 에셋 품질 / DPR 정합성
 
 **문제 클래스**: 파일 단위 에셋은 존재하지만 최종 렌더 화면이 저해상도, 흐릿한 배경, 평면 런타임 사각형, 임시 UI 조합처럼 보이는 품질 불일치. 특히 논리 캔버스(`390x844` 등), 브라우저 CSS 크기, 실제 캔버스 backing store, 원본 이미지 픽셀, 디스플레이 DPR이 서로 맞지 않아 다운샘플링 후 다시 업스케일되는 구조.
@@ -384,6 +358,32 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 - **부분 자동**: 소스 측 알파 bbox와 사방 패딩은 `image-quality-qa`가 실측한다(빈약한 채움비·잘린 스탬프 검출). 그러나 **런타임 측** `runtimeBounds`, `clippedEdges`, `outOfBounds`는 어떤 게이트도 읽지 않는다 — `getBounds()`는 통과하는데 실제 알파가 잘린 경우는 사람이 캡처로 판정한다.
 - **수동 (자동 게이트 없음)**: 최종 캡처의 핵심 텍스처 키, 렌더 소유권(`renderOwner`: `phaser`/`dom-css`/`generated-texture`), DOM/CSS UI의 `textOverflow`, `fontLoaded`는 상태 샘플에 **기록만** 되고 이를 검사하는 게이트 코드는 없다. mixed-ui-ownership 판정은 사람이 한다.
 - before/after 캡처를 같은 화면 상태로 보존한다(§G 4항). 페어 존재 여부를 강제하는 게이트는 없다.
+
+### M. Physics Bounds Alignment — 보이는 스프라이트와 판정 body 정합성
+
+**문제 클래스**: 런타임 스프라이트는 의도 크기로 표시되지만 Arcade Physics body가 원본 텍스처 좌표계와 표시 좌표계를 혼용해 너무 작거나 한쪽으로 치우친 상태.
+
+**증상 시그니처**:
+
+- 코인/아이템이 플레이어와 시각적으로 겹치거나 가까이 지나가는데 수집되지 않음
+- 장애물이나 수집물이 보이는 크기 전체가 아니라 일부 작은 영역에서만 반응함
+- `setDisplaySize()` 이후 `body.setSize()`/`body.setCircle()` 값을 표시 픽셀처럼 넣었는데, 실제 body는 원본 텍스처 scale이 다시 곱해져 축소됨
+- 풀에서 재사용된 오브젝트가 이전 body 크기나 offset을 들고 다시 등장함
+
+**수정 규칙**:
+
+1. 물리 body의 의도 크기는 표시/world 픽셀 기준으로 선언하고, `setDisplaySize()` 이후 현재 `scaleX/scaleY`로 나누어 source-space body 크기로 변환한다.
+2. `body.setSize(..., true)` 또는 동등한 helper로 body를 중앙 정렬하고, 풀 재사용 스폰마다 시각 크기와 body 크기를 함께 리셋한다.
+3. 수집 아이템은 보이는 아이템 bounds와 수집 body가 같은 중심과 의도 크기를 갖게 한다. 원형 body를 쓰는 경우 radius와 offset도 표시 좌표에서 source 좌표로 변환한다.
+4. 플레이어의 충돌 body와 수집 sensor가 다른 의도를 가질 경우, 두 판정 영역을 명시적으로 분리하고 각각의 world 크기를 샘플에 기록한다.
+
+**검증 — 수동 캡처 검사 (자동 게이트 없음)**:
+
+- 같은 viewport에서 플레이어 bounds와 아이템 bounds를 강제 overlap시킨 뒤 `visualOverlap === true`인 케이스가 모두 수집되는지 **사람이 확인한다.**
+  **강제 overlap을 만들어 수집 성공을 assert하는 게이트 코드는 존재하지 않는다.** 판정 body가 표시 크기의 1/9여도 전 게이트가 GREEN이다.
+- 상태 샘플에 `displayWidth/displayHeight`, `body.width/body.height`, `body.center`, `body.offset`, `isCircle/radius`를 **기록하고** 의도 world body 크기와 사람이 비교한다.
+- 스폰 풀 재사용을 5회 이상 반복해 매번 body 크기와 중심이 동일하게 리셋되는지 사람이 확인한다.
+- M 클래스는 게이트가 아니라 **플레이 감각으로 먼저 드러난다** — "겹쳤는데 안 먹혀"라는 지적이 유일한 조기 신호이므로, 수집·충돌이 있는 게임은 캡처 세션에서 근접 통과를 의도적으로 시도한다.
 
 ### N. First-play Comprehension / Docs-runtime Drift — 첫 플레이 이해도와 문서-런타임 정합성
 

@@ -86,7 +86,41 @@ Placeholder-only assets are not acceptable for final delivery.
 - 심볼릭 링크로 기존 에셋을 연결하지 않는다.
 - 기존 에셋은 스타일/품질 참고 자료로만 볼 수 있으며, 최종 산출물에는 새로 생성한 파일만 포함한다.
 - `asset-manifest.json`에는 `assetIsolation.mode: "per-game"`, `assetIsolation.generatedFor: "<game-id>"`, `assetIsolation.noSharedRuntimeAssets: true`를 명시한다.
-- 모든 manifest entry는 `provenance.source: "generated-for-game"`, `provenance.generatedFor: "<game-id>"`를 가진다.
+- 모든 manifest entry는 `provenance.source: "generated-for-game"`, `provenance.generatedFor: "<game-id>"`를 가진다. 단 아래 §2.0.05의 파생 자산은 예외 형태를 쓴다.
+
+### 2.0.05 파생 자산 — 이 게임 자신의 아트를 재조합한 경우
+
+이 게임의 **승인된 자산을 결정적으로 재조합**해 만든 자산이 있다. 프레임 재배치(position-only repack), 상·하체 합성(upper-lower composite) 같은 것들이다. 이런 자산은 재생성으로 대체할 수 없다 — 캐릭터 동일성(identity-lock)이 깨지기 때문이다. imagegen을 다시 돌리면 같은 인물이 아니게 된다.
+
+`source` 규칙이 금지하려는 것은 **다른 게임·공용 자산의 재사용**이지 자기 아트의 재조합이 아니다. 따라서 파생은 다음 형태로 인정한다.
+
+```jsonc
+"provenance": {
+  "source": "derived-from-generated-for-game",
+  "generatedFor": "<game-id>",
+  "derivedFrom": ["player-run", "player-shoot-polished"],
+  "method": "identity-locked-upper-lower-composite",
+  "derivationScript": "scripts/normalize-detail-assets.py",
+  "postProcessing": ["grounded-baseline-normalization", "identity-lock"]
+}
+```
+
+| 필드 | 요구 |
+|---|---|
+| `source` | `"derived-from-generated-for-game"` |
+| `generatedFor` | 게임 id와 일치 |
+| `derivedFrom` | **비어 있지 않은 배열**. 각 id는 같은 manifest 안에 존재해야 하고, 사슬을 따라가면 `generated-for-game` 뿌리에 닿아야 한다 |
+| `method` | 결정적 변환의 이름(무엇을 했는지 읽히게) |
+| `derivationScript` | 권장 — 재현 경로 |
+
+게이트가 강제하는 것:
+
+- 부모가 **같은 manifest 안에 없으면 실패**한다. 이것이 공유 자산 금지를 유지하는 방어선이다 — 다른 게임의 자산 id를 적어도 통과할 수 없다.
+- 순환 파생(A→B→A)은 명시적 에러다.
+- 파생 자산에는 imagegen 필드(`method`가 `codex-gpt-imagegen-skill`인지, `model`·`sourceSkill`·`promptHash`)를 **요구하지 않는다**. 그것은 아트의 생성 출처를 묻는 검사이고, 파생물의 출처는 부모가 증명한다.
+- `reusedFrom`/`copiedFrom`/`sourceProject`/외부 이미지 서비스 필드 금지는 파생에도 그대로 적용된다.
+
+파생 자산의 생성 영수증(`outputSha256`)은 현재 발급되지 않는다 — 파생 파이프라인이 `codex-imagegen`이 아니라 게임별 스크립트이기 때문이다. 영수증 이전 자산과 같은 `provenanceVersion: "legacy-1"` 정책을 적용한다.
 
 ### 2.0.1 gpt 이미지젠 스킬 provenance
 

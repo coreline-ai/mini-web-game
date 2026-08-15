@@ -20,7 +20,9 @@ for (const [key, relative] of Object.entries(files)) {
   const file = path.join(projectDir, relative);
   if (!fs.existsSync(file)) { if (!['assetFidelity'].includes(key)) errors.push(`${key}: missing ${relative}`); continue; }
   const stat = fs.statSync(file);
-  if (sinceArg && stat.mtimeMs + 1000 < sinceArg && !['longRun'].includes(key)) errors.push(`${key}: stale report (${new Date(stat.mtimeMs).toISOString()})`);
+  // longRun도 신선도를 검사한다. 면제해 두면 몇 달 전 soak 결과가 이번 세션의 증거로
+  // 통과해 클래스 K(장시간 누수)가 사실상 무검증이 된다.
+  if (sinceArg && stat.mtimeMs + 1000 < sinceArg) errors.push(`${key}: stale report (${new Date(stat.mtimeMs).toISOString()})`);
   try { fragments[key] = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { errors.push(`${key}: invalid JSON (${error.message})`); }
   if (fragments[key]?.ok === false) errors.push(`${key}: reported failure`);
 }

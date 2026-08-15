@@ -3,7 +3,7 @@
   "game": {
     "id": "rush-lane-racer",
     "title": "Rush Lane Racer",
-    "description": "A one-hand vertical arcade racing survival game: drag left/right, dodge traffic, collect coins and nitro, survive escalating highway chaos.",
+    "description": "Foundation scaffold for a lane-based racing survival game: a one-hand portrait falling-hazard arcade with a horizontally-moving player with themed naming and palette. This spec builds the arcade shell ONLY — the described loop is not expressible in schema v1. Intended game: A one-hand vertical arcade racing survival game: drag left/right, dodge traffic, collect coins and nitro, survive escalating highway chaos.",
     "orientation": "portrait",
     "target": "mobile-web"
   },
@@ -98,7 +98,7 @@
     "road": {
       "leftRatio": 0.12,
       "rightRatio": 0.88,
-      "stripeSpeedMultiplier": 1.0
+      "stripeSpeedMultiplier": 1
     },
     "warningEverySeconds": 30,
     "warningDurationSeconds": 6,
@@ -113,7 +113,7 @@
       "weight": 52,
       "width": 96,
       "height": 170,
-      "speedMultiplier": 1.0,
+      "speedMultiplier": 1,
       "scoreAvoid": 5
     },
     {
@@ -329,5 +329,6 @@
       "name": "Boss Truck",
       "notes": "거대 트럭 보스 패턴"
     }
-  ]
+  ],
+  "_note": "GENRE TRAP WARNING — read before running factory:make with this spec. The `racing / hazardCatalog / stages` block below is a HAND-OFF CONTRACT for the custom implementation, not generator input: no code under dev_game/generator/src reads it, and schema v1 does not declare it (it passes validation only because additionalProperties is unset). Schema v1 has no vocabulary for discrete lanes, traffic AI, near-miss scoring, or stage progression, so the mechanical fields describe a falling-hazard arcade and nothing else. Running this spec through factory:make yields a playable dodge-the-hazard game with themed labels — that is a scaffold, not the described game, and must not be reported as one. For a genre outside the v1 arcade vocabulary, use schema v2 with buildDecision 'custom-loop' instead of relabeling this one."
 }
