@@ -63,7 +63,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "b69253db283f5988",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -93,7 +94,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "e58638a99f23c485",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -123,7 +125,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "3fbaadcd0a9709a0",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -153,7 +156,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "21d52b1d28caf3d4",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -183,7 +187,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "45521281744b94c6",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -213,7 +218,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "7e23071279fd9f3c",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -243,7 +249,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "893b58212069e8fb",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -273,7 +280,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "10db9585d5bc6ea8",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -303,7 +311,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "e67cf16a7dadbf92",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -333,7 +342,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "4f7a9f24d485840f",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }
@@ -433,7 +443,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "f0ccc42da7ad3d9d",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -468,7 +479,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "3f04ffcaac3de96f",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -503,7 +515,8 @@
         "toolMode": "built-in-image_gen",
         "promptHash": "f97a4d744f28a64a",
         "quality": "high",
-        "remasteredAt": "2026-07-09T15:09:26.871Z"
+        "remasteredAt": "2026-07-09T15:09:26.871Z",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }

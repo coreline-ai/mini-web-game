@@ -97,7 +97,8 @@
         "rawPath": "assets/_source/stage-1-dry-front-raw.png",
         "rawWidth": 941,
         "rawHeight": 1672,
-        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -126,7 +127,8 @@
         "rawPath": "assets/_source/stage-2-wind-shift-raw.png",
         "rawWidth": 941,
         "rawHeight": 1672,
-        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -155,7 +157,8 @@
         "rawPath": "assets/_source/stage-3-ember-night-raw.png",
         "rawWidth": 941,
         "rawHeight": 1672,
-        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately"
+        "postprocess": "Lanczos fit to 2160x3840 WebP; restrained Gaussian cleanup; broad-edge contrast preservation; native raw dimensions preserved separately",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],
@@ -193,7 +196,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -237,7 +241,8 @@
           "width": 342,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -281,7 +286,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -325,7 +331,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -369,7 +376,8 @@
           "width": 342,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -413,7 +421,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -457,7 +466,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -501,7 +511,8 @@
           "width": 342,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -545,7 +556,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -589,7 +601,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -633,7 +646,8 @@
           "width": 342,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,
@@ -677,7 +691,8 @@
           "width": 341,
           "height": 768
         },
-        "postprocess": "auto border chroma removal, despill, alpha padding normalization"
+        "postprocess": "auto border chroma removal, despill, alpha padding normalization",
+        "provenanceVersion": "legacy-1"
       },
       "transparentPadding": {
         "targetPercent": 10,

@@ -57,7 +57,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "afe5de8d7e5e565b",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "frames": 4,
@@ -89,7 +90,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "643778687a760cfe",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "hqQuality": "webp-compressed-hq",
@@ -118,7 +120,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "5dbada27c1c250f3",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "hqQuality": "webp-compressed-hq",
@@ -145,7 +148,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "61c1d999fc92fdf6",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -170,7 +174,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "76e2fd802d3f767a",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -196,7 +201,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "webp-compressed-hq",
       "delivery": "runtime"
@@ -223,7 +229,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fc3e5f9e90be1279",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "webp-compressed-hq",
       "delivery": "runtime"
@@ -323,7 +330,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "hq-stage-opening-bell-20260706",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "hq-screen-refresh",
       "delivery": "runtime"
@@ -358,7 +366,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "hq-stage-earnings-storm-20260706",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "hq-screen-refresh",
       "delivery": "runtime"
@@ -393,7 +402,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "hq-stage-rumor-spiral-20260706",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "hq-screen-refresh",
       "delivery": "runtime"
@@ -428,7 +438,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "hq-stage-circuit-breaker-20260706",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "hqQuality": "hq-screen-refresh",
       "delivery": "runtime"

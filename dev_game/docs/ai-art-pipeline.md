@@ -103,8 +103,8 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out generated/m
 - 작동하는 codex 바이너리를 자동 탐지한다(nvm 설치가 깨져 있어도 antigravity/vscode 확장의 네이티브 바이너리를 글롭으로 찾음). 필요 시 `DEVGAME_CODEX_BIN=/path/to/codex`로 지정.
 - **배경**: 직접 생성(캔버스 크기 이상 래스터).
 - **스프라이트**: flat 크로마키 배경으로 생성 후 `~/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py --auto-key border`로 투명화.
-- 생성/존재하는 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", sourceSkill:"imagegen", promptHash:<hash>}`로 승격하고, 배경 3종+핵심 스프라이트가 모두 실아트면 `qualityTier:"production-demo"`로 올린다.
-- `--only wire`: 재생성 없이, 이미 존재하는(또는 외부 생성/복원된) 에셋으로 **게임 코드만 배선**(LoadingScene가 PNG 경로 로드, StageManager가 배경 표시) + manifest 승격.
+- 생성 성공한 에셋을 manifest에서 `quality:"production-demo"` + `provenance:{source:"generated-for-game", generatedFor:<id>, method:"codex-gpt-imagegen-skill", sourceSkill:"imagegen", promptHash:<hash>, outputSha256:<파일 SHA>, runId, generatedAt}`로 승격한다. **승격은 증명 기반이다**: 생성 영수증(`outputSha256` 실일치 + `runId` + `generatedAt`) 또는 명시적 레거시 표기(`provenanceVersion:"legacy-1"`)가 있는 엔트리만 production-demo가 되고, 그 외는 draft로 남으며 사유(`no-receipt`/`sha-mismatch`/`no-provenance`)가 보고된다. 배경 3종+핵심 스프라이트가 전부 증명되고 **이번 실행의 생성 실패가 0건**일 때만 `qualityTier:"production-demo"`로 올린다.
+- `--only wire`: 재생성 없이 **게임 코드만 배선**한다(LoadingScene가 PNG 경로 로드, StageManager가 배경 표시). 배선은 무조건이지만 **승격은 아니다** — 위 증명 기준(영수증 또는 legacy-1)을 통과한 자산만 승격되고, 외부에서 복원·복사된 무영수증 파일은 draft로 보고된다. 외부 복원 자산을 승격하려면 재생성(`--skip-existing --id <glob>`)으로 영수증을 발급받는 것이 정도(正道)다.
 - `--skip-existing` / `--id <glob>`: 중단된 실행을 재개하거나 실패한 자산만 다시 만든다. 자세한 규약은 [호스트 어댑터](#호스트-어댑터)의 실행 규약 참조.
 - **생성 직후 검증 + 자동 재시도**: 자산마다 생성 즉시 검증하고, 미달이면 실패 사유를 다음 프롬프트에 주입해 재생성한다(자산당 최대 2회 재시도). 검증 임계값은 `lib/quality-thresholds.mjs`가 단일 원본이며 게이트와 같은 숫자다. 검사 항목 — 배경: 엣지분산(런타임 스케일로 다운샘플 후 측정) / 시트: 셀별 사방 패딩 / 스프라이트: 알파·채움비 / `btn-*` UI: 주조색 hue vs 테마 액센트 거리. 재시도 소진 시 무음 폴백 없이 명시적 실패로 보고한다(무음 폴백은 Class L mixed-ownership을 만든다).
 - **다프레임 시트는 opt-in**: image_gen이 구조적으로 가장 자주 실패하는 주문이라(셀 경계 잘림 — 재생성으로도 복구 불가 사례 확인) 기본 player는 단일 스프라이트다. 시트가 필요하면 spec에 `player.sheet = { frames, cell }`을 명시하며, 그 경우 비중첩 계약 문구가 프롬프트에 자동 포함된다.
@@ -155,19 +155,33 @@ Path A는 provenance를 자동으로 채우므로 실수할 여지가 없다. Pa
 | 7 | `provenance.model` | `"gpt 이미지젠 스킬"` 또는 `"openai-builtin-image_gen (version opaque)"` |
 | 8 | `provenance.sourceSkill` | `"imagegen"` |
 | 9 | `provenance.promptHash` | 비어 있지 않은 문자열 |
+| 10 | `provenance.outputSha256` | **런타임 파일**(WebP면 WebP)의 SHA-256과 실일치 — 게이트가 파일을 다시 해시해 대조한다 |
+| 11 | `provenance.runId` | 비어 있지 않은 문자열 (실행 식별자, 예: `manual-20260815-1430`) |
+| 12 | `provenance.generatedAt` | ISO-8601 시각 |
+
+Path B는 영수증을 손으로 계산한다: `shasum -a 256 assets/backgrounds/stage-1.webp` (또는 `node -e "console.log(require('crypto').createHash('sha256').update(require('fs').readFileSync(process.argv[1])).digest('hex'))" <파일>`). **런타임 출력을 마친 뒤의 최종 파일**을 해시해야 한다 — PNG를 해시하고 나중에 WebP로 바꾸면 게이트에서 `receipt mismatch`로 떨어진다. 수동 경로임을 남기고 싶으면 선택 필드 `provenance.route: "manual-built-in"`을 추가해도 된다(게이트는 검사하지 않음).
 
 **C. manifest 최상위 `imagegen` 블록**
 
 | # | 필드 | 요구 |
 |---|---|---|
-| 10 | `imagegen.method` | `"codex-gpt-imagegen-skill"` |
-| 11 | `imagegen.model` | 7번과 같은 허용 집합 |
-| 12 | `imagegen.sourceSkill` | `"imagegen"` |
+| 13 | `imagegen.method` | `"codex-gpt-imagegen-skill"` |
+| 14 | `imagegen.model` | 7번과 같은 허용 집합 |
+| 15 | `imagegen.sourceSkill` | `"imagegen"` |
 
 **D. 계약 외 권장 산출물** — 게이트가 강제하진 않지만 Path B의 재현성을 만든다.
 
 - `art-prompts.md`에 씬별 프롬프트 원문 기록
 - 네이티브 원본을 `assets/_source/**`에 보존하고, 리샘플했다면 `provenance.nativeSize`·`rawPath` 기록 → [§2.0.5 Declared Resample](production-demo-quality-contract.md#declared-resample--네이티브-출력이-마스터-규격에-못-미칠-때)
+
+### 레거시 정책 — `provenanceVersion: "legacy-1"`
+
+영수증 체계 도입(2026-08-15) 이전에 생성된 자산은 `outputSha256`를 소급 발급할 수 없다 — 그 시점의 생성 로그가 없기 때문이다. 이런 엔트리는 `provenanceVersion: "legacy-1"`로 표기하며, 게이트는 이 표기를 **"증명 불가를 명시한 상태"**로 인정해 통과시킨다.
+
+- legacy-1은 증명이 **아니다**. "이 자산은 영수증 도입 전에 만들어져 소급 증명이 불가하다"는 선언일 뿐이다.
+- 새로 생성·재생성되는 자산에는 절대 붙이지 않는다 — 파이프라인이 영수증을 자동 발급하므로 legacy-1이 새 자산에 붙어 있으면 그 자체가 결함이다.
+- legacy-1 자산을 재생성하면 영수증으로 승격되고 표기는 제거된다. 시간이 갈수록 레거시 비중은 줄어드는 것이 정상이다.
+- 일괄 표기는 `node dev_game/generator/scripts/mark-legacy-provenance.mjs --project <dir>`가 수행한다 — `method`는 있으나 `outputSha256`가 없는 엔트리에만 스탬프하고, 영수증 있는 엔트리는 건드리지 않는다.
 
 ### ⚠️ method / model 혼동 함정
 

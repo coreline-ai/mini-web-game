@@ -47,6 +47,11 @@ jobs:
         run: npm --prefix dev_game install
       - name: Install Playwright Chromium
         run: npm --prefix dev_game exec playwright install --with-deps chromium
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow (imagegen integrity QA uses the same verifier deps as generation)
+        run: python -m pip install Pillow
       - name: Run factory QA
         run: npm --prefix dev_game run factory:qa
 

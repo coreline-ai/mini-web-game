@@ -71,7 +71,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "c33e1161abaf2ca9"
+        "promptHash": "c33e1161abaf2ca9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -92,7 +93,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "75b646b6628872f3"
+        "promptHash": "75b646b6628872f3",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -113,7 +115,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "c1133677a8313de5"
+        "promptHash": "c1133677a8313de5",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }
@@ -140,7 +143,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -165,7 +169,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -190,7 +195,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -215,7 +221,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -240,7 +247,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -265,7 +273,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -290,7 +299,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -315,7 +325,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -340,7 +351,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -365,7 +377,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -390,7 +403,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -415,7 +429,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -440,7 +455,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -465,7 +481,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -490,7 +507,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -515,7 +533,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5c950546c4e7f5f9"
+        "promptHash": "5c950546c4e7f5f9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -536,7 +555,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -557,7 +577,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -578,7 +599,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -599,7 +621,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -620,7 +643,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -641,7 +665,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "b534239df5f230d6"
+        "promptHash": "b534239df5f230d6",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }

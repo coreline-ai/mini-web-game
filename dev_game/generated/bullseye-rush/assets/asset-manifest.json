@@ -47,7 +47,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "79371e413e969de6",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "frames": 4,
@@ -124,7 +125,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "c71df6abd76f1322",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 1024,
       "minHeight": 1024,
@@ -165,7 +167,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "ad5830e9078f6f1f",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime",
       "width": 940,
@@ -192,7 +195,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "597ba90c73f3b28f",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -217,7 +221,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "61c1d999fc92fdf6",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -242,7 +247,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "76e2fd802d3f767a",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -269,7 +275,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime",
       "width": 896,
@@ -298,7 +305,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fc3e5f9e90be1279",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime",
       "width": 940,
@@ -390,7 +398,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "43493ed67edc18ee",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -417,7 +426,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fe35c3127eda4b87",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime",
       "width": 1080,
@@ -444,7 +454,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "62bc216b01e6cd07",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }

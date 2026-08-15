@@ -55,7 +55,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "5a00efc24957f83f",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "frames": 4,
@@ -85,7 +86,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "4ff7b6ff391f3ea8",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "delivery": "runtime"
@@ -112,7 +114,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "dd39363dde70eb5f",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "delivery": "runtime"
@@ -138,7 +141,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "3fd9cf38a2150a19",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -163,7 +167,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "6158ab3599836549",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "delivery": "runtime"
@@ -190,7 +195,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "27be974964d03c80",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -216,7 +222,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "f471462ca60104cd",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -241,7 +248,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "28ea69daf5a4950a",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "delivery": "runtime"
@@ -266,7 +274,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fc3e5f9e90be1279",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo",
       "delivery": "runtime"
@@ -292,7 +301,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }
@@ -389,7 +399,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "d7a48145e06876ef",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -421,7 +432,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "1809b09064558365",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -453,7 +465,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "b2717d2152556859",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }

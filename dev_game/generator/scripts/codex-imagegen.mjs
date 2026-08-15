@@ -470,6 +470,21 @@ function alphaGrade(file) {
   return info.hasAlpha ? 'alpha' : 'opaque';
 }
 
+
+// Promotion is proof-based. A provenance block with just a method string is a claim anyone
+// can type; what promotes an asset is either a verified generation receipt (outputSha256
+// matching the file on disk, plus runId/generatedAt) or an explicit legacy marker
+// (provenanceVersion "legacy-1") stamped on assets that predate receipts. The marker states
+// "this cannot be proven" out loud instead of letting the gap pass as proof.
+function provenanceProven(projectDir, entry) {
+  const pr = entry?.provenance;
+  if (!pr?.method) return { proven: false, why: 'no-provenance' };
+  if (pr.provenanceVersion === 'legacy-1') return { proven: true, legacy: true };
+  if (!pr.outputSha256 || !pr.runId || !pr.generatedAt) return { proven: false, why: 'no-receipt' };
+  if (sha256File(path.join(projectDir, entry.path)) !== pr.outputSha256) return { proven: false, why: 'sha-mismatch' };
+  return { proven: true };
+}
+
 // Promote manifest entries for plan assets that are on disk AND already carry imagegen
 // provenance. It must never mint provenance itself: a file existing on disk says nothing about
 // where it came from, so synthesising `method: codex-gpt-imagegen-skill` here would let any
@@ -486,8 +501,9 @@ function promoteExisting(projectDir, plan, manifest) {
     let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
     if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
     e.path = bg.path; e.delivery = 'runtime';
-    if (e.provenance?.method) e.quality = 'production-demo';
-    else { e.quality = 'draft'; unproven.push({ id: bg.id, group: 'background' }); }
+    const bgProof = provenanceProven(projectDir, e);
+    if (bgProof.proven) e.quality = 'production-demo';
+    else { e.quality = 'draft'; unproven.push({ id: bg.id, group: 'background', why: bgProof.why }); }
   }
   for (const sp of plan.sprites || []) {
     if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
@@ -496,7 +512,8 @@ function promoteExisting(projectDir, plan, manifest) {
     const spGrade = alphaGrade(path.join(projectDir, sp.path));
     if (spGrade === 'opaque') demoted.push({ id: sp.id, group: 'sprite' });
     e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.requiresAlpha = true;
-    if (!e.provenance?.method) { e.quality = 'draft'; unproven.push({ id: sp.id, group: 'sprite' }); }
+    const spProof = provenanceProven(projectDir, e);
+    if (!spProof.proven) { e.quality = 'draft'; unproven.push({ id: sp.id, group: 'sprite', why: spProof.why }); }
     else e.quality = spGrade === 'opaque' ? 'draft' : 'production-demo';
     if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
   }
@@ -507,7 +524,8 @@ function promoteExisting(projectDir, plan, manifest) {
     const itGrade = alphaGrade(path.join(projectDir, it.path));
     if (itGrade === 'opaque') demoted.push({ id: it.id, group: (plan.ui || []).includes(it) ? 'ui' : 'fx' });
     e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.requiresAlpha = true;
-    if (!e.provenance?.method) { e.quality = 'draft'; unproven.push({ id: it.id, group: (plan.ui || []).includes(it) ? 'ui' : 'fx' }); }
+    const itProof = provenanceProven(projectDir, e);
+    if (!itProof.proven) { e.quality = 'draft'; unproven.push({ id: it.id, group: (plan.ui || []).includes(it) ? 'ui' : 'fx', why: itProof.why }); }
     else e.quality = itGrade === 'opaque' ? 'draft' : 'production-demo';
   }
   return { demoted, unproven };
@@ -572,11 +590,13 @@ function main() {
   if (args.only === 'all' || args.only === 'backgrounds') {
     for (const bg of plan.backgrounds || []) {
       if (!matchId(bg.id)) continue;
-      const out = path.join(projectDir, bg.path);
+      const relGen = bg.path.replace(/\.webp$/, '.png');
+      const out = path.join(projectDir, relGen);
+      const outCurrent = path.join(projectDir, bg.path);
       const minW = Math.max(BG_RUNTIME_MIN.width, bg.width || 0), minH = Math.max(BG_RUNTIME_MIN.height, bg.height || 0);
       process.stdout.write(`bg ${bg.id} … `);
       const bgEntry = (manifest.stageBackgrounds || []).find((x) => x.id === bg.id);
-      const existing = args.skipExisting ? reusableExisting(out, { minW, minH, entry: bgEntry }) : null;
+      const existing = args.skipExisting ? reusableExisting(outCurrent, { minW, minH, entry: bgEntry }) : null;
       if (existing?.reuse) {
         console.log(`↷ skipped (${existing.note})`);
         results.backgrounds.push({ id: bg.id, ok: true, skipped: true });
@@ -614,8 +634,9 @@ function main() {
       console.log(good ? `✔ ${final.size.width + 'x' + final.size.height}${note}` : '✗ FAILED (retries exhausted)');
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {
+        bg.path = relGen;
         const e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
-        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, { ...(final.resample || {}), outputSha256: sha256File(out) }); }
+        if (e) { e.path = relGen; e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, { ...(final.resample || {}), outputSha256: sha256File(out) }); }
       }
     }
   }
@@ -623,10 +644,11 @@ function main() {
   if (args.only === 'all' || args.only === 'sprites') {
     for (const sp of plan.sprites || []) {
       if (!matchId(sp.id)) continue;
-      const out = path.join(projectDir, sp.path);
+      const spRelGen = sp.path.replace(/\.webp$/, '.png');
+      const out = path.join(projectDir, spRelGen);
       process.stdout.write(`sprite ${sp.id} … `);
       const spEntry = (manifest.images || []).find((x) => x.id === sp.id);
-      const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true, entry: spEntry }) : null;
+      const existing = args.skipExisting ? reusableExisting(path.join(projectDir, sp.path), { needsAlpha: true, entry: spEntry }) : null;
       if (existing?.reuse) {
         console.log(`↷ skipped (${existing.note})`);
         results.sprites.push({ id: sp.id, ok: true, skipped: true });
@@ -665,6 +687,7 @@ function main() {
       console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
       results.sprites.push({ id: sp.id, ok });
       if (ok && Array.isArray(manifest.images)) {
+        sp.path = spRelGen;
         let e = manifest.images.find((x) => x.id === sp.id);
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
         e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
@@ -680,10 +703,11 @@ function main() {
   if (args.only === 'all' || args.only === 'fx') extra.push(...(plan.fx || []).map((x) => ({ ...x, _group: 'fx' })));
   for (const it of extra) {
     if (!matchId(it.id)) continue;
-    const out = path.join(projectDir, it.path);
+    const itRelGen = it.path.replace(/\.webp$/, '.png');
+    const out = path.join(projectDir, itRelGen);
     process.stdout.write(`${it._group} ${it.id} … `);
     const itEntry = (manifest.images || []).find((x) => x.id === it.id);
-    const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true, entry: itEntry }) : null;
+    const existing = args.skipExisting ? reusableExisting(path.join(projectDir, it.path), { needsAlpha: true, entry: itEntry }) : null;
     if (existing?.reuse) {
       console.log(`↷ skipped (${existing.note})`);
       results[it._group].push({ id: it.id, ok: true, skipped: true });
@@ -719,6 +743,7 @@ function main() {
     if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
     console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
     results[it._group].push({ id: it.id, ok });
+    if (ok) it.path = itRelGen;
     if (ok && Array.isArray(manifest.images)) {
       let e = manifest.images.find((x) => x.id === it.id);
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
@@ -747,7 +772,8 @@ function main() {
   const coreRoles = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile']);
   const coreImgs = (manifest.images || []).filter((im) => coreRoles.has(String(im.role || '').toLowerCase()));
   const coreAll = coreImgs.length > 0 && coreImgs.every((im) => im.quality === 'production-demo');
-  if (bgAll && coreAll) manifest.qualityTier = 'production-demo';
+  // 이번 실행에 생성 실패가 하나라도 있으면 tier를 올리지 않는다 — 실패 위에서 완성 선언 금지.
+  if (bgAll && coreAll && genFailures.length === 0) manifest.qualityTier = 'production-demo';
   const hasImagegenEntries = [...(manifest.stageBackgrounds || []), ...(manifest.images || [])]
     .some((e) => e?.provenance?.method === 'codex-gpt-imagegen-skill');
   if (hasImagegenEntries) {
@@ -802,7 +828,7 @@ function main() {
   if (unproven.length) {
     console.log('');
     console.log(`${unproven.length} asset(s) on disk have no imagegen provenance — kept at quality:"draft":`);
-    for (const u of unproven) console.log(`  ${u.group} ${u.id}`);
+    for (const u of unproven) console.log(`  ${u.group} ${u.id} (${u.why})`);
     console.log('  A file existing on disk is not proof of origin. Generate them through this pipeline.');
   }
 

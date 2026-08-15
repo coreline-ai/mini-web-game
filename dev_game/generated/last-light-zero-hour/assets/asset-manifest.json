@@ -78,7 +78,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "3174eb51f97c5dc48c3480fff7e38ae4156460d94bffefda6239408479944a93"
+        "promptHash": "3174eb51f97c5dc48c3480fff7e38ae4156460d94bffefda6239408479944a93",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "c3dfbaee0e68275753bf43b8c606d8970b5d247d4828e75e5ee0048d3bef9bd6"
     },
@@ -104,7 +105,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "ea6ad028c846cf559ae757ac8b6256b1d99c4689f66d6a5da6c9926cd38b0b22"
+        "promptHash": "ea6ad028c846cf559ae757ac8b6256b1d99c4689f66d6a5da6c9926cd38b0b22",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "1c48ebb68cfe38b0461bf6410e53cdade1add680b6c3234fe96f89d02a1801fd"
     },
@@ -130,7 +132,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "afe09ab8d748d87c0dd70144e77151eaf6a92f5c9e5efd8e8baec3b694b5d780"
+        "promptHash": "afe09ab8d748d87c0dd70144e77151eaf6a92f5c9e5efd8e8baec3b694b5d780",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "d339153ea4c9df64e0fba5241a920e977b96f3e4cb439bd38ab1eaa13250f2b3"
     },
@@ -156,7 +159,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "6f406fa1f745f255e4b27c39fca0e0901bb72a0094386c110b742e793e079fc2"
+        "promptHash": "6f406fa1f745f255e4b27c39fca0e0901bb72a0094386c110b742e793e079fc2",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "d9de095ac014362fffeabd3f38296709884594bd51b2077dcc968ef4174f2f8a"
     },
@@ -182,7 +186,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "a7ba19d9a047e4f9ba240e1a04abacd103626d4b497a86c87ca09283410b02ee"
+        "promptHash": "a7ba19d9a047e4f9ba240e1a04abacd103626d4b497a86c87ca09283410b02ee",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "3bab4022efcecf02e83370ca09bc683d17eb20ea7832d0094854d285c4fed486"
     }
@@ -204,7 +209,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "e5f018578fdf2f30477a88ee62371547b7e95a443691a99e1080c6636eca7e80"
+        "promptHash": "e5f018578fdf2f30477a88ee62371547b7e95a443691a99e1080c6636eca7e80",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "9fb14f4f15f2ffa0df32f2c081d4d52dba7198a33dec15e2147523168262ff33",
       "transparentPadding": {
@@ -232,7 +238,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "dc7c723be2efbf54d2eb38e8dc983ac86e0cb5132cb9a4fcf348757c1b77dfd1"
+        "promptHash": "dc7c723be2efbf54d2eb38e8dc983ac86e0cb5132cb9a4fcf348757c1b77dfd1",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "bcccbf405ba3917a67087f383e56294a8fa90378f783921335cb1beccf6d6272",
       "transparentPadding": {
@@ -260,7 +267,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "43650216b12e306d7d4f729c97c4c531d1ab54de4556689f887bf216d76473b5"
+        "promptHash": "43650216b12e306d7d4f729c97c4c531d1ab54de4556689f887bf216d76473b5",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "f260e4990933a2f9e6524ea2ee65dd69476603ddcee43409563711567af1749d",
       "transparentPadding": {
@@ -288,7 +296,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "402d30bff74895ea6f0f960cda82a3c1ce05ef39428d3ca94b46a8506aeed6d8"
+        "promptHash": "402d30bff74895ea6f0f960cda82a3c1ce05ef39428d3ca94b46a8506aeed6d8",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "40644c04d1878f6378600029dba1e2f9957aa308a195ca2968d4b47a625dc99b",
       "transparentPadding": {
@@ -316,7 +325,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "7827b2c6be1684bd41612f0267f7a1d0beed8224e155c6cecf3071ee2770a952"
+        "promptHash": "7827b2c6be1684bd41612f0267f7a1d0beed8224e155c6cecf3071ee2770a952",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "c51ce82ae1bdcde2966e8ae4904ba2e46cc8b04085eac8034af7c29f7ffc4622",
       "transparentPadding": {
@@ -344,7 +354,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "eae35b81ebf0769c662fa3fdf8f1b279b3548028ff8a2d83ff21c24117c51c86"
+        "promptHash": "eae35b81ebf0769c662fa3fdf8f1b279b3548028ff8a2d83ff21c24117c51c86",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "13a45c19df16d080a7d21b4a6ebe4c8a5afd83153c6a9f1198b88add84694664",
       "transparentPadding": {
@@ -372,7 +383,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "f2c28e77c683c286e60a6a8a6a9c24581281549a0d4b4be93eb714ba3ba2d3b5"
+        "promptHash": "f2c28e77c683c286e60a6a8a6a9c24581281549a0d4b4be93eb714ba3ba2d3b5",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "2a5badc7d1c7fba99c039b0e74180694fbe5d22dac18545c2fe67fa0fd0b0fcc",
       "transparentPadding": {
@@ -400,7 +412,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "4f882d2fe7ca658272fc5766dd44af3c4535ab019fafb5760ccf44f17494b207"
+        "promptHash": "4f882d2fe7ca658272fc5766dd44af3c4535ab019fafb5760ccf44f17494b207",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "ada0613091907b267f7085fd0d88156672904264808ae9fee8b44c464290706b",
       "transparentPadding": {
@@ -428,7 +441,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "78610a3895c3177ef80fbf96aaddb6ac8f1753e81f9eb412ae21c23130d33dde"
+        "promptHash": "78610a3895c3177ef80fbf96aaddb6ac8f1753e81f9eb412ae21c23130d33dde",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "cae84a5e1799706cd2ddfcd488e3f3aa3752ce6c94f70f5dd908f0e416e2d3da",
       "transparentPadding": {
@@ -456,7 +470,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "6be33208b7a6dcc47ca4ee41b16198c170d0d9e4d498e93f461d59371209beeb"
+        "promptHash": "6be33208b7a6dcc47ca4ee41b16198c170d0d9e4d498e93f461d59371209beeb",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "bce04892390370bb21c20cfac8ddb52dba7b394512e64667f7e13b39449d690f",
       "transparentPadding": {
@@ -484,7 +499,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "7f5fe6c43be830a8e87ed7e0387067840bf3b404625675c9dd2ce114191a525b"
+        "promptHash": "7f5fe6c43be830a8e87ed7e0387067840bf3b404625675c9dd2ce114191a525b",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "3bca5430cc36c5aa6b142ce3c6252a8fea74ec2ca71dfa3348fcb64b2f101e97",
       "transparentPadding": {
@@ -512,7 +528,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "5e6c7ea739254ad7e1301fb0d45c27af98e6cdd86e661bef65b4b7c406d16285"
+        "promptHash": "5e6c7ea739254ad7e1301fb0d45c27af98e6cdd86e661bef65b4b7c406d16285",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "23cc087b5b2221389016999828fa8ae652efd3b090fd2eaad28a16970b0ece6a",
       "transparentPadding": {
@@ -540,7 +557,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "openai-builtin-image_gen (version opaque)",
         "sourceSkill": "imagegen",
-        "promptHash": "080cf5ca76e73dfb405abbbf9666dfc6da528ef15d22964b29642a11a328dd66"
+        "promptHash": "080cf5ca76e73dfb405abbbf9666dfc6da528ef15d22964b29642a11a328dd66",
+        "provenanceVersion": "legacy-1"
       },
       "sha256": "54c4ab27aa71ab339a011aa41fbfc25e080b028faa4e17ab14bc8ef675aa439f",
       "transparentPadding": {

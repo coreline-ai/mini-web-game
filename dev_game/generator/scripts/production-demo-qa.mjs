@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 
 const ALLOWED_BACKGROUND_FORMATS = new Set(['png', 'webp', 'jpg', 'jpeg']);
@@ -201,7 +202,11 @@ function validateEntryProvenance(entry, label, gameId, errors) {
   }
 }
 
-function validateImagegenEntry(entry, label, errors) {
+function sha256OfFile(file) {
+  try { return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'); } catch { return null; }
+}
+
+function validateImagegenEntry(entry, label, projectDir, errors) {
   const p = entryProvenance(entry);
   if (p.method !== REQUIRED_IMAGEGEN_METHOD) {
     errors.push(`${label} provenance.method must be "${REQUIRED_IMAGEGEN_METHOD}" when imagegen skill is required`);
@@ -215,9 +220,24 @@ function validateImagegenEntry(entry, label, errors) {
   if (!p.promptHash || typeof p.promptHash !== 'string') {
     errors.push(`${label} provenance.promptHash is required for imagegen skill assets`);
   }
+  // 생성 영수증 검증. provenance는 주장이고 영수증이 증명이다 — 파일 해시가 영수증과
+  // 일치해야 하며, 영수증 도입 이전 자산은 명시적 legacy-1 표기로만 통과한다.
+  const raw = entry?.provenance || {};
+  if (raw.provenanceVersion === 'legacy-1') {
+    // grandfathered: 소급 증명 불가를 명시한 자산. 신규/재생성분은 이 경로를 쓸 수 없다.
+  } else {
+    if (!raw.outputSha256 || !raw.runId || !raw.generatedAt) {
+      errors.push(`${label} is missing the generation receipt (outputSha256/runId/generatedAt) — regenerate through the pipeline, or stamp provenanceVersion:"legacy-1" only for pre-receipt assets`);
+    } else if (entry.path) {
+      const actual = sha256OfFile(path.join(projectDir, entry.path));
+      if (actual !== raw.outputSha256) {
+        errors.push(`${label} receipt mismatch — file content does not hash to provenance.outputSha256 (the file was replaced after generation)`);
+      }
+    }
+  }
 }
 
-function validateImagegenSkillContract(manifest, errors) {
+function validateImagegenSkillContract(manifest, projectDir, errors) {
   const meta = manifest.imagegen || {};
   if (meta.method !== REQUIRED_IMAGEGEN_METHOD) {
     errors.push(`asset-manifest.imagegen.method must be "${REQUIRED_IMAGEGEN_METHOD}"`);
@@ -229,10 +249,10 @@ function validateImagegenSkillContract(manifest, errors) {
     errors.push(`asset-manifest.imagegen.sourceSkill must be "${REQUIRED_IMAGEGEN_SKILL}"`);
   }
   for (const bg of manifest.stageBackgrounds || []) {
-    validateImagegenEntry(bg, bg?.id || bg?.path || '<stage background>', errors);
+    validateImagegenEntry(bg, bg?.id || bg?.path || '<stage background>', projectDir, errors);
   }
   for (const image of manifest.images || []) {
-    validateImagegenEntry(image, image?.id || image?.path || '<image>', errors);
+    validateImagegenEntry(image, image?.id || image?.path || '<image>', projectDir, errors);
   }
 }
 
@@ -502,7 +522,7 @@ function qaProject(projectDir, args) {
   validateAudio(projectDir, manifest, spec, errors);
   validateLayoutRegistry(projectDir, errors);
   validateNoExternalImageRunners(projectDir, errors);
-  if (args.requireGptImagegen) validateImagegenSkillContract(manifest, errors);
+  if (args.requireGptImagegen) validateImagegenSkillContract(manifest, projectDir, errors);
   return errors;
 }
 

@@ -59,7 +59,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "694120bc4394da72",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -105,7 +106,8 @@
         "promptHash": "d095759cb17f0a3f",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 3072,
       "sourceHeight": 768,
@@ -160,7 +162,8 @@
         "promptHash": "d095759cb17f0a3f",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 3072,
       "sourceHeight": 768,
@@ -216,7 +219,8 @@
         "promptHash": "d095759cb17f0a3f",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 3072,
       "sourceHeight": 768,
@@ -278,7 +282,8 @@
         "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
         "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
         "sourceImage": "assets/_source/castle-archer-brute-club-20260707.png",
-        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png"
+        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 3072,
       "sourceHeight": 768,
@@ -326,7 +331,8 @@
         "promptHash": "d095759cb17f0a3f",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-enemies-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-enemies-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 768,
       "sourceHeight": 768,
@@ -368,7 +374,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "5269d9e3889f0285",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -402,7 +409,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "78fa334c176dd6da",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -442,7 +450,8 @@
         "promptHash": "6e4aa003ae56860e",
         "quality": "high",
         "sourceImage": "assets/_source/castle-archer-brute-club-20260707.png",
-        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png"
+        "alphaSourceImage": "assets/_source/castle-archer-brute-club-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 768,
       "sourceHeight": 768,
@@ -493,7 +502,8 @@
         "promptHash": "956f8f57757412fe",
         "quality": "high",
         "sourceImage": "assets/_source/castle-archer-healing-potion-20260707.png",
-        "alphaSourceImage": "assets/_source/castle-archer-healing-potion-20260707-alpha.png"
+        "alphaSourceImage": "assets/_source/castle-archer-healing-potion-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceWidth": 1024,
       "sourceHeight": 1024,
@@ -536,7 +546,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "2ac53edb08cf5cda",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -572,7 +583,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "265c151c8085aea0",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -609,7 +621,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -648,7 +661,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "8cf336a44b153545",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -685,7 +699,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -733,7 +748,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -781,7 +797,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -826,7 +843,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -871,7 +889,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -916,7 +935,8 @@
         "promptHash": "3f7c1a450bc06b42",
         "quality": "high",
         "sourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707.png",
-        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png"
+        "alphaSourceSheet": "assets/_source/castle-archer-hq-ui-icons-20260707-alpha.png",
+        "provenanceVersion": "legacy-1"
       },
       "minWidth": 512,
       "minHeight": 512,
@@ -955,7 +975,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "63ea4531b611967d",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -983,7 +1004,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "591079c1c41bf244",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -1011,7 +1033,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "76e8a574d6000fec",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],
@@ -1102,7 +1125,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "ed8667a97f29f694",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -1128,7 +1152,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "76d70de0e5894aae",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -1154,7 +1179,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "44cb3bc6ebde8a5c",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],

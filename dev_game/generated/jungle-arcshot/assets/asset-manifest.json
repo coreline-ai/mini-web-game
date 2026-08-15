@@ -67,7 +67,8 @@
         "quality": "high",
         "session": "polish-2026-07-08-1080-canvas",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-player-sheet-20260707.png",
-        "promptHash": "a5a364680fa13e87"
+        "promptHash": "a5a364680fa13e87",
+        "provenanceVersion": "legacy-1"
       },
       "sourceSize": {
         "width": 2944,
@@ -103,7 +104,8 @@
         "quality": "high",
         "session": "polish-2026-07-08-1080-canvas",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
-        "promptHash": "0880ff4a206d3aff"
+        "promptHash": "0880ff4a206d3aff",
+        "provenanceVersion": "legacy-1"
       },
       "optimizedSourceSize": {
         "width": 768,
@@ -139,7 +141,8 @@
         "quality": "high",
         "session": "polish-2026-07-08-1080-canvas",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
-        "promptHash": "8fee49d55f728202"
+        "promptHash": "8fee49d55f728202",
+        "provenanceVersion": "legacy-1"
       },
       "optimizedSourceSize": {
         "width": 512,
@@ -175,7 +178,8 @@
         "quality": "high",
         "session": "polish-2026-07-08-1080-canvas",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
-        "promptHash": "79a58bf11e7d60ae"
+        "promptHash": "79a58bf11e7d60ae",
+        "provenanceVersion": "legacy-1"
       },
       "optimizedSourceSize": {
         "width": 512,
@@ -209,7 +213,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "1753bbe763184beb"
+        "promptHash": "1753bbe763184beb",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -239,7 +244,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "ede747ca05b5358b"
+        "promptHash": "ede747ca05b5358b",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -269,7 +275,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "2b15edd3ecf5a52c"
+        "promptHash": "2b15edd3ecf5a52c",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -299,7 +306,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "59b3a51e361ab4f3"
+        "promptHash": "59b3a51e361ab4f3",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -329,7 +337,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "745841fbc0d22347"
+        "promptHash": "745841fbc0d22347",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -359,7 +368,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-ui-sheet-20260707.png",
-        "promptHash": "ba010cb7b41e35e9"
+        "promptHash": "ba010cb7b41e35e9",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -389,7 +399,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
-        "promptHash": "b346681672e6558a"
+        "promptHash": "b346681672e6558a",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -419,7 +430,8 @@
         "quality": "high",
         "session": "polish-2026-07-07-hq-assets",
         "sourceSheet": "assets/_source/jungle-arcshot-hq-targets-items-fx-sheet-20260707.png",
-        "promptHash": "1af1a581ab8c759e"
+        "promptHash": "1af1a581ab8c759e",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     }
@@ -509,7 +521,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "0709d3330804612f",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -534,7 +547,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "c8270df63438f1b3",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime"
     },
@@ -561,7 +575,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "319e85594c6ad4a8",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "delivery": "runtime",
       "width": 1080,

@@ -50,7 +50,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "b0f741ec3cb2987d",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo"
     },
@@ -77,7 +78,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "695d8510dc3ea953",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo"
     },
@@ -104,7 +106,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "91f779d17a3900bf",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       },
       "quality": "production-demo"
     },
@@ -130,7 +133,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "528a65e8142e81da",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -155,7 +159,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "972d832333dc80fc",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -180,7 +185,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "0f2a681b97a3afa0",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -205,7 +211,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "4bd64d00a1db9c8c",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -230,7 +237,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "a02e26e11adab894",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -255,7 +263,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "30382af819010fb0",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -280,7 +289,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "aca19fb6e3bd43a0",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -305,7 +315,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "b8a3d7871b0543ad",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -330,7 +341,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "4745bc6f72bf0e20",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -355,7 +367,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "b66673e4fd0af984",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -380,7 +393,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "c9d78e1ad8df2cc7",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -405,7 +419,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "cabd372e66c8b852",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -430,7 +445,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "fc3e5f9e90be1279",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -455,7 +471,8 @@
         "sourceSkill": "imagegen",
         "toolMode": "built-in-image_gen",
         "promptHash": "ab0179cad1a7aac4",
-        "quality": "high"
+        "quality": "high",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],
@@ -550,7 +567,8 @@
         "nativeSize": "1080x1920",
         "resampledTo": "2160x3840",
         "resampleMethod": "lanczos",
-        "rawPath": "assets/_source/stage-1-raw.png"
+        "rawPath": "assets/_source/stage-1-raw.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -579,7 +597,8 @@
         "nativeSize": "1080x1920",
         "resampledTo": "2160x3840",
         "resampleMethod": "lanczos",
-        "rawPath": "assets/_source/stage-2-raw.png"
+        "rawPath": "assets/_source/stage-2-raw.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -608,7 +627,8 @@
         "nativeSize": "1080x1920",
         "resampledTo": "2160x3840",
         "resampleMethod": "lanczos",
-        "rawPath": "assets/_source/stage-3-raw.png"
+        "rawPath": "assets/_source/stage-3-raw.png",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],

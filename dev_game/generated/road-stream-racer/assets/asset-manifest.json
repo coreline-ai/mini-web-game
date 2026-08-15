@@ -69,7 +69,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-1-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -96,7 +97,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-2-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -123,7 +125,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "stage-3-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],
@@ -152,7 +155,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-straight-1-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -179,7 +183,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-straight-2-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -206,7 +211,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-construction-1-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -233,7 +239,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-construction-2-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -260,7 +267,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "road-crosswalk-1-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-road-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -288,7 +296,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "road-flat-seamless-polish-20260708",
         "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
-        "postProcess": "deterministic straight-road seam correction to 1080x640"
+        "postProcess": "deterministic straight-road seam correction to 1080x640",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -316,7 +325,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "road-flat-forest-loop-1080x1920-polish-20260708",
         "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
-        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920, with restored forest edge strips from stage-1 imagegen background; 2026-07-09 cool-saturated asphalt tone polish keeps the top road from reading as a dark external overlay in scene captures"
+        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920, with restored forest edge strips from stage-1 imagegen background; 2026-07-09 cool-saturated asphalt tone polish keeps the top road from reading as a dark external overlay in scene captures",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -345,7 +355,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "forest-side-overlay-tree-skin-polish-20260709",
         "rawPath": "assets/backgrounds/stage-1.png",
-        "postProcess": "vegetation-only HSV matte from imagegen stage art, constrained to the current straight-road grass gutters; road, sidewalk, yellow lane line, and non-tree artifacts are excluded"
+        "postProcess": "vegetation-only HSV matte from imagegen stage art, constrained to the current straight-road grass gutters; road, sidewalk, yellow lane line, and non-tree artifacts are excluded",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -376,7 +387,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "player-car-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-player-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -400,7 +412,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-blue-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -428,7 +441,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-yellow-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -456,7 +470,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "traffic-truck-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -484,7 +499,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "cone-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -512,7 +528,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "barricade-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -543,7 +560,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "coin-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -571,7 +589,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "boost-pad-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-traffic-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -599,7 +618,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-frame-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 768,
@@ -627,7 +647,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-pause-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -655,7 +676,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "btn-boost-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -684,7 +706,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "top-right-home-icon-clean-hq-polish-20260709",
         "rawPath": "assets/references/imagegen-road-stream-hud-home-clean-20260709.png",
-        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white home symbol, clean alpha padding, no edge clipping"
+        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white home symbol, clean alpha padding, no edge clipping",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 1024,
@@ -713,7 +736,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "top-right-pause-icon-clean-hq-polish-20260709",
         "rawPath": "assets/references/imagegen-road-stream-hud-pause-clean-20260709.png",
-        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white pause bars, clean alpha padding, no edge clipping"
+        "postProcess": "minimal imagegen HUD button, chroma-key alpha removal and 1024px runtime normalization for 96px native-FHD display, oversized white pause bars, clean alpha padding, no edge clipping",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 1024,
@@ -737,7 +761,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-hit-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -761,7 +786,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-collect-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -785,7 +811,8 @@
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
         "promptHash": "fx-boost-hq-polish-20260708-1439",
-        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png"
+        "rawPath": "assets/references/imagegen-road-stream-ui-fx-sheet-hq-20260708.png",
+        "provenanceVersion": "legacy-1"
       },
       "sourceFrameSize": {
         "width": 512,
@@ -817,7 +844,8 @@
         "sourceSkill": "imagegen",
         "promptHash": "road-flat-loop-1080x1920-polish-20260708",
         "rawPath": "assets/references/imagegen-road-stream-flat-road-20260708.png",
-        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920"
+        "postProcess": "deterministic straight-road full-frame loop correction to 1080x1920",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -837,7 +865,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
-        "promptHash": "racer-ui-header-premium-polish-20260708"
+        "promptHash": "racer-ui-header-premium-polish-20260708",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -861,7 +890,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
-        "promptHash": "racer-icon-coin-premium-polish-20260708"
+        "promptHash": "racer-icon-coin-premium-polish-20260708",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -885,7 +915,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
-        "promptHash": "racer-icon-speed-premium-polish-20260708"
+        "promptHash": "racer-icon-speed-premium-polish-20260708",
+        "provenanceVersion": "legacy-1"
       }
     },
     {
@@ -909,7 +940,8 @@
         "method": "codex-gpt-imagegen-skill",
         "model": "gpt 이미지젠 스킬",
         "sourceSkill": "imagegen",
-        "promptHash": "racer-icon-level-premium-polish-20260708"
+        "promptHash": "racer-icon-level-premium-polish-20260708",
+        "provenanceVersion": "legacy-1"
       }
     }
   ],
