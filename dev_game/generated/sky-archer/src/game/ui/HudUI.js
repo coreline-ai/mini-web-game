@@ -1,6 +1,6 @@
 import { SPEC } from '../data/spec.js';
 import { ASSET_KEYS } from '../constants/gameKeys.js';
-import { fontPx, strokePx, su } from '../constants/tuning.js';
+import { fontPx, strokePx, su, BUTTON } from '../constants/tuning.js';
 import { makeTextButton } from './MobileButton.js';
 
 export default class HudUI {
@@ -15,7 +15,7 @@ export default class HudUI {
       img.on('pointerout', () => img.setDisplaySize(su(56), su(56)));
       this.pause = { bg: img, txt: img, destroy: () => img.destroy() };
     } else {
-      this.pause = makeTextButton(scene, width - su(54), su(38), 'Ⅱ', onPause, su(58), su(48));
+      this.pause = makeTextButton(scene, width - su(54), su(38), 'Ⅱ', onPause, BUTTON.icon);
     }
     this.pause.bg.setDepth(20); this.pause.txt.setDepth(21);
   }

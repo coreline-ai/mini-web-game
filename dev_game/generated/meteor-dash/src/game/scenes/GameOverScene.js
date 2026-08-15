@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { SCENES, SPEC } from '../data/spec.js';
 import { SaveData } from '../systems/SaveData.js';
 import { makeTextButton } from '../ui/MobileButton.js';
-import { fontPx, strokePx, su } from '../constants/tuning.js';
+import { fontPx, strokePx, su, BUTTON } from '../constants/tuning.js';
 
 import { publishLayout } from '../systems/LayoutRegistry.js';
 import { applyLogicalCamera } from '../systems/HiDpi.js';
@@ -19,8 +19,8 @@ export default class GameOverScene extends Phaser.Scene {
     this.goScoreText = this.add.text(width / 2, height * 0.38, 'SCORE ' + score, { fontFamily: 'Arial Black, Arial', fontSize: fontPx(28), color: '#fff', stroke: '#000', strokeThickness: strokePx(5) }).setOrigin(0.5);
     this.add.text(width / 2, height * 0.45, 'BEST ' + SaveData.getBest(), { fontFamily: 'Arial Black, Arial', fontSize: fontPx(22), color: '#ffd54a', stroke: '#000', strokeThickness: strokePx(4) }).setOrigin(0.5);
     if (isBest) this.add.text(width / 2, height * 0.52, 'NEW BEST!', { fontFamily: 'Arial Black, Arial', fontSize: fontPx(22), color: '#39e98a', stroke: '#000', strokeThickness: strokePx(4) }).setOrigin(0.5);
-    this.retryBtn = makeTextButton(this, width / 2, height * 0.66, 'RETRY', () => this.scene.start(SCENES.GAME), su(230), su(62), { once: true });
-    this.homeBtn = makeTextButton(this, width / 2, height * 0.76, 'HOME', () => this.scene.start(SCENES.HOME), su(230), su(62), { once: true });
+    this.retryBtn = makeTextButton(this, width / 2, height * 0.66, 'RETRY', () => this.scene.start(SCENES.GAME), BUTTON.primary, { once: true });
+    this.homeBtn = makeTextButton(this, width / 2, height * 0.76, 'HOME', () => this.scene.start(SCENES.HOME), BUTTON.secondary, { once: true });
     this._goLayout = [{ id: 'gameover', obj: this.goText }, { id: 'score', obj: this.goScoreText }, { id: 'retry', obj: this.retryBtn.bg }, { id: 'home', obj: this.homeBtn.bg }];
     const pub = () => publishLayout(this, this._goLayout);
     pub();
