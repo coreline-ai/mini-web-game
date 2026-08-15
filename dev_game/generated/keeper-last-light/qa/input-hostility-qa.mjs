@@ -1,7 +1,7 @@
 // 입력 견고성 — 적대적 입력으로도 상태가 깨지지 않는가(결함 클래스 I).
 import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, waitScene, clickLogical, pressLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, pressLogical, debug } = await openGame();
 const assertions = {};
 let finalState = {};
 try {
@@ -64,4 +64,4 @@ try {
 }
 const ok = browserErrors.length === 0 && Object.values(assertions).every(Boolean);
 await browser.close();
-finish('qa-captures/input-hostility-results.json', { ok, assertions, finalState, browserErrors });
+finish('qa-captures/input-hostility-results.json', { ok, assertions, finalState, browserErrors, rendererWarnings });

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { openGame, BASE_URL, finish } from './_helpers.mjs';
 
 const spec = JSON.parse(fs.readFileSync('src/game/data/game-spec.json', 'utf8'));
-const { browser, page, browserErrors, waitScene, clickLogical } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical } = await openGame();
 const assertions = {};
 try {
   await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
@@ -28,4 +28,4 @@ try {
 }
 const ok = browserErrors.length === 0 && Object.values(assertions).every(Boolean);
 await browser.close();
-finish('qa-captures/rules-sync-results.json', { ok, assertions, browserErrors });
+finish('qa-captures/rules-sync-results.json', { ok, assertions, browserErrors, rendererWarnings });

@@ -9,6 +9,17 @@
 import Phaser from 'phaser';
 import { requestOf, codeOf } from '../systems/SignalCodec.js';
 
+// 텍스처별 **보이는 선체의 상단 위치**(이미지 높이 대비). 생성 이미지는 위쪽 투명 여백이
+// 5~28%로 제각각이라, 스프라이트 경계로 UI를 붙이면 배마다 게이지가 뜨는 높이가 달라진다
+// (캡처에서 화물선만 게이지가 멀찍이 떠 있었다). 알파>64 bbox 실측값이다.
+const HULL_TOP = Object.freeze({
+  'ship-cargo': 0.276,
+  'ship-ferry': 0.191,
+  'ship-fishing': 0.156,
+  'ship-wreck': 0.051,
+});
+const DEFAULT_HULL_TOP = 0.20;
+
 export const SHIP_STATE = Object.freeze({
   ARRIVING: 'arriving',
   WAITING: 'waiting',
@@ -23,13 +34,14 @@ export default class Ship {
     this.u = unit;
     this.sprite = scene.add.image(0, 0, 'ship-cargo').setVisible(false).setActive(false);
     this.glyph = scene.add.text(0, 0, '', {
-      fontFamily: 'Arial Black,Arial', fontSize: `${Math.round(34 * unit)}px`, color: '#ffcf6b',
+      fontFamily: 'Arial Black,Arial', fontSize: `${Math.round(26 * unit)}px`, color: '#ffcf6b',
       stroke: '#04101d', strokeThickness: Math.max(3, Math.round(5 * unit)),
     }).setOrigin(0.5).setVisible(false);
-    this.patienceBg = scene.add.rectangle(0, 0, 86 * unit, 8 * unit, 0x04101d, 0.85).setVisible(false);
-    this.patienceBar = scene.add.rectangle(0, 0, 82 * unit, 5 * unit, 0xffcf6b, 1).setVisible(false);
+    this.patienceBg = scene.add.rectangle(0, 0, 68 * unit, 7 * unit, 0x04101d, 0.85).setVisible(false);
+    this.patienceBar = scene.add.rectangle(0, 0, 64 * unit, 4 * unit, 0xffcf6b, 1).setVisible(false);
     this.state = SHIP_STATE.RETIRED;
     this.requestId = null;
+    this.laneIndex = null;
     this.patienceMs = 0;
     this.patienceLeft = 0;
   }
@@ -51,7 +63,7 @@ export default class Ship {
     this.state = SHIP_STATE.ARRIVING;
     this.targetX = toX;
 
-    const targetW = 190 * this.u;
+    const targetW = 100 * this.u;
     this.sprite.setTexture(textureKey).setVisible(true).setActive(true).setAlpha(0).setAngle(0).setScale(1);
     const scale = targetW / (this.sprite.width || targetW);
     this.sprite.setScale(scale);
@@ -68,7 +80,7 @@ export default class Ship {
       alpha: 1, duration: 320,
     });
     this.scene.tweens.add({
-      targets: this.sprite, x: toX, duration: 900, ease: 'Sine.easeOut',
+      targets: this.sprite, x: toX, duration: 620, ease: 'Sine.easeOut',
       onUpdate: () => this.syncDecor(),
       onComplete: () => {
         // 도착 트윈이 끝난 뒤에만 대기 상태로 넘어간다.
@@ -93,10 +105,15 @@ export default class Ship {
 
   syncDecor() {
     const s = this.sprite;
-    const top = s.y - (s.displayHeight * 0.5);
-    this.glyph.setPosition(s.x, top - 34 * this.u);
-    this.patienceBg.setPosition(s.x, top - 12 * this.u);
-    this.patienceBar.setPosition(s.x - (this.patienceBg.width - 4 * this.u) / 2, top - 12 * this.u).setOrigin(0, 0.5);
+    // 스프라이트 경계가 아니라 **보이는 선체 위쪽**을 기준으로 붙인다. 생성 이미지는 위아래
+    // 투명 여백이 넓어서 경계(0.5)를 쓰면 기호와 게이지가 배에서 멀찍이 떨어져 하늘에
+    // 따로 떠 있는 UI처럼 보였다 — 캡처 검토에서 잡힌 결함이다.
+    // 이미지 상단이 아니라 실제 선체 상단에 맞춘다.
+    const topFrac = HULL_TOP[s.texture?.key] ?? DEFAULT_HULL_TOP;
+    const anchor = s.y - s.displayHeight * (0.5 - topFrac) - 6 * this.u;
+    this.patienceBg.setPosition(s.x, anchor);
+    this.patienceBar.setPosition(s.x - (this.patienceBg.width - 4 * this.u) / 2, anchor).setOrigin(0, 0.5);
+    this.glyph.setPosition(s.x, anchor - 24 * this.u);
   }
 
   tick(deltaMs) {
@@ -146,7 +163,7 @@ export default class Ship {
     this.patienceBar.setVisible(false);
     if (this.scene.textures.exists('ship-wreck')) {
       this.sprite.setTexture('ship-wreck');
-      this.sprite.setScale((190 * this.u) / (this.sprite.width || 190 * this.u));
+      this.sprite.setScale((100 * this.u) / (this.sprite.width || 100 * this.u));
     }
     this.scene.tweens.add({
       targets: this.sprite,
@@ -160,6 +177,7 @@ export default class Ship {
   retire() {
     this.state = SHIP_STATE.RETIRED;
     this.requestId = null;
+    this.laneIndex = null;
     this.scene.tweens.killTweensOf([this.sprite, this.glyph, this.patienceBg, this.patienceBar]);
     this.sprite.setVisible(false).setActive(false).setAlpha(0).setAngle(0);
     this.glyph.setVisible(false).setAlpha(0);

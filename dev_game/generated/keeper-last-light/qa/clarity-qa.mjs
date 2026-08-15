@@ -2,7 +2,7 @@
 // 래퍼(first-play-clarity-qa.mjs)가 요구하는 assertion 키를 그대로 채운다.
 import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, waitScene, clickLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, debug } = await openGame();
 const assertions = {};
 try {
   await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
@@ -48,4 +48,4 @@ try {
 }
 const ok = browserErrors.length === 0 && Object.values(assertions).every(Boolean);
 await browser.close();
-finish('qa-captures/clarity-results.json', { ok, assertions, browserErrors });
+finish('qa-captures/clarity-results.json', { ok, assertions, browserErrors, rendererWarnings });

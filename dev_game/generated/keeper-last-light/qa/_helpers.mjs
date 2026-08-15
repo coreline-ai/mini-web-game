@@ -11,8 +11,15 @@ export async function openGame({ width = 390, height = 844, dpr = 2 } = {}) {
   const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr });
   const page = await context.newPage();
   const browserErrors = [];
-  page.on('pageerror', (e) => browserErrors.push(`pageerror: ${e.message}`));
-  page.on('console', (m) => { if (m.type() === 'error') browserErrors.push(`console:error: ${m.text()}`); });
+  // 헤드리스 swiftshader가 브라우저를 연달아 띄우면 GL 컨텍스트 초기화가 간헐적으로 실패해
+  // "Framebuffer status: Framebuffer Unsupported" 같은 드라이버 메시지를 던진다. 게임 코드가
+  // 낸 오류가 아니므로 게임 결함으로 세면 안 되지만, 조용히 버리면 진짜 렌더 실패를 놓친다.
+  // 그래서 따로 모아 리포트에 남긴다(실측: 단독 실행 3/3 통과, 전체 게이트 연속 실행에서만 발생).
+  const rendererWarnings = [];
+  const RENDERER_NOISE = /Framebuffer status|GL Driver Message|WebGL-0x|swiftshader/i;
+  const record = (line) => { (RENDERER_NOISE.test(line) ? rendererWarnings : browserErrors).push(line); };
+  page.on('pageerror', (e) => record(`pageerror: ${e.message}`));
+  page.on('console', (m) => { if (m.type() === 'error') record(`console:error: ${m.text()}`); });
 
   const waitScene = (scene) => page.waitForFunction(
     (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected, scene, { timeout: 15_000 });
@@ -33,7 +40,7 @@ export async function openGame({ width = 390, height = 844, dpr = 2 } = {}) {
   };
   const debug = () => page.evaluate(() => globalThis.__KEEPER_DEBUG__?.get?.() || null);
 
-  return { browser, context, page, browserErrors, waitScene, clickLogical, pressLogical, debug };
+  return { browser, context, page, browserErrors, rendererWarnings, waitScene, clickLogical, pressLogical, debug };
 }
 
 export const LAYOUT = {

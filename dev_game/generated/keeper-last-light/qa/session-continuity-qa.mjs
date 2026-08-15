@@ -1,7 +1,7 @@
 // 지속성/세션 — 저장 복구, 손상된 저장소, visibility 전환(결함 클래스 J).
 import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, waitScene, clickLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, debug } = await openGame();
 const assertions = {};
 let maxBgmInstances = 0;
 try {
@@ -56,4 +56,4 @@ try {
 }
 const ok = browserErrors.length === 0 && Object.values(assertions).every(Boolean);
 await browser.close();
-finish('qa-captures/session-continuity-results.json', { ok, assertions, maxBgmInstances, browserErrors });
+finish('qa-captures/session-continuity-results.json', { ok, assertions, maxBgmInstances, browserErrors, rendererWarnings });

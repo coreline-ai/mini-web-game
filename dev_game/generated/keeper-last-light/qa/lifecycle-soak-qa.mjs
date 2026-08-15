@@ -1,7 +1,7 @@
 // 장시간 안정성 — 반복 플레이에서 트윈/타이머/오브젝트가 누적되지 않는가(결함 클래스 K).
 import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, waitScene, clickLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, debug } = await openGame();
 const assertions = {};
 const samples = [];
 try {
@@ -50,4 +50,4 @@ try {
 }
 const ok = browserErrors.length === 0 && Object.values(assertions).every(Boolean);
 await browser.close();
-finish('qa-captures/lifecycle-soak-results.json', { ok, assertions, samples, browserErrors });
+finish('qa-captures/lifecycle-soak-results.json', { ok, assertions, samples, browserErrors, rendererWarnings });

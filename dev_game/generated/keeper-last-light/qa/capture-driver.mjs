@@ -54,8 +54,13 @@ export async function prepareState(page, state, helpers) {
 
     case 'game-stage-3':
       await page.evaluate(() => {
-        globalThis.__KEEPER_DEBUG__.setStage(3);
-        globalThis.__KEEPER_DEBUG__.forceShip('enter-harbour');
+        const d = globalThis.__KEEPER_DEBUG__;
+        d.setStage(3);
+        // 스테이지 3은 동시 대기 3척이 정상 상태다 — 혼잡한 화면이 캡처에 남아야
+        // 항로 겹침 같은 구도 결함을 다음 세션이 눈으로 잡을 수 있다.
+        d.forceShip('enter-harbour');
+        d.forceShip('rock-warning');
+        d.forceShip('starboard-turn');
       });
       await page.waitForTimeout(760); // 배경 크로스페이드 완료
       return;

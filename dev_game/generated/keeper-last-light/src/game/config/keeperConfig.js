@@ -6,11 +6,11 @@
 
 // 신호 코드 — 요청 기호가 요구하는 펄스 나열. 's' = 짧게, 'l' = 길게.
 export const SIGNAL_CODES = Object.freeze({
-  'port-turn': Object.freeze({ glyph: '◀', label: '좌현 변침', code: Object.freeze(['s', 's', 'l']) }),
-  'starboard-turn': Object.freeze({ glyph: '▶', label: '우현 변침', code: Object.freeze(['l', 's', 's']) }),
-  'slow-hold': Object.freeze({ glyph: '⏸', label: '감속 대기', code: Object.freeze(['s', 'l', 's']) }),
-  'enter-harbour': Object.freeze({ glyph: '⚓', label: '입항 허가', code: Object.freeze(['l', 's', 'l']) }),
-  'rock-warning': Object.freeze({ glyph: '⚠', label: '암초 회피', code: Object.freeze(['s', 'l', 'l', 's']) }),
+  'port-turn': Object.freeze({ glyph: '◀\uFE0E', label: '좌현 변침', code: Object.freeze(['s', 's', 'l']) }),
+  'starboard-turn': Object.freeze({ glyph: '▶\uFE0E', label: '우현 변침', code: Object.freeze(['l', 's', 's']) }),
+  'slow-hold': Object.freeze({ glyph: '⏸\uFE0E', label: '감속 대기', code: Object.freeze(['s', 'l', 's']) }),
+  'enter-harbour': Object.freeze({ glyph: '⚓\uFE0E', label: '입항 허가', code: Object.freeze(['l', 's', 'l']) }),
+  'rock-warning': Object.freeze({ glyph: '⚠\uFE0E', label: '암초 회피', code: Object.freeze(['s', 'l', 'l', 's']) }),
 });
 
 // 스테이지 계약 — 각 스테이지는 (목표, 보상, 다음 상태)를 데이터로 선언한다.
@@ -19,7 +19,7 @@ export const STAGES = Object.freeze([
   Object.freeze({ index: 1, backdrop: 'bg_0', quota: 4, maxConcurrent: 1, patienceMs: 14000, spawnGapMs: 2600, codes: ['port-turn', 'starboard-turn', 'slow-hold'], reward: 'stage-clear-bonus', next: 2 }),
   Object.freeze({ index: 2, backdrop: 'bg_1', quota: 5, maxConcurrent: 2, patienceMs: 12500, spawnGapMs: 2400, codes: ['port-turn', 'starboard-turn', 'slow-hold', 'enter-harbour'], reward: 'stage-clear-bonus', next: 3 }),
   Object.freeze({ index: 3, backdrop: 'bg_2', quota: 6, maxConcurrent: 3, patienceMs: 11000, spawnGapMs: 2200, codes: ['port-turn', 'starboard-turn', 'slow-hold', 'enter-harbour', 'rock-warning'], reward: 'stage-clear-bonus', next: 4 }),
-  Object.freeze({ index: 4, backdrop: 'bg_3', quota: 7, maxConcurrent: 4, patienceMs: 9500, spawnGapMs: 2000, codes: ['port-turn', 'starboard-turn', 'slow-hold', 'enter-harbour', 'rock-warning'], reward: 'stage-clear-bonus', next: 5 }),
+  Object.freeze({ index: 4, backdrop: 'bg_3', quota: 7, maxConcurrent: 3, patienceMs: 9500, spawnGapMs: 2000, codes: ['port-turn', 'starboard-turn', 'slow-hold', 'enter-harbour', 'rock-warning'], reward: 'stage-clear-bonus', next: 5 }),
   Object.freeze({ index: 5, backdrop: 'bg_4', quota: 6, maxConcurrent: 3, patienceMs: 10500, spawnGapMs: 2100, codes: ['port-turn', 'starboard-turn', 'slow-hold', 'enter-harbour', 'rock-warning'], reward: 'dawn', next: 'dawn' }),
 ]);
 

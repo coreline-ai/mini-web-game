@@ -60,14 +60,17 @@ export default class GameScene extends Phaser.Scene {
 
     // ── 램프 버튼 (생성된 아트를 쓰되, 없으면 절차적 폴백은 두지 않는다.
     //    혼합 소유(Class L)를 만들지 않기 위해 아트가 없으면 로드 에러로 드러낸다.)
-    const lampY = height - px(150);
+    const lampY = height * 0.885;
+    this.lampSize = px(140);
     this.lamp = this.add.image(width / 2, lampY, 'btn-lamp')
-      .setDisplaySize(px(150), px(150)).setDepth(20).setInteractive({ useHandCursor: true });
+      .setDisplaySize(this.lampSize, this.lampSize).setDepth(20).setInteractive({ useHandCursor: true });
     this.lampGlow = this.add.image(width / 2, lampY, 'fx-beam-pulse')
-      .setDisplaySize(px(300), px(300)).setDepth(19).setAlpha(0).setBlendMode(Phaser.BlendModes.ADD);
+      .setDisplaySize(px(280), px(280)).setDepth(19).setAlpha(0).setBlendMode(Phaser.BlendModes.ADD);
 
-    this.clearBtn = makeTextButton(this, width / 2, height - px(36), 'CLEAR',
-      () => this.input_.clear('manual'), { variant: 'secondary' });
+    // CLEAR를 화면 맨 아래 가로 버튼으로 두면 세로 공간을 통째로 먹어 바다가 좁아진다.
+    // 램프 옆 아이콘 버튼으로 옮기면 엄지 사정거리는 그대로면서 한 층이 사라진다.
+    this.clearBtn = makeTextButton(this, width * 0.17, lampY, '⌫',
+      () => this.input_.clear('manual'), { variant: 'icon' });
     this.clearBtn.bg.setDepth(20); this.clearBtn.txt.setDepth(21);
 
     // ── 시스템
@@ -105,7 +108,7 @@ export default class GameScene extends Phaser.Scene {
       get: () => this.qaSnapshot(),
       // 대기 중인 배를 강제로 하나 만들고 포커스에 올린다.
       forceShip: (requestId) => {
-        const ship = this.routing.spawn(0);
+        const ship = this.routing.spawn();
         if (!ship) return null;
         if (requestId) ship.requestId = requestId;
         ship.glyph.setText(requestOf(ship.requestId)?.glyph || '?');
@@ -135,36 +138,40 @@ export default class GameScene extends Phaser.Scene {
   }
 
   buildCodePanel(width, height) {
-    const panelY = height - px(292);
+    // 화면을 세 층으로 나눈다: 바다(항로) → 코드 패널 → 램프. 이전에는 패널이 0.65에
+    // 있어 그 위로 바다가 넓게 비고 배는 하늘에 떠 있었다.
+    const panelY = height * 0.745;
+    const panelH = px(78);
     if (this.textures.exists('panel-code')) {
       this.panel = this.add.image(width / 2, panelY, 'panel-code')
-        .setDisplaySize(width - px(36), px(96)).setDepth(18);
+        .setDisplaySize(width - px(36), panelH).setDepth(18);
     } else {
-      this.panel = this.add.rectangle(width / 2, panelY, width - px(36), px(96), PALETTE.panel, 0.9)
+      this.panel = this.add.rectangle(width / 2, panelY, width - px(36), panelH, PALETTE.panel, 0.9)
         .setStrokeStyle(px(2), PALETTE.accentDim).setDepth(18);
     }
+    // 세 줄 모두 패널 안쪽에 들어와야 한다 — 이전에는 라벨이 패널 위 테두리에 걸쳐 있었다.
     this.targetLabel = this.add.text(width / 2, panelY - px(24), '대기 중', {
-      fontFamily: 'Arial', fontSize: font(14), color: PALETTE.textDim,
+      fontFamily: 'Arial', fontSize: font(13), color: PALETTE.textDim,
     }).setOrigin(0.5).setDepth(19);
-    this.targetCode = this.add.text(width / 2, panelY + px(6), '—', {
-      fontFamily: 'Arial Black,Arial', fontSize: font(26), color: '#ffcf6b',
+    this.targetCode = this.add.text(width / 2, panelY + px(2), '—', {
+      fontFamily: 'Arial Black,Arial', fontSize: font(24), color: '#ffcf6b',
     }).setOrigin(0.5).setDepth(19);
-    this.bufferText = this.add.text(width / 2, panelY + px(34), '', {
-      fontFamily: 'Arial Black,Arial', fontSize: font(18), color: '#f4e9d6',
+    this.bufferText = this.add.text(width / 2, panelY + px(28), '', {
+      fontFamily: 'Arial Black,Arial', fontSize: font(16), color: '#f4e9d6',
     }).setOrigin(0.5).setDepth(19);
   }
 
   bindLamp() {
     this.lamp.on('pointerdown', (pointer) => {
       if (!this.input_.beginPress(pointer)) return;
-      this.lamp.setScale(this.lamp.scaleX * 0.94, this.lamp.scaleY * 0.94);
+      this.lamp.setDisplaySize(this.lampSize * 0.94, this.lampSize * 0.94);
       this.tweens.add({ targets: this.lampGlow, alpha: 0.85, duration: 90 });
     });
     const release = (pointer) => {
       const before = this.input_.activePointerId;
       this.input_.endPress(pointer);
       if (before !== null) {
-        this.lamp.setDisplaySize(px(150), px(150));
+        this.lamp.setDisplaySize(this.lampSize, this.lampSize);
         this.tweens.add({ targets: this.lampGlow, alpha: 0, duration: 220 });
       }
     };

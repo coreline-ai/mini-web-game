@@ -105,7 +105,7 @@
       "role": "code-panel",
       "width": 1024,
       "height": 512,
-      "prompt": "Game UI element: a horizontal brass SIGNAL CODE PLATE — a wide smooth rectangular plaque with rounded corners, a flat dark blue-green inset field in the middle left completely empty, and a thin warm amber (#ffcf6b) edge highlight. No text, no letters, no numbers, no symbols. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+      "prompt": "Game UI element: a horizontal brass SIGNAL CODE PLATE that FILLS THE ENTIRE FRAME edge to edge with no empty margin around it. A smooth rectangular plaque with slightly rounded corners touching all four frame edges, a flat dark blue-green inset field across the middle left completely empty, and a thin warm amber (#ffcf6b) edge highlight along the rim. The plaque must occupy the full width AND full height of the image — do not shrink it or centre it with transparent space above and below. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients. NO grain, NO noise, NO speckle, NO tiny rivets, NO glow halo extending beyond the plaque. No text, no letters, no numbers, no symbols."
     }
   ],
   "fx": [
