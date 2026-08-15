@@ -8,8 +8,8 @@
     "target": "mobile-web"
   },
   "canvas": {
-    "width": 390,
-    "height": 844,
+    "width": 1170,
+    "height": 2532,
     "backgroundColor": "#14202a",
     "scaleMode": "fit"
   },

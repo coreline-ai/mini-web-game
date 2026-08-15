@@ -66,12 +66,14 @@ codex 바이너리(실호출 검증) · `codex login status` 인증 · chroma-ke
 
 ```bash
 # 스펙으로
-npm --prefix dev_game run factory:make -- --spec generator/examples/poop-dodge.spec.json --out dev_game/generated/poop-dodge
+npm --prefix dev_game run factory:make -- --spec generator/examples/poop-dodge.spec.json --out generated/poop-dodge
 # 이름만으로 (기본 스펙 + AI 아트)
-npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out dev_game/generated/meteor-dash
+npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out generated/meteor-dash
 
 # 옵션: --stages N | --skip-art(구조만) | --gate none|demo|full | --with-pwa | --no-sfx
 ```
+
+> **경로 기준 주의:** `npm --prefix dev_game`은 작업 디렉터리를 `dev_game/`으로 잡는다. 따라서 `--spec`·`--out` 모두 **`dev_game/` 기준 상대경로**여야 한다. `--out dev_game/generated/x`로 쓰면 `dev_game/dev_game/generated/x`에 생성된다. `--out`을 생략하면 `dev_game/generated/<game-id>`가 기본값이다. 반면 `node dev_game/generator/src/cli.mjs …` 형태는 리포 루트에서 실행하므로 리포 기준 경로를 쓴다.
 
 `make-game.mjs`가 아래 4단계를 순서대로 실행하고, 각 단계 실패 시 중단한다. 세부 제어가 필요하면 아래 개별 스크립트를 직접 쓴다.
 
@@ -251,6 +253,45 @@ GPT Imagegen으로 만든 시트는 통합 단계에서 망가질 수 있다. �
 - 버튼은 imagegen 결과를 그대로 비율 왜곡해 쓰지 않는다. 9-slice 또는 procedural button base 위에 텍스트를 얹고, imagegen은 장식/스킨으로 제한할 수 있다.
 - panel/frame은 한 장짜리 raster를 무리하게 확대하지 않는다. rounded-rect/procedural panel 또는 9-slice frame을 기본으로 한다.
 - 화면 QA는 Home뿐 아니라 Game/GameOver에서 실제 runtime screenshot을 확인한다. 컨베이어·도로·바닥·박스·버튼이 투명해 보이면 통합 실패다.
+
+## 시트·모션 워크플로 — 어느 스킬을 언제 쓰나
+
+프레임 시트와 모션 에셋은 `game-factory`/`game-polish`만으로 끝나지 않는다. 저장소에는 이 층을 담당하는 스킬이 둘 더 있고, 넷의 역할은 겹치지 않는다.
+
+| 단계 | 담당 | 산출물 |
+|---|---|---|
+| 1. 설계 | `game-feel-motion-skill` | 프레임 수·셀 크기·gap·margin·pivot·baseline, Block/Approve 판정 |
+| 2. 생성 | `game-factory` (Path A/B) | 실제 시트 이미지 + manifest provenance |
+| 3. 교정 | `game-asset-creation` | 간격·기준선이 어긋난 시트의 **픽셀 불변 재배치** |
+| 4. 후보정 | `game-polish` | 런타임 캡처에서 드러난 결함의 분류·수정·재캡처 |
+
+### 규칙 1 — 설계 선행
+
+시트를 생성하기 **전에** `game-feel-motion-skill`로 브리프를 확정한다. 고정 셀 크기·gap·margin·pivot·baseline과 비중첩 계약(어떤 부위도 이웃 셀을 침범하지 않는다) 없이 프롬프트를 쓰면, 바깥 셀이 캔버스 경계에서 잘리는 결함이 반복된다. 이 계약이 없는 시트는 생성 자체를 승인하지 않는다.
+
+### 규칙 2 — 생성 경로는 크로마키
+
+dev_game 안에서는 **flat 마젠타 배경 생성 후 크로마키 제거**가 정본이다(내장 image_gen은 투명 배경을 직접 보장하지 않는다). `game-asset-creation`의 생성 프롬프트 템플릿은 `transparent background`를 모델에 직접 요구하는데, 그것은 투명 출력을 보장하는 외부 호스트를 전제한 문구다. dev_game에서 그 템플릿을 쓸 때는 해당 줄을 크로마 문구로 교체하고, 스타일 지시에는 `asset-plan.json`의 `styleGuide.bible`을 주입한다.
+
+### 규칙 3 — 생성과 교정의 경계
+
+둘은 다른 행위이고 게이트에서 다르게 취급된다.
+
+| | 생성 | 교정 |
+|---|---|---|
+| 정의 | 새 픽셀을 만든다 | 승인된 프레임을 **잘라서 옮긴다** |
+| 요건 | Path A/B provenance 필수(`method`·`sourceSkill`·`promptHash`) | `provenance.postProcessing`에 교정 사실 기록 |
+| 판별 | — | 픽셀·포즈·스케일·순서 중 하나라도 바뀌면 교정이 아니라 생성이다 |
+
+따라서 cut-and-paste 재배치는 "bad art를 코드로 덮지 말라"는 **재생성 우선 규칙의 대상이 아니다**. 원본이 흐리거나 잘려 있으면 재생성이지만, 프레임 자체는 정상이고 배치만 어긋났다면 교정이 옳은 해법이다. 재생성을 1회 시도해도 같은 결함이 반복되면 교정으로 전환한다.
+
+### 규칙 4 — 수치 우선순위
+
+dev_game 안에서는 [§2.0.5 공통 고해상도 에셋 규격](production-demo-quality-contract.md#205-공통-고해상도-에셋-규격--authoritative-source)과 [§2.0.3 역할별 Alpha/패딩 계약](production-demo-quality-contract.md#203-역할별-이미지-alpha패딩-품질-계약)이 **항상 우선**한다. `game-feel-motion-skill`이 예시로 드는 고정 px 값(margin/gap)은 셀 배치를 계산하기 위한 것이며 최종 판정 규격이 아니다. 두 값이 어긋나면 계약을 따른다.
+
+### 후보정에서의 연결
+
+`post-production-qa-contract.md` Class L의 원인 중 `alpha-bbox-clipping`과 `wrong-direction`은 시트 배치 문제인 경우가 많다. 이때 소스 수정 도구가 `game-asset-creation`이고, 애니메이션이 런타임에 실제 적용되는지(Class A)를 판정하는 어휘는 `game-feel-motion-skill`의 Block/Approve 기준을 쓴다.
 
 ## 예시 (meteor-dash 실제 생성)
 

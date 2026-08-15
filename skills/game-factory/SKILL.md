@@ -42,7 +42,7 @@ If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 | `dev_game/generator/schemas/game-spec.v1.schema.json` / `game-spec.v2.schema.json` | versioned arcade compatibility and custom-loop specs |
 | `dev_game/generator/examples/poop-dodge.spec.json` | known-good Foundation spec |
 | `dev_game/generator/scripts/production-demo-qa.mjs` | production-demo docs/assets/manifest/layout-contract gate |
-| `dev_game/generator/scripts/visual-layout-qa.mjs` | browser visual layout, safe-area, overlap gate |
+| `dev_game/generator/scripts/visual-layout-qa.mjs` | browser visual layout, safe-area, overlap gate, and the **DPR backing-store assert** — the logical canvas must be large enough that the browser is not upscaling the whole game (§2.0.2) |
 | `dev_game/generator/scripts/scene-composite-qa.mjs` | rendered scene art-direction gate for broken button highlights, clipped stamps, transparent/hollow sprites, conveyor/road breaks, and external overlays |
 | `dev_game/generator/scripts/image-quality-qa.mjs` | role-aware pixel/alpha/bbox gate for high-quality imagegen assets |
 | `dev_game/generator/scripts/hq-screen-quality-qa.mjs` | optional gate for manifest asset fidelity plus market-event depth; market-event checks run only for games with `marketConfig.js` or `--require-market-events`. DPR/backing-store asserts do **not** live here — they belong to `captured-state-qa.mjs` |
@@ -58,7 +58,7 @@ These documents are the single source of truth. This SKILL.md defines the workfl
 
 | Document | Owns |
 |---|---|
-| `dev_game/docs/production-demo-quality-contract.md` | asset quality, resolution (§2.0.5 + declared resample), per-game isolation, provenance, capture-state coverage, completion criteria |
+| `dev_game/docs/production-demo-quality-contract.md` | asset quality, resolution (§2.0.5 + declared resample), **UI button sizing and theme derivation (§2.0.25)**, per-game isolation, provenance, capture-state coverage, completion criteria |
 | `dev_game/docs/post-production-qa-contract.md` | defect classes A–L, symptom → fix rules, machine verification |
 | `dev_game/docs/ai-art-pipeline.md` | host adapters, art execution rules, Path A/B provenance checklist |
 
@@ -82,10 +82,12 @@ If any gate fails or any contract item is unmet, report **production-demo 미통
 Once the spec/idea is settled, the whole pipeline (scaffold → productionize → AI art via Codex imagegen skill → QA) runs in one command:
 
 ```bash
-npm --prefix dev_game run factory:make -- --name "My Game" --out dev_game/generated/my-game
-npm --prefix dev_game run factory:make -- --spec generator/examples/<id>.spec.json --out dev_game/generated/<id>
+npm --prefix dev_game run factory:make -- --name "My Game" --out generated/my-game
+npm --prefix dev_game run factory:make -- --spec generator/examples/<id>.spec.json --out generated/<id>
 # --skip-art (structure only) | --gate none|demo|full | --stages N
 ```
+
+**Paths are relative to `dev_game/`, not the repo root** — `npm --prefix dev_game` runs with `dev_game/` as the working directory, so `--out dev_game/generated/x` lands in `dev_game/dev_game/generated/x`. Omitting `--out` entirely uses `dev_game/generated/<game-id>`, which is what you almost always want.
 
 AI art uses the `gpt 이미지젠 스킬` built-in mode. Do not create external image SDK runners, do not wait for image service keys, and do not leave project assets under `$CODEX_HOME/generated_images`. Every generated game ships game-specific stage backgrounds, sprites/animation, UI/buttons/FX, audio, and layout-QA compliance. `factory:make` runs `factory:host-preflight` as stage 0, so a host that cannot produce art stops before the scaffold instead of failing mid-art. A full art run is minutes long and normally outruns a caller's command timeout — run it in the background and resume with `--skip-existing` rather than restarting. See `dev_game/docs/ai-art-pipeline.md#호스트-어댑터`. The steps below are the same pipeline done manually for finer control.
 
@@ -182,6 +184,8 @@ Examples:
 - Shooter: `WeaponSystem`, `BulletPool`, `EnemyWaveSystem`, `BossSystem`
 - Rhythm: `BeatClock`, `NoteSpawner`, `TimingJudge`, `ComboSystem`
 - Puzzle: `GridSystem`, `MergeSystem`, `MoveValidator`, `GoalSystem`
+
+Frame sheets and motion assets are not a solo job for this skill. Brief them with `game-feel-motion-skill` **before** generating — cell size, gap, pivot, baseline and the non-overlap contract are what stop outer frames from being clipped at the sheet edge. When a generated sheet comes back with wrong spacing or a drifting baseline, retry generation once; if it repeats, switch to `game-asset-creation`, which repositions approved frames without touching their pixels. Both routes and the generate-vs-correct boundary are specified in `dev_game/docs/ai-art-pipeline.md#시트모션-워크플로--어느-스킬을-언제-쓰나`.
 
 ### 6. Verify with real gates
 

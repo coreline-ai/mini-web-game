@@ -356,7 +356,9 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 
 **기계 검증**:
 
-- 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다.
+- 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다. **주의: `hq-screen-quality-qa`는 manifest 자산 크기만 본다. 실제 canvas backing store는 검사하지 않으므로 이 게이트가 GREEN이어도 화면 전체가 저해상도로 렌더될 수 있다.**
+- **backing store 실측 (2026-08-15 night-market-wok 세션에서 승격)**: 전 게이트가 GREEN인데도 "에셋 품질이 떨어진다"는 지적이 나오면 가장 먼저 `canvas.width / canvas.getBoundingClientRect().width`를 재본다. Phaser 3.60+에는 `resolution` 옵션이 없어 backing store가 논리 캔버스 크기와 같으므로, 논리 캔버스를 CSS 크기와 동일하게(예: 390×844) 두면 `backingScale`이 1이 되어 DPR2 기기에서 화면 전체가 2배 확대된다. 해결은 논리 캔버스를 디자인 단위의 정수배로 올리고(390×844 → 1170×2532) 절대 픽셀값을 같은 배수로 환산하는 것이다. 배경 런타임 크기도 새 캔버스 이상이어야 한다.
+- **크로마 잔여 판별 (같은 세션에서 승격)**: 어두운 외곽선이 "지저분하다"는 지적은 의도된 아트일 수도, 크로마 오염일 수도 있다. 판별자는 반투명 띠(alpha 40~220)의 **B/R 비**다 — 마젠타 오염은 B≈R(0.8 이상), 따뜻한 색 아트는 B≪R(0.5 이하). 오염이면 색을 되돌리려 하지 말고(정당하게 붉은 영역까지 탈색된다) 오염된 띠를 알파에서 침식해 제거한다.
 - `390x844`, `430x932`, `1080x1920` 캡처에서 레이아웃 겹침과 픽셀 컴포지트 이상이 없는지 확인한다. 흐림/잘림 지적이 DPR 문제라면 같은 repro DPR에서 before/after를 남긴다.
 - DPR 증거는 `factory:captured-state-qa`가 만든다(`factory:hq-screen-quality-qa`는 manifest 에셋 fidelity와 market-event 깊이를 보는 별개 게이트이며 DPR을 측정하지 않는다). 캡처가 상태 샘플에 기록하는 값은 `devicePixelRatio`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`이고, 비교 기준인 `maxTargetDpr`·`logicalCanvas`·`physicalCanvasTarget`은 spec(`generator/schemas/game-spec.v2.schema.json`)이 선언한다. 둘을 대조해 `backingScale >= min(devicePixelRatio, maxTargetDpr)` 또는 문서화된 고해상도 논리 캔버스 전략을 assert한다.
 - 배경에 `provenance.nativeSize`가 있으면 raw(`assets/_source/**`) 실재를 함께 확인한다. 한쪽만 있으면 규칙 9-1에 따라 `source-too-small`로 분류한다.

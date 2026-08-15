@@ -1,50 +1,50 @@
 {
   "schemaVersion": "1.0.0",
   "game": {
-    "id": "sky-archer",
-    "title": "Sky Archer",
-    "description": "Move the archer with one thumb while arrows auto-fire upward — pop descending balloon targets before they land. An inverted-dodge vertical shooting arcade.",
+    "id": "night-market-wok",
+    "title": "Night Market Wok",
+    "description": "A one-hand portrait cooking-combo arcade: read each customer's order, tap ingredients in the exact order, serve before patience runs out.",
     "orientation": "portrait",
     "target": "mobile-web"
   },
   "canvas": {
     "width": 1170,
     "height": 2532,
-    "backgroundColor": "#1b1030",
+    "backgroundColor": "#1a0e18",
     "scaleMode": "fit"
   },
   "player": {
     "moveMode": "drag",
-    "speed": 860,
+    "speed": 760,
     "hitbox": {
-      "width": 40,
-      "height": 40
+      "width": 42,
+      "height": 42
     }
   },
   "hazards": {
     "type": "falling",
-    "label": "Balloon Target",
-    "spawnRateStart": 1000,
-    "spawnRateMax": 380,
-    "fallSpeedStart": 130,
-    "fallSpeedMax": 330,
+    "label": "Burnt Wok",
+    "spawnRateStart": 900,
+    "spawnRateMax": 240,
+    "fallSpeedStart": 260,
+    "fallSpeedMax": 760,
     "damage": 1,
-    "poolSize": 40
+    "poolSize": 60
   },
   "collectibles": {
     "enabled": true,
-    "label": "Golden Bullseye",
-    "spawnRate": 0.16,
-    "scoreValue": 80
+    "label": "Finished Noodle Bowl",
+    "spawnRate": 0.28,
+    "scoreValue": 50
   },
   "scoring": {
-    "survivalPointsPerSecond": 6,
-    "collectiblePoints": 80,
-    "highScoreLocalStorageKey": "sky_archer_best"
+    "survivalPointsPerSecond": 0,
+    "collectiblePoints": 120,
+    "highScoreLocalStorageKey": "night_market_wok_best"
   },
   "difficulty": {
     "curve": "linear",
-    "rampEverySeconds": 14,
+    "rampEverySeconds": 15,
     "maxLevel": 12
   },
   "lives": {
@@ -56,13 +56,13 @@
     "maxDurationSeconds": null
   },
   "theme": {
-    "preset": "sunset-archery-festival",
+    "preset": "retro-arcade",
     "colors": {
-      "background": "#1b1030",
-      "player": "#8be27c",
-      "hazard": "#ff6b6b",
+      "background": "#1a0e18",
+      "player": "#ffb347",
+      "hazard": "#c9453a",
       "collectible": "#ffd54a",
-      "ui": "#ffffff"
+      "ui": "#fff3e0"
     }
   },
   "audio": {

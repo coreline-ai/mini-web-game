@@ -22,6 +22,7 @@ Options:
   --safe-margin <px>           Minimum viewport margin (default: 8)
   --aspect-tolerance <ratio>    Max image aspect distortion before fail (default: 0.08)
   --allow-missing-registry     Do not fail when window.__GAME_LAYOUT_BOUNDS__ is missing
+  --max-target-dpr <n>         DPR ceiling for the backing-store assert (default 3)
   --keep-server                Keep preview server alive after QA
   --help                       Show this help
 
@@ -40,6 +41,8 @@ function parseArgs(argv) {
     safeMargin: 8,
     aspectTolerance: 0.08,
     allowMissingRegistry: false,
+    // Mobile target from production-demo-quality-contract §2.0.2 (assetFidelity.maxTargetDpr).
+    maxTargetDpr: 3,
     keepServer: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
@@ -52,6 +55,7 @@ function parseArgs(argv) {
     else if (a === '--safe-margin') args.safeMargin = Number(argv[++i]);
     else if (a === '--aspect-tolerance') args.aspectTolerance = Number(argv[++i]);
     else if (a === '--allow-missing-registry') args.allowMissingRegistry = true;
+    else if (a === '--max-target-dpr') args.maxTargetDpr = Number(argv[++i]);
     else if (a === '--keep-server') args.keepServer = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -208,6 +212,30 @@ async function inspectCurrentPage(page, phase, viewport, args, screenshotDir, er
   if (centerDy > 4) errors.push(`${viewportLabel(viewport)} ${phase}: canvas is not vertically centered (dy=${centerDy.toFixed(1)}px)`);
   if (canvas.x < -1 || canvas.y < -1 || canvas.x + canvas.width > viewport.width + 1 || canvas.y + canvas.height > viewport.height + 1) {
     errors.push(`${viewportLabel(viewport)} ${phase}: canvas clips outside viewport ${JSON.stringify(canvas)}`);
+  }
+
+  // DPR backing store (production-demo-quality-contract §2.0.2, Class L rule 3).
+  // Phaser 3.60+ has no `resolution` option, so the backing store is exactly the logical
+  // canvas: leaving the logical canvas equal to the CSS size renders the whole game at 1x and
+  // lets the browser upscale it. Every asset then looks soft no matter how good the source is,
+  // and no manifest-level gate can see it — which is why the check lives here, in the one
+  // gate that already has a real browser open at real device pixel ratios.
+  const dprInfo = await page.evaluate(() => {
+    const c = document.querySelector('canvas');
+    if (!c) return null;
+    const r = c.getBoundingClientRect();
+    return { backingWidth: c.width, backingHeight: c.height, cssWidth: r.width, cssHeight: r.height, dpr: globalThis.devicePixelRatio || 1 };
+  }).catch(() => null);
+  if (dprInfo && dprInfo.cssWidth > 0) {
+    const backingScale = dprInfo.backingWidth / dprInfo.cssWidth;
+    const required = Math.min(dprInfo.dpr, args.maxTargetDpr);
+    if (backingScale + 1e-3 < required) {
+      errors.push(
+        `${viewportLabel(viewport)} ${phase}: canvas backing store too small — backingScale ${backingScale.toFixed(2)} < ${required} `
+        + `(backing ${dprInfo.backingWidth}x${dprInfo.backingHeight}, css ${Math.round(dprInfo.cssWidth)}x${Math.round(dprInfo.cssHeight)}, dpr ${dprInfo.dpr}). `
+        + 'Raise the logical canvas to an integer multiple of the design units and scale absolute pixel values by the same factor.',
+      );
+    }
   }
 
   const rawBounds = await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__ ?? null).catch(() => null);
