@@ -1,0 +1,638 @@
+{
+  "qualityTier": "production-demo",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "keeper-last-light",
+    "noSharedRuntimeAssets": true
+  },
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "8a03bb24696e94bc",
+        "quality": "high",
+        "runId": "961c9f6b9d81cf4a",
+        "generatedAt": "2026-08-15T11:52:30.558Z",
+        "nativeSize": "864x1821",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-1-raw.png",
+        "outputSha256": "a7a66205a5818255a72855e857382d87e4424d5bf6fda69ccca69225b8c5a3fc",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-1.png",
+          "quality": 94
+        }
+      },
+      "role": "stage-background"
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "95277c943e574559",
+        "quality": "high",
+        "runId": "961c9f6b9d81cf4a",
+        "generatedAt": "2026-08-15T11:53:30.367Z",
+        "nativeSize": "1024x1536",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-2-raw.png",
+        "outputSha256": "128fd7902e7274ccbd025752cdf6791b95e67c8b34388203da14e87f8a7b20fb",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-2.png",
+          "quality": 94
+        }
+      },
+      "role": "stage-background"
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "e9f7b3d39e3551dc",
+        "quality": "high",
+        "runId": "3cb7c3e495249cbc",
+        "generatedAt": "2026-08-15T05:38:39.805Z",
+        "nativeSize": "864x1821",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-3-raw.png",
+        "outputSha256": "43138bd2b3a7f09aa8148af023a41fa1f95a9726f72a1f41dfbdea009f3c9875",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-3.png",
+          "quality": 94
+        }
+      },
+      "role": "stage-background"
+    },
+    {
+      "id": "stage-4",
+      "path": "assets/backgrounds/stage-4.webp",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "94f4a61d413fbf56",
+        "quality": "high",
+        "runId": "3cb7c3e495249cbc",
+        "generatedAt": "2026-08-15T05:39:32.898Z",
+        "nativeSize": "1024x1536",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-4-raw.png",
+        "outputSha256": "df054e11fc5f504c27fa5c7dc23b0874ee863b285057130bf8315466dfd5cc87",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-4.png",
+          "quality": 94
+        }
+      },
+      "role": "stage-background"
+    },
+    {
+      "id": "stage-5",
+      "path": "assets/backgrounds/stage-5.webp",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "f4209aef07150828",
+        "quality": "high",
+        "runId": "3cb7c3e495249cbc",
+        "generatedAt": "2026-08-15T05:40:33.399Z",
+        "nativeSize": "1024x1536",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-5-raw.png",
+        "outputSha256": "5f41b2692a1264a103207028302dd825c6a680fc602189a4d2a4f594eae947eb",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-5.png",
+          "quality": 94
+        }
+      },
+      "role": "stage-background"
+    }
+  ],
+  "images": [
+    {
+      "id": "ship-cargo",
+      "path": "assets/characters/ship-cargo.webp",
+      "type": "sprite",
+      "role": "cargo-ship",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "4d3a1dcb4f96d0f2",
+        "quality": "high",
+        "runId": "3cb7c3e495249cbc",
+        "generatedAt": "2026-08-15T05:41:36.838Z",
+        "outputSha256": "ed4e5154f97c9f4a100a9fcd8d8952f69e7e88e796394c47ce7daa2d833cbf48",
+        "runtimeExport": {
+          "master": "assets/_source/masters/ship-cargo.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "ship-fishing",
+      "path": "assets/characters/ship-fishing.webp",
+      "type": "sprite",
+      "role": "fishing-boat",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "9731518c7048bdf6",
+        "quality": "high",
+        "runId": "3cb7c3e495249cbc",
+        "generatedAt": "2026-08-15T05:42:44.452Z",
+        "outputSha256": "a4ae878e841a2eb7c609c26151c1c250d4d171af8ef0f0ded0c895a882e9baa3",
+        "runtimeExport": {
+          "master": "assets/_source/masters/ship-fishing.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "btn-lamp",
+      "type": "ui",
+      "path": "assets/ui/btn-lamp.webp",
+      "delivery": "runtime",
+      "role": "signal-lamp-button",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "5392a944715d12bc",
+        "quality": "high",
+        "runId": "0f05ebae22eea87d",
+        "generatedAt": "2026-08-15T11:21:12.429Z",
+        "outputSha256": "634828baf4d73e8cf85bcea8e6b25ac1ced309baa3c99b481ea973b003427e97",
+        "runtimeExport": {
+          "master": "assets/_source/masters/btn-lamp.png",
+          "quality": 90
+        }
+      }
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.webp",
+      "delivery": "runtime",
+      "role": "signal-lamp-button",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "ba6b5e55858de68f",
+        "quality": "high",
+        "runId": "0f05ebae22eea87d",
+        "generatedAt": "2026-08-15T11:22:00.004Z",
+        "outputSha256": "4279db09f0f6714903ff44fefa7da67a2d9fe8c3f8084a0d4c7505ced465e05c",
+        "runtimeExport": {
+          "master": "assets/_source/masters/btn-pause.png",
+          "quality": 90
+        }
+      }
+    },
+    {
+      "id": "panel-code",
+      "type": "ui",
+      "path": "assets/ui/panel-code.webp",
+      "delivery": "runtime",
+      "role": "code-panel",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "192f5b591016db9d",
+        "quality": "high",
+        "runId": "0f05ebae22eea87d",
+        "generatedAt": "2026-08-15T11:22:43.081Z",
+        "outputSha256": "4f8ebe2c6b30ef1910322cecad35e254d6f0ee4eb8e39dfbc0791738abf34f9d",
+        "runtimeExport": {
+          "master": "assets/_source/masters/panel-code.png",
+          "quality": 90
+        }
+      }
+    },
+    {
+      "id": "fx-beam-pulse",
+      "type": "fx",
+      "path": "assets/fx/fx-beam-pulse.webp",
+      "delivery": "runtime",
+      "role": "beam-pulse",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "776479fcbcb7bcec",
+        "quality": "high",
+        "runId": "df4b272cf49e7c79",
+        "generatedAt": "2026-08-15T11:29:41.616Z",
+        "outputSha256": "6763b60f7c604ba73c07e9a8416cc4a03ebf055f0d527d0ff93d6ab1dc350030",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-beam-pulse.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-route-ring",
+      "type": "fx",
+      "path": "assets/fx/fx-route-ring.webp",
+      "delivery": "runtime",
+      "role": "safe-route-ring",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "e9fab9cc11683f03",
+        "quality": "high",
+        "runId": "df4b272cf49e7c79",
+        "generatedAt": "2026-08-15T11:30:31.940Z",
+        "outputSha256": "541f73c520c58f336a681ba16595b72d281da51894e959cbfab07280f629dcf9",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-route-ring.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-wreck-flash",
+      "type": "fx",
+      "path": "assets/fx/fx-wreck-flash.webp",
+      "delivery": "runtime",
+      "role": "wreck-flash",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "859526f961380cf2",
+        "quality": "high",
+        "runId": "684c68134355f665",
+        "generatedAt": "2026-08-15T11:26:07.452Z",
+        "outputSha256": "05a3b79c6b3973d00098119ab38c2e903af7fbdd2da6bb1150df64523950d2d7",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-wreck-flash.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-sea-spray",
+      "type": "fx",
+      "path": "assets/fx/fx-sea-spray.webp",
+      "delivery": "runtime",
+      "role": "sea-spray",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "38a743b8b3cc2b46",
+        "quality": "high",
+        "runId": "684c68134355f665",
+        "generatedAt": "2026-08-15T11:26:58.259Z",
+        "outputSha256": "1cd77364e1ce1636c0d973dd161e3930c68af0c25a57750b8b6f0016c40d31dd",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-sea-spray.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "ship-ferry",
+      "path": "assets/characters/ship-ferry.webp",
+      "type": "sprite",
+      "role": "passenger-ferry",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "748e8185f8a3c999",
+        "quality": "high",
+        "runId": "d4fd62d635611a81",
+        "generatedAt": "2026-08-15T11:02:39.660Z",
+        "outputSha256": "c29ff00eb2ac144ff4ceb63b85f47fa6051333c973a603e574b9df8311442111",
+        "runtimeExport": {
+          "master": "assets/_source/masters/ship-ferry.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "ship-wreck",
+      "path": "assets/characters/ship-wreck.webp",
+      "type": "sprite",
+      "role": "wrecked-hull",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "aff6649ce5ad93d4",
+        "quality": "high",
+        "runId": "d4fd62d635611a81",
+        "generatedAt": "2026-08-15T11:03:29.162Z",
+        "outputSha256": "30ecf72f0bed02873ab44c70f5066f89f5c6e3617d5d05bdda32d75238c5be31",
+        "runtimeExport": {
+          "master": "assets/_source/masters/ship-wreck.png",
+          "quality": 88
+        }
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "sfx-short",
+      "path": "assets/audio/pulse-short.wav",
+      "type": "sfx",
+      "trigger": "short pulse input",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "sfx-long",
+      "path": "assets/audio/pulse-long.wav",
+      "type": "sfx",
+      "trigger": "long pulse input",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "sfx-accepted",
+      "path": "assets/audio/route-accepted.wav",
+      "type": "sfx",
+      "trigger": "ship guided",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "sfx-wreck",
+      "path": "assets/audio/wreck.wav",
+      "type": "sfx",
+      "trigger": "wrong code / wreck",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "sfx-stage-clear",
+      "path": "assets/audio/stage-clear.wav",
+      "type": "ui",
+      "trigger": "stage quota met",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "bgm-home",
+      "path": "assets/audio/home-loop.wav",
+      "type": "bgm",
+      "trigger": "home scene",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    },
+    {
+      "id": "bgm-gameplay",
+      "path": "assets/audio/gameplay-loop.wav",
+      "type": "bgm",
+      "trigger": "game scene",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "keeper-last-light",
+        "method": "procedural-wav-synthesis",
+        "generator": "game-specific tone/noise synthesis (no external service)"
+      }
+    }
+  ],
+  "imagegen": {
+    "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-08-15T11:53:31.361Z"
+  }
+}

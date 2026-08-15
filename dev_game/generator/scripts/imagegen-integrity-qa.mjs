@@ -76,18 +76,25 @@ if (mode.startsWith('reject:') && name.startsWith(mode.slice(7))) {
   const rr = spawnSync('python3', ['-c', flat], { encoding: 'utf8' });
   process.exit(rr.status === 0 ? 0 : 1);
 }
+// 생성 시점 검증이 실제 게이트와 같은 세 지표를 본다: 엣지분산(≥60) · 고주파(≤3.6) ·
+// 색수(≥8000). 단순 노이즈는 hf에, 단색 블록은 색수에 걸린다. 블록마다 부드러운
+// 그라디언트를 넣으면 경계는 선명하고(엣지) 내부는 평활하며(hf) 색은 풍부하다(색수) —
+// 실제 게임 배경 아트의 통계적 특성과 같은 자리에 놓인다. 실측: colors 12029 / edge 329 / hf 1.23
 const py = [
   "from PIL import Image",
   "import random",
   "im=Image.new('RGB',(1080,1920))",
   "px=im.load()",
   "random.seed(7)",
-  "for y in range(0,1920,4):",
-  "    for x in range(0,1080,4):",
-  "        c=(random.randrange(256),random.randrange(256),random.randrange(256))",
-  "        for dy in range(4):",
-  "            for dx in range(4):",
-  "                px[x+dx,y+dy]=c",
+  "B=160",
+  "for by in range(0,1920,B):",
+  "    for bx in range(0,1080,B):",
+  "        c0=(random.randrange(256),random.randrange(256),random.randrange(256))",
+  "        c1=(random.randrange(256),random.randrange(256),random.randrange(256))",
+  "        for y in range(by,min(by+B,1920)):",
+  "            t=(y-by)/B",
+  "            c=tuple(int(c0[i]+(c1[i]-c0[i])*t) for i in range(3))",
+  "            for x in range(bx,min(bx+B,1080)): px[x,y]=c",
   "im.save(r'" + dir + "/" + name + "')",
 ].join('\\n');
 const r = spawnSync('python3', ['-c', py], { encoding: 'utf8' });
@@ -441,6 +448,32 @@ testCase('case 13: 파생 자산은 같은 게임의 자산에서만 인정된�
   ];
   fs.writeFileSync(mf, JSON.stringify(m, null, 2));
   check(/circular derivation chain/.test(runGate(J).out), 'a circular derivation chain must be reported, not looped on');
+});
+
+// ── 14. v2 custom-loop의 장르 고유 role로도 tier가 승격되는가 ───────────────
+// 아케이드 어휘(player/hazard/…) 하드코딩만 보던 시절에는 custom-loop 게임이 무슨 짓을
+// 해도 tier가 draft에 묶였다. 계약은 spec의 requiredAssetRoles가 권위라고 정한다.
+testCase('case 14: v2 requiredAssetRoles의 장르 고유 role로 tier 승격', () => {
+  const K = makeFixture('fixture-k', { backgrounds: 3, legacySprite: true });
+  // 스프라이트 role을 아케이드 어휘에 없는 이름으로 바꾸고, spec에 그것을 선언한다.
+  const m = manifestOf(K);
+  m.images[0].role = 'cargo-ship';
+  fs.writeFileSync(path.join(K, 'assets', 'asset-manifest.json'), JSON.stringify(m, null, 2));
+  const planFile = path.join(K, 'asset-plan.json');
+  const plan = JSON.parse(fs.readFileSync(planFile, 'utf8'));
+  plan.sprites[0].role = 'cargo-ship';
+  fs.writeFileSync(planFile, JSON.stringify(plan, null, 2));
+  const specFile = path.join(K, 'src', 'game', 'data', 'game-spec.json');
+  const spec = JSON.parse(fs.readFileSync(specFile, 'utf8'));
+  spec.schemaVersion = '2.0.0';
+  spec.requiredAssetRoles = ['stage-backdrop', 'cargo-ship'];
+  fs.writeFileSync(specFile, JSON.stringify(spec, null, 2));
+
+  setMode('ok');
+  const { status, out } = runImagegen(K);
+  check(status === 0, `exit 0 expected, got ${status}\n${out.slice(-300)}`);
+  check(manifestOf(K).qualityTier === 'production-demo',
+    `custom-loop roles must be able to reach production-demo, got ${manifestOf(K).qualityTier}`);
 });
 
 // ── 결과 ────────────────────────────────────────────────────────────────────

@@ -21,7 +21,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { findCodex, resolveCodexHome, chromaHelperPath, codexGenerate, preserveOriginal } from './lib/codex-host.mjs';
-import { BACKGROUND_EDGE_MIN, FILL_FLOOR, UI_HUE_MAX_DISTANCE } from './lib/quality-thresholds.mjs';
+import { BACKGROUND_EDGE_MIN, FILL_FLOOR, UI_HUE_MAX_DISTANCE, HF_MAX, BG_COLORS_MIN } from './lib/quality-thresholds.mjs';
 
 function parseArgs(argv) {
   const args = { only: 'all', timeoutSec: 300 };
@@ -175,7 +175,19 @@ const MEASURE_PY = [
   '    if rgb.width > 1440:',
   '        rgb = rgb.resize((1440, round(rgb.height * 1440 / rgb.width)))',
   "    out['edge'] = round(ImageStat.Stat(rgb.convert('L').filter(ImageFilter.FIND_EDGES)).var[0], 1)",
+  "    out['colors'] = len(rgb.getcolors(maxcolors=300000) or [])",
+  '    mr = rgb',
+  '    if rgb.height > 1920:',
+  '        mr = rgb.resize((max(1, round(rgb.width * 1920.0 / rgb.height)), 1920))',
+  "    lap = mr.convert('L').filter(ImageFilter.Kernel((3,3),[0,-1,0,-1,4,-1,0,-1,0],1,0))",
+  "    out['hf'] = round(ImageStat.Stat(lap).mean[0], 2)",
   'else:',
+  "    rgbf = im.convert('RGB')",
+  '    mrf = rgbf',
+  '    if rgbf.height > 1920:',
+  '        mrf = rgbf.resize((max(1, round(rgbf.width * 1920.0 / rgbf.height)), 1920))',
+  "    lapf = mrf.convert('L').filter(ImageFilter.Kernel((3,3),[0,-1,0,-1,4,-1,0,-1,0],1,0))",
+  "    out['hf'] = round(ImageStat.Stat(lapf).mean[0], 2)",
   "    rgba = im.convert('RGBA'); a = rgba.getchannel('A')",
   '    mn, mx = a.getextrema()',
   "    out['hasAlpha'] = mn < 250",
@@ -230,6 +242,13 @@ function verifyGenerated(kind, file, ctx = {}) {
   if (kind === 'background') {
     const m = measureQuality(file, { kind: 'background' });
     if (!m) return { ok: true, note: 'unmeasurable' };
+    // 색수 하한. 게이트(image-quality-qa / hq-screen-quality-qa)와 같은 숫자를 쓴다.
+    if (m.colors !== undefined && m.colors > 0 && m.colors < BG_COLORS_MIN) {
+      return { ok: false, short: `flat palette ${m.colors}`, hint: `the image came out with too few distinct colours (${m.colors}, minimum ${BG_COLORS_MIN}) — paint a rich tonal range with many subtle value steps in the sky, water and rocks instead of large uniform blocks of one colour` };
+    }
+    if (m.hf !== undefined && m.hf > HF_MAX.background) {
+      return { ok: false, short: `noisy hf ${m.hf}`, hint: `the background came out too noisy and over-detailed (high-frequency energy ${m.hf}, ceiling ${HF_MAX.background}) — paint broad smooth areas with soft gradients; remove grain, speckle and busy fine texture` };
+    }
     if (m.edge < BACKGROUND_EDGE_MIN) {
       return { ok: false, short: `soft edge ${m.edge}`, hint: `the image came out too soft and blurry (edge variance ${m.edge}, minimum ${BACKGROUND_EDGE_MIN}) — render crisp, well-defined edges with clear separation between foreground shapes, mid-ground and skyline; avoid atmospheric haze and soft focus` };
     }
@@ -246,6 +265,11 @@ function verifyGenerated(kind, file, ctx = {}) {
   const floor = FILL_FLOOR[String(ctx.role || '').toLowerCase()];
   if (floor !== undefined && m.fill !== undefined && m.fill < floor) {
     return { ok: false, short: `hollow fill ${m.fill}`, hint: `the subject came out hollow/over-transparent (opaque fill ${m.fill}, minimum ${floor}) — draw solid interior surfaces, not an outline` };
+  }
+  // 고주파(노이즈/과선명) 상한. 게이트가 몇 분 뒤에 잡던 것을 생성 즉시 잡아 재시도로 흡수한다.
+  const hfCap = HF_MAX[String(ctx.group || '').toLowerCase()];
+  if (hfCap !== undefined && m.hf !== undefined && m.hf > hfCap) {
+    return { ok: false, short: `noisy hf ${m.hf}`, hint: `the image came out too noisy and over-detailed (high-frequency energy ${m.hf}, ceiling ${hfCap}) — render smooth clean surfaces with a few bold shapes; remove fine speckle, grain, tiny rivets, sparkles and scattered debris` };
   }
   if (ctx.accent && m.hueDist !== undefined && m.hueDist > UI_HUE_MAX_DISTANCE) {
     return { ok: false, short: `wrong hue ${m.hueDist}°`, hint: `the dominant colour came out ${Math.round(m.domHue)}° away from the required accent — the asset MUST use the accent colour ${ctx.accent}; absolutely no blue, no green, no unrelated colour family` };
@@ -476,6 +500,17 @@ function alphaGrade(file) {
 // matching the file on disk, plus runId/generatedAt) or an explicit legacy marker
 // (provenanceVersion "legacy-1") stamped on assets that predate receipts. The marker states
 // "this cannot be proven" out loud instead of letting the gap pass as proof.
+// v2 custom-loop spec이 선언한 자산 역할. 선언이 없으면 null을 반환해 호출부가
+// 아케이드 기본 목록으로 되돌아가게 한다.
+function specRequiredRoles(projectDir) {
+  try {
+    const spec = JSON.parse(fs.readFileSync(path.join(projectDir, 'src/game/data/game-spec.json'), 'utf8'));
+    const roles = spec?.requiredAssetRoles;
+    if (!Array.isArray(roles) || !roles.length) return null;
+    return new Set(roles.map((r) => String(r).toLowerCase()));
+  } catch { return null; }
+}
+
 function provenanceProven(projectDir, entry) {
   const pr = entry?.provenance;
   if (!pr?.method) return { proven: false, why: 'no-provenance' };
@@ -675,7 +710,7 @@ function main() {
             const cell = sp.frameSize || sp.height;
             if (sp.frames && cell) autocropResize(out, sp.frames * cell, cell);
             else { const sz = pngInfo(out); if (sz) autocropResize(out, sz.width, sz.height, 0.05); }
-            const v = verifyGenerated('sprite', out, { frames: sp.frames, role: sp.role });
+            const v = verifyGenerated('sprite', out, { frames: sp.frames, role: sp.role, group: 'core' });
             if (v.ok) { final = { size: pngInfo(out) }; break; }
             hint = v.hint; lastFail = { id: sp.id, group: 'sprite', reason: 'verify', detail: v.short };
           }
@@ -703,8 +738,10 @@ function main() {
 
   // UI buttons + FX bursts — transparent AI art (chroma-key removed), same as sprites.
   const extra = [];
-  if (args.only === 'all' || args.only === 'ui') extra.push(...(plan.ui || []).map((x) => ({ ...x, _group: 'ui' })));
-  if (args.only === 'all' || args.only === 'fx') extra.push(...(plan.fx || []).map((x) => ({ ...x, _group: 'fx' })));
+  // `_src`는 plan 원본 참조다. 이 배열은 사본이라 여기에만 경로를 쓰면 runtimeExportAll이
+  // 원본의 옛 경로를 보고 수출을 건너뛴다(실측: 재생성한 FX가 낡은 .webp를 가리켜 강등).
+  if (args.only === 'all' || args.only === 'ui') extra.push(...(plan.ui || []).map((x) => ({ ...x, _group: 'ui', _src: x })));
+  if (args.only === 'all' || args.only === 'fx') extra.push(...(plan.fx || []).map((x) => ({ ...x, _group: 'fx', _src: x })));
   for (const it of extra) {
     if (!matchId(it.id)) continue;
     const itRelGen = it.path.replace(/\.webp$/, '.png');
@@ -734,7 +771,7 @@ function main() {
         else {
           decontaminateEdges(out);
           if (it._group === 'ui' && it.width && it.height) autocropResize(out, it.width, it.height, 0.04);
-          const v = verifyGenerated('sprite', out, { role: it.role, accent });
+          const v = verifyGenerated('sprite', out, { role: it.role, accent, group: it._group });
           if (v.ok) { final = { size: pngInfo(out) }; break; }
           hint = v.hint; lastFail = { id: it.id, group: it._group, reason: 'verify', detail: v.short };
         }
@@ -749,7 +786,7 @@ function main() {
     if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
     console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
     results[it._group].push({ id: it.id, ok });
-    if (ok) it.path = itRelGen;
+    if (ok) { it.path = itRelGen; if (it._src) it._src.path = itRelGen; }
     if (ok && Array.isArray(manifest.images)) {
       let e = manifest.images.find((x) => x.id === it.id);
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
@@ -775,7 +812,11 @@ function main() {
 
   // flip qualityTier only when every declared background + core sprite is real art
   const bgAll = (manifest.stageBackgrounds || []).length >= 3 && (manifest.stageBackgrounds || []).every((b) => b.quality === 'production-demo');
-  const coreRoles = new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile']);
+  // 코어 자산 판정. v2 custom-loop 게임은 장르 고유 role을 쓰므로(예: 'cargo-ship'),
+  // 아케이드 어휘 목록으로는 코어가 0개가 되어 tier가 영원히 draft에 묶인다. 계약이 정한
+  // 대로 spec의 requiredAssetRoles가 있으면 그것이 권위다.
+  const coreRoles = specRequiredRoles(projectDir)
+    || new Set(['player', 'hazard', 'obstacle', 'enemy', 'boss', 'collectible', 'reward', 'vehicle', 'parcel', 'sort-bin', 'item', 'powerup', 'projectile']);
   const coreImgs = (manifest.images || []).filter((im) => coreRoles.has(String(im.role || '').toLowerCase()));
   const coreAll = coreImgs.length > 0 && coreImgs.every((im) => im.quality === 'production-demo');
   // 이번 실행에 생성 실패가 하나라도 있으면 tier를 올리지 않는다 — 실패 위에서 완성 선언 금지.

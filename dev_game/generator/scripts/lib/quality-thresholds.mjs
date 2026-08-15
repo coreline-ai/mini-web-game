@@ -42,3 +42,10 @@ export const FILL_FLOOR = {
 // drift from the theme accent before we call it the wrong colour. 70° keeps warm-vs-warm
 // variation legal while catching the observed failure (gold theme → blue button ≈ 160°).
 export const UI_HUE_MAX_DISTANCE = 70;
+
+// 고주파(노이즈/과선명) 상한 — image-quality-qa.mjs의 T.*.hfMax와 같은 숫자여야 한다.
+// 생성 시점 검증과 게이트가 다른 숫자를 쓰면 "생성은 통과, 게이트는 거부"가 재발한다.
+export const HF_MAX = Object.freeze({ background: 3.6, core: 8.0, ui: 7.0, fx: 6.0 });
+
+// 배경 색수 하한 — image-quality-qa T.background.colors / hq-screen-quality-qa와 같은 숫자.
+export const BG_COLORS_MIN = 8000;

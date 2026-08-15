@@ -1,0 +1,145 @@
+{
+  "gameId": "keeper-last-light",
+  "themeColors": {
+    "background": "#050d18",
+    "player": "#ffcf6b",
+    "collectible": "#ffd97a",
+    "ui": "#dff1ff"
+  },
+  "styleGuide": {
+    "palette": "deep midnight teal sea, cold slate-blue fog, warm amber lighthouse glow (#ffcf6b) as the single accent",
+    "mood": "lonely, hand-painted maritime night; cinematic but readable on a small phone screen",
+    "rendering": "painterly digital illustration, soft volumetric light, no photographic textures, no text, no watermark"
+  },
+  "backgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background: a lonely stone lighthouse on a rocky headland at the LEFT edge, clear starry night, calm dark teal open sea filling the centre and lower two thirds, distant horizon line in the upper third, jagged black rocks along the right edge. Warm amber glow spilling from the lighthouse lantern room. Painterly, cinematic, cool midnight palette with one warm amber accent. Keep the centre of the sea uncluttered and low-detail — gameplay objects will be drawn on top. No ships, no boats, no text, no UI. Paint a RICH TONAL RANGE: many subtle value steps and colour variation across sky, water and rock; crisp well-defined edges and clear separation between silhouette, mid-ground and horizon. Avoid flat uniform colour blocks and avoid soft focus."
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background: the same stone lighthouse on a rocky headland at the LEFT edge, now with thin drifting sea fog softening the horizon, dark teal sea, faint moon behind haze, jagged rocks along the right edge. Warm amber lighthouse glow diffusing into the mist. Painterly, cinematic, cool midnight palette with one warm amber accent. Keep the centre of the sea uncluttered and low-detail. No ships, no boats, no text, no UI. Paint a RICH TONAL RANGE: many subtle value steps and colour variation across sky, water and rock; crisp well-defined edges and clear separation between silhouette, mid-ground and horizon. Avoid flat uniform colour blocks and avoid soft focus."
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background: the same stone lighthouse at the LEFT edge nearly swallowed by THICK grey sea fog, horizon completely lost, dark teal water barely visible, rocks on the right edge reduced to vague silhouettes. Only the amber lantern glow cuts through the murk. Painterly, cinematic, heavy atmosphere, cool desaturated palette with one warm amber accent. Keep the centre uncluttered and low-detail. No ships, no boats, no text, no UI."
+    },
+    {
+      "id": "stage-4",
+      "path": "assets/backgrounds/stage-4.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background: violent night storm at sea, the same stone lighthouse at the LEFT edge lashed by rain and spray, towering dark swells across the centre and lower two thirds, torn clouds and a lightning-lit horizon in the upper third, foaming rocks along the right edge. Amber lantern glow fighting the downpour. Painterly, cinematic, dramatic cold storm palette with one warm amber accent. Keep the centre of the water uncluttered and low-detail. No ships, no boats, no text, no UI."
+    },
+    {
+      "id": "stage-5",
+      "path": "assets/backgrounds/stage-5.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background: first light of dawn over a calming sea, the same stone lighthouse on its headland at the LEFT edge silhouetted against a warm rose and pale gold sky in the upper third, gentle dark teal swells across the centre and lower two thirds, wet rocks along the right edge catching the sunrise. Painterly, cinematic, hopeful dawn palette warming from cool teal to amber. Keep the centre of the sea uncluttered and low-detail. No ships, no boats, no text, no UI."
+    }
+  ],
+  "sprites": [
+    {
+      "id": "ship-cargo",
+      "path": "assets/characters/ship-cargo.webp",
+      "role": "cargo-ship",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite, side-on three-quarter view of a small blunt-bowed CARGO FREIGHTER facing RIGHT: long flat deck stacked with a few containers, boxy white wheelhouse near the stern, dark rust-red hull, single stubby funnel. Hand-painted game art, readable silhouette at small size, warm amber rim light from the left, cool midnight blue shadows. Whole ship fully inside the frame with clear margin on every side."
+    },
+    {
+      "id": "ship-fishing",
+      "path": "assets/characters/ship-fishing.webp",
+      "role": "fishing-boat",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite, side-on three-quarter view of a small wooden FISHING BOAT facing RIGHT: short high-prowed hull painted deep green, tiny cabin, a mast with a folded net boom and one hanging lantern. Hand-painted game art, chunky readable silhouette at small size, warm amber rim light from the left, cool midnight blue shadows. Whole boat fully inside the frame with clear margin on every side."
+    },
+    {
+      "id": "ship-ferry",
+      "path": "assets/characters/ship-ferry.webp",
+      "role": "passenger-ferry",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite, side-on three-quarter view of a small two-deck PASSENGER FERRY facing RIGHT: white superstructure with a row of small lit windows along both decks, navy blue hull, slim funnel, thin railing along the upper deck. Hand-painted game art, elegant readable silhouette at small size, warm amber rim light from the left, cool midnight blue shadows. Whole ferry fully inside the frame with clear margin on every side."
+    },
+    {
+      "id": "ship-wreck",
+      "path": "assets/characters/ship-wreck.webp",
+      "role": "wrecked-hull",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of a WRECKED SHIP HULL: a broken dark hull listing heavily to the right, snapped mast, splintered planking, no lights, half swallowed by dark foaming water at its base. Hand-painted game art, grim readable silhouette at small size, cold blue moonlight only, no warm light. Whole wreck fully inside the frame with clear margin on every side."
+    }
+  ],
+  "ui": [
+    {
+      "id": "btn-lamp",
+      "path": "assets/ui/btn-lamp.webp",
+      "role": "signal-lamp-button",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game UI element: a large round brass SIGNAL LAMP button seen face-on. Thick smooth brass bezel ring, a domed glass lens glowing warm amber (#ffcf6b) from within with one soft highlight. Simple symmetrical icon for a big tap target. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/ui/btn-pause.webp",
+      "role": "signal-lamp-button",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game UI element: a small square brass PAUSE button. Smooth brass plate with rounded corners and a warm amber (#ffcf6b) double-bar pause glyph centred on it. Simple symmetrical icon. No text, no letters, no numbers. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+    },
+    {
+      "id": "panel-code",
+      "path": "assets/ui/panel-code.webp",
+      "role": "code-panel",
+      "width": 1024,
+      "height": 512,
+      "prompt": "Game UI element: a horizontal brass SIGNAL CODE PLATE — a wide smooth rectangular plaque with rounded corners, a flat dark blue-green inset field in the middle left completely empty, and a thin warm amber (#ffcf6b) edge highlight. No text, no letters, no numbers, no symbols. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+    }
+  ],
+  "fx": [
+    {
+      "id": "fx-beam-pulse",
+      "path": "assets/fx/fx-beam-pulse.webp",
+      "role": "beam-pulse",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game FX sprite: a single soft warm amber (#ffcf6b) light pulse — a bright core fading into a wide circular halo with faint volumetric rays, like a lighthouse lamp flash seen head-on through night air. Radially symmetrical, soft edges, no hard rim. Additive-glow look on a flat background for chroma removal. No text."
+    },
+    {
+      "id": "fx-route-ring",
+      "path": "assets/fx/fx-route-ring.webp",
+      "role": "safe-route-ring",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game FX sprite: a clean glowing ring of warm amber (#ffcf6b) light, thin bright circular stroke with a soft outer bloom and an open transparent centre, a few tiny sparkles along the ring. Reads as a confirmation marker. Radially symmetrical, soft outer edge. No text."
+    },
+    {
+      "id": "fx-wreck-flash",
+      "path": "assets/fx/fx-wreck-flash.webp",
+      "role": "wreck-flash",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game FX sprite: a cold impact flash — a smooth white-hot core with a few broad pale steel-blue spikes radiating outward. Distinctly COLD in colour so it contrasts with warm amber success effects. Simple bold shape. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+    },
+    {
+      "id": "fx-sea-spray",
+      "path": "assets/fx/fx-sea-spray.webp",
+      "role": "sea-spray",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game FX sprite: a plume of white sea spray — a smooth rounded burst of translucent water with a few large soft foam blobs, cool blue-white tones. Simple bold silhouette. Render as CLEAN FLAT VECTOR-LIKE game art: smooth solid surfaces, soft simple gradients, a few bold shapes only. NO grain, NO noise, NO speckle, NO tiny rivets, NO sparkles, NO scattered debris, NO fine texture, NO photographic detail."
+    }
+  ]
+}

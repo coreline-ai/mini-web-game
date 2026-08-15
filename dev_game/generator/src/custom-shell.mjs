@@ -20,6 +20,36 @@ export function buildCustomShellFiles(spec) {
   }, null, 2) + '\n');
 
   files.set('index.html', `<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />\n  <title>${title}</title>\n</head>\n<body>\n  <main id="game" aria-label="${title}"></main>\n  <script type="module" src="/src/main.js"></script>\n</body>\n</html>\n`);
+  // custom-shell은 vite.config.js를 만들지 않아, publicDir 기본값(`public`)이 적용되고
+  // 게임이 실제로 쓰는 assets/**가 dist에 전혀 복사되지 않았다. dev 서버에서는 상대 경로가
+  // 우연히 먹혀 눈에 띄지 않다가, preview(dist)로 도는 게이트에서 "Failed to process file"로
+  // 터진다. 아케이드 템플릿과 달리 custom-shell은 런타임 에셋을 assets/에 직접 두므로
+  // publicDir을 명시한다.
+  files.set('vite.config.js', `import { defineConfig } from 'vite';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// assets/를 publicDir로 쓰면 그 안의 _source/(마스터 PNG·리샘플 원본)까지 dist에 복사된다.
+// 마스터는 재생성·감사를 위한 보관물이지 배포물이 아니다 — 그대로 두면 dist가 수십 MB로
+// 부풀고 런타임 전달 예산을 넘긴다. 빌드 후 배포본에서만 제거한다(원본은 그대로 보존).
+function dropSourceMasters() {
+  return {
+    name: 'drop-source-masters',
+    closeBundle() {
+      const dir = path.resolve('dist/_source');
+      if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
+    },
+  };
+}
+
+export default defineConfig({
+  publicDir: 'assets',
+  plugins: [dropSourceMasters()],
+  server: { host: '0.0.0.0' },
+  build: { chunkSizeWarningLimit: 2048 },
+});
+`);
+
   files.set('src/style.css', `html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050b09}body{display:grid;place-items:center}#game{width:100%;height:100%;display:grid;place-items:center}canvas{display:block;max-width:100%;max-height:100%}\n`);
   files.set('src/main.js', `import Phaser from 'phaser';\nimport './style.css';\nimport config from './game/config.js';\nimport{AudioManager}from'./game/systems/AudioManager.js';\nconst game = new Phaser.Game(config);\nif (typeof window !== 'undefined'){window.__GAME__=game;window.__GAME_QA__={getState:()=>window.__GAME_LAYOUT_BOUNDS__||null,audioState:()=>AudioManager.snapshot()};}\n`);
   files.set('src/game/data/game-spec.json', JSON.stringify(spec, null, 2) + '\n');

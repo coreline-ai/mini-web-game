@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "1.0.0",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 2
+    },
+    {
+      "width": 1080,
+      "height": 1920,
+      "dpr": 1
+    }
+  ],
+  "states": [
+    {
+      "id": "home",
+      "expectedScene": "Home",
+      "requiredIds": [
+        "home-title",
+        "home-goal",
+        "play"
+      ]
+    },
+    {
+      "id": "game-stage-1",
+      "expectedScene": "Game",
+      "requiredIds": [
+        "score",
+        "progress-metric",
+        "wreck-count",
+        "code-panel",
+        "signal-lamp",
+        "pause",
+        "help"
+      ],
+      "assertions": {
+        "minBackingScale": 1
+      }
+    },
+    {
+      "id": "game-typing",
+      "expectedScene": "Game",
+      "requiredIds": [
+        "code-panel",
+        "target-code",
+        "signal-lamp"
+      ]
+    },
+    {
+      "id": "game-stage-3",
+      "expectedScene": "Game",
+      "requiredIds": [
+        "score",
+        "progress-metric",
+        "code-panel",
+        "signal-lamp"
+      ]
+    },
+    {
+      "id": "help",
+      "expectedScene": "Pause",
+      "requiredIds": [
+        "pause-title",
+        "resume",
+        "home"
+      ]
+    },
+    {
+      "id": "pause",
+      "expectedScene": "Pause",
+      "requiredIds": [
+        "pause-title",
+        "resume",
+        "home"
+      ]
+    },
+    {
+      "id": "result-win",
+      "expectedScene": "GameOver",
+      "requiredIds": [
+        "result-title",
+        "retry",
+        "home"
+      ],
+      "terminal": "win"
+    },
+    {
+      "id": "result-loss",
+      "expectedScene": "GameOver",
+      "requiredIds": [
+        "result-title",
+        "retry",
+        "home"
+      ],
+      "terminal": "loss"
+    }
+  ]
+}

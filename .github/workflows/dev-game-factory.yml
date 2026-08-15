@@ -70,6 +70,7 @@ jobs:
           - market-panic
           - meteor-dash
           - night-market-wok
+          - keeper-last-light
           - parcel-sort-rush
           - road-stream-racer
           - rush-lane-racer
@@ -124,6 +125,7 @@ jobs:
           - { game: market-panic, port: 4370 }
           - { game: meteor-dash, port: 4380 }
           - { game: night-market-wok, port: 4385 }
+          - { game: keeper-last-light, port: 4387 }
           - { game: rush-lane-racer, port: 4390 }
           - { game: sky-archer, port: 4400 }
     steps:

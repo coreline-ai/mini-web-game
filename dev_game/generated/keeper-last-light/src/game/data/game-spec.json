@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "keeper-last-light",
+    "title": "Keeper of the Last Light",
+    "description": "A one-hand portrait signalling game: read each ship's request symbol, answer with the lighthouse light code (short/long pulses) before its patience runs out, and keep the sea clear of wrecks until dawn. Not expressible in schema v1 — the loop is timed pattern input, not falling hazards, so this is a custom-loop build.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1170,
+    "height": 2532,
+    "backgroundColor": "#050d18",
+    "scaleMode": "fit"
+  },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "production-demo",
+  "runtimeConfig": "src/game/config/keeperConfig.js",
+  "rules": {
+    "durationSeconds": 300,
+    "goal": "guide-every-ship-safely-until-dawn",
+    "progressMetric": "ships-guided",
+    "requiredObjectives": [
+      "clear-stage-quota",
+      "reach-dawn"
+    ],
+    "failConditions": [
+      "three-wrecks"
+    ],
+    "commands": [
+      {
+        "id": "short-pulse",
+        "label": "Short Pulse",
+        "input": "tap the lamp (under 260 ms)",
+        "costs": {}
+      },
+      {
+        "id": "long-pulse",
+        "label": "Long Pulse",
+        "input": "hold the lamp (260 ms or longer)",
+        "costs": {}
+      },
+      {
+        "id": "clear-signal",
+        "label": "Clear Signal",
+        "input": "tap the clear button to discard a half-typed code",
+        "costs": {}
+      }
+    ]
+  },
+  "requiredAssetRoles": [
+    "stage-background",
+    "cargo-ship",
+    "fishing-boat",
+    "passenger-ferry",
+    "wrecked-hull",
+    "signal-lamp-button",
+    "code-panel",
+    "beam-pulse",
+    "safe-route-ring",
+    "wreck-flash",
+    "sea-spray"
+  ],
+  "captureMatrix": "qa/capture-matrix.json",
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "shortPulse": "audio/pulse-short.wav",
+      "longPulse": "audio/pulse-long.wav",
+      "routeAccepted": "audio/route-accepted.wav",
+      "wreck": "audio/wreck.wav",
+      "stageClear": "audio/stage-clear.wav"
+    },
+    "music": {
+      "home": "audio/home-loop.wav",
+      "gameplay": "audio/gameplay-loop.wav"
+    }
+  },
+  "ui": {
+    "showPause": true,
+    "showProgressMetric": true,
+    "helpRequired": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "pauseWhenHidden": true,
+    "maxTargetDpr": 3
+  }
+}

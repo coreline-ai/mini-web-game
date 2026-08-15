@@ -32,6 +32,8 @@ generated/*
 !generated/last-light-zero-hour/**
 !generated/night-market-wok/
 !generated/night-market-wok/**
+!generated/keeper-last-light/
+!generated/keeper-last-light/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 
