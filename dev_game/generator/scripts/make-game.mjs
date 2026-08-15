@@ -60,6 +60,8 @@ Options:
   --stages <n>                               stage backgrounds (default 3)
   --skip-art                                 scaffold + productionize only (no AI generation)
   --from scaffold|productionize|art|qa       resume from a stage (earlier outputs must exist)
+                                             --from art passes --skip-existing to imagegen
+                                             (resume keeps valid art; invalid art is redrawn)
   --gate none|demo|full                      QA after build (default demo = production-demo-qa)
   --codex <bin>                              codex binary for image_gen (auto-detected)
   --with-pwa | --no-sfx                      passthrough to scaffolder`);
@@ -153,6 +155,12 @@ function main() {
     console.log(args.skipArt ? '\n▶ 3/4 AI art — skipped (--skip-art). Run factory:imagegen later.' : `\n▶ 3/4 AI art — skipped (--from ${args.from})`);
   } else {
     const igArgs = [path.join(SCRIPTS, 'codex-imagegen.mjs'), '--project', out, '--only', 'all'];
+    // `--from art` means RESUME, so it must not redraw art that is already on disk and valid.
+    // imagegen's --skip-existing revalidates each existing file at generation-strength
+    // thresholds, so this skips only assets that would pass anyway and still regenerates
+    // missing/undersized/alpha-less ones. Without it, resuming a run that died in QA burned
+    // the whole art set again (~40s per asset).
+    if (args.from === 'art') igArgs.push('--skip-existing');
     if (args.codex) igArgs.push('--codex', args.codex);
     run('3/4 AI art (codex image_gen: backgrounds/sprites/ui/fx)', node, igArgs);
   }

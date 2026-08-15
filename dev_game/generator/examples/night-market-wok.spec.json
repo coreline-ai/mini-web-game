@@ -1,9 +1,10 @@
 {
   "schemaVersion": "1.0.0",
+  "_note": "GENRE TRAP WARNING — read before running factory:make with this spec. The shipped game 'Night Market Wok' is NOT what this spec alone produces. Build decision was 'hybrid': the arcade Foundation shell from this spec was kept, then the falling Spawner and player movement were removed and GameScene was rewritten for the order/serve loop (see dev_game/docs/qa-evidence/night-market-wok-2026-08-15.md). Schema v1 has no vocabulary for order queues, recipes, seats, or patience timers, so the fields below describe a falling-hazard arcade and nothing else. Running this spec through factory:make yields a playable dodge-the-hazard game with noodle-themed labels — that is a scaffold, not a completed cooking game, and must not be reported as one. For a genre outside the v1 arcade vocabulary, use schema v2 with buildDecision 'custom-loop' instead of relabeling this one.",
   "game": {
     "id": "night-market-wok",
     "title": "Night Market Wok",
-    "description": "A one-hand portrait cooking-combo arcade: read each customer's order, tap ingredients in the exact order, serve before patience runs out.",
+    "description": "Foundation scaffold for a night-market cooking game: a one-hand portrait falling-hazard arcade (dodge burnt woks, catch finished noodle bowls) with night-market naming and palette. This spec builds the arcade shell ONLY — the order-taking/cooking loop is not expressible in schema v1 and must be implemented as a separate GameScene rewrite.",
     "orientation": "portrait",
     "target": "mobile-web"
   },

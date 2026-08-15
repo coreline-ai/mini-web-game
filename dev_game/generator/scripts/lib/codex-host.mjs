@@ -77,6 +77,32 @@ export function checkCodexAuth(codex) {
   }
 }
 
+// Preserve a pre-existing artefact across a whole retry sequence.
+//
+// codexGenerate's own stash only spans one attempt: it discards the previous file the moment
+// a call returns new bytes, because at that layer "new bytes" is success. Quality verification
+// happens one layer up, so the common failure — generated fine, rejected for blur/hue — used
+// to leave the rejected artefact on disk with the good one already deleted. The caller wraps
+// the entire attempt loop in this instead.
+//
+// It copies rather than renames: codexGenerate needs the file in place to compute previousSha,
+// which is how a stale (byte-identical) output is detected. Renaming it away would silently
+// disable that check.
+export function preserveOriginal(file) {
+  const had = fs.existsSync(file);
+  const keep = had ? `${file}.orig.${process.pid}` : null;
+  if (had) fs.copyFileSync(file, keep);
+  return {
+    discard() { if (keep && fs.existsSync(keep)) fs.rmSync(keep, { force: true }); },
+    restore() {
+      if (keep) { if (fs.existsSync(keep)) fs.renameSync(keep, file); }
+      // Nothing to restore to: drop the rejected artefact instead of leaving it under
+      // assets/ (a Vite publicDir) where it would ship to dist as if it were real art.
+      else if (fs.existsSync(file)) fs.rmSync(file, { force: true });
+    },
+  };
+}
+
 // Run one `codex exec` image generation into an absolute output file.
 //
 // Success is not "a file exists at the path" — a failed run leaves the previous artefact in

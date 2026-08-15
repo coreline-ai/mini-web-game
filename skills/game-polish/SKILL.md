@@ -1,6 +1,6 @@
 ---
 name: game-polish
-description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into defect classes (entity-lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness, audio state, input robustness, persistence/session continuity, long-run stability, asset fidelity/DPR), triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input bugs in an already-generated game. Do not use for creating a new game — that is game-factory."
+description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into defect classes (entity-lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness, audio state, input robustness, persistence/session continuity, long-run stability, asset fidelity/DPR, physics-bounds alignment, first-play comprehension/docs-runtime drift), triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input bugs in an already-generated game. Do not use for creating a new game — that is game-factory."
 ---
 
 # Game Polish
@@ -27,7 +27,7 @@ This skill does NOT create games, scaffolds, or new asset pipelines. If the targ
 
 | Path | Purpose |
 |---|---|
-| `dev_game/docs/post-production-qa-contract.md` | defect classes A–L: symptom → cause → fix rules → machine checks |
+| `dev_game/docs/post-production-qa-contract.md` | defect classes A–N: symptom → cause → fix rules → verification (§3.1 says which classes an automated gate actually enforces and which are manual capture checks) |
 | `dev_game/generated/<game-id>/` | target game (gitignored by default) |
 | `dev_game/generated/<game-id>/qa-captures/` | per-game capture evidence: screenshots, video, contact sheets, state-sample JSON |
 | `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` | running log of symptoms, classifications, fixes, re-capture results |
@@ -75,6 +75,8 @@ Map every symptom to a contract defect class using the translation table in `pos
 | J | Persistence/Session discontinuity (lost saves, corrupted-storage crash, visibility delta blowup, resize breakage) |
 | K | Long-Run instability (listener/tween/timer accumulation across retries, FPS decay, pool leaks) |
 | L | Asset Fidelity violation (blurry/low-res final screens, DPR/backing-store mismatch, upscaled sources, alpha-bbox clipping, mixed UI ownership) |
+| M | Physics Bounds misalignment (visible sprite vs collision/collect body size, offset, or pooled-reuse drift) |
+| N | First-play Comprehension failure / Docs-runtime Drift (no goal or CTA on home, no coach on first run, simulation not paused while reading help, GDD numbers ≠ runtime numbers) |
 
 A symptom that fits no class is still fixed — and then added to the contract as a new class or signature. The contract grows from real sessions.
 
@@ -93,18 +95,25 @@ Reproduce each defect under its recorded conditions before touching code. Timing
 
 ### 4. Fix per contract rules
 
-Apply the fix rules of the matched class from the contract. Non-negotiable specifics:
+Open `dev_game/docs/post-production-qa-contract.md` §2, read the **fix rules of the matched class**, and apply them as written. The contract owns every rule, threshold, and formula; this skill does not restate them, because a copy here is a second source that drifts.
 
-- Class A: respawn only in the despawn tween's `onComplete`; `killTweensOf` + full visual/physics reset on reuse; hidden/inactive entities excluded from scoring and collision.
-- Class B: decide background-owned vs runtime-owned for each visual; never both. Prefer static body in background + small runtime FX.
-- Class C: every rectangle/stroke in a final capture is classified as intended-render (documented) or debug-residue (deleted). Unclassified shapes fail the pass.
-- Class D: difficulty inputs must be monotonic (`elapsed`, cumulative hits, stage index) — never `timeLeft` or another reward-replenishable value.
-- Class E: each stage declares (goal threshold, reward, next state) as config data; both fail and win terminal states must be reachable.
-- Class H: one global BGM handle, never duplicated on scene re-entry; gameplay music stops on pause, home, and `visibilitychange`; mute/volume is persisted global state.
-- Class I: state-transition buttons are one-shot (disable on fire); scene transitions block prior-scene input; overlays fully block underlying gameplay input; pressed visuals restore on `pointerup`/`pointerout`.
-- Class J: save wrapper recovers from corrupted JSON with defaults; `visibilitychange` auto-pauses or clamps delta; resize recomputes safe-area.
-- Class K: scene `shutdown`/`destroy` releases all listeners/timers/tweens; retry is a full state reset, never partial.
-- Class L: classify the cause first (`source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership`), then fix at the source: regenerate undersized/clipped art or fix runtime scale/crop/anchor — never patch around it with CSS filters/sharpening. Assert `backingScale >= min(devicePixelRatio, maxTargetDpr)` and `sourcePixels >= renderedLogicalPixels * maxTargetDpr`. A background larger than its native generation is **not** automatically a defect: with a preserved raw under `assets/_source/**` and `provenance.nativeSize` recorded it is a legitimate declared resample (contract rule 9-1); without both it is `source-too-small`. Sprites/UI/FX have no such allowance — an upscaled one is always a defect. When the cause is `alpha-bbox-clipping` or `wrong-direction` on a frame sheet, the source-side fix is `game-asset-creation` — it repositions approved frames without altering pixels, so it is a correction rather than the patch-around-bad-art the rule forbids. Judging whether animation actually reads at runtime (class A) uses the Block/Approve criteria of `game-feel-motion-skill`. See `dev_game/docs/ai-art-pipeline.md#시트모션-워크플로--어느-스킬을-언제-쓰나`.
+Where to read, per matched class:
+
+| Matched class | Read |
+|---|---|
+| A, B, C, D, E | contract §2 `### A`–`### E` |
+| F, G | contract §2 `### F`–`### G` (evidence and re-capture loop — these govern step 5, not the code fix) |
+| H, I, J, K | contract §2 `### H`–`### K` |
+| M (physics bounds) | contract §2 `### M` |
+| L (asset fidelity) | contract §2 `### L` — classify the cause into one of its named categories **before** fixing (rule 11), and check rule 9-1 before calling an oversized background a defect |
+| N (first-play / docs drift) | contract §2 `### N` |
+
+Two cross-skill routings the contract points at but does not own:
+
+- L caused by `alpha-bbox-clipping` or `wrong-direction` **on a frame sheet** → the source-side fix is `game-asset-creation` (it repositions approved frames without altering pixels, so it is a correction, not the patch-around-bad-art that contract rule 9 forbids). See `dev_game/docs/ai-art-pipeline.md#시트모션-워크플로--어느-스킬을-언제-쓰나`.
+- Judging whether an animation actually *reads* at runtime → Block/Approve criteria in `game-feel-motion-skill`.
+
+Before fixing, check the contract's **§3.1 applicability table** for the matched class: it tells you whether a gate will catch a regression here, or whether the only check is you looking at the capture. Classes B, C (stamps/reticle/shape classification), D, and M have **no gate at all** — a wrong fix there stays green. Fix those with extra care and record the evidence by hand.
 
 ### 5. Re-capture under original repro conditions
 
@@ -118,6 +127,8 @@ After each fix batch:
 - For class L fixes, run both gates — `factory:hq-screen-quality-qa` for manifest asset fidelity, and `factory:captured-state-qa` for DPR evidence. The capture run records `devicePixelRatio` and `backingScale` in the state-sample JSON; compare them against the spec's `maxTargetDpr`, `logicalCanvas`, and `physicalCanvasTarget` (`generator/schemas/game-spec.v2.schema.json`). Pair before/after captures at the same repro DPR.
 
 A green capture from an unrelated path is not evidence.
+
+**You are the one asserting these values.** Of the state-sample fields above, only `browserErrors` and the BGM instance count are read by a gate, and only on schema v2 custom-loop projects — see contract §3.1. On a v1 game none of the capture gates (`captured-state-qa`, `first-play-clarity-qa`, `input-hostility-qa`, `session-continuity-qa`) run at all, and there is no v1 capture-QA runner to invoke; you drive the browser and read the numbers yourself. Recording a failing value and moving on is a §0 violation, not a gate's problem.
 
 ### 6. Re-run production gates
 

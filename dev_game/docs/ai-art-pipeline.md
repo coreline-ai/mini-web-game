@@ -38,7 +38,11 @@ npm --prefix dev_game run factory:host-preflight -- --deep  # 실제 1장 생성
 npm --prefix dev_game run factory:host-preflight -- --json  # 기계 판독
 ```
 
-codex 바이너리(실호출 검증) · `codex login status` 인증 · chroma-key helper 존재 · python3+PIL을 확인하고, 실패 시 항목별 복구 방법과 함께 exit 1 한다. `factory:make`는 이 검사를 스테이지 0으로 자동 실행하므로 **아트 불가 호스트는 스캐폴드조차 만들지 않고 중단**한다(`--skip-art` 지정 시 생략).
+codex 바이너리(실호출 검증) · `codex login status` 인증 · chroma-key helper 존재 · python3+PIL을 확인하고, 실패 시 항목별 복구 방법과 함께 exit 1 한다.
+
+`factory:make`는 이 검사를 **아트 단계 직전**에 자동 실행한다 — 스캐폴드와 productionize가 끝난 뒤, imagegen 호출 직전이다(`make-game.mjs`의 `if (!args.skipArt) { host-preflight }` 블록). 스캐폴드보다 앞이 아니다. **의도적인 배치**다: custom-loop 셸(`schemaVersion 2.0.0` + `buildDecision: "custom-loop"`)은 productionize/imagegen을 아예 돌리지 않고 그 앞에서 반환하므로, preflight를 스캐폴드 앞에 두면 **이미지 생성을 하지도 않을 게임이 Codex 없는 호스트에서 만들어지지 못한다**. `--skip-art`도 같은 이유로 preflight를 건너뛴다.
+
+따라서 아트 불가 호스트에서 `factory:make`를 돌리면 **스캐폴드와 기획문서·asset-plan·manifest까지는 디스크에 남고**, 아트 단계에서 exit 1 한다. 남은 산출물은 버리지 말고 `--from art`로 재개하거나(호스트를 고친 뒤) `--skip-art`로 다시 돌려 구조만 완료 처리한다. 순수 정적 검사이므로 아트 시작 전에 `factory:host-preflight`를 **직접 먼저 돌려 보는 것이 여전히 가장 싸다** — 이 명령은 무비용이고 몇 초면 끝난다.
 
 정적 검사는 "설치·인증은 정상인데 image_gen이 응답하지 않는" 상태를 잡지 못한다. 장시간 생성을 시작하기 전 `--deep` 1회 실행을 권장한다.
 
@@ -82,16 +86,18 @@ npm --prefix dev_game run factory:make -- --name "Meteor Dash" --out generated/m
 ## 전체 흐름
 
 ```
-아이디어 → host-preflight → cli.mjs(스캐폴드) → productionize.mjs → codex-imagegen.mjs → 게이트
-             아트 가능?        Foundation         기획문서5+asset-plan   실제 AI 아트 생성      production-gate GREEN
-             불가면 여기서 중단                    +배경 골격+manifest    +게임에 배선
+아이디어 → cli.mjs(스캐폴드) → productionize.mjs → host-preflight → codex-imagegen.mjs → 게이트
+             Foundation         기획문서5+asset-plan   아트 가능?       실제 AI 아트 생성      production-gate GREEN
+                                +배경 골격+manifest    불가면 여기서    +게임에 배선
+                                                       중단(산출물 보존)
+                             ↑ custom-loop 셸은 여기서 반환 — productionize/imagegen/preflight를 모두 건너뛴다
 ```
 
 | 단계 | 스크립트 | 산출물 |
 |---|---|---|
-| 0. 호스트 확인 | `factory:host-preflight` | 아트 취득 가능 여부 판정 — 불가 시 스캐폴드 전에 중단 (`--skip-art`면 생략) |
 | 1. 스캐폴드 | `cli.mjs` | Phaser/Vite Foundation(씬·시스템·SVG 플레이스홀더) |
 | 2. 프로덕션화 | `factory:productionize -- --project <dir>` | 기획문서 01~05 + `asset-plan.json`(에셋별 생성 프롬프트+스타일가이드) + 래스터 배경 골격 + manifest(stageBackgrounds·assetIsolation·provenance) |
+| 2.5. 호스트 확인 | `factory:host-preflight` | 아트 취득 가능 여부 판정 — 아트 **직전**에 실행되며, 불가 시 여기서 중단하고 1·2단계 산출물은 디스크에 남는다 (`--skip-art`면 생략) |
 | 3. **AI 아트 생성** | `factory:imagegen -- --project <dir> [--only all\|backgrounds\|sprites\|wire]` | `asset-plan.json` 프롬프트로 실제 배경·스프라이트 PNG 생성, manifest 품질 승격, 게임 코드가 에셋을 로드/표시하도록 배선 |
 | 4. 완료 게이트 | `factory:production-gate -- --project <dir>` | validate·smoke·asset-qa·browser-smoke·production-demo-qa·image-quality-qa·visual-layout-qa·scene-composite-qa 전부 |
 

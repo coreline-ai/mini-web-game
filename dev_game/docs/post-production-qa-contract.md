@@ -2,7 +2,10 @@
 
 > 게임은 한 번에 완성되지 않는다. 빌드/게이트를 통과한 뒤에도 실제 플레이 캡처에서 반드시 결함이 나온다.
 > 이 문서는 여러 게임에서 반복 관측된 결함을 **게임 종류와 무관한 결함 클래스**로 일반화하고,
-> 각 클래스의 증상 시그니처 → 원인 패턴 → 수정 규칙 → 기계 검증 방법을 강제 계약으로 정의한다.
+> 각 클래스의 증상 시그니처 → 원인 패턴 → 수정 규칙 → 검증 방법을 강제 계약으로 정의한다.
+>
+> **검증 방법은 "자동(게이트가 실패시킨다)"과 "수동(사람이 캡처를 보고 판정한다)"으로 구분해 표기한다.**
+> 어느 쪽인지는 §3.1 적용 범위 표가 단일 원본이다. 수동 항목이라고 기준이 낮아지는 것은 아니다 — 책임 주체가 게이트가 아니라 사람이라는 뜻이다.
 
 ## 0. 비협상 원칙
 
@@ -34,6 +37,8 @@ Every visible shape in a final capture must have a declared identity.
 | "오래 하면 느려져", "리트라이 반복하면 버벅여" | K. Long-Run 불안정 |
 | "겹쳤는데 안 먹혀", "코인이 차를 지나가", "특정 부분에서만 판정돼" | M. Physics Bounds 정합성 위반 |
 | "에셋이 저화질이야", "화면이 흐릿해", "프로토타입 UI처럼 보여" | L. Asset Fidelity 위반 |
+| "첫 화면에서 뭘 눌러야 할지 몰라", "튜토리얼/도움말이 없어", "도움말 여는 동안 게임이 계속 돌아가" | N. First-play Comprehension 실패 |
+| "문서엔 3스테이지라는데 게임엔 2개야", "GDD 숫자와 화면 숫자가 달라" | N. Docs-runtime Drift |
 
 번역 결과는 해당 게임의 `docs/06-FINAL-QA-SUMMARY.md`에 남긴다.
 
@@ -62,11 +67,11 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
 3. **판정 가드**: `visible === false || active === false || alpha < 임계값`인 엔티티는 점수·충돌·입력 판정에서 제외한다.
 4. **상태 전환 일괄 정리**: 스테이지 전환·pause·게임오버·retry 시 풀 전체의 stale tween/timer를 일괄 정리한다.
 
-**기계 검증**:
+**검증 — 수동 캡처 검사 (자동 게이트 없음)**:
 
-- 자동 플레이로 연속 10회 이상 히트-리스폰 사이클 후 매 사이클 대상 엔티티의
-  `alpha === 1 && visible === true && active === true`를 JSON 샘플로 기록·assert.
-- 소멸 연출 시간보다 짧은 간격의 연타 입력을 의도적으로 주입해 경쟁 조건을 유발해 본다.
+- 연속 10회 이상 히트-리스폰 사이클을 돌린 뒤 매 사이클 대상 엔티티의 `alpha / visible / active`를 상태 샘플 JSON에 **기록하고, 사람이 확인한다.**
+  이 값을 검사하는 게이트는 없다 — 값이 어긋나 있어도 어떤 게이트도 실패하지 않으므로 캡처를 보는 사람이 책임진다.
+- 소멸 연출 시간보다 짧은 간격의 연타 입력을 의도적으로 주입해 경쟁 조건을 유발해 본다. (v2 custom-loop 프로젝트는 자체 `qa/input-hostility-qa.mjs` 어댑터에 이 시나리오를 넣을 수 있다. 어댑터가 무엇을 검사할지는 프로젝트가 정하며, 러너는 `ok`·`browserErrors`·`sceneStackSize`·`activeBgmInstances`만 본다.)
 
 ### B. Visual Singularity Contract — 논리 엔티티 1개 = visible 스프라이트 1개
 
@@ -89,10 +94,12 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
 4. **유사 형상 완화**: 배경에 게임플레이 엔티티와 유사한 형상이 있으면 런타임 엔티티에 외곽선·글로우·스케일 차이 등
    구분 신호를 부여하거나 배경을 재생성한다.
 
-**기계 검증**:
+**검증 — 수동 캡처 검사 (자동 게이트 없음)**:
 
-- 캡처 상태 샘플에 논리 엔티티당 visible 스프라이트 수를 기록하고 `duplicateVisibleEntities: 0`을 assert.
-- 대표 게임플레이 프레임에서 주요 엔티티의 텍스처 키 목록을 덤프해 의도된 키와 대조.
+- 캡처 상태 샘플에 논리 엔티티당 visible 스프라이트 수를 `duplicateVisibleEntities`로 **기록하고, 사람이 0인지 확인한다.**
+  **이 필드를 읽는 게이트 코드는 존재하지 않는다.** 값이 0이 아니어도 전 게이트가 GREEN으로 통과한다.
+- 대표 게임플레이 프레임에서 주요 엔티티의 텍스처 키 목록을 덤프해 의도된 키와 사람이 대조한다.
+- 결정적 검사는 결국 **캡처 이미지를 눈으로 보는 것**이다 — 배경에 구워진 복제본은 상태 샘플에 나타나지 않는다(런타임 엔티티가 아니므로). B 클래스는 원리적으로 상태 샘플만으로 자동 검출할 수 없다.
 
 ### C. UI–Gameplay 시각 분리 계약
 
@@ -116,11 +123,12 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
 4. **결과 스탬프 단일성**: PERFECT/MISS 등 피드백 스탬프는 항상 최신 1개만 표시하고 이전 스탬프는 새 스탬프 전에 제거한다.
 5. **동적 HUD bounds 검사**: 초기값만 검사하지 않는다. 가장 긴 현지화 문자열, 최대 점수, 아이콘 최대 회전 bounds, 경고 문구 등 실제 진행 중 변형 상태를 캡처하고 인접 UI와의 overlap을 assert한다.
 
-**기계 검증**:
+**검증 — 일부만 자동, 나머지는 수동 캡처 검사**:
 
-- 상태 샘플에 `lingeringShotGraphics: 0`, `staleResultStamps: 0` 기록.
-- 조준 UI의 활성 텍스처 키를 덤프해 UI 전용 키(예: `reticle_ui`)인지 assert — 게임 오브젝트용 텍스처의 UI 재사용을 차단.
-- 동적 HUD 항목은 초기/중간/최종 단계별 bounds를 샘플링하고 `layoutOverlap: 0`, `outOfBounds: 0`을 assert.
+- **수동 (자동 게이트 없음)**: 상태 샘플에 `lingeringShotGraphics`, `staleResultStamps`를 기록하고 사람이 0인지 확인한다. 두 필드를 읽는 게이트 코드는 존재하지 않는다.
+- **수동 (자동 게이트 없음)**: 조준 UI의 활성 텍스처 키를 덤프해 UI 전용 키(예: `reticle_ui`)인지 사람이 대조한다. 텍스처 키 화이트리스트를 검사하는 게이트는 없다.
+- **수동 (자동 게이트 없음)**: 최종 캡처에 보이는 모든 사각형/스트로크의 정체 분류(수정 규칙 2)는 사람이 캡처를 보고 판정한다. "분류되지 않은 도형"을 자동으로 셀 수 있는 게이트는 없다.
+- **자동**: 동적 HUD의 overlap/out-of-bounds는 `visual-layout-qa`(v1·v2 모두)와 `captured-state-qa`(v2 전용)가 실측한다. 단 **선언된 상태만** 본다 — 초기/중간/최종 단계 중 캡처 매트릭스에 선언하지 않은 변형 상태(최장 문자열, 최대 점수, 경고 문구)는 어떤 게이트도 만들어내지 않으므로, 그 상태를 캡처에 넣는 것은 사람의 책임이다.
 
 ### D. Difficulty Axis Independence — 난이도 축 독립성
 
@@ -139,10 +147,12 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
 3. 복합식 권장: `difficulty = base(elapsed) + progress(hits) + stageBonus` — 시간·실력·진행 세 축이 모두 상승 압력에 기여.
 4. `02-TECH-DESIGN.md`에 난이도 함수의 입력 변수와 각 변수의 단조성 여부를 명시한다.
 
-**기계 검증**:
+**검증 — 수동 검사 (자동 게이트 없음)**:
 
-- 자동 플레이 로그에서 시간순 난이도 파라미터(스폰 간격, 이동 속도 등)를 샘플링해 **non-decreasing**인지 assert.
-- 특히 보상 발동 직후 프레임에서 난이도가 하락하지 않는지 확인.
+- 자동 플레이 로그에서 시간순 난이도 파라미터(스폰 간격, 이동 속도 등)를 샘플링해 **non-decreasing인지 사람이 확인한다.**
+  **난이도 단조성을 assert하는 게이트 코드는 존재하지 않는다.** 보상이 난이도를 되돌려도 전 게이트가 GREEN이다.
+- 특히 보상 발동 직후 프레임에서 난이도가 하락하지 않는지 확인한다.
+- 실질적으로 D 클래스는 **코드 리뷰로 막는 것이 가장 확실하다**: `02-TECH-DESIGN.md`에 난이도 함수의 입력 변수와 각 변수의 단조성을 적고(수정 규칙 4), 리뷰에서 `timeLeft`·`lives` 같은 회복 가능 리소스가 입력에 있는지 본다.
 
 ### E. Progression & Terminal State Completeness — 진행·종료 완결성
 
@@ -157,10 +167,11 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
    범위 밖 항목은 known gap이 아니라 **scoped-out**으로 분류한다.
 4. **옵션 최소 세트**: Home(사운드 토글), Pause(RESUME/HOME), GameOver(RETRY/HOME)는 프로덕션 데모의 최소 옵션 계약이다.
 
-**기계 검증**:
+**검증 — 선언한 만큼만 자동, 선언 자체는 수동**:
 
-- 모든 스테이지 전환 프레임 + 두 터미널 상태 프레임을 캡처 매트릭스에 포함. 도달 스테이지를 상태 샘플에 수치로 기록.
-- 스테이지 전환 시 보상 적용(점수/시간 가산)이 실제 상태 변화로 확인되는지 전환 전후 샘플 비교.
+- **자동 (v2 custom-loop 전용)**: `captured-state-qa`가 `capture-matrix.json`에 **선언된** 상태를 실제로 캡처하고 `requiredIds` 실재·overlap·터미널 표기를 검사한다. 즉 게이트는 "선언한 상태가 존재하는가"만 본다.
+- **수동 (자동 게이트 없음)**: 모든 스테이지 전환 프레임과 두 터미널 상태를 **매트릭스에 선언하는 것 자체**는 사람이 한다. 승리 종료를 매트릭스에서 빼면 게이트는 그 누락을 알 수 없다. v1 게임에는 캡처 매트릭스도 `captured-state-qa`도 없으므로 전부 수동이다.
+- **수동 (자동 게이트 없음)**: 스테이지 전환 시 보상 적용(점수/시간 가산)이 실제 상태 변화로 나타나는지 전환 전후 샘플을 사람이 비교한다.
 
 ### F. Machine-Assertable Evidence — 기계 검증 가능한 증거 계약
 
@@ -177,6 +188,10 @@ M < N일 때 reset(`alpha:1`) 직후 살아있던 이전 tween이 마지막 프�
    - 리스폰 사이클 후 엔티티 `alpha/visible/active` 값
 2. 스크린샷·영상·contact sheet는 **JSON 샘플과 같은 세션에서** 생성한다 — 증거 간 시점 불일치 방지.
 3. 수치 하나라도 실패하면 캡처 전체를 통과 증거로 사용 금지. 수정 → 재캡처 → 재샘플.
+
+> **이 필드들은 자기신고다.** 위 목록 중 게이트가 실제로 읽는 것은 `browserErrors`(v2 `captured-state-qa`/어댑터 러너)와 `activeBgmInstances`뿐이다.
+> `duplicateVisibleEntities`, `lingeringTransientGraphics`, 텍스처 키, 도달 스테이지, respawn 후 `alpha/visible/active`를 검사하는 게이트 코드는 존재하지 않는다(§3.1).
+> 기록은 **사람이 읽기 위한 것**이며, 3항("수치 하나라도 실패하면")을 집행하는 주체도 사람이다. 샘플에 실패 값이 들어 있어도 전 게이트가 GREEN으로 통과한다.
 
 ### G. Fix → Re-capture Loop — 재캡처 루프 규칙
 
@@ -215,11 +230,11 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 3. mute/volume은 저장소 연동 전역 상태이며 모든 씬에서 즉시 반영된다.
 4. SFX 트리거는 판정 이벤트와 1:1로 연결한다. 시각 피드백만 있고 소리가 없는(또는 그 반대) 판정을 금지한다.
 
-**기계 검증**:
+**검증 — 인스턴스 수만 자동(v2), 나머지는 수동**:
 
-- 상태 샘플에 `activeBgmInstances`(항상 ≤ 1)와 씬별 `isPlaying` 상태 기록.
-- home→game→home 3회 반복 후 BGM 인스턴스 수 assert.
-- pause 진입/백그라운드 전환 시점의 재생 상태를 샘플로 남긴다.
+- **자동 (v2 custom-loop 전용)**: `input-hostility-qa`가 `activeBgmInstances > 1`을, `session-continuity-qa`가 `maxBgmInstances > 1`을 실패로 처리한다. 단 이 값을 만드는 것은 프로젝트 자체 어댑터(`qa/input-hostility-qa.mjs`, `qa/session-continuity-qa.mjs`)이며 러너는 보고된 숫자를 믿는다.
+- **수동 (자동 게이트 없음)**: 씬별 `isPlaying`, pause·home·백그라운드 3상태의 정지 여부, mute 지속성, SFX↔판정 1:1은 사람이 캡처(영상/오디오)로 확인한다. 이를 검사하는 게이트는 없다.
+- **오디오 파일 자체는 존재만 검사된다**: `production-demo-qa`는 manifest에 선언된 오디오 파일이 디스크에 있는지, `ui`/`sfx`/`bgm` 타입이 갖춰졌는지만 본다. **무음 파일·길이 0·잘못된 포맷·게임에 배선되지 않은 파일은 전부 통과한다.** 소리가 실제로 나는지는 사람이 들어야 한다(§3.1).
 
 ### I. Input Robustness Contract — 입력 견고성/중복 트리거
 
@@ -243,10 +258,11 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 4. 버튼 시각 상태(pressed)는 `pointerup`/`pointerout`에서 반드시 복원한다.
 5. 멀티터치 정책을 명시한다 (첫 포인터 기준 등). 정책 없는 다중 포인터 처리 금지.
 
-**기계 검증**:
+**검증 — 씬 스택만 자동(v2), 나머지는 수동**:
 
-- 자동화로 전이 버튼 더블/트리플 탭을 주입한 뒤 활성 씬 목록·씬 스택 수·중복 타이머 여부 assert.
-- pause↔resume 10회 반복 후 timeScale·스폰 간격·버튼 시각 상태 확인.
+- **자동 (v2 custom-loop 전용)**: `input-hostility-qa`가 프로젝트 어댑터 실행 후 `sceneStackSize !== 1`, `browserErrors`, `activeBgmInstances > 1`을 실패로 처리한다. **러너가 검사하는 것은 이 세 값과 어댑터의 `ok` 뿐**이며, 더블/트리플 탭·전환 중 입력·멀티터치를 실제로 주입하는지는 프로젝트 어댑터에 달려 있다.
+- **수동 (자동 게이트 없음)**: 중복 타이머, `timeScale`, 스폰 간격, 버튼 pressed 시각 복원은 사람이 캡처로 확인한다. 이를 검사하는 게이트는 없다.
+- **v1 게임은 `input-hostility-qa`가 아예 실행되지 않는다**(§3.1). I 클래스 전체가 수동이다.
 
 ### J. Persistence & Session Continuity — 지속성/세션 연속성
 
@@ -266,11 +282,10 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 3. `visibilitychange` 시 자동 pause 또는 delta clamp로 시간 폭주를 차단한다.
 4. resize/orientation 변경 시 safe-area와 레이아웃을 재계산한다.
 
-**기계 검증**:
+**검증 — 어댑터 보고만 자동(v2), 항목별 판정은 어댑터 소유**:
 
-- 플레이→리로드→상태 샘플 비교로 best/설정 유지 assert.
-- 손상 데이터 주입 후 정상 부팅 확인.
-- visibility 토글 전후 `timeLeft`/게임 상태 연속성 assert.
+- **자동 (v2 custom-loop 전용)**: `session-continuity-qa`가 프로젝트 어댑터를 실행하고 `ok`, `browserErrors`, `maxBgmInstances > 1`만 검사한다. 리로드 후 best/설정 유지, 손상 저장소 부팅, visibility 토글 연속성을 **실제로 시도하는지는 프로젝트 어댑터가 결정**한다 — 러너는 어댑터가 자기 자신에 대해 보고한 `ok`를 믿는다.
+- **수동 (자동 게이트 없음)**: 어댑터가 없는 v1 게임에서는 세 시나리오 전부 사람이 브라우저에서 재현하고 결과를 `06-FINAL-QA-SUMMARY.md`에 기록한다.
 
 ### K. Long-Run Stability — 장시간 실행 안정성
 
@@ -290,10 +305,10 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 2. 오브젝트 풀은 상한을 갖고, 회수 실패를 탐지한다.
 3. retry/스테이지 전환은 **완전한 상태 리셋**이다. 부분 리셋으로 누적을 허용하지 않는다.
 
-**기계 검증**:
+**검증 — 프로젝트 자체 테스트가 소유(공통 게이트 없음)**:
 
-- 2분 이상 자동 플레이 + retry 5회 반복 중 `activeTweens`/타이머 수/displayList 크기/FPS를 주기 샘플링.
-- 정상 상태 기준 대비 단조 증가(누수 신호)가 없는지 assert.
+- **v2 custom-loop 전용**: `custom-loop-full-qa`가 프로젝트의 `npm run test:lifecycle`을 실행하고, `qa-session-report`는 그 산출물(`qa-captures/lifecycle-soak-results.json`)의 **존재만** 확인한다(staleness 검사에서도 면제된다). 즉 2분 소크·retry 5회·단조 증가 판정은 **프로젝트가 스스로 작성한 테스트가 소유**하며, 공통 게이트에는 K 클래스 판정 로직이 없다.
+- **수동 (v1 및 lifecycle 테스트 미보유 프로젝트)**: 2분 이상 자동 플레이 + retry 5회 동안 `activeTweens`/타이머 수/displayList 크기/FPS를 주기 샘플링해 **사람이 단조 증가(누수 신호)를 확인한다.**
 
 ### M. Physics Bounds Alignment — 보이는 스프라이트와 판정 body 정합성
 
@@ -313,11 +328,13 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 3. 수집 아이템은 보이는 아이템 bounds와 수집 body가 같은 중심과 의도 크기를 갖게 한다. 원형 body를 쓰는 경우 radius와 offset도 표시 좌표에서 source 좌표로 변환한다.
 4. 플레이어의 충돌 body와 수집 sensor가 다른 의도를 가질 경우, 두 판정 영역을 명시적으로 분리하고 각각의 world 크기를 샘플에 기록한다.
 
-**기계 검증**:
+**검증 — 수동 캡처 검사 (자동 게이트 없음)**:
 
-- 같은 viewport에서 플레이어 bounds와 아이템 bounds를 강제 overlap시킨 뒤 `visualOverlap === true`인 케이스가 모두 수집되는지 assert한다.
-- 상태 샘플에 `displayWidth/displayHeight`, `body.width/body.height`, `body.center`, `body.offset`, `isCircle/radius`를 기록하고 의도 world body 크기와 비교한다.
-- 스폰 풀 재사용을 5회 이상 반복해 매번 body 크기와 중심이 동일하게 리셋되는지 확인한다.
+- 같은 viewport에서 플레이어 bounds와 아이템 bounds를 강제 overlap시킨 뒤 `visualOverlap === true`인 케이스가 모두 수집되는지 **사람이 확인한다.**
+  **강제 overlap을 만들어 수집 성공을 assert하는 게이트 코드는 존재하지 않는다.** 판정 body가 표시 크기의 1/9여도 전 게이트가 GREEN이다.
+- 상태 샘플에 `displayWidth/displayHeight`, `body.width/body.height`, `body.center`, `body.offset`, `isCircle/radius`를 **기록하고** 의도 world body 크기와 사람이 비교한다.
+- 스폰 풀 재사용을 5회 이상 반복해 매번 body 크기와 중심이 동일하게 리셋되는지 사람이 확인한다.
+- M 클래스는 게이트가 아니라 **플레이 감각으로 먼저 드러난다** — "겹쳤는데 안 먹혀"라는 지적이 유일한 조기 신호이므로, 수집·충돌이 있는 게임은 캡처 세션에서 근접 통과를 의도적으로 시도한다.
 
 ### L. Asset Fidelity Contract — 최종 화면 에셋 품질 / DPR 정합성
 
@@ -354,18 +371,46 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 11. **원인 분류 후 수정**: L 결함은 최소한 `source-too-small`, `backing-store-too-small`, `runtime-stretch`, `alpha-bbox-clipping`, `bad-background-removal`, `wrong-direction`, `mixed-ui-ownership` 중 하나로 원인을 분류한 뒤 수정한다.
 12. **에셋 품질 상승 루프**: 역할별 목표 표시 크기와 DPR 기준을 먼저 계산하고, 생성/수정 프롬프트에 방향·패딩·투명 배경·텍스트 금지·배경 내 런타임 오브젝트 금지를 명시한다. 통합 후에는 source/crop/runtime contact sheet로 확인한다.
 
-**기계 검증**:
+**검증 — L은 자동 비중이 가장 높은 클래스다. 항목별로 자동/수동을 표기한다**:
 
-- 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다. **주의: `hq-screen-quality-qa`는 manifest 자산 크기만 본다. 실제 canvas backing store는 검사하지 않으므로 이 게이트가 GREEN이어도 화면 전체가 저해상도로 렌더될 수 있다.**
-- **backing store 실측 (2026-08-15 night-market-wok 세션에서 승격)**: 전 게이트가 GREEN인데도 "에셋 품질이 떨어진다"는 지적이 나오면 가장 먼저 `canvas.width / canvas.getBoundingClientRect().width`를 재본다. Phaser 3.60+에는 `resolution` 옵션이 없어 backing store가 논리 캔버스 크기와 같으므로, 논리 캔버스를 CSS 크기와 동일하게(예: 390×844) 두면 `backingScale`이 1이 되어 DPR2 기기에서 화면 전체가 2배 확대된다. 해결은 논리 캔버스를 디자인 단위의 정수배로 올리고(390×844 → 1170×2532) 절대 픽셀값을 같은 배수로 환산하는 것이다. 배경 런타임 크기도 새 캔버스 이상이어야 한다.
-- **크로마 잔여 판별 (같은 세션에서 승격)**: 어두운 외곽선이 "지저분하다"는 지적은 의도된 아트일 수도, 크로마 오염일 수도 있다. 판별자는 반투명 띠(alpha 40~220)의 **B/R 비**다 — 마젠타 오염은 B≈R(0.8 이상), 따뜻한 색 아트는 B≪R(0.5 이하). 오염이면 색을 되돌리려 하지 말고(정당하게 붉은 영역까지 탈색된다) 오염된 띠를 알파에서 침식해 제거한다.
-- `390x844`, `430x932`, `1080x1920` 캡처에서 레이아웃 겹침과 픽셀 컴포지트 이상이 없는지 확인한다. 흐림/잘림 지적이 DPR 문제라면 같은 repro DPR에서 before/after를 남긴다.
-- DPR 증거는 `factory:captured-state-qa`가 만든다(`factory:hq-screen-quality-qa`는 manifest 에셋 fidelity와 market-event 깊이를 보는 별개 게이트이며 DPR을 측정하지 않는다). 캡처가 상태 샘플에 기록하는 값은 `devicePixelRatio`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`이고, 비교 기준인 `maxTargetDpr`·`logicalCanvas`·`physicalCanvasTarget`은 spec(`generator/schemas/game-spec.v2.schema.json`)이 선언한다. 둘을 대조해 `backingScale >= min(devicePixelRatio, maxTargetDpr)` 또는 문서화된 고해상도 논리 캔버스 전략을 assert한다.
-- 배경에 `provenance.nativeSize`가 있으면 raw(`assets/_source/**`) 실재를 함께 확인한다. 한쪽만 있으면 규칙 9-1에 따라 `source-too-small`로 분류한다.
-- 핵심 배경은 cover-fit 계산 후 `sourceWidth/sourceHeight >= requiredCoverSourceSize`를 assert한다. 런타임 sprites/UI/icons/buttons는 `sourceFrameSize >= renderedLogicalSize * sampledTargetDpr`를 assert하고 업스케일 항목을 실패로 기록한다.
-- 아이콘/버튼/스탬프는 `sourceAlphaBbox`, `runtimeBounds`, `safePadding`, `clippedEdges: []`, `outOfBounds: []`를 샘플에 기록한다. `getBounds()`만 통과하고 실제 알파가 잘린 경우는 실패다.
-- before/after 캡처를 같은 화면 상태로 보존하고, 최종 캡처의 핵심 텍스처 키와 렌더 소유권(`phaser`, `dom-css`, `generated-texture`)을 상태 샘플에 기록한다.
-- DOM/CSS UI를 쓰는 경우 상태 샘플에 `textOverflow: []`, `outOfBounds: []`, `fontLoaded: true`, UI 소유권을 기록한다.
+- **자동**: 배경/스크린 에셋 크기, 파일 크기, 알파, bbox padding, provenance, 뉴스 이벤트 쿼터를 검사하는 HQ 전용 QA를 실행한다. (`hq-screen-quality-qa`는 v2에서만 자동 실행된다 — v1에서는 직접 호출해야 한다. §3.1) **주의: `hq-screen-quality-qa`는 manifest 자산 크기만 본다. 실제 canvas backing store는 검사하지 않으므로 이 게이트가 GREEN이어도 화면 전체가 저해상도로 렌더될 수 있다.**
+- **수동 진단 절차 — backing store 실측 (2026-08-15 night-market-wok 세션에서 승격)**: 전 게이트가 GREEN인데도 "에셋 품질이 떨어진다"는 지적이 나오면 가장 먼저 `canvas.width / canvas.getBoundingClientRect().width`를 재본다. Phaser 3.60+에는 `resolution` 옵션이 없어 backing store가 논리 캔버스 크기와 같으므로, 논리 캔버스를 CSS 크기와 동일하게(예: 390×844) 두면 `backingScale`이 1이 되어 DPR2 기기에서 화면 전체가 2배 확대된다. 해결은 논리 캔버스를 디자인 단위의 정수배로 올리고(390×844 → 1170×2532) 절대 픽셀값을 같은 배수로 환산하는 것이다. 배경 런타임 크기도 새 캔버스 이상이어야 한다.
+- **수동 진단 절차 — 크로마 잔여 판별 (같은 세션에서 승격)**: 어두운 외곽선이 "지저분하다"는 지적은 의도된 아트일 수도, 크로마 오염일 수도 있다. 판별자는 반투명 띠(alpha 40~220)의 **B/R 비**다 — 마젠타 오염은 B≈R(0.8 이상), 따뜻한 색 아트는 B≪R(0.5 이하). 오염이면 색을 되돌리려 하지 말고(정당하게 붉은 영역까지 탈색된다) 오염된 띠를 알파에서 침식해 제거한다.
+- **자동**: `390x844`, `430x932`, `1080x1920` 세 뷰포트의 레이아웃 겹침·safe-area 이탈은 `visual-layout-qa`가, 픽셀 컴포지트 이상은 `scene-composite-qa`가 검사한다(둘 다 v1·v2 자동). 흐림/잘림 지적이 DPR 문제라면 같은 repro DPR에서 before/after를 남긴다(수동).
+- **자동 — backingScale은 실제로 강제된다**: `visual-layout-qa`가 매 뷰포트·매 씬에서 실브라우저의 `canvas.width / getBoundingClientRect().width`를 재고 `backingScale < min(devicePixelRatio, maxTargetDpr)`이면 실패시킨다. **이 게이트는 v1·v2 모두에서 자동 실행된다** — L 클래스에서 게이트가 스스로 계산해 막아 주는 유일한 항목이다. `captured-state-qa`(v2 전용)는 같은 값을 상태 샘플(`devicePixelRatio`, `canvasCssSize`, `canvasBackingStoreSize`, `backingScale`)로 **기록**하고, 캡처 매트릭스가 `assertions.minBackingScale`을 선언한 상태에서만 추가로 실패시킨다. `factory:hq-screen-quality-qa`는 manifest 에셋 fidelity와 market-event 깊이를 보는 별개 게이트이며 DPR을 측정하지 않는다. 비교 기준 `maxTargetDpr`·`logicalCanvas`·`physicalCanvasTarget`은 spec(`generator/schemas/game-spec.v2.schema.json`)이 선언한다.
+- **수동**: 문서화된 고해상도 논리 캔버스 전략을 택한 경우 좌표·폰트·물리 속도·hit zone·safe-area를 함께 환산했는지(수정 규칙 3)는 사람이 확인한다.
+- **수동 (자동 게이트 없음)**: 배경에 `provenance.nativeSize`가 있으면 raw(`assets/_source/**`) 실재를 **사람이** 함께 확인한다. 한쪽만 있으면 규칙 9-1에 따라 `source-too-small`로 분류한다. `production-demo-qa`는 `rawPath`를 provenance에서 읽기만 하고 파일 실재를 검사하지 않으므로, `nativeSize`만 적고 raw를 지운 상태도 게이트를 통과한다.
+- **부분 자동**: 소스 크기는 `production-demo-qa`가 manifest에 **선언된** `minWidth/minHeight`와만 대조한다. cover-fit으로 필요한 `requiredCoverSourceSize`나 `sourceFrameSize >= renderedLogicalSize * sampledTargetDpr`를 게이트가 스스로 계산하지는 않는다 — 그 수치를 manifest에 옳게 선언하는 것은 사람의 몫이고, 선언이 낮으면 게이트는 낮은 기준으로 통과시킨다.
+- **부분 자동**: 소스 측 알파 bbox와 사방 패딩은 `image-quality-qa`가 실측한다(빈약한 채움비·잘린 스탬프 검출). 그러나 **런타임 측** `runtimeBounds`, `clippedEdges`, `outOfBounds`는 어떤 게이트도 읽지 않는다 — `getBounds()`는 통과하는데 실제 알파가 잘린 경우는 사람이 캡처로 판정한다.
+- **수동 (자동 게이트 없음)**: 최종 캡처의 핵심 텍스처 키, 렌더 소유권(`renderOwner`: `phaser`/`dom-css`/`generated-texture`), DOM/CSS UI의 `textOverflow`, `fontLoaded`는 상태 샘플에 **기록만** 되고 이를 검사하는 게이트 코드는 없다. mixed-ui-ownership 판정은 사람이 한다.
+- before/after 캡처를 같은 화면 상태로 보존한다(§G 4항). 페어 존재 여부를 강제하는 게이트는 없다.
+
+### N. First-play Comprehension / Docs-runtime Drift — 첫 플레이 이해도와 문서-런타임 정합성
+
+> 문자 주의: 이 절은 2026-08-15 이전에 `M`으로 표기되어 Physics Bounds(위 M절)와 충돌했다. Physics가 `M`을 유지하고 이 클래스가 `N`으로 재배정됐다. 예전 문서·요약이 "M. First-play"를 가리키면 여기(N)로 읽는다.
+
+**문제 클래스**: 처음 여는 플레이어가 목표·조작·진행 지표를 알아내지 못하거나, 문서(GDD)가 선언한 규칙 수치와 런타임 실제 수치가 어긋난 상태.
+
+**증상 시그니처**:
+
+- Home 화면에 목표 한 줄과 시작 CTA가 없어 무엇을 하는 게임인지 모름
+- 첫 진입에 coach/tutorial 오버레이가 없거나, 도움말을 여는 동안 시뮬레이션이 계속 돌아 읽는 사이 게임이 끝남
+- 도움말을 닫은 뒤 무엇이 첫 행동인지, 무엇이 진행 지표인지 화면에서 읽히지 않음, 도움말 재호출 경로 없음
+- GDD/Rules Contract의 수치(스테이지 수, 임계값, 보상)와 화면 문구·`window.__GAME_RULES__` 값이 다름
+
+**수정 규칙**:
+
+1. Home에 목표 한 줄과 명확한 시작 CTA를 둔다.
+2. 첫 진입에 coach/tutorial을 표시하고, 도움말이 열려 있는 동안 시뮬레이션을 정지한다.
+3. 도움말을 닫은 직후의 첫 행동과 진행 지표가 화면에서 즉시 읽혀야 하며, 도움말은 언제든 재호출 가능해야 한다.
+4. 화면 문구·`window.__GAME_RULES__`·GDD의 구조화된 Rules Contract 블록은 같은 runtime config에서 파생시킨다. 세 값이 다르면 docs-runtime drift 결함이다.
+
+**검증 (v2 custom-loop 전용 — §3.1 적용 범위 표 참조)**:
+
+- `first-play-clarity-qa`가 Home 목표/CTA, coach 표시, 도움말 중 정지, 닫은 뒤 첫 행동·진행 지표, 재호출을 검사한다.
+- `factory:docs-runtime-sync-qa`가 GDD Rules Contract ↔ 런타임 값 일치를 검사한다.
+- 수정 후 위 두 검사와 declared capture-state QA를 **같은 Production Gate 세션에서** 재실행한다. 결과는 `qa-captures/qa-session-report.json`에 집계하며 stale fragment를 현재 PASS로 재사용하지 않는다.
+- **v1 게임에는 이 두 게이트가 실행되지 않는다.** v1에서는 같은 항목을 사람이 캡처로 확인하고 `06-FINAL-QA-SUMMARY.md`에 기록한다.
 
 ## 3. 파이프라인 배치
 
@@ -374,17 +419,37 @@ mute/volume 상태가 전역 AudioManager가 아닌 씬 로컬에 존재.
 | D(난이도 축), E(진행/종료) | 계획 단계 — GDD/Tech-design 필수 항목 |
 | A(생명주기), B(단일성), C(UI 분리), H(오디오 상태), I(입력 견고성) | 구현 규칙 + 캡처 QA 검사 항목 |
 | J(지속성/세션), K(장시간 안정성), M(판정 body 정합성), L(에셋 품질) | 캡처 QA 검사 항목 + 전용 스윕(리로드/visibility/장시간 자동 플레이/판정 bounds/HQ 화면 검사) |
+| N(첫 플레이 이해도·문서 드리프트) | 구현 규칙 + 캡처 QA 검사 항목 (자동 게이트는 v2 custom-loop 전용) |
 | F(수치 증거), G(재캡처 루프·회귀 누적·트리아지) | Evidence handling + 완료 기준 |
+
+## 3.1 적용 범위 — 어떤 검사가 어떤 게임에 실제로 돌아가는가
+
+> 이 표는 계약의 **집행 경계**다. 위 §2의 규칙은 전부 유효하지만, 그중 기계가 강제하는 것은 여기 "게이트"로 적힌 것뿐이고 나머지는 사람의 책임이다.
+> 근거: `dev_game/generator/scripts/production-gate.mjs`의 `customRequired = split.mode === 'custom-loop-full' || (spec.schemaVersion === '2.0.0' && spec.buildDecision === 'custom-loop')`. 이 값이 거짓이면 `custom-loop-full-qa`가 **호출되지 않고**, 그 안의 모든 검사가 통째로 건너뛰어진다.
+
+| 검사 | v1 (schema 1.x / non-custom-loop) | v2 custom-loop | 검사 내용 |
+|---|---|---|---|
+| `factory:qa` (Foundation) | 자동 | 자동 | 생성기 자체 회귀 |
+| `production-demo-qa --require-gpt-imagegen` | 자동 | 자동 | manifest·provenance·영수증·자산 크기·**오디오 파일 존재** |
+| `image-quality-qa` | 자동 | 자동 | 픽셀 레벨 자산 품질 |
+| `visual-layout-qa` | 자동 (뷰포트 3종) | 자동 | 레이아웃 overlap·safe-area·`backingScale` 실측 |
+| `scene-composite-qa` | 자동 (뷰포트 3종) | 자동 | 씬 합성 |
+| `dist-runtime-qa` | manifest에 `assetLayout`이 있을 때만 | 동일 | 빌드 산출물 예산 |
+| `captured-state-qa` | **실행 안 됨** | 자동 | declared capture matrix, requiredIds, overlap, DPR 증거 |
+| `first-play-clarity-qa` | **실행 안 됨** | 자동 | 클래스 N — 목표/CTA/coach/도움말 정지 |
+| `input-hostility-qa` | **실행 안 됨** | 자동 | 클래스 I 일부 — sceneStackSize, `activeBgmInstances ≤ 1` |
+| `session-continuity-qa` | **실행 안 됨** | 자동 | 클래스 J — 리로드/손상 저장소/visibility |
+| `docs-runtime-sync-qa` | **실행 안 됨** | 자동 | 클래스 N — GDD ↔ 런타임 수치 |
+| `test:rules` / `test:lifecycle` (프로젝트 자체 테스트) | **실행 안 됨** | 자동 | 규칙·생명주기 |
+| `hq-screen-quality-qa` | **자동 실행 안 됨** (수동 실행은 가능) | 자동 | manifest 자산 fidelity, 이벤트 깊이 |
+| `qa-session-report` 집계 | **실행 안 됨** | 자동 | 세션 단위 증거 집계 |
+
+**v1 게임의 캡처 QA 실행법은 현재 존재하지 않는다.** `captured-state-qa`는 `capture-matrix.json`(schema v2 산출물)을 전제하고, `first-play-clarity-qa`·`input-hostility-qa`·`session-continuity-qa`는 프로젝트가 노출하는 v2 QA 어댑터를 전제한다. 따라서 v1 게임에서 클래스 A·B·C·D·H·I·J·K·N의 증거는 **사람이 캡처(스크린샷/영상)를 보고 판정하고 그 결과를 `06-FINAL-QA-SUMMARY.md`에 기록**하는 것이 유일한 경로다. 이것은 기준을 낮추는 것이 아니라 책임 주체를 명시하는 것이다 — 증거 없이 "괜찮아 보임"으로 닫는 것은 §0에 의해 여전히 금지된다.
+
+**오디오는 파일 존재만 자동 검사된다.** `production-demo-qa`의 `validateAudio`는 (1) `spec.audio.enabled !== false`, (2) manifest 오디오 엔트리의 provenance, (3) 선언된 경로의 **파일 실재**, (4) `ui`/`sfx`/`bgm` 타입 존재만 본다. 오디오 **내용**은 전혀 검사하지 않는다 — 무음 파일, 길이 0, 잘못된 샘플레이트, 게임 코드에 배선되지 않은 파일, 클래스 H의 중복 인스턴스/pause 중 재생은 모두 통과한다. v2에서 `input-hostility-qa`가 `activeBgmInstances > 1`만 잡고, 나머지 H 규칙은 전부 수동 캡처 검사다.
 
 ## 4. 관련 문서
 
 - `dev_game/docs/production-demo-quality-contract.md` — 최초 완성 기준 (이 문서는 그 이후의 반복 보정 기준)
 - `dev_game/docs/llm-game-studio-pipeline.md` — 전체 파이프라인
 - `dev_game/docs/qa-evidence/` — 게임별 durable QA 증거 요약
-
-### M. First-play Comprehension / Docs-runtime Drift
-
-- Home에서 목표와 CTA, 첫 진입에서 coach/tutorial, 도움말 중 simulation 정지, 닫은 뒤 첫 행동과 진행 지표, 도움말 재호출을 `first-play-clarity-qa`로 검증한다.
-- runtime config에서 파생한 `window.__GAME_RULES__`, 화면 문구, GDD의 구조화된 Rules Contract 블록이 다르면 docs-runtime drift 결함이다.
-- 수정 후 `factory:docs-runtime-sync-qa`, declared capture-state QA, clarity QA를 같은 Production Gate 세션에서 재실행한다.
-- 결과는 `qa-captures/qa-session-report.json`에 집계하며 stale fragment를 현재 PASS로 재사용하지 않는다.

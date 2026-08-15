@@ -3,14 +3,19 @@
 // 스텁 codex로 검증한다. CI-safe: chroma helper(~/.codex) 없이 배경 자산만 사용하며,
 // python3 + Pillow만 요구한다 (생성 검증·리샘플 단계가 쓰는 것과 동일).
 //
-// 케이스 (implement_20260815_123807.md Phase 4):
-//   1. exec 비정상 종료   → 실패 판정 + 원본 보존 + 기존 영수증 무손상
-//   2. 정체 출력          → unchanged-output 실패 + 원본 보존
-//   3. 무영수증 + wire    → draft 유지 + no-receipt 보고
-//   4. SHA 불일치         → skip 거부·재생성 → 새 영수증 실일치
-//   5. legacy-1 + wire    → 승격 유지
-//   6. custom-loop 무Codex → 스캐폴드 완주
-//   7. 성공 경로          → 영수증 발급 → skip-existing 전부 skip (거부-만능 방지)
+// 케이스 1~7: implement_20260815_123807.md Phase 4 / 8~12: implement_20260815_132631.md Phase B
+//   1.  exec 비정상 종료   → 실패 판정 + 원본 보존 + 기존 영수증 무손상
+//   2.  정체 출력          → unchanged-output 실패 + 원본 보존
+//   3.  무영수증 + wire    → draft 유지 + no-receipt 보고
+//   4.  SHA 불일치         → skip 거부·재생성 → 새 영수증 실일치
+//   5.  legacy-1 + wire    → 승격 유지
+//   6.  custom-loop 무Codex → 스캐폴드 완주
+//   7.  성공 경로          → 영수증 발급 → skip-existing 전부 skip (거부-만능 방지)
+//   8.  품질 거부 소진     → 원본 보존 / 8b. 원본 없으면 거부 산출물도 남기지 않음
+//   9.  승격 성공 경로     → 배경 3종 + 코어 스프라이트 → qualityTier production-demo
+//   10. 실패 있는 실행     → 승격 조건을 만족해도 tier 미승격(이전 승격도 draft로 되돌림)
+//   11. 런타임 수출        → 영수증이 최종 WebP 기준으로 재계산
+//   12. 게이트 영수증 분기 → 무영수증 검출 / legacy-1 통과 / SHA 불일치 검출
 //
 // 사용: node generator/scripts/imagegen-integrity-qa.mjs
 
@@ -23,6 +28,7 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPTS = path.dirname(fileURLToPath(import.meta.url));
 const IMAGEGEN = path.join(SCRIPTS, 'codex-imagegen.mjs');
+const GATE = path.join(SCRIPTS, 'production-demo-qa.mjs');
 const MAKEGAME = path.join(SCRIPTS, 'make-game.mjs');
 const V2_SPEC = path.join(SCRIPTS, '..', 'examples', 'custom-loop-shell.spec.json');
 
@@ -32,8 +38,15 @@ const MODE_FILE = path.join(BIN, 'mode.txt');
 fs.mkdirSync(BIN, { recursive: true });
 
 // ── 스텁 codex ──────────────────────────────────────────────────────────────
-// mode.txt: "ok" = 결정적 노이즈 PNG(같은 입력이면 같은 바이트 — 정체 출력 테스트에 이용)
-//           "fail" = exec 단계에서 exit 3
+// mode.txt:
+//   "ok"              결정적 노이즈 PNG(같은 입력이면 같은 바이트 — 정체 출력 테스트에 이용)
+//   "fail"            exec 단계에서 exit 3
+//   "stale"           exec는 성공하나 이전 산출물과 동일 바이트
+//   "reject:<접두사>"  해당 id만 민무늬 PNG(품질 검증에서 soft edge로 거부) — 나머지는 ok
+//
+// --version 출력에 "codex"가 반드시 포함돼야 한다. findCodexOrNull이 /codex/i로 후보를
+// 걸러내므로, 그 문자열이 없으면 스텁이 조용히 탈락하고 실제 codex가 돌아 테스트가
+// 무의미해진다(실제로 겪은 함정).
 const STUB = `#!/usr/bin/env node
 const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
@@ -52,6 +65,16 @@ if (mode === 'stale') {
   const prev = fs.readdirSync(dir).find((f) => f.startsWith(name + '.prev.'));
   if (prev) fs.copyFileSync(path.join(dir, prev), path.join(dir, name));
   process.exit(0);
+}
+if (mode.startsWith('reject:') && name.startsWith(mode.slice(7))) {
+  // 생성 자체는 성공(exit 0 + 새 바이트)하지만 품질 검증에서 거부되는 산출물.
+  // 시도마다 색을 바꿔 unchanged-output이 아니라 verify 실패 경로를 타게 한다.
+  const counter = path.join(dir, '.' + name + '.rejects');
+  const n = fs.existsSync(counter) ? Number(fs.readFileSync(counter, 'utf8')) : 0;
+  fs.writeFileSync(counter, String(n + 1));
+  const flat = "from PIL import Image\\nImage.new('RGB',(1080,1920),(20,16," + (28 + n * 7) + ")).save(r'" + dir + "/" + name + "')";
+  const rr = spawnSync('python3', ['-c', flat], { encoding: 'utf8' });
+  process.exit(rr.status === 0 ? 0 : 1);
 }
 const py = [
   "from PIL import Image",
@@ -78,20 +101,54 @@ const setMode = (m) => fs.writeFileSync(MODE_FILE, m);
 
 // ── 픽스처 ──────────────────────────────────────────────────────────────────
 const GID = 'integrity-fixture';
-function makeFixture(name) {
+const LEGACY_PROVENANCE = {
+  source: 'generated-for-game', generatedFor: GID, method: 'codex-gpt-imagegen-skill',
+  model: 'gpt 이미지젠 스킬', sourceSkill: 'imagegen', promptHash: 'pre-receipt-era',
+  provenanceVersion: 'legacy-1',
+};
+// `backgrounds`: 배경 개수(qualityTier 승격은 3개 이상을 요구하므로 승격 경로 검증에 필요)
+// `legacySprite`: legacy-1 provenance를 가진 알파 PNG 코어 스프라이트를 미리 깔아 둔다.
+//   크로마 헬퍼 없이 coreAll 조건을 만족시키는 유일한 방법이라 CI에서도 승격 경로를 탈 수 있다.
+// `legacyBackgrounds`: 배경 엔트리에도 legacy-1을 붙인다(재생성 실패 시에도 승격 상태가 유지되는
+//   현실적 상황 — genFailures 가드만 따로 검증하기 위해 필요하다).
+function makeFixture(name, { backgrounds = 1, legacySprite = false, legacyBackgrounds = false } = {}) {
   const dir = path.join(WORK, name);
   fs.mkdirSync(path.join(dir, 'assets', 'backgrounds'), { recursive: true });
+  const bgs = Array.from({ length: backgrounds }, (_, i) => ({
+    id: `stage-${i + 1}`, path: `assets/backgrounds/stage-${i + 1}.png`,
+    width: 1080, height: 1920, prompt: `integrity test stage ${i + 1}`,
+  }));
   const plan = {
     gameId: GID,
     themeColors: { background: '#1a0e18', player: '#ffb347', collectible: '#ffd54a', ui: '#fff3e0' },
-    backgrounds: [{ id: 'stage-1', path: 'assets/backgrounds/stage-1.png', width: 1080, height: 1920, prompt: 'integrity test stage' }],
-    sprites: [], ui: [], fx: [],
+    backgrounds: bgs, sprites: [], ui: [], fx: [],
   };
   const manifest = {
     qualityTier: 'draft',
-    stageBackgrounds: [{ id: 'stage-1', path: 'assets/backgrounds/stage-1.png', delivery: 'runtime', quality: 'draft' }],
+    stageBackgrounds: bgs.map((b) => ({
+      id: b.id, path: b.path, delivery: 'runtime', quality: 'draft',
+      ...(legacyBackgrounds ? { provenance: { ...LEGACY_PROVENANCE } } : {}),
+    })),
     images: [],
   };
+  if (legacySprite) {
+    fs.mkdirSync(path.join(dir, 'assets', 'characters'), { recursive: true });
+    const spPath = path.join(dir, 'assets', 'characters', 'hero.png');
+    const r = spawnSync('python3', ['-c',
+      `from PIL import Image, ImageDraw\nim=Image.new('RGBA',(512,512),(0,0,0,0))\nd=ImageDraw.Draw(im)\nd.ellipse([60,60,452,452],fill=(200,120,60,255))\nd.ellipse([140,140,372,372],fill=(240,180,90,255))\nim.save(r"${spPath}")`,
+    ], { encoding: 'utf8' });
+    if (r.status !== 0) throw new Error(`legacy sprite fixture failed: ${r.stderr}`);
+    plan.sprites.push({ id: 'hero', path: 'assets/characters/hero.png', role: 'player', prompt: 'hero' });
+    manifest.images.push({
+      id: 'hero', path: 'assets/characters/hero.png', type: 'sprite', role: 'player',
+      delivery: 'runtime', quality: 'draft', requiresAlpha: true, provenance: { ...LEGACY_PROVENANCE },
+    });
+  }
+  // production-demo-qa는 이 둘이 없으면 다른 검사를 하기 전에 조기 반환한다.
+  // 케이스 12가 영수증 분기까지 도달하려면 최소 골격이 필요하다.
+  fs.mkdirSync(path.join(dir, 'src', 'game', 'data'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ name, private: true }, null, 2));
+  fs.writeFileSync(path.join(dir, 'src', 'game', 'data', 'game-spec.json'), JSON.stringify({ schemaVersion: '1.0.0', game: { id: name } }, null, 2));
   fs.writeFileSync(path.join(dir, 'asset-plan.json'), JSON.stringify(plan, null, 2));
   fs.writeFileSync(path.join(dir, 'assets', 'asset-manifest.json'), JSON.stringify(manifest, null, 2));
   return dir;
@@ -101,10 +158,16 @@ const manifestOf = (dir) => JSON.parse(fs.readFileSync(path.join(dir, 'assets', 
 const bgEntryOf = (dir) => manifestOf(dir).stageBackgrounds.find((x) => x.id === 'stage-1');
 const bgFileOf = (dir) => path.join(dir, bgEntryOf(dir).path);
 
-function runImagegen(dir, extra = []) {
-  const r = spawnSync(process.execPath, [IMAGEGEN, '--project', dir, '--only', 'backgrounds', '--no-runtime-export', ...extra], {
+function runImagegen(dir, extra = [], { runtimeExport = false } = {}) {
+  const args = [IMAGEGEN, '--project', dir, '--only', 'backgrounds'];
+  if (!runtimeExport) args.push('--no-runtime-export');
+  const r = spawnSync(process.execPath, [...args, ...extra], {
     encoding: 'utf8', env: { ...process.env, DEVGAME_CODEX_BIN: stubBin },
   });
+  return { status: r.status, out: `${r.stdout}\n${r.stderr}` };
+}
+function runGate(dir) {
+  const r = spawnSync(process.execPath, [GATE, '--project', dir, '--require-gpt-imagegen'], { encoding: 'utf8' });
   return { status: r.status, out: `${r.stdout}\n${r.stderr}` };
 }
 function runWire(dir) {
@@ -241,6 +304,108 @@ testCase('case 6: custom-loop 스펙 + Codex 부재 → 스캐폴드 완주', ()
   check(src.some((d) => fs.existsSync(d)), 'scaffold src/ must exist');
 });
 
+// ── 8. 품질 거부로 재시도 소진 → 원본 보존 ──────────────────────────────────
+// codexGenerate의 stash는 한 시도만 덮는다(새 바이트면 성공으로 보고 원본을 버림).
+// 품질 검증은 그 위층이라, "생성됐지만 거부됨"이 반복되면 좋은 원본이 사라지고 거부
+// 산출물만 남는 사고가 실제로 재현됐다. preserveOriginal이 그 구간을 덮는지 검증한다.
+const D = makeFixture('fixture-d');
+testCase('case 8: 품질 거부 재시도 소진 → 원본 보존 (거부 산출물로 대체되지 않음)', () => {
+  setMode('ok');
+  const first = runImagegen(D);
+  check(first.status === 0, 'baseline generation must succeed');
+  const goodSha = sha(bgFileOf(D));
+  setMode('reject:stage-1');
+  const { status, out } = runImagegen(D);
+  check(status !== 0, 'exit non-zero expected when every attempt is rejected');
+  check(/FAILED/.test(out), 'expected an explicit retries-exhausted report');
+  check(sha(bgFileOf(D)) === goodSha, 'the good original must survive a fully rejected regeneration');
+  const leftovers = fs.readdirSync(path.dirname(bgFileOf(D))).filter((f) => /\.orig\.|\.prev\./.test(f));
+  check(leftovers.length === 0, `no temp artefacts may be left behind, found: ${leftovers.join(', ')}`);
+});
+testCase('case 8b: 원본이 없던 상태에서 전 시도 거부 → 거부 산출물을 남기지 않음', () => {
+  const E = makeFixture('fixture-e');
+  setMode('reject:stage-1');
+  const { status } = runImagegen(E);
+  check(status !== 0, 'exit non-zero expected');
+  check(!fs.existsSync(bgFileOf(E)), 'a rejected artefact must not be left under assets/ (it would ship to dist)');
+});
+
+// ── 9/10. qualityTier 승격 — 성공 경로와 실패-차단 가드 ─────────────────────
+// 이전 픽스처는 배경 1개뿐이라 승격 조건(배경 3개 + 코어 스프라이트)이 구조적으로
+// 불성립이었고, "승격되지 않았다"는 assert가 항상 참인 vacuous 검사였다.
+testCase('case 9: 배경 3종 + 코어 스프라이트 전부 증명 → qualityTier production-demo 승격', () => {
+  const F = makeFixture('fixture-f', { backgrounds: 3, legacySprite: true });
+  setMode('ok');
+  const { status, out } = runImagegen(F);
+  check(status === 0, `exit 0 expected, got ${status}\n${out.slice(-400)}`);
+  const m = manifestOf(F);
+  check(m.stageBackgrounds.every((b) => b.quality === 'production-demo'), 'all three backgrounds must be promoted');
+  check(m.images.find((i) => i.id === 'hero')?.quality === 'production-demo', 'the legacy-1 core sprite must be promoted');
+  check(m.qualityTier === 'production-demo', `qualityTier must flip, got ${m.qualityTier}`);
+});
+testCase('case 10: 승격 조건을 모두 만족해도 생성 실패가 1건 있으면 tier 미승격', () => {
+  const G = makeFixture('fixture-g', { backgrounds: 3, legacySprite: true, legacyBackgrounds: true });
+  setMode('ok');
+  runImagegen(G); // 세 배경 실제 생성 → 영수증 획득
+  setMode('reject:stage-3'); // stage-3만 거부, 원본은 보존되어 승격 상태 유지
+  const { status } = runImagegen(G);
+  check(status !== 0, 'the run must fail because one asset exhausted its retries');
+  const m = manifestOf(G);
+  check(m.stageBackgrounds.every((b) => b.quality === 'production-demo'), 'preserved originals keep their promotion (precondition for this test)');
+  check(m.images.find((i) => i.id === 'hero')?.quality === 'production-demo', 'core sprite still promoted (precondition)');
+  check(m.qualityTier !== 'production-demo', `tier must not be promoted on a run with generation failures, got ${m.qualityTier}`);
+});
+
+// ── 11. 런타임 WebP 수출 후 영수증 재계산 ───────────────────────────────────
+testCase('case 11: 런타임 수출 시 영수증이 최종 WebP 기준으로 재계산됨', () => {
+  const H = makeFixture('fixture-h');
+  setMode('ok');
+  const { status, out } = runImagegen(H, [], { runtimeExport: true });
+  check(status === 0, `exit 0 expected, got ${status}\n${out.slice(-400)}`);
+  const e = bgEntryOf(H);
+  check(/\.webp$/.test(e.path), `manifest must point at the runtime WebP, got ${e.path}`);
+  check(fs.existsSync(bgFileOf(H)), 'the runtime WebP must exist on disk');
+  check(e.provenance?.outputSha256 === sha(bgFileOf(H)), 'receipt must hash-match the exported WebP, not the master PNG');
+  check(fs.existsSync(path.join(H, 'assets', '_source', 'masters', 'stage-1.png')), 'the master PNG must be kept under assets/_source/masters/');
+});
+
+// ── 12. 게이트의 영수증 검증 분기 ───────────────────────────────────────────
+// 이 분기는 실게임 438개가 전부 legacy-1이라 어떤 실행에서도 타지 않는다. 게이트를
+// 직접 호출해 세 상태의 판정을 고정한다. 픽스처는 다른 사유로도 실패하므로 판정은
+// 영수증 관련 에러 문자열의 유무로만 한다.
+const MISSING = /missing the generation receipt/;
+const MISMATCH = /receipt mismatch/;
+testCase('case 12: 게이트가 무영수증을 잡고, legacy-1은 통과시키고, SHA 불일치를 잡는다', () => {
+  const I = makeFixture('fixture-i');
+  setMode('ok');
+  runImagegen(I);
+  const file = bgFileOf(I);
+
+  const setProv = (prov) => {
+    const m = manifestOf(I);
+    m.stageBackgrounds[0].provenance = prov;
+    fs.writeFileSync(path.join(I, 'assets', 'asset-manifest.json'), JSON.stringify(m, null, 2));
+  };
+  const claimOnly = {
+    source: 'generated-for-game', generatedFor: GID, method: 'codex-gpt-imagegen-skill',
+    model: 'gpt 이미지젠 스킬', sourceSkill: 'imagegen', promptHash: 'claimed',
+  };
+
+  setProv({ ...claimOnly });
+  check(MISSING.test(runGate(I).out), 'a receiptless entry must be reported as missing the generation receipt');
+
+  setProv({ ...claimOnly, provenanceVersion: 'legacy-1' });
+  const legacyOut = runGate(I).out;
+  check(!MISSING.test(legacyOut) && !MISMATCH.test(legacyOut), 'legacy-1 must be grandfathered past the receipt check');
+
+  setProv({ ...claimOnly, outputSha256: sha(file), runId: 'test-run', generatedAt: new Date().toISOString() });
+  const validOut = runGate(I).out;
+  check(!MISSING.test(validOut) && !MISMATCH.test(validOut), 'a valid receipt must pass the receipt check');
+
+  setProv({ ...claimOnly, outputSha256: '0'.repeat(64), runId: 'test-run', generatedAt: new Date().toISOString() });
+  check(MISMATCH.test(runGate(I).out), 'a receipt that does not hash-match the file must be reported as a mismatch');
+});
+
 // ── 결과 ────────────────────────────────────────────────────────────────────
 console.log('');
 if (failures) {
@@ -249,4 +414,4 @@ if (failures) {
   process.exit(1);
 }
 fs.rmSync(WORK, { recursive: true, force: true });
-console.log('✔ imagegen integrity QA: 8/8 checks passed (7 cases + skip path)');
+console.log('✔ imagegen integrity QA: all cases passed');

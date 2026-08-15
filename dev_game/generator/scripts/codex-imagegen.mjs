@@ -20,7 +20,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { findCodex, resolveCodexHome, chromaHelperPath, codexGenerate } from './lib/codex-host.mjs';
+import { findCodex, resolveCodexHome, chromaHelperPath, codexGenerate, preserveOriginal } from './lib/codex-host.mjs';
 import { BACKGROUND_EDGE_MIN, FILL_FLOOR, UI_HUE_MAX_DISTANCE } from './lib/quality-thresholds.mjs';
 
 function parseArgs(argv) {
@@ -606,6 +606,7 @@ function main() {
       // 생성 → 즉시 검증 → 사유 주입 재생성(≤RETRY_LIMIT). 게이트에서 몇 분 뒤 발각되던
       // 결함을 실행 내부에서 흡수한다.
       let final = null; let hint = ''; let lastFail = null;
+      const preserved = preserveOriginal(out);
       for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
         const prompt = attempt === 0 ? bg.prompt : retryPrompt(bg.prompt, hint);
         const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
@@ -629,6 +630,7 @@ function main() {
         }
       }
       const good = !!final;
+      if (good) preserved.discard(); else preserved.restore();
       if (!good && lastFail) genFailures.push(lastFail);
       const note = final?.resample ? ` (declared resample from ${final.resample.nativeSize}, raw kept)` : '';
       console.log(good ? `✔ ${final.size.width + 'x' + final.size.height}${note}` : '✗ FAILED (retries exhausted)');
@@ -659,6 +661,7 @@ function main() {
         ? `${sp.prompt} Flat solid pure-magenta (#FF00FF) fills everywhere around and between the cells, hard edges, no glow, for chroma-key removal.`
         : `${sp.prompt} Center the subject on a FLAT SOLID pure-magenta (#FF00FF) background with no gradient and no shadow touching the edges, so the background can be removed by chroma key.`;
       let final = null; let hint = ''; let lastFail = null; let helperMissing = false;
+      const preserved = preserveOriginal(out);
       for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
         const prompt = attempt === 0 ? chromaPrompt : retryPrompt(chromaPrompt, hint);
         const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
@@ -683,6 +686,7 @@ function main() {
         }
       }
       const ok = !!final;
+      if (ok) preserved.discard(); else preserved.restore();
       if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
       console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
       results.sprites.push({ id: sp.id, ok });
@@ -718,6 +722,7 @@ function main() {
     // 버튼류만 hue를 검증한다 — order-ticket 같은 패널은 액센트와 다른 색이 정당하다.
     const accent = it._group === 'ui' && /^btn/.test(String(it.id)) ? planAccent : null;
     let final = null; let hint = ''; let lastFail = null; let helperMissing = false;
+    const preserved = preserveOriginal(out);
     for (let attempt = 0; attempt <= RETRY_LIMIT; attempt += 1) {
       const prompt = attempt === 0 ? chromaPrompt : retryPrompt(chromaPrompt, hint);
       const gen = codexGenerate(codex, out, prompt, args.timeoutSec);
@@ -740,6 +745,7 @@ function main() {
       }
     }
     const ok = !!final;
+    if (ok) preserved.discard(); else preserved.restore();
     if (!ok && !helperMissing && lastFail) genFailures.push(lastFail);
     console.log(ok ? `✔ ${final.size ? final.size.width + 'x' + final.size.height : '?'} (transparent)` : helperMissing ? '✗ opaque (chroma helper missing)' : '✗ FAILED (retries exhausted)');
     results[it._group].push({ id: it.id, ok });
@@ -773,7 +779,10 @@ function main() {
   const coreImgs = (manifest.images || []).filter((im) => coreRoles.has(String(im.role || '').toLowerCase()));
   const coreAll = coreImgs.length > 0 && coreImgs.every((im) => im.quality === 'production-demo');
   // 이번 실행에 생성 실패가 하나라도 있으면 tier를 올리지 않는다 — 실패 위에서 완성 선언 금지.
+  // 올리지 않는 것만으로는 부족하다: 이전 실행이 이미 올려 둔 tier가 그대로 남으면 실패가
+  // 조용해진다. 실패한 실행은 tier를 draft로 되돌려, 다시 성공할 때까지 시끄럽게 만든다.
   if (bgAll && coreAll && genFailures.length === 0) manifest.qualityTier = 'production-demo';
+  else if (genFailures.length) manifest.qualityTier = 'draft';
   const hasImagegenEntries = [...(manifest.stageBackgrounds || []), ...(manifest.images || [])]
     .some((e) => e?.provenance?.method === 'codex-gpt-imagegen-skill');
   if (hasImagegenEntries) {

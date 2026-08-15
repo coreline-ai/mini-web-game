@@ -32,7 +32,7 @@ Placeholder-only assets are not acceptable for final delivery.
 | Gameplay | 아이디어별 custom entity/system이 실제 runtime에 연결됨 |
 | 에셋 | 해당 게임 전용으로 신규 생성된 주요 배경과 `requiredAssetRoles` 에셋이 모바일 DPR 캡처에서도 판독 가능하며 업스케일되지 않음 |
 | 배경 | 스테이지/테마 배경 최소 3종, 논리 canvas가 아니라 DPR 물리 타깃을 cover-fit 후에도 충족 |
-| 오디오 | UI click, 성공/수집, 실패/피격, 게임오버, gameplay BGM 최소 구성 |
+| 오디오 | UI click, 성공/수집, 실패/피격, 게임오버, gameplay BGM 최소 구성. **게이트는 파일 존재만 본다** — 소리가 실제로 나는지는 사람이 듣고 판정한다 (§4 참조) |
 | UI | 390×844, 430×932, 1080×1920 viewport에서 safe area 밖으로 나가거나 겹치지 않음 |
 | QA | build, common smoke, gameplay smoke, asset/audio QA, production-demo QA, visual-layout QA, scene-composite QA 통과 |
 
@@ -73,6 +73,8 @@ Placeholder-only assets are not acceptable for final delivery.
 }
 ```
 
+> 위 `provenance`는 **구조를 보이기 위해 축약한 것**이다. 실제 엔트리는 §2.0.1의 완전한 블록(영수증 3필드 + `model`·`sourceSkill`·`promptHash` 포함)이어야 게이트를 통과한다.
+
 ### 2.0 게임별 에셋 독립성
 
 `dev_game`에는 공통 런타임 에셋이라는 개념이 없다. 새 게임은 항상 그 게임 컨셉에 맞는 에셋을 신규 생성하고, 생성된 게임 폴더 안에 보관한다.
@@ -90,7 +92,7 @@ Placeholder-only assets are not acceptable for final delivery.
 
 최종 production-demo 이미지 자산은 `gpt 이미지젠 스킬` built-in mode로 생성한 뒤 프로젝트에 복사/통합한다. 생성물 안에 이미지 SDK runner, 외부 인증 대기 스크립트, 서비스 호출 스크립트를 두지 않는다.
 
-이미지/배경 manifest 항목은 아래 provenance를 가져야 한다.
+이미지/배경 manifest 항목은 아래 provenance를 가져야 한다. **이 블록은 그대로 따라 써도 게이트를 통과하는 최소 형태다** — 필드를 빼면 `factory:production-demo-qa -- --require-gpt-imagegen`에서 탈락한다.
 
 ```json
 {
@@ -98,12 +100,20 @@ Placeholder-only assets are not acceptable for final delivery.
     "source": "generated-for-game",
     "generatedFor": "<game-id>",
     "method": "codex-gpt-imagegen-skill",
-        "sourceSkill": "imagegen",
+    "model": "gpt 이미지젠 스킬",
+    "sourceSkill": "imagegen",
     "promptHash": "<sha256-prefix>",
+    "outputSha256": "<런타임 파일의 sha256 전체>",
+    "runId": "<실행 식별자, 예: manual-20260815-1430>",
+    "generatedAt": "2026-08-15T14:30:00Z",
     "quality": "high"
   }
 }
 ```
+
+`outputSha256`·`runId`·`generatedAt`는 **생성 영수증**이다. 게이트가 `outputSha256`를 런타임 파일(WebP면 WebP)로 다시 해시해 대조하므로, 런타임 출력을 마친 뒤의 최종 파일을 해시해야 한다. 영수증 체계 도입(2026-08-15) 이전 자산만 예외로 `provenanceVersion: "legacy-1"`을 붙여 "소급 증명 불가"를 명시할 수 있고, 새로 생성·재생성하는 자산에는 절대 붙이지 않는다.
+
+**각 필드의 정확한 허용값 전수는 [`ai-art-pipeline.md` §Path B 최소 계약](ai-art-pipeline.md#path-b-최소-계약--게이트가-실제로-검사하는-필드-전수)이 단일 원본이다** (게이트 검사 15항목 + legacy-1 정책 + 해시 계산 명령). 여기서 목록을 복제하지 않는다 — 복제본은 게이트가 바뀔 때 조용히 낡는다. Path A(`factory:imagegen`)는 이 필드를 전부 자동으로 채우므로 손으로 쓸 일이 없고, 손으로 쓰는 것은 Path B뿐이다.
 
 시트 방식으로 생성/후처리한 경우 `sourceSheet`와 `rawPath`도 남긴다. `$CODEX_HOME/generated_images/**`는 임시 원본 위치일 뿐이며, 런타임은 반드시 `dev_game/generated/<game-id>/assets/**` 내부 파일만 참조한다.
 
@@ -293,6 +303,8 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 
 `factory:qa`는 Foundation 품질만 본다. `factory:production-demo-qa`, `factory:image-quality-qa`, `factory:visual-layout-qa`, `factory:scene-composite-qa`가 실제 production-demo 완료 기준이다.
 
+**오디오는 파일 존재만 검사된다.** `factory:production-demo-qa`의 오디오 검사는 (1) `spec.audio.enabled !== false`, (2) manifest 오디오 엔트리의 provenance, (3) 선언된 경로의 파일 실재, (4) `ui`/`sfx`/`bgm` 타입 존재만 본다. **파일 내용은 전혀 검사하지 않는다** — 무음, 길이 0, 잘못된 포맷, 게임 코드에 배선되지 않은 파일은 모두 통과한다. 중복 BGM 인스턴스·pause 중 재생 같은 오디오 상태 결함은 [Class H](post-production-qa-contract.md#h-audio-state-contract--오디오-상태중복-재생)의 수동 캡처 검사 대상이다.
+
 `factory:hq-screen-quality-qa`는 DPR/source-size 또는 market-event depth를 추가로 확인하는 선택형 게이트다. `marketConfig.js`가 없는 게임에서는 market-event 검증을 건너뛰며, market-event를 반드시 검사해야 할 때만 `--require-market-events`를 사용한다. Python Pillow가 필요하다.
 
 ## 5. 실패 시 보고 규칙
@@ -362,3 +374,5 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 ```
 
 schema v1은 compatibility mode에서 기존 게이트를 유지한다. schema v2/custom-loop는 capture matrix, first-play clarity, hostile input, session continuity, docs-runtime sync, image/HQ, 장시간 안정성, `qa-session-report.json`을 필수로 실행한다.
+
+**v1에서 이 게이트들은 실행되지 않으며, 대체 실행법도 없다.** `production-gate.mjs`는 `spec.schemaVersion === '2.0.0' && spec.buildDecision === 'custom-loop'`(또는 `--mode custom-loop-full`)일 때만 `custom-loop-full-qa`를 호출한다. v1 게임에는 `qa/capture-matrix.json`도 `qa/*-qa.mjs` 어댑터도 없으므로 캡처 QA는 **사람이 브라우저에서 수행하고 결과를 기록**하는 것이 유일한 경로다. 어떤 검사가 어느 쪽에 속하는지는 [post-production-qa-contract §3.1 적용 범위 표](post-production-qa-contract.md#31-적용-범위--어떤-검사가-어떤-게임에-실제로-돌아가는가)가 단일 원본이다.
