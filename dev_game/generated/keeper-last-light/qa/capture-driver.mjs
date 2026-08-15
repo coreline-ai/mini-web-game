@@ -39,17 +39,20 @@ export async function prepareState(page, state, helpers) {
 
     case 'game-stage-1':
       await freshGame(page, helpers);
-      // 배 한 척을 확정적으로 세워 둔다 — 등장 타이밍에 의존하지 않는다.
-      await page.evaluate(() => globalThis.__KEEPER_DEBUG__.forceShip('port-turn'));
+      // 스테이지 1은 동시 대기 1척이 정상이다. 자연 등장을 기다린다 — 강제로 더 세우면
+      // 실제 플레이에 없는 화면이 증거로 남는다.
+      await page.waitForFunction(() => globalThis.__KEEPER_DEBUG__?.waitingCount() >= 1, { timeout: 15_000 });
       return;
 
     case 'game-typing':
-      // 코드를 절반만 입력한 상태 — 버퍼 표시가 살아 있는지 본다.
-      await page.evaluate(() => {
-        globalThis.__KEEPER_DEBUG__.forceShip('rock-warning');
-        globalThis.__KEEPER_DEBUG__.pulse('s');
-        globalThis.__KEEPER_DEBUG__.pulse('l');
-      });
+      // 판정 대상 배의 정답 코드 앞 2펄스를 친 상태. 임의 펄스를 넣으면 오답 처리로
+      // 버퍼가 비워져 "입력 중"이 아니라 빈 패널이 찍힌다.
+      await page.waitForFunction(() => globalThis.__KEEPER_DEBUG__?.waitingCount() >= 1, { timeout: 15_000 });
+      await page.evaluate(() => globalThis.__KEEPER_DEBUG__.typePrefix(2));
+      await page.waitForFunction(() => {
+        const g = globalThis.__GAME__.scene.getScene('Game');
+        return (g?.bufferText?.text || '').length > 0;
+      }, { timeout: 5_000 });
       return;
 
     case 'game-stage-3':
@@ -61,6 +64,7 @@ export async function prepareState(page, state, helpers) {
         d.forceShip('enter-harbour');
         d.forceShip('rock-warning');
         d.forceShip('starboard-turn');
+        d.typePrefix(1);
       });
       await page.waitForTimeout(760); // 배경 크로스페이드 완료
       return;
