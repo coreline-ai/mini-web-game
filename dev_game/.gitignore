@@ -30,6 +30,8 @@ generated/*
 !generated/iron-courier-last-line/**
 !generated/last-light-zero-hour/
 !generated/last-light-zero-hour/**
+!generated/night-market-wok/
+!generated/night-market-wok/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 

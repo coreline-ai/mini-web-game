@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "game": {
+    "id": "night-market-wok",
+    "title": "Night Market Wok",
+    "description": "A one-hand portrait cooking-combo arcade: read each customer's order, tap ingredients in the exact order, serve before patience runs out.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1170,
+    "height": 2532,
+    "backgroundColor": "#1a0e18",
+    "scaleMode": "fit"
+  },
+  "player": {
+    "moveMode": "drag",
+    "speed": 760,
+    "hitbox": {
+      "width": 42,
+      "height": 42
+    }
+  },
+  "hazards": {
+    "type": "falling",
+    "label": "Burnt Wok",
+    "spawnRateStart": 900,
+    "spawnRateMax": 240,
+    "fallSpeedStart": 260,
+    "fallSpeedMax": 760,
+    "damage": 1,
+    "poolSize": 60
+  },
+  "collectibles": {
+    "enabled": true,
+    "label": "Finished Noodle Bowl",
+    "spawnRate": 0.28,
+    "scoreValue": 50
+  },
+  "scoring": {
+    "survivalPointsPerSecond": 0,
+    "collectiblePoints": 120,
+    "highScoreLocalStorageKey": "night_market_wok_best"
+  },
+  "difficulty": {
+    "curve": "linear",
+    "rampEverySeconds": 15,
+    "maxLevel": 12
+  },
+  "lives": {
+    "start": 1,
+    "max": 1
+  },
+  "session": {
+    "countdownSeconds": 0,
+    "maxDurationSeconds": null
+  },
+  "theme": {
+    "preset": "retro-arcade",
+    "colors": {
+      "background": "#1a0e18",
+      "player": "#ffb347",
+      "hazard": "#c9453a",
+      "collectible": "#ffd54a",
+      "ui": "#fff3e0"
+    }
+  },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "hit": "audio/hit.wav",
+      "score": "audio/collect.wav",
+      "gameOver": "audio/game_over.wav"
+    },
+    "music": {
+      "gameplay": "audio/game_loop.wav"
+    }
+  },
+  "ui": {
+    "showScore": true,
+    "showLives": false,
+    "showPause": true,
+    "showRestart": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "objectPooling": true,
+    "pauseWhenHidden": true
+  }
+}

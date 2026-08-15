@@ -1,0 +1,629 @@
+{
+  "assetsVersion": "1.0.0",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 16777216,
+  "imagePolicy": {
+    "allowedFormats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "maxSpriteKB": 512,
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "audioPolicy": {
+    "allowedFormats": [
+      "wav",
+      "ogg",
+      "mp3"
+    ],
+    "maxSfxKB": 300,
+    "maxBgmKB": 3072,
+    "maxPeakDb": -1,
+    "maxTrimSilenceMs": 300
+  },
+  "images": [
+    {
+      "id": "player",
+      "path": "assets/characters/player.webp",
+      "type": "sprite",
+      "role": "player",
+      "delivery": "runtime",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b0f741ec3cb2987d",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "hazard",
+      "path": "assets/enemies/hazard.webp",
+      "type": "sprite",
+      "role": "hazard",
+      "delivery": "runtime",
+      "minWidth": 64,
+      "minHeight": 64,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "695d8510dc3ea953",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "collectible",
+      "path": "assets/items/collectible.webp",
+      "type": "sprite",
+      "role": "collectible",
+      "delivery": "runtime",
+      "minWidth": 44,
+      "minHeight": 44,
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "91f779d17a3900bf",
+        "quality": "high"
+      },
+      "quality": "production-demo"
+    },
+    {
+      "id": "ing-noodle",
+      "path": "assets/items/ing-noodle.webp",
+      "type": "sprite",
+      "role": "item",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "528a65e8142e81da",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "ing-broth",
+      "path": "assets/items/ing-broth.webp",
+      "type": "sprite",
+      "role": "item",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "972d832333dc80fc",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "ing-scallion",
+      "path": "assets/items/ing-scallion.webp",
+      "type": "sprite",
+      "role": "item",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "0f2a681b97a3afa0",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "ing-pork",
+      "path": "assets/items/ing-pork.webp",
+      "type": "sprite",
+      "role": "item",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "4bd64d00a1db9c8c",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "ing-egg",
+      "path": "assets/items/ing-egg.webp",
+      "type": "sprite",
+      "role": "item",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "a02e26e11adab894",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "cust-regular",
+      "path": "assets/characters/cust-regular.webp",
+      "type": "sprite",
+      "role": "target",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "30382af819010fb0",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "cust-hurried",
+      "path": "assets/characters/cust-hurried.webp",
+      "type": "sprite",
+      "role": "target",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "aca19fb6e3bd43a0",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "cust-grumpy",
+      "path": "assets/characters/cust-grumpy.webp",
+      "type": "sprite",
+      "role": "target",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b8a3d7871b0543ad",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-frame",
+      "type": "ui",
+      "path": "assets/ui/btn-frame.webp",
+      "delivery": "runtime",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "4745bc6f72bf0e20",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.webp",
+      "delivery": "runtime",
+      "role": "ui-icon",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b66673e4fd0af984",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "order-ticket",
+      "type": "ui",
+      "path": "assets/ui/order-ticket.webp",
+      "delivery": "runtime",
+      "role": "ui-panel",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "c9d78e1ad8df2cc7",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-hit",
+      "type": "fx",
+      "path": "assets/effects/fx-hit.webp",
+      "delivery": "runtime",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "cabd372e66c8b852",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-collect",
+      "type": "fx",
+      "path": "assets/effects/fx-collect.webp",
+      "delivery": "runtime",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "fc3e5f9e90be1279",
+        "quality": "high"
+      }
+    },
+    {
+      "id": "fx-combo",
+      "type": "fx",
+      "path": "assets/effects/fx-combo.webp",
+      "delivery": "runtime",
+      "role": "feedback",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "ab0179cad1a7aac4",
+        "quality": "high"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "delivery": "runtime",
+      "required": true,
+      "maxDurationMs": 1000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok"
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "delivery": "runtime",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok"
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "delivery": "runtime",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok"
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "delivery": "runtime",
+      "required": true,
+      "maxDurationMs": 3000,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok"
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "delivery": "runtime",
+      "required": true,
+      "loopable": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok"
+      }
+    }
+  ],
+  "files": [],
+  "qualityTier": "production-demo",
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "1226d1f547a7e6ff",
+        "quality": "high",
+        "nativeSize": "1080x1920",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-1-raw.png"
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "97e3e605d96f38e2",
+        "quality": "high",
+        "nativeSize": "1080x1920",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-2-raw.png"
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "source": "placeholder",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "night-market-wok",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b2d4d129bb2a3299",
+        "quality": "high",
+        "nativeSize": "1080x1920",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-3-raw.png"
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "night-market-wok",
+    "noSharedRuntimeAssets": true
+  },
+  "imagegen": {
+    "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-08-15T01:16:57.132Z"
+  }
+}
