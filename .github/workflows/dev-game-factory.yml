@@ -10,6 +10,7 @@ on:
       - '.agents/skills/**'
       - 'scripts/install_game_factory_skill.sh'
       - 'scripts/check_skill_drift.sh'
+      - 'scripts/check_doc_constants.mjs'
       - '.github/workflows/dev-game-factory.yml'
   pull_request:
     paths:
@@ -19,6 +20,7 @@ on:
       - '.agents/skills/**'
       - 'scripts/install_game_factory_skill.sh'
       - 'scripts/check_skill_drift.sh'
+      - 'scripts/check_doc_constants.mjs'
       - '.github/workflows/dev-game-factory.yml'
   schedule:
     - cron: '0 18 * * *'
@@ -62,6 +64,7 @@ jobs:
           - jungle-arcshot
           - market-panic
           - meteor-dash
+          - night-market-wok
           - parcel-sort-rush
           - road-stream-racer
           - rush-lane-racer
@@ -115,6 +118,7 @@ jobs:
           - { game: target-shooter-rush, port: 4360 }
           - { game: market-panic, port: 4370 }
           - { game: meteor-dash, port: 4380 }
+          - { game: night-market-wok, port: 4385 }
           - { game: rush-lane-racer, port: 4390 }
           - { game: sky-archer, port: 4400 }
     steps:

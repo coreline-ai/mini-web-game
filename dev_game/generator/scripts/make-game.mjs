@@ -92,22 +92,6 @@ function main() {
 
   console.log(`make-game → ${out}`);
 
-  // 0) host preflight — the art step needs a working codex host, and finding that out in
-  // stage 3 means a scaffold and a productionize pass are already on disk. Skipped for
-  // --skip-art, which does not need an art host at all.
-  if (!args.skipArt) {
-    const pfArgs = [path.join(SCRIPTS, 'host-preflight.mjs')];
-    if (args.codex) pfArgs.push('--codex', args.codex);
-    const pf = spawnSync(node, pfArgs, { stdio: 'inherit' });
-    if (pf.status !== 0) {
-      console.error('\n✗ 0/4 Host preflight failed — this host cannot generate image assets.');
-      console.error('  Fix the blockers above, or rerun with --skip-art to build structure only.');
-      console.error('  A --skip-art build does NOT satisfy the production-demo contract; report it');
-      console.error('  as production-demo 미통과 rather than shipping placeholder art.');
-      process.exit(1);
-    }
-  }
-
   // 1) scaffold
   const scaffoldArgs = [CLI, '--out', out, '--force', ...args.passthrough];
   if (args.spec) scaffoldArgs.push('--spec', path.resolve(args.spec));
@@ -123,6 +107,23 @@ function main() {
 
   // 2) productionize (docs + asset-plan + manifest)
   run('2/4 Productionize (docs + asset-plan + manifest)', node, [path.join(SCRIPTS, 'productionize.mjs'), '--project', out, '--stages', String(args.stages)]);
+
+  // host preflight — 아트 단계 직전에만 실행한다. custom-loop 셸은 이미지 생성을 하지
+  // 않으므로, 분기보다 앞서 검사하면 Codex 없는 호스트에서 만들 수도 없는 것이 막힌다. — the art step needs a working codex host, and finding that out in
+  // stage 3 means a scaffold and a productionize pass are already on disk. Skipped for
+  // --skip-art, which does not need an art host at all.
+  if (!args.skipArt) {
+    const pfArgs = [path.join(SCRIPTS, 'host-preflight.mjs')];
+    if (args.codex) pfArgs.push('--codex', args.codex);
+    const pf = spawnSync(node, pfArgs, { stdio: 'inherit' });
+    if (pf.status !== 0) {
+      console.error('\n✗ 0/4 Host preflight failed — this host cannot generate image assets.');
+      console.error('  Fix the blockers above, or rerun with --skip-art to build structure only.');
+      console.error('  A --skip-art build does NOT satisfy the production-demo contract; report it');
+      console.error('  as production-demo 미통과 rather than shipping placeholder art.');
+      process.exit(1);
+    }
+  }
 
   // 3) AI art (backgrounds + sprites + ui + fx) + game wiring
   if (args.skipArt) {

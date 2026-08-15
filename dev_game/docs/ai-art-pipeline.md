@@ -25,6 +25,8 @@
 |---|---|---|
 | 내장 `image_gen` 도구를 직접 쓸 수 있다 | `codex-native` | 내장 imagegen 직접 호출 또는 `factory:imagegen` |
 | 쓸 수 없다 (Claude Code 등) | `claude-shellout` | `factory:imagegen` — 내부에서 `codex exec`를 스폰한다 |
+| 쓸 수 없지만 셸은 있다 (기타 호스트) | `shell-sidecar` | 동일. Node ≥18 · codex CLI · ChatGPT 로그인이 필요하며, 스킬은 `install_game_factory_skill.sh --dest <path>`로 설치한다 |
+| 셸이 없다 (웹 채팅 LLM) | — | **지원하지 않는다.** 이 파이프라인의 아트 경로는 서브프로세스 실행을 전제한다 |
 
 `codex-imagegen.mjs`는 평범한 Node 스크립트이고 `codex exec`를 서브프로세스로 띄운다. **호출자가 Codex일 필요가 없다.** 어댑터 선택은 사람이 지정하지 않고 아래 Step 0이 판정한다.
 

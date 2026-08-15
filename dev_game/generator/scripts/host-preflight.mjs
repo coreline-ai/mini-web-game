@@ -100,7 +100,7 @@ function main() {
       const started = Date.now();
       let ok = false;
       try {
-        ok = codexGenerate(codex, out, 'A single plain matte grey square centred on white.', args.timeoutSec);
+        ok = codexGenerate(codex, out, 'A single plain matte grey square centred on white.', args.timeoutSec).ok;
       } catch { ok = false; }
       const secs = ((Date.now() - started) / 1000).toFixed(1);
       add('imagegen-smoke', 'image_gen smoke (--deep)', ok,

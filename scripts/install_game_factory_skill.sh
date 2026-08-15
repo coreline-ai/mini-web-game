@@ -13,7 +13,10 @@ set -euo pipefail
 # Repo level uses symlinks so the two runtimes read one file and cannot drift.
 # User level stays a copy on purpose — it must survive the repo being unavailable.
 #
-# Usage: ./scripts/install_game_factory_skill.sh [codex|claude|repo|all]   (default: codex)
+# Usage: ./scripts/install_game_factory_skill.sh [codex|claude|repo|all|--dest <path>]  (default: codex)
+#   --dest <path>  install into any skills directory — for shell-capable hosts other than
+#                  Codex and Claude Code. The art path still needs the Codex CLI as a sidecar;
+#                  a host without shell access cannot use these skills at all.
 #   codex   copy to ${CODEX_HOME:-~/.codex}/skills
 #   claude  copy to ${CLAUDE_HOME:-~/.claude}/skills
 #   repo    verify/repair the in-repo symlinks (no writes outside the repo)
@@ -100,8 +103,14 @@ case "$TARGET" in
     install_user "${CLAUDE_HOME:-$HOME/.claude}/skills" "Claude Code"
     echo "Restart Codex (\$game-factory) and Claude Code (/game-factory) to pick up the skills."
     ;;
+  --dest)
+    DEST="${2:-}"
+    if [[ -z "$DEST" ]]; then echo "Usage: $0 --dest <skills-dir>" >&2; exit 1; fi
+    install_user "$DEST" "custom"
+    echo "Restart the host so it rescans $DEST."
+    ;;
   *)
-    echo "Usage: $0 [codex|claude|repo|all]" >&2
+    echo "Usage: $0 [codex|claude|repo|all|--dest <path>]" >&2
     exit 1
     ;;
 esac

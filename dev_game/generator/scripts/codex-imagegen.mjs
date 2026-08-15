@@ -65,6 +65,13 @@ Env:
 // findCodex / codexGenerate / CODEX_HOME resolution live in lib/codex-host.mjs so that
 // host-preflight.mjs probes exactly the host this step will drive.
 
+// 이 프로세스 1회 실행을 식별한다. 영수증이 어느 실행에서 나왔는지 추적하기 위한 것.
+const RUN_ID = crypto.randomBytes(8).toString('hex');
+
+function sha256File(f) {
+  try { return crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex'); } catch { return null; }
+}
+
 function readJson(f) { return JSON.parse(fs.readFileSync(f, 'utf8')); }
 function writeJson(f, o) { fs.writeFileSync(f, JSON.stringify(o, null, 2) + '\n'); }
 function promptHash(id, prompt = '') {
@@ -85,6 +92,10 @@ function imagegenProvenance(gameId, id, prompt = '', extra = {}) {
     toolMode: 'built-in-image_gen',
     promptHash: promptHash(id, prompt),
     quality: 'high',
+    // 실행 영수증 — 이 파일이 실제 생성 호출에서 나왔음을 증명한다. 디스크에 파일이 있다는
+    // 사실만으로는 출처가 성립하지 않으므로, 영수증은 성공한 생성 경로에서만 붙는다.
+    runId: RUN_ID,
+    generatedAt: new Date().toISOString(),
     ...extra,
   };
 }
@@ -151,8 +162,13 @@ function idMatcher(pattern) {
 // --skip-existing decision for one planned asset. Reuse only what would pass a fresh
 // generation's own checks: undersized or opaque files are regenerated (that is the point of
 // resuming), while a file we cannot parse is left untouched rather than silently overwritten.
-function reusableExisting(file, { minW = 0, minH = 0, needsAlpha = false } = {}) {
+function reusableExisting(file, { minW = 0, minH = 0, needsAlpha = false, entry = null } = {}) {
   if (!fs.existsSync(file)) return null;
+  // 재사용은 "이전 실행이 만들었다"는 증명 위에서만 성립한다. 영수증이 없거나 파일 내용이
+  // 영수증의 해시와 다르면, 그것은 이 파이프라인의 산출물이라고 볼 수 없으므로 다시 만든다.
+  const receipt = entry?.provenance?.outputSha256;
+  if (!receipt) return { reuse: false, note: 'no generation receipt' };
+  if (sha256File(file) !== receipt) return { reuse: false, note: 'content differs from receipt' };
   const info = pngInfo(file);
   if (!info) return { reuse: true, note: 'existing non-PNG left as is' };
   if (info.width < minW || info.height < minH) return { reuse: false, note: `too small ${info.width}x${info.height}` };
@@ -255,9 +271,13 @@ function alphaGrade(file) {
   return info.hasAlpha ? 'alpha' : 'opaque';
 }
 
-// Mark manifest entries production-demo for any plan asset whose file exists on disk.
+// Promote manifest entries for plan assets that are on disk AND already carry imagegen
+// provenance. It must never mint provenance itself: a file existing on disk says nothing about
+// where it came from, so synthesising `method: codex-gpt-imagegen-skill` here would let any
+// hand-dropped PNG claim production-demo origin without a single generation call.
 function promoteExisting(projectDir, plan, manifest) {
   const demoted = [];
+  const unproven = [];
   manifest.stageBackgrounds = manifest.stageBackgrounds || [];
   manifest.images = manifest.images || [];
   const gid = plan.gameId;
@@ -266,8 +286,9 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!fs.existsSync(path.join(projectDir, bg.path))) continue;
     let e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
     if (!e) { e = { id: bg.id, path: bg.path, minWidth: bg.width, minHeight: bg.height }; manifest.stageBackgrounds.push(e); }
-    e.path = bg.path; e.delivery = 'runtime'; e.quality = 'production-demo';
-    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, bg.id, bg.prompt);
+    e.path = bg.path; e.delivery = 'runtime';
+    if (e.provenance?.method) e.quality = 'production-demo';
+    else { e.quality = 'draft'; unproven.push({ id: bg.id, group: 'background' }); }
   }
   for (const sp of plan.sprites || []) {
     if (!fs.existsSync(path.join(projectDir, sp.path))) continue;
@@ -275,9 +296,10 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!e) { e = { id: sp.id, type: 'sprite' }; manifest.images.push(e); }
     const spGrade = alphaGrade(path.join(projectDir, sp.path));
     if (spGrade === 'opaque') demoted.push({ id: sp.id, group: 'sprite' });
-    e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.quality = spGrade === 'opaque' ? 'draft' : 'production-demo'; e.requiresAlpha = true;
+    e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.requiresAlpha = true;
+    if (!e.provenance?.method) { e.quality = 'draft'; unproven.push({ id: sp.id, group: 'sprite' }); }
+    else e.quality = spGrade === 'opaque' ? 'draft' : 'production-demo';
     if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
-    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, sp.id, sp.prompt);
   }
   for (const it of [...(plan.ui || []), ...(plan.fx || [])]) {
     if (!fs.existsSync(path.join(projectDir, it.path))) continue;
@@ -285,10 +307,11 @@ function promoteExisting(projectDir, plan, manifest) {
     if (!e) { e = { id: it.id, type: (plan.ui || []).includes(it) ? 'ui' : 'fx' }; manifest.images.push(e); }
     const itGrade = alphaGrade(path.join(projectDir, it.path));
     if (itGrade === 'opaque') demoted.push({ id: it.id, group: (plan.ui || []).includes(it) ? 'ui' : 'fx' });
-    e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.quality = itGrade === 'opaque' ? 'draft' : 'production-demo'; e.requiresAlpha = true;
-    e.provenance = e.provenance?.method ? e.provenance : imagegenProvenance(gid, it.id, it.prompt);
+    e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.requiresAlpha = true;
+    if (!e.provenance?.method) { e.quality = 'draft'; unproven.push({ id: it.id, group: (plan.ui || []).includes(it) ? 'ui' : 'fx' }); }
+    else e.quality = itGrade === 'opaque' ? 'draft' : 'production-demo';
   }
-  return demoted;
+  return { demoted, unproven };
 }
 
 // Crop a transparent PNG to its alpha bounding box, then resize to an exact target size.
@@ -340,6 +363,7 @@ function main() {
 
   const results = { backgrounds: [], sprites: [], ui: [], fx: [] };
   const opaque = [];
+  const genFailures = [];
   const matchId = idMatcher(args.id);
   if (args.id) console.log(`id filter: ${args.id}`);
   if (args.skipExisting) console.log('skip-existing: reusing on-disk assets that already validate');
@@ -350,14 +374,17 @@ function main() {
       const out = path.join(projectDir, bg.path);
       const minW = Math.max(BG_RUNTIME_MIN.width, bg.width || 0), minH = Math.max(BG_RUNTIME_MIN.height, bg.height || 0);
       process.stdout.write(`bg ${bg.id} … `);
-      const existing = args.skipExisting ? reusableExisting(out, { minW, minH }) : null;
+      const bgEntry = (manifest.stageBackgrounds || []).find((x) => x.id === bg.id);
+      const existing = args.skipExisting ? reusableExisting(out, { minW, minH, entry: bgEntry }) : null;
       if (existing?.reuse) {
         console.log(`↷ skipped (${existing.note})`);
         results.backgrounds.push({ id: bg.id, ok: true, skipped: true });
         continue;
       }
       if (existing) process.stdout.write(`regenerating (${existing.note}) … `);
-      const ok = codexGenerate(codex, out, bg.prompt, args.timeoutSec);
+      const gen = codexGenerate(codex, out, bg.prompt, args.timeoutSec);
+      const ok = gen.ok;
+      if (!ok) genFailures.push({ id: bg.id, group: 'background', ...gen });
       let size = ok ? pngInfo(out) : null;
       // §2.0.5 Declared Resample — image_gen's native size is not ours to choose, so lift it
       // to the master spec while preserving the raw and recording the true native size.
@@ -372,7 +399,7 @@ function main() {
       results.backgrounds.push({ id: bg.id, ok: good });
       if (good && Array.isArray(manifest.stageBackgrounds)) {
         const e = manifest.stageBackgrounds.find((x) => x.id === bg.id);
-        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, resample || {}); }
+        if (e) { e.delivery = 'runtime'; e.quality = 'production-demo'; e.provenance = imagegenProvenance(plan.gameId, bg.id, bg.prompt, { ...(resample || {}), outputSha256: sha256File(out) }); }
       }
     }
   }
@@ -382,7 +409,8 @@ function main() {
       if (!matchId(sp.id)) continue;
       const out = path.join(projectDir, sp.path);
       process.stdout.write(`sprite ${sp.id} … `);
-      const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true }) : null;
+      const spEntry = (manifest.images || []).find((x) => x.id === sp.id);
+      const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true, entry: spEntry }) : null;
       if (existing?.reuse) {
         console.log(`↷ skipped (${existing.note})`);
         results.sprites.push({ id: sp.id, ok: true, skipped: true });
@@ -392,7 +420,9 @@ function main() {
       const chromaPrompt = sp.frames
         ? `${sp.prompt} Flat solid pure-magenta (#FF00FF) fills everywhere around and between the cells, hard edges, no glow, for chroma-key removal.`
         : `${sp.prompt} Center the subject on a FLAT SOLID pure-magenta (#FF00FF) background with no gradient and no shadow touching the edges, so the background can be removed by chroma key.`;
-      const ok = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
+      const gen = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
+      const ok = gen.ok;
+      if (!ok) genFailures.push({ id: sp.id, group: 'sprite', ...gen });
       let transparent = false;
       if (ok) {
         const rc = removeChroma(codexHome, out);
@@ -415,7 +445,7 @@ function main() {
         if (!e) { e = { id: sp.id, path: sp.path, type: 'sprite', role: sp.role }; manifest.images.push(e); }
         e.path = sp.path; e.delivery = 'runtime'; e.role = sp.role; e.quality = 'production-demo'; e.requiresAlpha = true;
         if (sp.frames) { const c = sp.frameSize || sp.height; e.frames = sp.frames; e.frameWidth = c; e.frameHeight = c; }
-        e.provenance = imagegenProvenance(plan.gameId, sp.id, sp.prompt);
+        e.provenance = imagegenProvenance(plan.gameId, sp.id, sp.prompt, { outputSha256: sha256File(out) });
       }
     }
   }
@@ -428,7 +458,8 @@ function main() {
     if (!matchId(it.id)) continue;
     const out = path.join(projectDir, it.path);
     process.stdout.write(`${it._group} ${it.id} … `);
-    const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true }) : null;
+    const itEntry = (manifest.images || []).find((x) => x.id === it.id);
+    const existing = args.skipExisting ? reusableExisting(out, { needsAlpha: true, entry: itEntry }) : null;
     if (existing?.reuse) {
       console.log(`↷ skipped (${existing.note})`);
       results[it._group].push({ id: it.id, ok: true, skipped: true });
@@ -436,7 +467,9 @@ function main() {
     }
     if (existing) process.stdout.write(`regenerating (${existing.note}) … `);
     const chromaPrompt = `${it.prompt} Render the subject centered on a FLAT SOLID pure-magenta (#FF00FF) background, no gradient, no shadow touching the edges, so the background can be removed by chroma key.`;
-    const ok = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
+    const gen = codexGenerate(codex, out, chromaPrompt, args.timeoutSec);
+    const ok = gen.ok;
+    if (!ok) genFailures.push({ id: it.id, group: it._group, ...gen });
     let transparent = false;
     if (ok) {
       const rc = removeChroma(codexHome, out);
@@ -456,13 +489,13 @@ function main() {
       if (!e) { e = { id: it.id, type: it._group }; manifest.images.push(e); }
       e.path = it.path; e.delivery = 'runtime'; e.role = it.role; e.requiresAlpha = true;
       e.quality = 'production-demo';
-      e.provenance = imagegenProvenance(plan.gameId, it.id, it.prompt);
+      e.provenance = imagegenProvenance(plan.gameId, it.id, it.prompt, { outputSha256: sha256File(out) });
     }
   }
 
   // Promote manifest entries for any plan asset that actually exists on disk (covers
   // --only wire, where art was generated in a prior run or restored externally).
-  const demoted = promoteExisting(projectDir, plan, manifest);
+  const { demoted, unproven } = promoteExisting(projectDir, plan, manifest);
 
   // flip qualityTier only when every declared background + core sprite is real art
   const bgAll = (manifest.stageBackgrounds || []).length >= 3 && (manifest.stageBackgrounds || []).every((b) => b.quality === 'production-demo');
@@ -519,6 +552,24 @@ function main() {
     console.log(`${demoted.length} asset(s) declare requiresAlpha but have no alpha channel — kept at quality:"draft":`);
     for (const d of demoted) console.log(`  ${d.group} ${d.id}`);
     console.log('  Regenerate them; an opaque asset cannot be a production-demo asset.');
+  }
+
+  if (unproven.length) {
+    console.log('');
+    console.log(`${unproven.length} asset(s) on disk have no imagegen provenance — kept at quality:"draft":`);
+    for (const u of unproven) console.log(`  ${u.group} ${u.id}`);
+    console.log('  A file existing on disk is not proof of origin. Generate them through this pipeline.');
+  }
+
+  if (genFailures.length) {
+    console.log('');
+    console.log(`${genFailures.length} generation call(s) failed:`);
+    for (const g of genFailures) {
+      const why = g.reason === 'exec-failed' ? `codex exec exited ${g.status}`
+        : g.reason === 'no-output' ? 'codex exec produced no file'
+        : 'output identical to the previous artefact (nothing was generated)';
+      console.log(`  ${g.group} ${g.id}: ${why}${g.detail ? ` — ${g.detail}` : ''}`);
+    }
   }
 
   const failed = all.filter((r) => !r.ok);
