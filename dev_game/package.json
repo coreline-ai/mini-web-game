@@ -35,7 +35,8 @@
     "games:list": "node generator/scripts/run-curated-games.mjs list",
     "games:build": "node generator/scripts/run-curated-games.mjs build",
     "games:dev": "node generator/scripts/run-curated-games.mjs dev",
-    "games:smoke": "node generator/scripts/run-curated-games.mjs smoke"
+    "games:smoke": "node generator/scripts/run-curated-games.mjs smoke",
+    "factory:play-profile-qa": "node generator/scripts/play-profile-qa.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"

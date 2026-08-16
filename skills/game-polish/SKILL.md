@@ -91,6 +91,8 @@ A session with an open severity-1 or severity-2 defect cannot be closed by fixin
 
 ### 3. Reproduce before fixing
 
+**Before you trust any number, validate the instrument that produced it** — `post-production-qa-contract.md` §0.1. A new probe, bot, stub, or measurement script must show a **negative control** (reports OK on a known-good state) and a **positive control** (reports RED on a known-bad state) before its output counts as evidence. Reproducibility is not accuracy: in the 2026-08-16 session three separate defects were "reproduced" consistently and all three were the instrument being wrong — a stub the host silently rejected, a screenshot taken 60px after the measurement, and a bot diving 460ms before a 340ms dive window. One of them drove a balance change that was reported to the user as fact. If you cannot build both controls, the tool is a regression detector only; never state an absolute conclusion from it.
+
 Reproduce each defect under its recorded conditions before touching code. Timing-dependent bugs (class A) require deliberately hostile input: taps faster than the despawn animation, rapid pause/resume, stage-transition spam. Class H/I/J/K bugs require their sweep scenario from step 1. If it cannot be reproduced, say so — do not fix blind.
 
 ### 4. Fix per contract rules

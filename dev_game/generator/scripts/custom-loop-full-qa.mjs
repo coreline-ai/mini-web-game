@@ -37,6 +37,10 @@ try {
   run(process.execPath, [path.join(scriptsDir, 'first-play-clarity-qa.mjs'), ...common]);
   run(process.execPath, [path.join(scriptsDir, 'input-hostility-qa.mjs'), ...common]);
   run(process.execPath, [path.join(scriptsDir, 'session-continuity-qa.mjs'), ...common]);
+
+  // 조작 계층 회귀 탐지 (클래스 O). 프로젝트에 qa/play-profiles.js가 없으면 스스로 건너뛴다.
+  // 절대 판정이 아니라 기준선 이탈 탐지다 — 계약 §0.1과 클래스 O의 한계 설명을 함께 읽을 것.
+  run(process.execPath, [path.join(scriptsDir, 'play-profile-qa.mjs'), ...common]);
   run(npm, ['run', 'test:rules'], { cwd: projectDir, env: { ...process.env, FIREBREAK_QA_URL: url, GAME_QA_URL: url } });
   run(npm, ['run', 'test:lifecycle'], { cwd: projectDir, env: { ...process.env, FIREBREAK_QA_URL: url, GAME_QA_URL: url } });
   run(process.execPath, [path.join(scriptsDir, 'docs-runtime-sync-qa.mjs'), '--project', projectDir]);

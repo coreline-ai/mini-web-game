@@ -283,6 +283,10 @@ A game is complete only when current evidence proves:
 - Post-production issues found in screenshots or video were fixed and re-captured instead of only documented
 - Adversarial review does not identify it as a simple reskin
 
+Four of those bullets — "requested core loop is implemented", "browser smoke verifies the gameplay action", "the genre-defining action works", "adversarial review does not identify it as a simple reskin" — have **no gate behind them**. They sit in the same list as gated items, which invites reading a green run as proof of all of them. It is not. In the 2026-08-16 session a keeper game passed every gate while the player could not tell why a shot got past them; the smoke had confirmed that the dive input changed state, not that saving was possible. **Whether an action executes and whether it achieves its purpose are different claims** — the gates only make the first.
+
+`play-profile-qa.mjs` (contract class O) puts numbers on the second, but as a **regression detector only** — it failed its own positive control, and bot competence is a confound. Read `post-production-qa-contract.md` §0.1 before treating any measurement you built as evidence.
+
 If production-demo gates fail, give a blocker list and next fix plan instead of claiming completion.
 
 ## Scope limits
