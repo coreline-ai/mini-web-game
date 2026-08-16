@@ -4,7 +4,7 @@ import { makeTextButton } from '../ui/MobileButton.js';
 import { publishLayout, clearLayout } from '../systems/LayoutRegistry.js';
 import { px, font, PALETTE } from '../config/theme.js';
 import { KEEPER_RULES, SHOT_TYPES } from '../config/keeperConfig.js';
-import { GOAL_LINE_BY_STAGE, GOAL_MOUTH, PANEL_SLICE } from '../config/spriteMetrics.js';
+import { GOAL_LINE_BY_STAGE, GOAL_MOUTH, PANEL_SLICE, SHOOTER_LINE, CROSSBAR_Y } from '../config/spriteMetrics.js';
 import KeeperController, { KEEPER_STATE } from '../systems/KeeperController.js';
 import ShotDirector from '../systems/ShotDirector.js';
 import { judgeSave, reboundVector, scoreFor, SAVE } from '../systems/SaveJudge.js';
@@ -33,13 +33,19 @@ export default class GameScene extends Phaser.Scene {
     // 골라인은 배경 아트의 골대 위치에서 온다. 배경마다 다르므로 스테이지가 바뀌면 갱신한다.
     // 화면 비율로만 잡으면 키퍼가 골대 위 잔디에 서 있게 된다.
     this.goalY = height * GOAL_LINE_BY_STAGE[0];
+    // height=1(크로스바 높이)인 공이 도착할 때 올라갈 화면 거리. 골라인이 배경마다 다르므로
+    // 크로스바까지의 실제 간격도 함께 달라진다 — 고정 픽셀을 쓰면 어떤 스테이지에서는 공이
+    // 골대 위로 넘어가 보인다.
+    this.crossbarLiftPx = this.goalY - height * CROSSBAR_Y;
     this.u = px(1);
 
     this.buildBackdrop(width, height);
     this.buildHud(width, height);
 
     // ── 게임플레이 오브젝트 (배경은 골대·잔디·관중을 소유, 런타임은 이것들만)
-    this.shooter = new Shooter(this, { unit: this.u, y: height * 0.20 });
+    // 슈터는 잔디 위 균일 발사선에 선다. 이전에는 height * 0.20이라 다섯 배경 모두에서
+    // 하늘 또는 관중석에 떠 있었다.
+    this.shooter = new Shooter(this, { unit: this.u, groundY: height * SHOOTER_LINE, widthPx: px(66) });
     this.keeper = new Keeper(this, { unit: this.u, widthPx: px(120) });
     this.balls = Array.from({ length: BALL_POOL }, () => new Ball(this, { unit: this.u }));
 
@@ -163,7 +169,7 @@ export default class GameScene extends Phaser.Scene {
     this.control.update(delta);
     this.keeper.update(this.control, this.goalY);
 
-    const bounds = { minX: width * 0.10, maxX: width * 0.90, minY: height * 0.12, maxY: height * 0.98 };
+    const bounds = { minX: width * 0.10, maxX: width * 0.90, minY: height * (SHOOTER_LINE - 0.04), maxY: height * 0.98 };
     for (const ball of this.balls) {
       const event = ball.update(delta, bounds, this.rules.rebound);
       if (event === 'goal-line') this.resolveAtLine(ball);
@@ -190,10 +196,10 @@ export default class GameScene extends Phaser.Scene {
 
     this.shooter.telegraph(fromX, type, () => {
       if (this.ended) return;
-      ball.launch({ type, fromX, fromY: height * 0.26, toX, goalY: this.goalY });
+      ball.launch({ type, fromX, fromY: height * SHOOTER_LINE, toX, goalY: this.goalY, crossbarLiftPx: this.crossbarLiftPx });
       if (cue.deflect) this.time.delayedCall(220, () => { if (ball.alive) deflect(ball, this.rng); });
       AudioManager.playSfx(this, 'sfx-shot', 0.75);
-      this.spawnFx('fx-turf', fromX, height * 0.27, 0.7);
+      this.spawnFx('fx-turf', fromX, height * SHOOTER_LINE, 0.7);
     });
   }
 
@@ -249,7 +255,10 @@ export default class GameScene extends Phaser.Scene {
   onStageChange(stage) {
     // 배경이 바뀌면 골라인도 그 배경의 값으로 옮긴다.
     const line = GOAL_LINE_BY_STAGE[stage.index - 1];
-    if (typeof line === 'number') this.goalY = SPEC.canvas.height * line;
+    if (typeof line === 'number') {
+      this.goalY = SPEC.canvas.height * line;
+      this.crossbarLiftPx = this.goalY - SPEC.canvas.height * CROSSBAR_Y;
+    }
     const key = stage.backdrop;
     if (!this.textures.exists(key)) return;
     this.backdropNext.setTexture(key);
@@ -384,9 +393,12 @@ export default class GameScene extends Phaser.Scene {
         ball.launch({
           type,
           fromX: width * (opts.fromX ?? 0.5),
-          fromY: height * 0.26,
+          fromY: height * SHOOTER_LINE,
           toX: width * (opts.toX ?? 0.5),
           goalY: this.goalY,
+          // 실제 발사와 같은 인자를 넘긴다. 하나라도 빠지면 캡처 증거가 실제 플레이와
+          // 달라지고(여기서는 lift가 NaN이 된다), 그 증거로 통과 판정을 내리게 된다.
+          crossbarLiftPx: this.crossbarLiftPx,
         });
         if (opts.progress) {
           // 비행 중간 상태를 즉시 만든다(캡처용). 물리를 우회하지 않고 적분을 앞당긴다.

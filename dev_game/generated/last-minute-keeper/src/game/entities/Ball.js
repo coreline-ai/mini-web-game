@@ -19,7 +19,11 @@ export default class Ball {
   constructor(scene, { unit }) {
     this.scene = scene;
     this.u = unit;
-    this.shadow = scene.add.ellipse(0, 0, 46 * unit, 18 * unit, 0x000000, 0.35)
+    // 채우기 알파는 1로 둔다. 여기에 0.35를 주면 setAlpha()와 곱해져 실효 불투명도가
+    // 4~15%까지 떨어진다 — 지면 접점을 읽기에는 너무 옅다. 불투명도는 ballVisuals가
+    // 단독으로 소유해야 값 하나만 보고 세기를 판단할 수 있다.
+    // (프레임 고정 실측: 접지 +85/255, 최고점 +21/255 — 높이에 따라 옅어지되 남는다.)
+    this.shadow = scene.add.ellipse(0, 0, 52 * unit, 20 * unit, 0x000000, 1)
       .setDepth(11).setVisible(false);
     this.sprite = scene.add.image(0, 0, 'match-ball')
       .setDepth(14).setVisible(false).setActive(false);
@@ -31,12 +35,14 @@ export default class Ball {
 
   get alive() { return this.state === BALL_STATE.FLIGHT || this.state === BALL_STATE.LIVE; }
 
-  launch({ type, fromX, fromY, toX, goalY }) {
+  launch({ type, fromX, fromY, toX, goalY, crossbarLiftPx }) {
     this.type = type;
     this.x = fromX;
     this.y = fromY;
     this.startY = fromY;
     this.goalY = goalY;
+    // height=1이 도착 시 크로스바에 오도록 하는 화면 리프트(px). 씬이 실측으로 준다.
+    this.crossbarLiftPx = crossbarLiftPx;
     this.speed = type.speed;
     this.vy = type.speed;
     // 도착점을 맞추도록 초기 가로 속도를 역산한다. 커브가 있으면 그만큼 미리 어긋나게 쏜다.
@@ -53,7 +59,7 @@ export default class Ball {
     this.state = BALL_STATE.FLIGHT;
 
     this.sprite.setTexture('match-ball').setVisible(true).setActive(true).setAlpha(1).setAngle(0);
-    this.shadow.setVisible(true).setAlpha(0.35);
+    this.shadow.setVisible(true);
     this.sync();
   }
 
@@ -88,6 +94,9 @@ export default class Ball {
     this.x += this.vx * dt;
     this.y += this.vy * dt;
     this.height = Math.max(0, this.height - dt * 1.4);
+    // 리바운드 중에도 원근은 지면 위치가 결정한다. progress를 갱신하지 않으면 튕겨 나간 공이
+    // 마지막 비행 크기 그대로 굳는다.
+    this.progress = Math.max(0, Math.min(1, (this.y - this.startY) / Math.max(1, this.goalY - this.startY)));
     this.vx *= 0.985;
     reflectWalls(this, bounds.minX, bounds.maxX);
     this.sync();
@@ -100,12 +109,15 @@ export default class Ball {
     return null;
   }
 
+  // this.y는 **지면 위 발자국**이다. 공은 높이만큼 그 위로 들어 올려 그리고, 그림자는
+  // 발자국에 그대로 둔다. 이전 구현은 반대로 그림자를 공보다 아래로 밀어내서, 높은 공일수록
+  // 그림자가 앞으로 나가 공이 지면보다 낮게 읽혔다.
   sync() {
     const v = ballVisuals(this, this.u);
     const size = this.baseSize * v.scale;
-    this.sprite.setPosition(this.x, this.y).setDisplaySize(size, size);
+    this.sprite.setPosition(this.x, this.y - v.lift).setDisplaySize(size, size);
     this.sprite.angle += this.vx * 0.02;
-    this.shadow.setPosition(this.x, this.y + v.shadowOffset)
+    this.shadow.setPosition(this.x, this.y)
       .setAlpha(v.shadowAlpha)
       .setScale(v.shadowScale, v.shadowScale * 0.55);
   }

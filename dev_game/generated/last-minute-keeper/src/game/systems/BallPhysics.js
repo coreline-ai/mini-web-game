@@ -20,14 +20,33 @@ export function stepBall(ball, dtSec) {
   return progress;
 }
 
-// 화면 표현: 높을수록 크게 그리고(가까워 보이는 착시) 그림자를 아래로 떨어뜨린다.
-// 이 두 신호가 없으면 세로 화면에서 "머리 위로 넘어온다"를 읽을 수 없다.
+// 화면 표현 — 원근은 **거리**가 만든다.
+//
+// 카메라는 골대 뒤에서 필드를 올려다본다(캡처 확인: 키퍼의 등이 보이고 골대가 화면 아래
+// 전경에 크게 그려진다). 그러므로 공은 다가올수록 커진다. 이전 구현은 크기를 아크 높이에
+// 묶어서 로빙이 중간에 가장 크고 도착할 때 작아졌다 — 원근이 뒤집혀 보였고, 평평한 강슛은
+// 비행 내내 크기가 그대로라 다가오는 느낌이 없었다.
+//
+// 높이는 크기가 아니라 **화면 위로 들어 올리는 양**으로 표현한다. 그래야 "머리 위로 넘어온다"가
+// 읽히고, 그림자는 항상 지면에 남아 높이의 기준점이 된다.
+
+// 발사 지점에서의 크기 비율. 슈터가 키퍼의 절반 남짓으로 보이는 것과 같은 원근이다.
+const FAR_SCALE = 0.45;
+
+export function perspective(progress) {
+  return FAR_SCALE + (1 - FAR_SCALE) * Math.max(0, Math.min(1, progress));
+}
+
 export function ballVisuals(ball, unit) {
+  const persp = perspective(ball.progress ?? 0);
   return {
-    scale: 1 + ball.height * 0.55,
-    shadowOffset: ball.height * 140 * unit,
-    shadowAlpha: Math.max(0.12, 0.42 - ball.height * 0.3),
-    shadowScale: Math.max(0.45, 1 - ball.height * 0.45),
+    scale: persp,
+    // height=1(크로스바)인 공이 도착할 때 골라인에서 크로스바까지 올라간다. 멀리 있을수록
+    // 같은 높이가 화면에서 덜 올라가므로 원근 계수를 함께 곱한다.
+    lift: ball.height * ball.crossbarLiftPx * persp,
+    // 그림자는 높이의 유일한 지면 기준점이다. 높을수록 옅어지되 사라지지는 않아야 한다.
+    shadowAlpha: Math.max(0.20, 0.46 - ball.height * 0.22),
+    shadowScale: Math.max(0.35, persp * (1 - ball.height * 0.35)),
   };
 }
 

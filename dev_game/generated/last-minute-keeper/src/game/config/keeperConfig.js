@@ -23,11 +23,15 @@ export const CONTROL = Object.freeze({
 //   speed  : 논리px/초 (세로 낙하 속도)
 //   curve  : 마그누스 가속 (논리px/초², 양수=오른쪽으로 휨)
 //   height : 도착 시 공의 높이(0=지면, 1=크로스바) — 그림자 거리로 표현된다
+// speed는 회랑 길이와 함께 읽어야 한다. 슈터를 잔디 위(0.52)로 내리면서 회랑이
+// 0.653 → 0.393 캔버스 높이로 짧아졌으므로(비율 0.602) 속도를 같은 비율로 낮춰
+// **비행 시간을 보존**했다. 텔레그래프 창(260~700ms)과 다이브 회복(620ms)이 반응 시간
+// 기준으로 조율돼 있어서, 시간이 바뀌면 난이도가 통째로 바뀐다.
 export const SHOT_TYPES = Object.freeze({
-  drive: Object.freeze({ id: 'drive', label: '강슛', speed: 1750, curve: 0, height: 0.18, telegraphMs: 420 }),
-  lob: Object.freeze({ id: 'lob', label: '로빙', speed: 1000, curve: 0, height: 0.86, telegraphMs: 620 }),
-  bender: Object.freeze({ id: 'bender', label: '감아차기', speed: 1180, curve: 1500, height: 0.42, telegraphMs: 700 }),
-  header: Object.freeze({ id: 'header', label: '헤딩', speed: 1450, curve: 0, height: 0.62, telegraphMs: 260 }),
+  drive: Object.freeze({ id: 'drive', label: '강슛', speed: 1053, curve: 0, height: 0.18, telegraphMs: 420 }),
+  lob: Object.freeze({ id: 'lob', label: '로빙', speed: 602, curve: 0, height: 0.86, telegraphMs: 620 }),
+  bender: Object.freeze({ id: 'bender', label: '감아차기', speed: 710, curve: 1500, height: 0.42, telegraphMs: 700 }),
+  header: Object.freeze({ id: 'header', label: '헤딩', speed: 873, curve: 0, height: 0.62, telegraphMs: 260 }),
 });
 
 // ── 스테이지 계약 ───────────────────────────────────────────────────────────
