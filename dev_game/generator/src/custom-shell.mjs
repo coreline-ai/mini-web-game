@@ -50,7 +50,17 @@ export default defineConfig({
 });
 `);
 
-  files.set('src/style.css', `html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050b09}body{display:grid;place-items:center}#game{width:100%;height:100%;display:grid;place-items:center}canvas{display:block;max-width:100%;max-height:100%}\n`);
+  files.set('src/style.css', `/* 캔버스 부모는 뷰포트와 정확히 같아야 한다.
+   height:100% 사슬은 body가 늘어나면 실제 뷰포트보다 커질 수 있고, 그러면 Phaser FIT이
+   잘못된 부모 크기를 재서 캔버스가 화면 밖으로 넘친다(실측: 1080x1920 뷰포트에서 캔버스가
+   1080x2337로 계산됨). position:fixed;inset:0이 그 모호함을 없앤다.
+   센터링은 Phaser의 autoCenter가 하므로 CSS는 관여하지 않는다 — 둘 다 하면 이중 센터링으로
+   좌우가 어긋난다. */
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#050b09}
+body{display:block;position:relative}
+#game{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden}
+canvas{display:block;max-width:100%;max-height:100%}
+`);
   files.set('src/main.js', `import Phaser from 'phaser';\nimport './style.css';\nimport config from './game/config.js';\nimport{AudioManager}from'./game/systems/AudioManager.js';\nconst game = new Phaser.Game(config);\nif (typeof window !== 'undefined'){window.__GAME__=game;window.__GAME_QA__={getState:()=>window.__GAME_LAYOUT_BOUNDS__||null,audioState:()=>AudioManager.snapshot()};}\n`);
   files.set('src/game/data/game-spec.json', JSON.stringify(spec, null, 2) + '\n');
   files.set('src/game/data/spec.js', `import gameSpec from './game-spec.json';\nexport const SPEC = gameSpec;\nexport const SCENES = { BOOT:'Boot', LOADING:'Loading', HOME:'Home', GAME:'Game', PAUSE:'Pause', GAMEOVER:'GameOver' };\n`);

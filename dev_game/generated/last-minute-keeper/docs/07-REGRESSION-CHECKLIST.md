@@ -1,0 +1,44 @@
+# 07-REGRESSION-CHECKLIST — Last Minute Keeper
+
+다음 `game-polish` 세션은 이 목록을 먼저 재현한다.
+
+## R1. 정적이지 않은가 (이 게임의 존재 이유)
+- 조건: `game-flight` / `game-rebound` / `game-stage-3` 캡처
+- assert: 세 캡처 모두 화면에 공이 있다. `liveBalls >= 1`
+- 실패 시: 설계 실패다. 다른 결함보다 우선한다
+
+## R2. 조작 두 층 구분 (Class I)
+- 조건: 느린 드래그(steps 30) / 빠른 플릭(steps 1)
+- assert: 느린 드래그 → 자세 `ready` + 이동 40px 초과 / 빠른 플릭 → `control.locked === true`
+- 최초 근거: 두 층 구분이 무너지면 다이브가 공짜가 되어 게임이 "계속 던지기"로 붕괴한다
+
+## R3. 다이브 회복이 대가로 작동하는가
+- 조건: 다이브 직후 반대 방향으로 드래그
+- assert: 회복 중 이동이 억제된다(`locked === true`인 동안)
+
+## R4. 판정 body가 자세를 따라가는가 (Class M, 자동 게이트 없음)
+- 조건: 대기 → 다이브
+- assert: `keeper.bodyHalfWidth`가 약 2배(실측 124 → 289, 2.33배)
+- 주의: 보이는 스프라이트와 body가 어긋나면 "닿았는데 안 막힌다"가 된다
+
+## R5. 키퍼가 골라인 위에 서 있는가 (Class B/L, 자동 게이트 없음)
+- 조건: 각 스테이지 배경에서 캡처
+- assert: 키퍼의 발이 골포스트 하단과 같은 높이. 잔디 위나 골문 아래에 뜨지 않는다
+- 근거: 골라인이 배경마다 86~91.3%로 다르다(`GOAL_LINE_BY_STAGE`)
+
+## R6. 리바운드 상한 (Class K)
+- 조건: 리바운드를 연속 유발
+- assert: 한 공의 연쇄가 3회를 넘지 않고 2600ms 뒤 퇴장한다
+
+## R7. 장시간 누수 (Class K)
+- 조건: 5회 재시도 × 6회 슛/다이브
+- assert: `ballPool` 일정(4), `activeTweens` 첫 회차의 2배 이내, `bgm <= 1`
+
+## R8. 오디오 품질 하한
+- 조건: `assets/audio/*.wav` 실측
+- assert: 44.1kHz / 원샷 피크 ≥ 0.75 · edge < 0.01 / 루프 seam < 0.005 · edge < 0.01
+
+## R9. UI 프레임이 9-slice인가 (Class L, 자동 게이트 없음)
+- 조건: 스코어보드 렌더
+- assert: `panel.type === 'NineSlice'`, 표시 테두리가 사방 균일
+- 금지: 원본과 다른 비율의 `setDisplaySize`

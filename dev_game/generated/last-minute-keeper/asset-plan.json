@@ -1,0 +1,161 @@
+{
+  "gameId": "last-minute-keeper",
+  "themeColors": {
+    "background": "#07130c",
+    "player": "#ffe066",
+    "collectible": "#ffd43b",
+    "ui": "#e8f5ee"
+  },
+  "styleGuide": {
+    "palette": "deep pitch green, cool floodlit teal shadows, warm stadium amber (#ffe066) as the single accent",
+    "mood": "big-match night football, cinematic but readable on a small phone screen",
+    "rendering": "clean flat vector-like game art, smooth solid surfaces, soft simple gradients, no grain, no noise, no speckle, no photographic texture, no text, no watermark"
+  },
+  "backgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background, view from behind the goal looking out at a daytime training pitch. The GOAL FRAME with its white posts, crossbar and net fills the LOWER quarter of the image, its goal line running horizontally across the frame about three quarters of the way down. Above it: open green training pitch stretching away, faint chalk markings, a low fence and empty stands on the horizon in the upper quarter, bright overcast daylight. Clean flat vector-like art, smooth surfaces, soft gradients. The goal mouth must be COMPLETELY EMPTY — no ball, no goalkeeper, no players, no gloves anywhere in the image. No text, no UI, no scoreboard."
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background, view from behind the goal at golden-hour sunset. The GOAL FRAME with white posts, crossbar and net fills the LOWER quarter, goal line running horizontally about three quarters down. Above it: a stadium pitch in warm low sunlight, long shadows raking across the grass, half-filled stands and a sunset sky in the upper third. Clean flat vector-like art, smooth surfaces, soft gradients. The goal mouth must be COMPLETELY EMPTY — no ball, no goalkeeper, no players anywhere. No text, no UI, no scoreboard."
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background, view from behind the goal under night floodlights. The GOAL FRAME with white posts, crossbar and net fills the LOWER quarter, goal line horizontal about three quarters down. Above it: a floodlit pitch glowing cool teal-green, four tall floodlight towers casting overlapping pools of light, packed dark stands and night sky in the upper third. Clean flat vector-like art, smooth surfaces, soft gradients. The goal mouth must be COMPLETELY EMPTY — no ball, no goalkeeper, no players anywhere. No text, no UI, no scoreboard."
+    },
+    {
+      "id": "stage-4",
+      "path": "assets/backgrounds/stage-4.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background, view from behind the goal during a tense night penalty. The GOAL FRAME with white posts, crossbar and net fills the LOWER quarter, goal line horizontal about three quarters down. Above it: a hushed floodlit pitch with the penalty spot and its arc marked in white on the grass, the crowd reduced to a dark blurred mass, deep night sky. Cooler and darker than the other stadium scenes, one hard rim of floodlight along the grass. Clean flat vector-like art, smooth surfaces, soft gradients. The goal mouth must be COMPLETELY EMPTY — no ball, no goalkeeper, no players anywhere. No text, no UI, no scoreboard."
+    },
+    {
+      "id": "stage-5",
+      "path": "assets/backgrounds/stage-5.webp",
+      "width": 2160,
+      "height": 3840,
+      "prompt": "Vertical mobile game background, view from behind the goal in heavy stoppage-time rain. The GOAL FRAME with white posts, crossbar and a rain-soaked net fills the LOWER quarter, goal line horizontal about three quarters down. Above it: a waterlogged floodlit pitch with standing water reflecting the lights, driving rain streaks, floodlight beams cutting through the downpour, dark stands in the upper third. Clean flat vector-like art, smooth surfaces, soft gradients. The goal mouth must be COMPLETELY EMPTY — no ball, no goalkeeper, no players anywhere. No text, no UI, no scoreboard."
+    }
+  ],
+  "sprites": [
+    {
+      "id": "keeper-ready",
+      "path": "assets/characters/keeper-ready.webp",
+      "role": "keeper-ready",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of a GOALKEEPER seen from BEHIND, standing in a ready stance: feet apart, knees bent, both arms out to the sides with open gloves raised, weight forward. Bright amber-yellow keeper jersey (#ffe066) with dark shorts and dark green gloves, short dark hair. Clean flat vector-like game art, bold readable silhouette at small size, smooth solid surfaces, soft simple gradients. The whole figure fully inside the frame with clear margin on every side. No ball, no goal, no pitch, no text."
+    },
+    {
+      "id": "keeper-dive",
+      "path": "assets/characters/keeper-dive.webp",
+      "role": "keeper-dive",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of a GOALKEEPER seen from BEHIND, fully stretched in a horizontal DIVE to the RIGHT: body airborne and extended, both arms reaching out to the right with open gloves, legs trailing behind. Same character as the ready pose — bright amber-yellow keeper jersey (#ffe066), dark shorts, dark green gloves, short dark hair. Clean flat vector-like game art, bold readable silhouette at small size, strong sense of horizontal motion. The whole figure fully inside the frame with clear margin on every side. No ball, no goal, no pitch, no text."
+    },
+    {
+      "id": "keeper-catch",
+      "path": "assets/characters/keeper-catch.webp",
+      "role": "keeper-catch",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of a GOALKEEPER seen from BEHIND at the moment of a CATCH: body compact and upright, both gloves clamped together in front of the chest as if holding a ball, elbows tucked in. Same character as the ready pose — bright amber-yellow keeper jersey (#ffe066), dark shorts, dark green gloves, short dark hair. Clean flat vector-like game art, bold readable silhouette at small size. The whole figure fully inside the frame with clear margin on every side. No ball, no goal, no pitch, no text."
+    },
+    {
+      "id": "match-ball",
+      "path": "assets/characters/match-ball.webp",
+      "role": "match-ball",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game sprite of a single FOOTBALL seen straight on: classic white ball with a bold dark pentagon panel pattern, one soft highlight on the upper left, a thin darker rim around the edge. Perfectly round, clean flat vector-like game art, strong readable shape at very small size. The ball fully inside the frame with clear margin on every side. No shadow on the ground, no grass, no text."
+    },
+    {
+      "id": "striker",
+      "path": "assets/characters/striker.webp",
+      "role": "striker",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of an outfield FOOTBALL STRIKER seen from the FRONT, mid strike: planted standing leg, kicking leg swung through, torso leaning over the ball, arms out for balance. Deep red jersey and white shorts, dark boots, short hair. Clean flat vector-like game art, bold readable silhouette at small size, smooth solid surfaces. The whole figure fully inside the frame with clear margin on every side. No ball, no pitch, no goal, no text."
+    },
+    {
+      "id": "defender",
+      "path": "assets/characters/defender.webp",
+      "role": "defender",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game sprite of an outfield FOOTBALL DEFENDER seen from the FRONT, lunging sideways to block: one leg stretched far out to the side, body low, arms tucked back. Deep blue jersey and white shorts, dark boots, short hair. Clean flat vector-like game art, bold readable silhouette at small size, smooth solid surfaces. The whole figure fully inside the frame with clear margin on every side. No ball, no pitch, no goal, no text."
+    }
+  ],
+  "ui": [
+    {
+      "id": "panel-scoreboard",
+      "path": "assets/ui/panel-scoreboard.webp",
+      "role": "scoreboard-frame",
+      "width": 1024,
+      "height": 512,
+      "prompt": "Game UI element: a horizontal STADIUM SCOREBOARD FRAME that FILLS THE ENTIRE FRAME edge to edge with no empty margin. A smooth rectangular plaque with slightly rounded corners touching all four image edges, a thick brushed dark-metal border of even width on all four sides, and a flat very dark inset field across the middle left completely empty. A thin warm amber (#ffe066) highlight line runs along the inner rim. The border must be the SAME thickness on all four sides and the inner field must be perfectly flat and empty. Clean flat vector-like game art, smooth surfaces. No text, no letters, no numbers, no symbols, no glow halo extending beyond the plaque."
+    },
+    {
+      "id": "btn-pause",
+      "path": "assets/ui/btn-pause.webp",
+      "role": "pause-button",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Game UI element: a small square dark-metal PAUSE button, smooth plate with rounded corners and a warm amber (#ffe066) double-bar pause glyph centred on it, thin bevelled edge catching light. Clean flat vector-like game art, symmetrical, smooth surfaces. No text, no letters, no numbers."
+    }
+  ],
+  "fx": [
+    {
+      "id": "fx-impact",
+      "path": "assets/fx/fx-impact.webp",
+      "role": "impact-burst",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game FX sprite: a sharp white impact burst — a bright compact core with a few broad radiating spikes, reading as a hard ball strike. Cool white with a faint pale blue edge. Simple bold shape, smooth surfaces, radially symmetrical. No grain, no speckle, no text."
+    },
+    {
+      "id": "fx-glove",
+      "path": "assets/fx/fx-glove.webp",
+      "role": "glove-flash",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game FX sprite: a warm amber (#ffe066) crescent flash — a curved arc of light with a soft bloom along its inner edge, reading as a glove sweeping across and deflecting something. Simple bold curved shape, smooth gradient, open transparent centre. No grain, no speckle, no text."
+    },
+    {
+      "id": "fx-net-ripple",
+      "path": "assets/fx/fx-net-ripple.webp",
+      "role": "net-ripple",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game FX sprite: a soft white SHOCK RING — one smooth thick circular ring of pale white light with a gentle outer glow and an open transparent centre, like the moment a surface absorbs a hard impact. Exactly ONE ring, no mesh, no grid, no lines crossing it, no debris. Perfectly smooth gradient from the ring outward. Clean flat vector-like game art. NO grain, NO noise, NO speckle, NO texture. No text."
+    },
+    {
+      "id": "fx-turf",
+      "path": "assets/fx/fx-turf.webp",
+      "role": "turf-spray",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game FX sprite: a low spray of torn grass and turf — a fan of green blades and small clods kicked up sideways, deep green with a few lighter highlights. Simple bold silhouette, smooth surfaces. No grain, no speckle, no text."
+    },
+    {
+      "id": "fx-rain",
+      "path": "assets/fx/fx-rain.webp",
+      "role": "rain-streak",
+      "width": 768,
+      "height": 768,
+      "prompt": "Game FX sprite: a cluster of pale blue-white RAIN STREAKS — several long thin diagonal droplet trails of varying length, translucent, angled consistently. Simple clean strokes on a flat background, smooth edges. No grain, no speckle, no text."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "generator": "dev_game",
+  "schemaVersion": "2.0.0",
+  "gameId": "last-minute-keeper",
+  "template": "custom-shell"
+}

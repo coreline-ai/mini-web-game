@@ -1,0 +1,95 @@
+// keeperConfig.js — Rules Contract 단일 원본.
+//
+// 이 파일의 숫자가 게임 규칙의 유일한 출처다. 시스템·UI·도움말·GDD는 전부 여기서 읽거나
+// 이 값을 반영하며, 어디에도 같은 숫자를 다시 적지 않는다. 런타임은 이 객체를
+// window.__GAME_RULES__로 공표하고 factory:docs-runtime-sync-qa가 문서와 대조한다.
+
+// ── 조작 ────────────────────────────────────────────────────────────────────
+// 두 층으로 나눈 것이 이 게임의 정체성이다: 느린 드래그로 따라가거나, 빠른 플릭으로
+// 몸을 던지고 회복 시간을 대가로 치른다. 임계는 전부 여기서만 바꾼다.
+export const CONTROL = Object.freeze({
+  dragMaxSpeed: 1500,        // 논리px/초 — 키퍼 이동 상한. 순간이동을 막는다
+  dragAccel: 9000,           // 논리px/초² — 관성. 방향 전환에 시간이 걸린다
+  diveFlickSpeed: 2600,      // 논리px/초 — 이 속도를 넘는 포인터 이동은 다이브
+  diveDurationMs: 340,       // 몸이 뻗어 나가는 시간
+  diveRecoveryMs: 620,       // 다이브 후 이동 불가 시간 — 커밋의 대가
+  diveReachMultiplier: 2.0,  // 다이브 중 도달 범위 배수
+  diveTravel: 300,           // 논리px — 다이브가 밀어내는 가로 거리
+  punchRange: 210,           // 논리px — 이 안에 공이 있으면 탭으로 펀칭 가능
+});
+
+// ── 슛 종류 ─────────────────────────────────────────────────────────────────
+// 종류마다 대응이 달라야 근육 기억이 통하지 않는다.
+//   speed  : 논리px/초 (세로 낙하 속도)
+//   curve  : 마그누스 가속 (논리px/초², 양수=오른쪽으로 휨)
+//   height : 도착 시 공의 높이(0=지면, 1=크로스바) — 그림자 거리로 표현된다
+export const SHOT_TYPES = Object.freeze({
+  drive: Object.freeze({ id: 'drive', label: '강슛', speed: 1750, curve: 0, height: 0.18, telegraphMs: 420 }),
+  lob: Object.freeze({ id: 'lob', label: '로빙', speed: 1000, curve: 0, height: 0.86, telegraphMs: 620 }),
+  bender: Object.freeze({ id: 'bender', label: '감아차기', speed: 1180, curve: 1500, height: 0.42, telegraphMs: 700 }),
+  header: Object.freeze({ id: 'header', label: '헤딩', speed: 1450, curve: 0, height: 0.62, telegraphMs: 260 }),
+});
+
+// ── 스테이지 계약 ───────────────────────────────────────────────────────────
+// 각 스테이지는 (목표, 보상, 다음 상태)를 데이터로 선언한다. 마지막 스테이지의 next가
+// 'full-time'이라 승리 터미널이 구조적으로 도달 가능하다(결함 클래스 E).
+//
+// 난이도는 스테이지 인덱스와 경과 시간만으로 결정된다. 남은 실점 여유·점수·콤보처럼
+// 플레이어가 회복할 수 있는 값은 절대 참조하지 않는다(결함 클래스 D).
+export const STAGES = Object.freeze([
+  Object.freeze({
+    index: 1, name: '슈팅 연습', backdrop: 'bg_0', durationMs: 42000,
+    shots: ['drive', 'lob'], shotGapMs: 2600, maxLiveBalls: 1,
+    deflectChance: 0, reward: 'stage-clear-bonus', next: 2,
+  }),
+  Object.freeze({
+    index: 2, name: '프리킥', backdrop: 'bg_1', durationMs: 46000,
+    shots: ['drive', 'lob', 'bender'], shotGapMs: 2400, maxLiveBalls: 1,
+    deflectChance: 0.15, reward: 'stage-clear-bonus', next: 3,
+  }),
+  Object.freeze({
+    index: 3, name: '코너킥 혼전', backdrop: 'bg_2', durationMs: 50000,
+    shots: ['drive', 'header', 'bender'], shotGapMs: 2000, maxLiveBalls: 2,
+    deflectChance: 0.3, reward: 'stage-clear-bonus', next: 4,
+  }),
+  Object.freeze({
+    index: 4, name: '페널티', backdrop: 'bg_3', durationMs: 40000,
+    shots: ['drive', 'bender'], shotGapMs: 3200, maxLiveBalls: 1,
+    deflectChance: 0, reward: 'stage-clear-bonus', next: 5,
+  }),
+  Object.freeze({
+    index: 5, name: '추가시간', backdrop: 'bg_4', durationMs: 54000,
+    shots: ['drive', 'lob', 'bender', 'header'], shotGapMs: 1800, maxLiveBalls: 2,
+    deflectChance: 0.35, reward: 'full-time', next: 'full-time',
+  }),
+]);
+
+// ── 리바운드 ────────────────────────────────────────────────────────────────
+// 쳐낸 공이 살아 있는 것이 "정적이지 않음"의 핵심 장치다. 다만 무한 연쇄는 막는다.
+export const REBOUND = Object.freeze({
+  maxChain: 3,               // 한 공이 이어질 수 있는 최대 리바운드 횟수
+  liveMs: 2600,              // 이 시간이 지나면 공이 필드 밖으로 굴러 나간다
+  punchSpeed: 1350,          // 펀칭이 밀어내는 속도
+  parrySpeedRatio: 0.45,     // 몸으로 막았을 때 남는 속도 비율
+});
+
+export const KEEPER_RULES = Object.freeze({
+  goal: 'keep-the-goal-until-stoppage-time-ends',
+  progressMetric: 'saves-made',
+  concedeAllowance: 5,       // 실점 5회 → 패배
+  // 점수 — 세이브 등급에 차등을 둔다
+  scoreCatch: 150,
+  scorePunch: 100,
+  scoreBlock: 70,
+  comboStep: 1,
+  comboMax: 6,
+  cleanStageBonus: 400,
+  control: CONTROL,
+  shotTypes: SHOT_TYPES,
+  stages: STAGES,
+  rebound: REBOUND,
+});
+
+// 셸이 기대하는 이름.
+export const CUSTOM_GAME_CONFIG = KEEPER_RULES;
+export default KEEPER_RULES;

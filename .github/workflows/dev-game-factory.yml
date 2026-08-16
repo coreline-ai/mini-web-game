@@ -71,6 +71,7 @@ jobs:
           - meteor-dash
           - night-market-wok
           - keeper-last-light
+          - last-minute-keeper
           - parcel-sort-rush
           - road-stream-racer
           - rush-lane-racer
@@ -126,6 +127,7 @@ jobs:
           - { game: meteor-dash, port: 4380 }
           - { game: night-market-wok, port: 4385 }
           - { game: keeper-last-light, port: 4387 }
+          - { game: last-minute-keeper, port: 4389 }
           - { game: rush-lane-racer, port: 4390 }
           - { game: sky-archer, port: 4400 }
     steps:

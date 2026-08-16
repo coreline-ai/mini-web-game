@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "viewports": [
+    { "width": 390, "height": 844, "dpr": 2 },
+    { "width": 430, "height": 932, "dpr": 2 },
+    { "width": 1080, "height": 1920, "dpr": 1 }
+  ],
+  "states": [
+    { "id": "home", "expectedScene": "Home", "requiredIds": ["home-title", "home-goal", "play"] },
+    { "id": "game-flight", "expectedScene": "Game",
+      "requiredIds": ["scoreboard", "score", "status", "pause", "help"],
+      "assertions": { "minBackingScale": 1 } },
+    { "id": "game-dive", "expectedScene": "Game", "requiredIds": ["scoreboard", "status"] },
+    { "id": "game-rebound", "expectedScene": "Game", "requiredIds": ["scoreboard", "status"] },
+    { "id": "game-stage-3", "expectedScene": "Game", "requiredIds": ["scoreboard", "score", "status"] },
+    { "id": "help", "expectedScene": "Pause", "requiredIds": ["pause-title", "resume", "home"] },
+    { "id": "pause", "expectedScene": "Pause", "requiredIds": ["pause-title", "resume", "home"] },
+    { "id": "result-win", "expectedScene": "GameOver", "requiredIds": ["result-title", "retry", "home"], "terminal": "win" },
+    { "id": "result-loss", "expectedScene": "GameOver", "requiredIds": ["result-title", "retry", "home"], "terminal": "loss" }
+  ]
+}

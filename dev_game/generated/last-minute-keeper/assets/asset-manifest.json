@@ -1,0 +1,702 @@
+{
+  "qualityTier": "production-demo",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "last-minute-keeper",
+    "noSharedRuntimeAssets": true
+  },
+  "stageBackgrounds": [
+    {
+      "id": "stage-1",
+      "path": "assets/backgrounds/stage-1.webp",
+      "role": "stage-background",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "bde01125ab1e811b",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-15T23:59:46.222Z",
+        "nativeSize": "864x1821",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-1-raw.png",
+        "outputSha256": "3b6520cfd8c85d566d13fa1409dad45391661c1f04f3e4699833e13677515129",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-1.png",
+          "quality": 94
+        }
+      }
+    },
+    {
+      "id": "stage-2",
+      "path": "assets/backgrounds/stage-2.webp",
+      "role": "stage-background",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "583730b5e31f37e0",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:02:09.969Z",
+        "nativeSize": "864x1821",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-2-raw.png",
+        "outputSha256": "fc7e3dffc65b412a9f8f486f5c07d190b8ef67242a85e7e7f4f01e1608f928c2",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-2.png",
+          "quality": 94
+        }
+      }
+    },
+    {
+      "id": "stage-3",
+      "path": "assets/backgrounds/stage-3.webp",
+      "role": "stage-background",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "cf595e39f8a0e1b0",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:03:45.455Z",
+        "nativeSize": "946x1663",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-3-raw.png",
+        "outputSha256": "52bf8dc375bbb2705534668853c3f23763246789ce8feb3190c4f36c26feaaa2",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-3.png",
+          "quality": 94
+        }
+      }
+    },
+    {
+      "id": "stage-4",
+      "path": "assets/backgrounds/stage-4.webp",
+      "role": "stage-background",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "593bdb7cc4c07dd3",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:05:14.534Z",
+        "nativeSize": "864x1821",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-4-raw.png",
+        "outputSha256": "45930c31382fc6fbdf629bcf980b22f126de68f5b1f75d71a9f19bc25d545367",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-4.png",
+          "quality": 94
+        }
+      }
+    },
+    {
+      "id": "stage-5",
+      "path": "assets/backgrounds/stage-5.webp",
+      "role": "stage-background",
+      "minWidth": 1080,
+      "minHeight": 1920,
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "7a88a42a46418043",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:06:44.943Z",
+        "nativeSize": "946x1662",
+        "resampledTo": "2160x3840",
+        "resampleMethod": "lanczos",
+        "rawPath": "assets/_source/stage-5-raw.png",
+        "outputSha256": "d1cd6e3ca1576dd95ee70db734d37bd0194b22a9da0881bc08a5c8f49eafbb00",
+        "runtimeExport": {
+          "master": "assets/_source/masters/stage-5.png",
+          "quality": 94
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "id": "keeper-ready",
+      "path": "assets/characters/keeper-ready.webp",
+      "type": "sprite",
+      "role": "keeper-ready",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "922bf94f760fd810",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:07:35.003Z",
+        "outputSha256": "348aebb2d027af5ac0dde3a484826baf1b5b4e41dc5f2ecce38c8faff880fd0e",
+        "runtimeExport": {
+          "master": "assets/_source/masters/keeper-ready.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "keeper-dive",
+      "path": "assets/characters/keeper-dive.webp",
+      "type": "sprite",
+      "role": "keeper-dive",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "15dc62bb9da0b89a",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:08:18.419Z",
+        "outputSha256": "cd1a31f841e3828500bd29bdaf6678690e106cb7e46308966ed3b98e3f7a5741",
+        "runtimeExport": {
+          "master": "assets/_source/masters/keeper-dive.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "keeper-catch",
+      "path": "assets/characters/keeper-catch.webp",
+      "type": "sprite",
+      "role": "keeper-catch",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "bbbfb9cf0a74c639",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:09:10.986Z",
+        "outputSha256": "c20bc748605ed59fe5801af8444b015aa9d5932a4b4a6982c71b985042c8ee70",
+        "runtimeExport": {
+          "master": "assets/_source/masters/keeper-catch.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "match-ball",
+      "path": "assets/characters/match-ball.webp",
+      "type": "sprite",
+      "role": "match-ball",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "610d047760b724cd",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:09:50.799Z",
+        "outputSha256": "2911e62c159bd39985632439196a1ba0f57afc659b4c085ccb72de7b634e13ba",
+        "runtimeExport": {
+          "master": "assets/_source/masters/match-ball.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "striker",
+      "path": "assets/characters/striker.webp",
+      "type": "sprite",
+      "role": "striker",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "1c345248d3843414",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:10:40.617Z",
+        "outputSha256": "524dca7c96e2d80535e1e0e5cb2814103f9296b4cd58ac8958fc38f6649829a2",
+        "runtimeExport": {
+          "master": "assets/_source/masters/striker.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "defender",
+      "path": "assets/characters/defender.webp",
+      "type": "sprite",
+      "role": "defender",
+      "delivery": "runtime",
+      "quality": "production-demo",
+      "requiresAlpha": true,
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "b647573fc648dabb",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:11:26.974Z",
+        "outputSha256": "d0f9ead2d0850db175b9f3cf6584db6adccafd1274d6cba753db8a3b9612393f",
+        "runtimeExport": {
+          "master": "assets/_source/masters/defender.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "panel-scoreboard",
+      "type": "ui",
+      "path": "assets/ui/panel-scoreboard.webp",
+      "delivery": "runtime",
+      "role": "scoreboard-frame",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "0d5229231ee91009",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:12:09.415Z",
+        "outputSha256": "8ee21b74598b97c1a488ad3c5163590c199bbbf854a5d82ec178e90f005639b3",
+        "runtimeExport": {
+          "master": "assets/_source/masters/panel-scoreboard.png",
+          "quality": 90
+        }
+      }
+    },
+    {
+      "id": "btn-pause",
+      "type": "ui",
+      "path": "assets/ui/btn-pause.webp",
+      "delivery": "runtime",
+      "role": "pause-button",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "3f1c51e5ea29a3cf",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:12:47.437Z",
+        "outputSha256": "7a04de49fbb1f15cc6c97f6d1ba704c147ed3b60f5a316408d28f74a16256cc2",
+        "runtimeExport": {
+          "master": "assets/_source/masters/btn-pause.png",
+          "quality": 90
+        }
+      }
+    },
+    {
+      "id": "fx-impact",
+      "type": "fx",
+      "path": "assets/fx/fx-impact.webp",
+      "delivery": "runtime",
+      "role": "impact-burst",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "3df2c17a41e1125e",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:13:24.629Z",
+        "outputSha256": "fd71a5e6eda4d005de9c4a579459290fac34e235e6f742d89714083ff1c9add4",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-impact.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-glove",
+      "type": "fx",
+      "path": "assets/fx/fx-glove.webp",
+      "delivery": "runtime",
+      "role": "glove-flash",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "a9d7cc580583d550",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:14:06.125Z",
+        "outputSha256": "f80003190375b0977dddccbb2ee99de7b590dd9c56f66632e1d6de8e8f3a0edd",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-glove.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-net-ripple",
+      "type": "fx",
+      "path": "assets/fx/fx-net-ripple.webp",
+      "delivery": "runtime",
+      "role": "net-ripple",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "70317920848617e8",
+        "quality": "high",
+        "runId": "4b4ec98f89223531",
+        "generatedAt": "2026-08-16T00:30:16.616Z",
+        "outputSha256": "b74a396d6d0a5db0483cebdc8ae4331645867891aead675f318e8a1e52de862f",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-net-ripple.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-turf",
+      "type": "fx",
+      "path": "assets/fx/fx-turf.webp",
+      "delivery": "runtime",
+      "role": "turf-spray",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "24aeef229698fe1d",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:15:31.246Z",
+        "outputSha256": "caf6c933552645e014d7f26878fdb98d9d68dbd495b1d6df0ea84f2a2fc1274f",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-turf.png",
+          "quality": 88
+        }
+      }
+    },
+    {
+      "id": "fx-rain",
+      "type": "fx",
+      "path": "assets/fx/fx-rain.webp",
+      "delivery": "runtime",
+      "role": "rain-streak",
+      "requiresAlpha": true,
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
+        "sourceSkill": "imagegen",
+        "toolMode": "built-in-image_gen",
+        "promptHash": "94e512377cd96ee2",
+        "quality": "high",
+        "runId": "0ee786a1af1fb2ca",
+        "generatedAt": "2026-08-16T00:16:09.806Z",
+        "outputSha256": "74a28d45144d98126083418ab0fc9c40bb22e373c0df2812df70c29d328c768b",
+        "runtimeExport": {
+          "master": "assets/_source/masters/fx-rain.png",
+          "quality": 88
+        }
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "sfx-shot",
+      "path": "assets/audio/shot-impact.wav",
+      "type": "sfx",
+      "trigger": "shot fired",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "sfx-punch",
+      "path": "assets/audio/punch.wav",
+      "type": "sfx",
+      "trigger": "punch save",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "sfx-catch",
+      "path": "assets/audio/catch.wav",
+      "type": "sfx",
+      "trigger": "catch save",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "sfx-net",
+      "path": "assets/audio/net-ripple.wav",
+      "type": "sfx",
+      "trigger": "goal conceded",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "sfx-whistle",
+      "path": "assets/audio/whistle.wav",
+      "type": "ui",
+      "trigger": "stage transition / dive",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "bgm-home",
+      "path": "assets/audio/home-loop.wav",
+      "type": "bgm",
+      "trigger": "home scene",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    },
+    {
+      "id": "bgm-gameplay",
+      "path": "assets/audio/gameplay-loop.wav",
+      "type": "bgm",
+      "trigger": "game scene",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "last-minute-keeper",
+        "method": "procedural-wav-synthesis",
+        "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
+      }
+    }
+  ],
+  "imagegen": {
+    "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "method": "codex-gpt-imagegen-skill",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-08-16T00:30:18.239Z"
+  }
+}

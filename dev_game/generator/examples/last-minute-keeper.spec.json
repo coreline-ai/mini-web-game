@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "last-minute-keeper",
+    "title": "Last Minute Keeper",
+    "description": "A one-hand portrait goalkeeping game: drag the keeper along the goal line with real inertia, or flick to dive for double reach at the cost of a recovery window. Shots curve, defenders deflect them, and parried balls stay live and become the next threat. Not expressible in schema v1 — the loop is continuous interception with a commit-and-recover cost, not falling hazards, so this is a custom-loop build.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 1170,
+    "height": 2532,
+    "backgroundColor": "#07130c",
+    "scaleMode": "fit"
+  },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "production-demo",
+  "runtimeConfig": "src/game/config/keeperConfig.js",
+  "rules": {
+    "durationSeconds": 300,
+    "goal": "keep-the-goal-until-stoppage-time-ends",
+    "progressMetric": "saves-made",
+    "requiredObjectives": [
+      "survive-each-stage",
+      "reach-full-time"
+    ],
+    "failConditions": [
+      "five-goals-conceded"
+    ],
+    "commands": [
+      {
+        "id": "slide-keeper",
+        "label": "Slide Keeper",
+        "input": "drag along the goal line (below the flick speed threshold)",
+        "costs": {}
+      },
+      {
+        "id": "dive",
+        "label": "Dive",
+        "input": "flick left or right above the speed threshold",
+        "costs": {
+          "recoveryMs": 620
+        }
+      },
+      {
+        "id": "punch-clear",
+        "label": "Punch Clear",
+        "input": "tap while the ball is inside punch range to push the rebound wide",
+        "costs": {}
+      }
+    ]
+  },
+  "requiredAssetRoles": [
+    "stage-background",
+    "keeper-ready",
+    "keeper-dive",
+    "keeper-catch",
+    "match-ball",
+    "striker",
+    "defender",
+    "scoreboard-frame",
+    "pause-button",
+    "impact-burst",
+    "glove-flash",
+    "net-ripple",
+    "turf-spray",
+    "rain-streak"
+  ],
+  "captureMatrix": "qa/capture-matrix.json",
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "shotImpact": "audio/shot-impact.wav",
+      "punch": "audio/punch.wav",
+      "catch": "audio/catch.wav",
+      "conceded": "audio/net-ripple.wav",
+      "whistle": "audio/whistle.wav"
+    },
+    "music": {
+      "home": "audio/home-loop.wav",
+      "gameplay": "audio/gameplay-loop.wav"
+    }
+  },
+  "ui": {
+    "showPause": true,
+    "showProgressMetric": true,
+    "helpRequired": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "pauseWhenHidden": true,
+    "maxTargetDpr": 3
+  }
+}

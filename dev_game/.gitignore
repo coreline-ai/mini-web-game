@@ -34,6 +34,8 @@ generated/*
 !generated/night-market-wok/**
 !generated/keeper-last-light/
 !generated/keeper-last-light/**
+!generated/last-minute-keeper/
+!generated/last-minute-keeper/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 
