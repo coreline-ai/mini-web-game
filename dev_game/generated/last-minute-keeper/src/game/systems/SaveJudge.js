@@ -12,6 +12,12 @@ export const SAVE = Object.freeze({
 });
 
 // 공이 골라인을 넘는 순간의 판정. keeper의 도달 범위는 자세(다이브 여부)가 결정한다.
+// MISS 사유. 실패에서 배울 게 없으면 재미가 아니라 짜증이다 — 화면이 이유를 말해야 한다.
+export const MISS_REASON = Object.freeze({
+  OUT_OF_REACH: 'out-of-reach',
+  TOO_HIGH: 'too-high',
+});
+
 export function judgeSave(ball, keeperX, reachHalf, opts) {
   const dx = Math.abs(ball.x - keeperX);
   if (dx > reachHalf) return SAVE.MISS;
@@ -37,6 +43,13 @@ export function reboundVector(grade, ball, keeperX, rebound) {
   }
   // 다리막기는 힘없이 앞으로 튄다 — 가장 위험한 리바운드.
   return { vx: away * rebound.punchSpeed * 0.45, vy: -Math.abs(ball.vy) * rebound.parrySpeedRatio };
+}
+
+// 판정과 같은 순서로 사유를 되짚는다. judgeSave의 수식을 복제하지 않고 조건만 다시 읽는다.
+export function missReason(ball, keeperX, reachHalf, opts) {
+  if (Math.abs(ball.x - keeperX) > reachHalf) return MISS_REASON.OUT_OF_REACH;
+  if (ball.height > opts.catchMaxHeight && !opts.diving) return MISS_REASON.TOO_HIGH;
+  return MISS_REASON.OUT_OF_REACH;
 }
 
 export function scoreFor(grade, rules) {

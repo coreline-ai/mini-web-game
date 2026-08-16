@@ -35,7 +35,7 @@ export default class Ball {
 
   get alive() { return this.state === BALL_STATE.FLIGHT || this.state === BALL_STATE.LIVE; }
 
-  launch({ type, fromX, fromY, toX, goalY, crossbarLiftPx }) {
+  launch({ type, fromX, fromY, toX, goalY, crossbarLiftPx, catchMaxHeight }) {
     this.type = type;
     this.x = fromX;
     this.y = fromY;
@@ -43,6 +43,9 @@ export default class Ball {
     this.goalY = goalY;
     // height=1이 도착 시 크로스바에 오도록 하는 화면 리프트(px). 씬이 실측으로 준다.
     this.crossbarLiftPx = crossbarLiftPx;
+    // 이 공이 다이빙 없이는 막을 수 없는 높이인가. 그림자 색으로 알린다 — 골라인 마커와
+    // 같은 색 언어를 쓰되 **공 바로 옆**에 있어서 시선을 옮기지 않아도 읽힌다.
+    this.needsDive = type.height > catchMaxHeight;
     this.speed = type.speed;
     this.vy = type.speed;
     // 도착점을 맞추도록 초기 가로 속도를 역산한다. 커브가 있으면 그만큼 미리 어긋나게 쏜다.
@@ -59,7 +62,7 @@ export default class Ball {
     this.state = BALL_STATE.FLIGHT;
 
     this.sprite.setTexture('match-ball').setVisible(true).setActive(true).setAlpha(1).setAngle(0);
-    this.shadow.setVisible(true);
+    this.shadow.setVisible(true).setFillStyle(this.needsDive ? 0xffb347 : 0x000000, 1);
     this.sync();
   }
 

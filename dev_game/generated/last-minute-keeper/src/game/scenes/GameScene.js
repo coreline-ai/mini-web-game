@@ -7,7 +7,7 @@ import { KEEPER_RULES, SHOT_TYPES } from '../config/keeperConfig.js';
 import { GOAL_LINE_BY_STAGE, GOAL_MOUTH, PANEL_SLICE, SHOOTER_LINE, CROSSBAR_Y } from '../config/spriteMetrics.js';
 import KeeperController, { KEEPER_STATE } from '../systems/KeeperController.js';
 import ShotDirector from '../systems/ShotDirector.js';
-import { judgeSave, reboundVector, scoreFor, SAVE } from '../systems/SaveJudge.js';
+import { judgeSave, missReason, reboundVector, scoreFor, SAVE, MISS_REASON } from '../systems/SaveJudge.js';
 import { deflect } from '../systems/BallPhysics.js';
 import Ball, { BALL_STATE } from '../entities/Ball.js';
 import Keeper from '../entities/Keeper.js';
@@ -16,6 +16,13 @@ import { AudioManager } from '../systems/AudioManager.js';
 import { SaveData } from '../systems/SaveData.js';
 
 const BALL_POOL = 4;
+
+// 세이브 등급 문구. 점수만 오르면 "무엇을 잘했는지"가 남지 않는다.
+const GRADE_LABEL = Object.freeze({
+  [SAVE.CATCH]: '캐치',
+  [SAVE.PUNCH]: '펀칭',
+  [SAVE.BLOCK]: '블록',
+});
 
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
@@ -45,6 +52,17 @@ export default class GameScene extends Phaser.Scene {
     // ── 게임플레이 오브젝트 (배경은 골대·잔디·관중을 소유, 런타임은 이것들만)
     // 슈터는 잔디 위 균일 발사선에 선다. 이전에는 height * 0.20이라 다섯 배경 모두에서
     // 하늘 또는 관중석에 떠 있었다.
+    // ── 읽기 보조 ────────────────────────────────────────────────────────────
+    // 골키퍼 게임의 기술은 읽기·이동·커밋이다. 읽을 근거가 화면에 없으면 남는 것은 찍기뿐이고,
+    // 실제로 완벽 추적 봇이 30초에 4실점했다(전부 다이빙이 필요한 높은 공). 아래 둘은 정답을
+    // 주는 장치가 아니라 **내 능력과 공의 성질**을 보여주는 장치다.
+    //
+    //   도달 밴드 : 지금 서서 닿는 폭. 다이브 중에는 넓어진다 — 다이브의 이득이 처음으로 보인다.
+    //   도착 마커 : 공이 골라인을 지날 지점. 색이 "서서 막을 수 있는 높이인가"를 말한다.
+    //               곡선 슛에서는 이 마커가 움직이므로 초반 위치를 믿으면 속는다.
+    this.reachBand = this.add.rectangle(0, 0, 10, px(10), 0xffffff, 0.16).setDepth(9).setVisible(false);
+    this.arrivalMark = this.add.rectangle(0, 0, px(8), px(30), 0xffffff, 0.85).setDepth(10).setVisible(false);
+
     this.shooter = new Shooter(this, { unit: this.u, groundY: height * SHOOTER_LINE, widthPx: px(66) });
     this.keeper = new Keeper(this, { unit: this.u, widthPx: px(120) });
     this.balls = Array.from({ length: BALL_POOL }, () => new Ball(this, { unit: this.u }));
@@ -180,8 +198,26 @@ export default class GameScene extends Phaser.Scene {
     if (cue.fire) this.fireShot(cue);
     if (cue.advanced && !cue.victory) this.onStageAdvanced(cue);
 
+    this.updateReadCues();
     this.refreshHud();
     this.publish();
+  }
+
+  // 도달 밴드와 도착 마커. 판정에 관여하지 않고 판정 결과를 **미리 보여줄 뿐**이다.
+  updateReadCues() {
+    const reach = this.keeper.bodyHalfWidth(this.control);
+    this.reachBand.setVisible(true)
+      .setPosition(this.control.x, this.goalY + px(6))
+      .setSize(reach * 2, px(10))
+      .setFillStyle(this.control.diving ? 0x9ff5c0 : 0xffffff, this.control.diving ? 0.30 : 0.16);
+
+    // 가장 먼저 도착할 공을 표시한다. 여러 개가 살아 있으면 진행도가 가장 큰 것이다.
+    const lead = this.liveBalls().sort((a, b) => (b.progress || 0) - (a.progress || 0))[0];
+    if (!lead) { this.arrivalMark.setVisible(false); return; }
+    const tooHigh = lead.targetHeight > this.rules.judge.catchMaxHeight;
+    this.arrivalMark.setVisible(true)
+      .setPosition(lead.x, this.goalY + px(6))
+      .setFillStyle(tooHigh ? 0xffb347 : 0xffffff, 0.85);
   }
 
   liveBalls() { return this.balls.filter((b) => b.alive); }
@@ -196,7 +232,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.shooter.telegraph(fromX, type, () => {
       if (this.ended) return;
-      ball.launch({ type, fromX, fromY: height * SHOOTER_LINE, toX, goalY: this.goalY, crossbarLiftPx: this.crossbarLiftPx });
+      ball.launch({ type, fromX, fromY: height * SHOOTER_LINE, toX, goalY: this.goalY, crossbarLiftPx: this.crossbarLiftPx,
+        catchMaxHeight: this.rules.judge.catchMaxHeight });
       if (cue.deflect) this.time.delayedCall(220, () => { if (ball.alive) deflect(ball, this.rng); });
       AudioManager.playSfx(this, 'sfx-shot', 0.75);
       this.spawnFx('fx-turf', fromX, height * SHOOTER_LINE, 0.7);
@@ -205,20 +242,20 @@ export default class GameScene extends Phaser.Scene {
 
   resolveAtLine(ball) {
     const reach = this.keeper.bodyHalfWidth(this.control);
-    const grade = judgeSave(ball, this.control.x, reach, {
-      diving: this.control.diving,
-      catchMaxHeight: 0.55,
-      blockMaxHeight: 0.75,
-      catchMaxSpeed: 1300,
-    });
+    const opts = { diving: this.control.diving, ...this.rules.judge };
+    const grade = judgeSave(ball, this.control.x, reach, opts);
 
-    if (grade === SAVE.MISS) { this.concede(ball); return; }
+    if (grade === SAVE.MISS) {
+      this.concede(ball, missReason(ball, this.control.x, reach, opts));
+      return;
+    }
 
     this.saves += 1;
     this.director.registerSave();
     this.combo = Math.min(this.rules.comboMax, this.combo + this.rules.comboStep);
     this.score += scoreFor(grade, this.rules) * this.combo;
 
+    this.showBanner(GRADE_LABEL[grade] || '', '#9ff5c0');
     if (grade === SAVE.CATCH) {
       ball.retire();
       this.control.playCatch();
@@ -234,8 +271,10 @@ export default class GameScene extends Phaser.Scene {
     this.refreshHud();
   }
 
-  concede(ball) {
+  // 사유를 함께 받아 화면에 남긴다. 왜 들어갔는지 모르면 다음에도 같은 실점을 한다.
+  concede(ball, reason) {
     ball.retire();
+    this.showBanner(reason === MISS_REASON.TOO_HIGH ? '너무 높다 — 다이빙' : '닿지 않았다', '#ff8a5c');
     this.conceded += 1;
     this.combo = 0;
     this.director.registerConcede();
@@ -295,10 +334,11 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  showBanner(text) {
+  showBanner(text, color) {
+    if (!text) return;
     const { width, height } = SPEC.canvas;
     const banner = this.add.text(width / 2, height * 0.38, text, {
-      fontFamily: 'Arial Black,Arial', fontSize: font(30), color: '#ffe066',
+      fontFamily: 'Arial Black,Arial', fontSize: font(30), color: color || '#ffe066',
       stroke: '#07130c', strokeThickness: px(5),
     }).setOrigin(0.5).setDepth(25);
     this.tweens.add({
@@ -399,6 +439,7 @@ export default class GameScene extends Phaser.Scene {
           // 실제 발사와 같은 인자를 넘긴다. 하나라도 빠지면 캡처 증거가 실제 플레이와
           // 달라지고(여기서는 lift가 NaN이 된다), 그 증거로 통과 판정을 내리게 된다.
           crossbarLiftPx: this.crossbarLiftPx,
+          catchMaxHeight: this.rules.judge.catchMaxHeight,
         });
         if (opts.progress) {
           // 비행 중간 상태를 즉시 만든다(캡처용). 물리를 우회하지 않고 적분을 앞당긴다.
@@ -427,6 +468,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   teardown() {
+    this.reachBand?.setVisible(false);
+    this.arrivalMark?.setVisible(false);
     for (const b of this.balls) b.destroy();
     this.keeper?.destroy();
     this.shooter?.destroy();
