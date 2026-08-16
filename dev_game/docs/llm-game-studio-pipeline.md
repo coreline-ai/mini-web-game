@@ -16,12 +16,10 @@ Archetype은 빠르게 출발하기 위한 참고 패턴이다.
 `dev_game` 산출물은 Foundation starter에서 멈추면 안 된다. 완료 보고 전 [`production-demo-quality-contract.md`](production-demo-quality-contract.md)를 따라 아래 게이트를 통과해야 한다.
 
 ```bash
-npm --prefix dev_game run factory:qa
-npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
-npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
-npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen
 ```
+
+개별 게이트 명령은 여기 적지 않는다. [`production-demo-quality-contract.md`](production-demo-quality-contract.md) §4가 단일 원본이다.
 
 강제 항목:
 
@@ -237,6 +235,61 @@ MVP 진행 중 placeholder는 허용될 수 있지만, **완료 보고 대상 pr
 ```
 
 위 표현은 completion audit이 실제로 모든 요구를 증명할 때만 사용한다.
+
+## 6. 스킬 자체를 고칠 때의 정합성 게이트
+
+위 §0~§5는 **게임을 만드는 작업**의 규칙이다. 이 절은 **스킬 문서 자체를 고치는 작업**의 규칙이다.
+
+둘을 나누는 이유는 하나다. 게임 작업은 산출물이 스킬 밖에 있어서 게이트가 독립적으로 판정할 수
+있지만, 스킬 유지보수는 **판정 기준 자체가 편집 대상**이다. 구현자가 완료를 선언하고 그 완료의
+정의를 같은 세션에서 고치면 어떤 증거도 사후 합리화와 구분되지 않는다.
+
+### 6.1 작업 유형
+
+| 유형 | 뜻 | 규칙 |
+|---|---|---|
+| `skill-execution` | 스킬을 **써서** 무언가를 만든다 | 적용 skill SHA를 동결한다. 작업 중 스킬 변경 금지 |
+| `skill-maintenance` | 스킬 **자체를** 고친다 | baseline SHA·사전 고정 계약·candidate SHA를 대조한다 |
+
+`skill-execution` 도중 스킬 결함을 발견하면 현재 작업을 `BLOCKED`하고 별도 `skill-maintenance`
+작업으로 분리한다. 구현에 맞추려고 같은 작업에서 스킬을 조용히 고치는 것이 가장 흔한 실패다.
+
+### 6.2 상태 기계
+
+```text
+PLANNED → IMPLEMENTING → EVIDENCE_READY → ADVERSARIAL_REVIEW → PASS → NEXT
+                                                └→ BLOCKED
+```
+
+- 각 Phase는 **첫 파일 수정 전에** `PLANNED` 보고서가 있어야 한다.
+- 구현자는 As-built를 쓰지만 `PASS`를 발급하지 않는다. **대상 파일을 편집하지 않은 독립 reviewer**가
+  사전 고정 corpus와 대조표로 판정한다.
+- `PASS` 없이 다음 Phase를 시작하지 않는다. 사용자 승인으로 `PASS`를 대체하지 않는다.
+- 증거 누락·범위 밖 변경·검사기 fail-open은 어떤 사유로도 면제하지 않는다.
+
+### 6.3 경로 소유권
+
+Phase마다 편집 허용 경로를 사전에 고정하고, 그 밖의 변경은 현재 Phase를 `BLOCKED`한다.
+계획 전부터 dirty였던 경로는 `UNTRUSTED_PREPLAN`으로 격리한다 — dirty인 것 자체는 위반이 아니지만,
+이를 심판할 Phase가 오기 전에 내용이 바뀌면 그건 어느 Phase의 성과도 아닌 몰래 편집이다.
+
+### 6.4 hash 불변성
+
+승인된 계획은 읽기 전용이다. 실행 중 허용되는 변경은 체크박스 `[ ] → [x]` 하나뿐이며, 체크박스를
+정규화한 뒤의 hash가 달라지면 계획이 자기 기준을 움직인 것이므로 즉시 `BLOCKED`다. 이전 Phase의
+승인 파일 hash가 바뀌면 그 `PASS`를 무효화하고 해당 Phase부터 다시 검토한다.
+
+### 6.5 검사 명령
+
+```bash
+node scripts/check_skill_conformance.mjs --plan <plan.md>
+node scripts/check_skill_gate_controls.mjs
+```
+
+앞의 것은 위 §6.2~6.4를 구조적으로 검사하고, 뒤의 것은 **검사기들 자신의 음성·양성 대조**를 돌린다.
+새 검사기의 출력은 두 대조를 모두 통과하기 전에는 증거가 아니다
+([`post-production-qa-contract.md`](post-production-qa-contract.md) §0.1). 이 두 명령이 통과했다고
+스킬 수정이 옳다는 뜻은 아니다 — 구조만 본다. 의미 정합성은 독립 reviewer의 대조표가 판정한다.
 
 ## Schema v1/v2 실행 분기
 

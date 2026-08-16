@@ -1,0 +1,1 @@
+{"schemaVersion":1,"commands":[{"id":"demo-x","skill":"demo-factory","script":"factory:does-not-exist","requiredFlags":[],"responsibility":"존재하지 않는 명령"}]}

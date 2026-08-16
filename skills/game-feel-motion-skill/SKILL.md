@@ -25,35 +25,35 @@ This skill is for the **game feel / UI motion / feedback polish layer**. Do not 
 
 ## Core Workflow
 
-1. Identify the game event: input, hit, reward, skill cast, cooldown, transition, menu action, or state change.
-2. Define the feel goal: snappy, heavy, elastic, soft, premium, dangerous, rare, successful, interrupted, or urgent.
-3. Name the motion using precise vocabulary from `references/final-pipeline.md`.
-4. Create an asset brief before implementation. For frame-based or VFX motion, use `assets/templates/sequential-asset-brief.md`.
-5. For generated image assets, enforce the spacing contract in `references/sequential-motion-assets.md`.
-6. Produce or request source assets, game-ready exports, spritesheet/atlas metadata, and optional audio/haptic markers.
-7. Choose duration, easing, spring, frame count, and sequencing values from `references/motion-values-and-tokens.md`.
-8. Integrate through the game loop without coupling raw input to animation code.
-9. Validate spritesheet layout using `scripts/validate_spritesheet_manifest.py` when a manifest exists.
-10. Run final Block/Approve QA using `references/review-standards.md`.
+**1. Identify the event and classify it.** The class decides what you must define — get this wrong
+and the rest of the flow produces the wrong spec.
 
-## Decision Tree
+| Class | Define |
+|---|---|
+| Player input / control feel | action abstraction, response window, buffering, cancellation, feedback timing |
+| UI motion (menu actions, state changes) | state transition, duration, easing/spring, reduced-motion fallback, visual hierarchy |
+| Hit / reward / skill / cooldown / transition feedback | motion vocabulary, VFX·audio·haptic assets, screen/camera impact, timing stack |
 
-```text
-Is this player input or control feel?
-  → Define action abstraction, response window, buffering, cancellation, and feedback timing.
+**2. Define the feel goal and name the motion.** snappy, heavy, elastic, soft, premium, dangerous,
+rare, successful, interrupted, urgent — then use the precise vocabulary in
+`references/final-pipeline.md`.
 
-Is this UI motion?
-  → Define state transition, duration, easing/spring, reduced-motion fallback, and visual hierarchy.
+**3. Write the asset brief before implementation.** `assets/templates/asset-brief.md` for
+single-state or UI; `assets/templates/sequential-asset-brief.md` for frame-based or VFX motion.
 
-Is this hit, reward, skill, or transition feedback?
-  → Define motion vocabulary, VFX/audio/haptic assets, screen/camera impact, and timing stack.
+**4. If the motion needs generated image frames**, enforce the spacing contract in
+`references/sequential-motion-assets.md` — fixed cell size, pivot, baseline, gap, margin, and the
+non-overlap rule. Then produce or request the source assets, game-ready exports, spritesheet/atlas
+metadata, and any audio/haptic markers.
 
-Does the motion require generated image frames?
-  → Use sequential asset brief, fixed cell size, fixed pivot, fixed baseline, gap, margin, and non-overlap rules.
+**5. Choose the numbers** — duration, easing, spring, frame count, sequencing — from
+`references/motion-values-and-tokens.md`.
 
-Is the output ready for final polish review?
-  → Run Block/Approve QA. Block if readability, spacing, timing, accessibility, or implementation contract fails.
-```
+**6. Integrate through the game loop** without coupling raw input to animation code.
+
+**7. Validate, then judge.** Run `scripts/validate_spritesheet_manifest.py` when a manifest exists,
+then Block/Approve QA per `references/review-standards.md`. **Block if readability, spacing, timing,
+accessibility, or the implementation contract fails.**
 
 ## Required Outputs
 

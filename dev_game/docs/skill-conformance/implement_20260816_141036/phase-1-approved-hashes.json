@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "phase": 1,
+  "planId": "implement_20260816_141036",
+  "note": "Phase 1이 승인받은 산출물의 hash. 자기 Phase의 보고서와 이 파일 자신은 담지 않는다(P0-3). 그 둘은 Phase 2 manifest가 정본 경로 사슬 링크로 회수한다.",
+  "files": {
+    "scripts/check_skill_commands.mjs": "243efe1e94e1409df12a7363e9791a0fa589a9dd6e21d8c1b918d63b3588e833",
+    "scripts/check_skill_drift.sh": "8c4e95f265645cdff1ed0785a39a37601eb376da0fe2998a9781cbe1288e5d5e",
+    "scripts/check_skill_conformance.mjs": "f233d1a55c9ab5a6a28e0b2a2fe2277200db8d7a8c3a70c29f62c0ce9266aa5a",
+    "scripts/check_skill_gate_controls.mjs": "61c05dc748c614b0ba2b1b76398c76a75680c84221abeac093170a0c484beb3e",
+    "dev_game/docs/llm-game-studio-pipeline.md": "4145150e5d4228164ac356868ce9a71447ae9a778c53cb6b3288d9480a1252ca",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/command-inventory.json": "4a49d6aea887f187d144a856930a8f6ccb03c5ca246bb6917406370a7cd65f81",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/routing-corpus.json": "64e42ae6967a7e442c1f6dedccb5cf2113aa7da7397d280085ef4fa6a740834e",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/path-ownership.json": "9035f199b3a5e19a8625fed261927dbf436579eab969275a4a19860f4b642a9e",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/skill-inventory.md": "d5d8b7ff1e3b20c1e36589e338c6c34dfd638ec7693dda6d1d7543785527bd45",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/approved-plan.json": "5da36e31cc73183ff03ceed9d099fc52f4e71b71db58e7a7f55abeb10c7ded88"
+  }
+}

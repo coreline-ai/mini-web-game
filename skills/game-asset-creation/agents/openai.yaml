@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Asset Creation"
   short_description: "2D sprite and sprite-sheet creation, editing, and alignment QA."
-  default_prompt: "Use game-asset-creation to produce or repair a 2D character sprite sheet with fixed cell size, pivot, and baseline."
+  default_prompt: "Use game-asset-creation to produce a 2D character sprite sheet, or — in its low-freedom correction mode — to fix spacing, baseline, pivot, or cell size on already-approved frames without changing pixels, pose, frame count, scale, or order. State which mode applies before starting. Route animation timing and runtime feel judgement to game-feel-motion-skill."

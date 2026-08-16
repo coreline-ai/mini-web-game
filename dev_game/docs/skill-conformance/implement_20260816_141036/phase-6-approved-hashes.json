@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "phase": 6,
+  "planId": "implement_20260816_141036",
+  "note": "Phase 6이 승인받은 산출물의 hash. Phase 5를 정본 경로로 담아 사슬을 잇는다. Phase 6은 스킬을 편집하지 않으므로 증거 문서만 담는다.",
+  "files": {
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-5-approved-hashes.json": "105e51b66a73641738ae016726a2d4fa1136e3af27c80ba9f49649c9386266a6",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-5-game-feel-motion-skill.md": "b3d3fc0ea464d91c1720da70c7f26a3e2999987ee2b2c79d23d4b5ed5f9d53d4",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/follow-up-plan-draft.md": "8544937faee7308affe79b6018190a9980614cb21bb2119d362aa495a94bac28"
+  }
+}

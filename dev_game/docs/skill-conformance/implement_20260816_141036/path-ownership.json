@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "planId": "implement_20260816_141036",
+  "note": "계획서 §Phase별 파일 소유권(191~198행)의 기계 판독 정본. 이 파일과 계획서 표가 어긋나면 계획서가 정본이고 이 파일이 결함이다.",
+  "alwaysAllowed": [
+    "dev_game/dev-plan/implement_20260816_141036.md",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/"
+  ],
+  "untrustedPreplanNote": "계획서 44~59행. 계획 전에 이미 dirty였던 경로다. dirty인 것 자체는 위반이 아니지만, 이들을 심판할 Phase가 오기 전에 patch hash가 바뀌면 그건 어느 Phase의 성과도 아닌 몰래 편집이다. 심판 Phase에 도달하면 hash 고정이 풀리고 채택·거부 판정을 받는다.",
+  "untrustedPreplan": [
+    {
+      "path": "dev_game/docs/llm-game-studio-pipeline.md",
+      "patchSha256": "10a7aac6636e98ed2f1097a2a972d67b9d1ac2ab26d93d108037116d83211c1b",
+      "adjudicatedInPhase": 1
+    },
+    {
+      "path": "skills/game-factory/SKILL.md",
+      "patchSha256": "1809bea2043a931e825b2e4a75d68060666a5c0edce7cdec3d1c31a0a0ea2f8f",
+      "adjudicatedInPhase": 2
+    },
+    {
+      "path": "skills/game-polish/SKILL.md",
+      "patchSha256": "cd721ea3565798f53cc8fbf8ffed7835ee399e1fa7e55b7bf4dc1b7a887ae1e7",
+      "adjudicatedInPhase": 3
+    }
+  ],
+  "phases": {
+    "1": {
+      "name": "기준선 격리·게이트 선행 구축",
+      "allowed": [
+        "dev_game/docs/llm-game-studio-pipeline.md",
+        "scripts/check_skill_"
+      ],
+      "forbiddenNote": "네 스킬 내용과 계약 문서는 건드리지 않는다"
+    },
+    "2": {
+      "name": "game-factory 다이어트",
+      "allowed": ["skills/game-factory/"],
+      "forbiddenNote": "다른 세 스킬·계약·계획 본문"
+    },
+    "3": {
+      "name": "game-polish 다이어트",
+      "allowed": ["skills/game-polish/"],
+      "forbiddenNote": "다른 세 스킬·계약·계획 본문"
+    },
+    "4": {
+      "name": "game-asset-creation 다이어트",
+      "allowed": ["skills/game-asset-creation/"],
+      "forbiddenNote": "다른 세 스킬·계약·계획 본문"
+    },
+    "5": {
+      "name": "game-feel-motion-skill 다이어트",
+      "allowed": ["skills/game-feel-motion-skill/"],
+      "forbiddenNote": "다른 세 스킬·계약·계획 본문"
+    },
+    "6": {
+      "name": "독립 포워드 테스트·최종 승인",
+      "allowed": [],
+      "forbiddenNote": "스킬·계약·pipeline·계획 본문 변경 금지. 증거만 쓴다"
+    }
+  },
+  "cumulative": true,
+  "cumulativeNote": "Phase N 시점에서는 Phase 1~N의 allowed가 모두 dirty일 수 있다. 앞 Phase가 남긴 변경은 커밋 전까지 계속 dirty로 보이기 때문이다. 금지되는 것은 '아직 오지 않은 Phase의 경로'와 '어느 Phase도 소유하지 않은 경로'다."
+}

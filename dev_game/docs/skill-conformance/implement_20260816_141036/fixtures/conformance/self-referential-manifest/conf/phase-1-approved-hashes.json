@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "phase": 1,
+  "files": {
+    "src/a.js": "1063fdbb4716d8150d0b90103ea8455d9a91e418c4c90cddf6aaa18e8e639d3e",
+    "conf/phase-1-a.md": "c96cce72e7401a6819890bf2d50894de595bc3175f0506e2348c830f3d33aac0"
+  }
+}

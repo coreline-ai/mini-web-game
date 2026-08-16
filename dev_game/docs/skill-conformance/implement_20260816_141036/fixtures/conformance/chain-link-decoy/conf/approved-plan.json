@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "planPath": "plan.md",
+  "baselineHead": "0000000000000000000000000000000000000000",
+  "rawPlanSha256": "95376781d5311dabbc1bc0ed4a2cb1eac62df8ac52c08403d4799f5563a2959f",
+  "normalizedPlanSha256": "95376781d5311dabbc1bc0ed4a2cb1eac62df8ac52c08403d4799f5563a2959f",
+  "normalization": "UTF-8 bytes with Markdown checkbox markers [x] and [X] normalized to [ ]; all other bytes unchanged",
+  "verdict": "APPROVE"
+}

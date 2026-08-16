@@ -18,12 +18,97 @@ set -euo pipefail
 #
 # Read-only: never repairs. Use install_game_factory_skill.sh repo to fix.
 #
-# Usage: ./scripts/check_skill_drift.sh [--skip-user]   (runnable from any cwd)
+# Usage: ./scripts/check_skill_drift.sh [--skip-user] [--skills-root <dir>]
+#   (runnable from any cwd)
+#
+# --skills-root runs ONLY the document-structure check against the given directory. Fixtures
+# have no symlinks and no install, so running topology checks on them would fail for reasons
+# unrelated to what the fixture tests — and a control that fails for the wrong reason proves
+# nothing (계약 §0.1).
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_LINK_ROOTS=(.claude/skills .agents/skills)
 SKIP_USER=0
-[[ "${1:-}" == "--skip-user" ]] && SKIP_USER=1
+SKILLS_ROOT=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --skip-user) SKIP_USER=1; shift ;;
+    --skills-root) SKILLS_ROOT="${2:?--skills-root needs a directory}"; shift 2 ;;
+    *) echo "Unknown argument: $1" >&2; exit 2 ;;
+  esac
+done
+
+# 문서 구조 검사. 스킬 선택은 frontmatter가 먼저 하고, Codex UI는 agents/openai.yaml이 먼저
+# 보여준다. 둘 중 하나가 깨지면 SKILL.md 본문이 아무리 정확해도 스킬이 잘못 뽑히거나 잘못
+# 설명된다. 다이어트는 이 두 층을 가장 먼저 건드리므로 여기에 바닥을 깔아 둔다.
+check_structure() {
+  python3 - "$1" <<'PYEOF'
+import re, sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+bad = []
+seen = 0
+
+for d in sorted(p for p in root.iterdir() if p.is_dir()):
+    md = d / "SKILL.md"
+    if not md.exists():
+        continue
+    seen += 1
+    text = md.read_text(encoding="utf-8")
+
+    # frontmatter fence — 여는 --- 와 닫는 --- 가 모두 있어야 한다
+    m = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
+    if not m:
+        bad.append(f"{d.name}/SKILL.md: frontmatter fence가 없거나 닫히지 않았다 (--- ... ---)")
+        continue
+    fm = m.group(1)
+
+    name = re.search(r'^name:\s*(.+?)\s*$', fm, re.M)
+    if not name or not name.group(1).strip():
+        bad.append(f"{d.name}/SKILL.md: frontmatter name이 비어 있다")
+    elif name.group(1).strip().strip('"\'') != d.name:
+        bad.append(f"{d.name}/SKILL.md: frontmatter name이 디렉터리와 다르다 ({name.group(1).strip()})")
+
+    desc = re.search(r'^description:\s*(.*)$', fm, re.M)
+    if not desc or not desc.group(1).strip().strip('"\''):
+        bad.append(f"{d.name}/SKILL.md: frontmatter description이 비어 있다 — "
+                   "설명이 없으면 이 스킬은 어떤 요청에도 선택되지 않는다")
+
+    # agents/openai.yaml — Codex UI가 읽는 층. SKILL과 같은 범위를 말해야 한다.
+    yml = d / "agents" / "openai.yaml"
+    if not yml.exists():
+        bad.append(f"{d.name}/agents/openai.yaml이 없다")
+        continue
+    y = yml.read_text(encoding="utf-8")
+    if not re.search(r'^interface:\s*$', y, re.M):
+        bad.append(f"{d.name}/agents/openai.yaml: 최상위 interface: 블록이 없다")
+        continue
+    for field in ("display_name", "short_description", "default_prompt"):
+        fm2 = re.search(rf'^\s+{field}:\s*(.*)$', y, re.M)
+        if not fm2 or not fm2.group(1).strip().strip('"\''):
+            bad.append(f"{d.name}/agents/openai.yaml: interface.{field}가 없거나 비어 있다")
+
+if seen == 0:
+    print(f"ERR {root}에 SKILL.md를 가진 디렉터리가 없다 — 공허한 통과를 거부한다")
+    sys.exit(1)
+for b in bad:
+    print(f"ERR {b}")
+sys.exit(1 if bad else 0)
+PYEOF
+}
+
+# fixture 모드 — 구조 검사만 돌린다 (위 --skills-root 주석 참조)
+if [[ -n "$SKILLS_ROOT" ]]; then
+  echo "== skill document structure (fixture: $SKILLS_ROOT) =="
+  if check_structure "$SKILLS_ROOT"; then
+    echo "  OK  frontmatter fence/name/description, agents/openai.yaml 필수 필드"
+    echo "skill structure: OK"
+    exit 0
+  fi
+  echo "skill structure: DRIFT DETECTED" >&2
+  exit 1
+fi
 
 # Discovery rule (shared with install_game_factory_skill.sh): a skill is a directory under
 # skills/ that contains a SKILL.md. Anything else there — a loose .md, a stray folder — is
@@ -75,6 +160,13 @@ for root in "${REPO_LINK_ROOTS[@]}"; do
     fi
   done
 done
+
+echo "== skill document structure =="
+if check_structure "$ROOT/skills"; then
+  note "OK  frontmatter fence/name/description, agents/openai.yaml 필수 필드"
+else
+  fail=1
+fi
 
 echo "== gate constants vs docs =="
 # The Path B checklist in ai-art-pipeline.md restates values the gate hardcodes. If someone

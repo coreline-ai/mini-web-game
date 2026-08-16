@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "planId": "implement_20260816_141036",
+  "note": "다이어트 전에 고정하는 라우팅 정본. Phase 2~5는 이 corpus를 회귀로 재실행하고, Phase 6은 기대 답을 모르는 독립 reviewer에게 request만 주고 결과를 여기에 대조한다. 사례를 늘리는 것은 허용되지만 기존 사례의 expected*를 바꾸는 것은 계획 수정이다.",
+  "cases": [
+    {
+      "id": "new-game",
+      "request": "좀비 피하면서 편의점까지 뛰어가는 모바일 게임 하나 만들어줘",
+      "lifecycleState": "no-game-exists",
+      "expectedPrimarySkill": "game-factory",
+      "forbiddenPrimarySkills": ["game-polish", "game-asset-creation", "game-feel-motion-skill"],
+      "expectedHandoffs": ["프레임 시트가 필요하면 game-feel-motion-skill에 사양을 브리핑"],
+      "expectedStopCondition": "production-demo 게이트 전부 통과 전에는 완료라고 보고하지 않는다",
+      "expectedWorkOrder": ["아이디어 정리", "기획 문서 01~05", "스캐폴드", "커스텀 루프 구현", "아트", "게이트"],
+      "expectedAllowedPaths": ["dev_game/generated/<new-id>/**"],
+      "rationale": "존재하지 않는 게임이므로 polish는 대상 자체가 없다"
+    },
+    {
+      "id": "acceptance-defect-before-first-pass",
+      "request": "방금 만든 게임인데 캡처 보니까 버튼이 겹쳐 있어. 아직 게이트도 안 돌렸어",
+      "lifecycleState": "first-production-demo-not-yet-passed",
+      "expectedPrimarySkill": "game-factory",
+      "forbiddenPrimarySkills": ["game-polish"],
+      "expectedHandoffs": [],
+      "expectedStopCondition": "첫 PASS를 받을 때까지 factory가 닫는다",
+      "expectedWorkOrder": ["재현", "수정", "재캡처", "게이트"],
+      "expectedAllowedPaths": ["dev_game/generated/<id>/**"],
+      "rationale": "계획 §생명주기 경계 1 — 첫 PASS 전 acceptance defect는 factory 책임이다. 여기서 polish로 넘기면 미완성 산출물이 완료된 것처럼 취급된다"
+    },
+    {
+      "id": "defect-after-first-pass",
+      "request": "지난주에 완료된 게임인데 음악이 홈으로 나가도 계속 겹쳐서 나와",
+      "lifecycleState": "first-production-demo-passed",
+      "expectedPrimarySkill": "game-polish",
+      "forbiddenPrimarySkills": ["game-factory"],
+      "expectedHandoffs": [],
+      "expectedStopCondition": "회귀 체크리스트 재실행이 깨끗하고 게이트가 전부 통과할 때까지 세션을 닫지 않는다",
+      "expectedWorkOrder": ["회귀 재실행", "증상 접수", "결함 분류", "재현", "수정", "재캡처", "게이트", "기록"],
+      "expectedAllowedPaths": ["dev_game/generated/<id>/**"],
+      "rationale": "첫 PASS 이후의 관찰 결함은 polish의 본질이다"
+    },
+    {
+      "id": "expansion-on-existing-game",
+      "request": "이미 완료된 그 게임에 보스전 하나 추가해줘",
+      "lifecycleState": "first-production-demo-passed",
+      "expectedPrimarySkill": "game-factory",
+      "forbiddenPrimarySkills": ["game-polish"],
+      "expectedHandoffs": ["확장 중 발견한 비관련 기존 결함은 별도 polish 작업으로 분리"],
+      "expectedStopCondition": "확장된 범위로 게이트를 다시 통과해야 완료다",
+      "expectedWorkOrder": ["범위 정의", "구현", "자산", "게이트"],
+      "expectedAllowedPaths": ["dev_game/generated/<id>/**"],
+      "rationale": "계획 §생명주기 경계 3 — 기존 게임의 새 기능은 factory expansion이다. polish는 기능을 추가하지 않는다"
+    },
+    {
+      "id": "approved-frame-spacing",
+      "request": "승인된 5개 프레임 중 1~3번을 4~5번과 같은 중심 간격으로 옮겨줘. 그림은 건드리지 말고",
+      "lifecycleState": "frames-approved",
+      "expectedPrimarySkill": "game-asset-creation",
+      "forbiddenPrimarySkills": ["game-feel-motion-skill", "game-factory"],
+      "expectedHandoffs": [],
+      "expectedStopCondition": "픽셀이 바뀌면 중단한다. 재생성은 이 작업이 아니다",
+      "expectedWorkOrder": ["기준선·피벗 측정", "셀 재배치", "bbox 검수"],
+      "expectedAllowedPaths": ["<sheet-path>"],
+      "rationale": "승인 프레임의 픽셀 보존 재배치는 asset의 저자유도 모드다"
+    },
+    {
+      "id": "new-sprite-sheet",
+      "request": "격투 캐릭터 idle/punch/kick 시트 새로 만들어줘",
+      "lifecycleState": "no-frames-yet",
+      "expectedPrimarySkill": "game-asset-creation",
+      "forbiddenPrimarySkills": ["game-polish"],
+      "expectedHandoffs": ["셀 크기·간격·피벗·기준선 계약은 game-feel-motion-skill에서 받아온다"],
+      "expectedStopCondition": "시트 간격·기준선이 계약과 어긋나면 승인하지 않는다",
+      "expectedWorkOrder": ["모션 사양 수령", "생성", "QA"],
+      "expectedAllowedPaths": ["<sheet-path>"],
+      "rationale": "계획 §스킬 본질 — asset은 생성·편집·검수가 본질이고 픽셀 보존 교정은 그 하위 모드다. 생성 요청을 교정 모드로 좁히면 본질이 사라진다"
+    },
+    {
+      "id": "motion-timing",
+      "request": "타격감이 흐릿해. 히트스톱이랑 이징 값 잡아줘",
+      "lifecycleState": "runtime-exists",
+      "expectedPrimarySkill": "game-feel-motion-skill",
+      "forbiddenPrimarySkills": ["game-asset-creation", "game-polish"],
+      "expectedHandoffs": [],
+      "expectedStopCondition": "런타임에서 읽히는지 Block/Approve로 판정한다",
+      "expectedWorkOrder": ["현재 타이밍 측정", "motion spec", "구현 note", "QA 판정"],
+      "expectedAllowedPaths": ["<runtime-config-path>"],
+      "rationale": "타이밍·이징·가독성은 motion의 본질이고 픽셀 위치와 무관하다"
+    },
+    {
+      "id": "asset-plus-motion-composite",
+      "request": "프레임 간격도 어긋났고 타격 타이밍도 이상해. 둘 다 고쳐줘",
+      "lifecycleState": "frames-approved-runtime-exists",
+      "expectedPrimarySkill": "game-asset-creation",
+      "forbiddenPrimarySkills": [],
+      "expectedHandoffs": ["간격 교정 PASS 이후 game-feel-motion-skill로 타이밍 작업을 분리"],
+      "expectedStopCondition": "한 작업에서 둘 다 하지 않는다. 각각 정합성 PASS를 받는다",
+      "expectedWorkOrder": ["asset 간격 교정 → PASS", "motion 타이밍 → PASS"],
+      "expectedAllowedPaths": ["<sheet-path>", "<runtime-config-path>"],
+      "rationale": "계획 §생명주기 경계 5 — 복합 요청은 순차 작업으로 나눈다. 한 스킬이 둘 다 하면 책임 침범이다"
+    }
+  ]
+}

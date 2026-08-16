@@ -1,6 +1,6 @@
 ---
 name: game-asset-creation
-description: Create, edit, validate, and QA 2D game sprite assets and sprite sheets, especially 1990s arcade fighting game character animation sheets. Use when generating or editing game animation assets, fix sprite-sheet spacing/alignment, preserve character identity, normalize frame cells, or formalize prompts for image editing tasks such as repositioning 5 completed animation assets so assets 1-3 match the center-to-center spacing of assets 4-5 without changing shape, scale, baseline, order, or frame content. Scope is pixel-preserving repositioning of already-approved frames; route animation timing and runtime feel judgement to game-feel-motion-skill.
+description: Create, edit, validate, and QA 2D game sprite assets and sprite sheets, especially 1990s arcade fighting game character animation sheets. Use when generating a new character sprite sheet or per-action frames, editing existing ones, preserving character identity, normalizing frame cells, or writing prompts for an image-editing model. Has a second, low-freedom mode — correcting spacing, baseline, pivot, or cell size on already-approved frames, where pixels, pose, frame count, scale, and order must not change. Route animation timing and runtime feel judgement to game-feel-motion-skill.
 ---
 
 # Game Asset Creation
@@ -9,12 +9,14 @@ description: Create, edit, validate, and QA 2D game sprite assets and sprite she
 
 2D 게임용 캐릭터 에셋, 스프라이트 시트, 동작 프레임, 타격/방어/피격 애니메이션을 **실제 게임에 바로 넣을 수 있는 기술 에셋**으로 생성·편집·검수한다.
 
-특히 완성된 이미지 안에 5개의 연속 동작 에셋이 있고, 1·2·3번 에셋의 좌우 간격이 4·5번 에셋보다 너무 좁을 때 다음을 보장하며 재배치한다.
+이 스킬에는 **자유도가 다른 두 모드**가 있다. 어느 모드인지 먼저 정하고 시작한다.
 
-- 1·2·3번 에셋의 중심 간격을 4·5번 에셋의 중심 간격과 동일하게 맞춘다.
-- 각 에셋의 모양, 픽셀 내용, 포즈, 크기, 스케일, 기준선, 순서, 프레임 의미를 바꾸지 않는다.
-- 필요한 경우 투명 캔버스만 확장하거나 전체 시트를 평행 이동한다.
-- 캐릭터를 다시 그리지 않고, 기존 에셋을 잘라서 정확히 옮기는 방식을 우선한다.
+| 모드 | 언제 | 자유도 |
+|---|---|---|
+| **생성·편집** | 시트가 아직 없거나 다시 그려야 할 때 | 새 포즈·새 프레임·새 동작이 정상 작업이다 |
+| **픽셀 보존 교정** | 프레임이 이미 승인됐고 간격·기준선·피벗·셀 크기만 어긋났을 때 | 픽셀·포즈·프레임 수·스케일·순서를 **바꾸지 않는다.** 잘라서 옮기고, 필요하면 투명 캔버스만 넓힌다 |
+
+교정 모드의 계산 절차는 [`references/spacing-algorithm.md`](references/spacing-algorithm.md)가 소유한다.
 
 ## 적용 범위
 
@@ -46,16 +48,18 @@ description: Create, edit, validate, and QA 2D game sprite assets and sprite she
 - 4·5번 에셋을 절대 고정할지, 전체 시트 평행 이동을 허용할지
 - 기준선이 발바닥 하단인지, 캐릭터 루트 앵커인지
 
-## 비목표
+## 비목표 — **픽셀 보존 교정 모드에 한정한다**
 
-다음은 기본적으로 하지 않는다.
+아래는 교정 모드의 불변식이다. **생성·편집 모드에서는 새 포즈·새 프레임·프레임 수 변경이 정상
+작업이므로 이 목록을 적용하지 않는다.** 두 모드를 섞으면 "간격만 고쳐 달라"는 요청에 캐릭터가
+다시 그려진다 — 그것이 이 목록이 막는 것이다.
 
 - 캐릭터 디자인 변경
 - 포즈 재해석 또는 동작 추가
 - 프레임 수 변경
 - 에셋 확대/축소
 - 좌우 반전
-- 배경, 그림자, 이펙트, 텍스트, UI 추가
+- 배경, 그림자, 이펙트, 텍스트, UI 추가 — **이 항목만 두 모드 모두에 적용된다.** 생성한 시트에 문구나 UI를 굽는 것도 결함이다
 - 1개의 프레임을 새 캐릭터처럼 다시 생성
 - 간격 보정을 위해 캐릭터 신체 일부를 늘리거나 줄이기
 - AI 이미지 모델이 임의로 다시 그리게 맡기는 방식

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "구조 검사 fixture."
+  default_prompt: "Use demo-skill."

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "phase": 2,
+  "files": {
+    "src/a.js": "1063fdbb4716d8150d0b90103ea8455d9a91e418c4c90cddf6aaa18e8e639d3e",
+    "decoy/phase-1-approved-hashes.json": "e73c3034feef207bd8f48810aba0b948255e4f13b9042faed9784b52bda2b611",
+    "conf/phase-1-a.md": "08ba552cc598436476f56adf435e2f4a55951f58da30cf1d056aa42c4acef5c0"
+  }
+}

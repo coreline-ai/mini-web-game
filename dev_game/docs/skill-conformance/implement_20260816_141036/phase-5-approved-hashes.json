@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "phase": 5,
+  "planId": "implement_20260816_141036",
+  "note": "Phase 5가 승인받은 산출물의 hash. Phase 4를 정본 경로로 담아 사슬을 잇는다. 자기 것은 담지 않는다.",
+  "files": {
+    "skills/game-feel-motion-skill/SKILL.md": "ed01978fe65e630c70c18bab6dd82066e7dcf362c086dcdc6f19355fbe1e223c",
+    "skills/game-feel-motion-skill/agents/openai.yaml": "722ecb4cc4016111e55e337200c08b053cc35d9a18ba927342eed208c767a693",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-4-approved-hashes.json": "a39305dc3b5d01e5c607eed69877d6c8320206a7f9ad85b211a76d565869604e",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-4-game-asset-creation.md": "b050559116fb7807b52df52a04d6f2c12e0d7efec5950d151496b093722fc157"
+  }
+}

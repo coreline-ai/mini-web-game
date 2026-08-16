@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "phase": 2,
+  "planId": "implement_20260816_141036",
+  "note": "Phase 2가 승인받은 산출물의 hash. Phase 1의 보고서와 manifest를 정본 경로로 담아 사슬을 잇는다(P1-C). 자기 보고서·자기 manifest는 담지 않는다(P0-3).",
+  "files": {
+    "skills/game-factory/SKILL.md": "311e7b621706863e2a893248d8a8fcde93dadc5827a13357bc057e2e576fce5e",
+    "skills/game-factory/agents/openai.yaml": "43a9b43d38632f5f40e5b9985dec36cde9c2f7165beea43efc994d74eff4ecd9",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-1-approved-hashes.json": "746178e3b8c94a07a2d94492937049a6c481c9c78547d975912cd0c83702edc4",
+    "dev_game/docs/skill-conformance/implement_20260816_141036/phase-1-baseline-gates.md": "aeb784d2916bd435f25a8655cc52001c5a7c4c74e2197d0329a9475129839dc5"
+  }
+}

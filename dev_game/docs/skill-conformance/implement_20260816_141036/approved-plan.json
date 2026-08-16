@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "planPath": "dev_game/dev-plan/implement_20260816_141036.md",
+  "approvedAt": "2026-08-16T16:19:01+0900",
+  "baselineHead": "870d3d0e4b809313e980cfeb4c6f420ca83b904b",
+  "rawPlanSha256": "77b21157da403e267811e6251ede5084e7021d9c6817a2960979424c90d723f9",
+  "normalizedPlanSha256": "dae23a60c79e0744ec31a6f4be07d314f6b3632f476ad09535b2a9f61f7325ab",
+  "normalization": "UTF-8 bytes with Markdown checkbox markers [x] and [X] normalized to [ ]; all other bytes unchanged",
+  "verdict": "APPROVE",
+  "reviewers": [
+    {
+      "role": "skill-architecture-adversary",
+      "verdict": "APPROVE",
+      "openP0": 0,
+      "openP1": 0
+    },
+    {
+      "role": "validation-adversary",
+      "verdict": "APPROVE",
+      "openP0": 0,
+      "openP1": 0
+    },
+    {
+      "role": "process-scope-adversary",
+      "verdict": "APPROVE",
+      "openP0": 0,
+      "openP1": 0
+    }
+  ],
+  "executionCondition": "Phase 1 gates and positive/negative controls must pass before any Phase 2 skill edit."
+}

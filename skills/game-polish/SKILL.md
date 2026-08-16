@@ -1,6 +1,6 @@
 ---
 name: game-polish
-description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into defect classes (entity-lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis dependence, progression incompleteness, audio state, input robustness, persistence/session continuity, long-run stability, asset fidelity/DPR, physics-bounds alignment, first-play comprehension/docs-runtime drift), triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input bugs in an already-generated game. Do not use for creating a new game — that is game-factory."
+description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into a defect class from post-production-qa-contract.md, triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input/persistence/visual-quality bugs in a game that has already passed its first production-demo gate. Do not use before that first PASS — acceptance defects there belong to game-factory. Do not use to create a new game or to add a new feature or mode to an existing one — that is game-factory expansion."
 ---
 
 # Game Polish
@@ -15,6 +15,7 @@ Every capture session finds defects. That is expected, not failure.
 This skill exists to run the symptom → defect class → fix → re-capture loop
 as many times as needed until evidence is clean.
 A defect found in capture is fixed and re-captured, never downgraded to a known gap.
+(the line above is the contract's §0 rule; the rest is this skill's own premise)
 ```
 
 This skill does NOT create games, scaffolds, or new asset pipelines. If the target game does not exist under `dev_game/generated/<game-id>`, stop and route to the `game-factory` skill.
@@ -27,7 +28,7 @@ This skill does NOT create games, scaffolds, or new asset pipelines. If the targ
 
 | Path | Purpose |
 |---|---|
-| `dev_game/docs/post-production-qa-contract.md` | defect classes A–N: symptom → cause → fix rules → verification (§3.1 says which classes an automated gate actually enforces and which are manual capture checks) |
+| `dev_game/docs/post-production-qa-contract.md` | defect classes: symptom → cause → fix rules → verification (§3.1 says which classes an automated gate actually enforces and which are manual capture checks) |
 | `dev_game/generated/<game-id>/` | target game (tracked or ignored **per game** — `dev_game/.gitignore` allowlists several; check with `git check-ignore -v <path>`) |
 | `dev_game/generated/<game-id>/qa-captures/` | per-game capture evidence: screenshots, video, contact sheets, state-sample JSON |
 | `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` | running log of symptoms, classifications, fixes, re-capture results |
@@ -59,24 +60,9 @@ For each symptom, record verbatim wording plus the **exact repro conditions**: i
 
 ### 2. Classify and triage
 
-Map every symptom to a contract defect class using the translation table in `post-production-qa-contract.md` §1:
+Map every symptom to a defect class using the translation table in `post-production-qa-contract.md` §1, and read that class's section for its symptom signature.
 
-| Class | Name |
-|---|---|
-| A | Entity Lifecycle Race (tween/respawn ordering, stale tween, hidden-but-active entities) |
-| B | Visual Singularity violation (baked background art duplicating runtime sprites) |
-| C | UI–Gameplay visual ambiguity (crosshair vs target, unclassified rectangles, lingering FX/stamps) |
-| D | Difficulty-axis dependence (difficulty driven by a player-replenishable resource) |
-| E | Progression/terminal incompleteness (missing stage contract, single-ended termination, implicit rewards) |
-| F | Evidence gap (no machine-assertable state samples) |
-| G | Loop violation (fix without re-capture, missing baseline, regression not re-run) |
-| H | Audio State violation (duplicated BGM instances, playback during pause/home/background, unlock failure) |
-| I | Input Robustness violation (double-fire transitions, stuck button visuals, input leaking through overlays) |
-| J | Persistence/Session discontinuity (lost saves, corrupted-storage crash, visibility delta blowup, resize breakage) |
-| K | Long-Run instability (listener/tween/timer accumulation across retries, FPS decay, pool leaks) |
-| L | Asset Fidelity violation (blurry/low-res final screens, DPR/backing-store mismatch, upscaled sources, alpha-bbox clipping, mixed UI ownership) |
-| M | Physics Bounds misalignment (visible sprite vs collision/collect body size, offset, or pooled-reuse drift) |
-| N | First-play Comprehension failure / Docs-runtime Drift (no goal or CTA on home, no coach on first run, simulation not paused while reading help, GDD numbers ≠ runtime numbers) |
+**The class list is not repeated here.** A copy of it lived in this file until 2026-08-16 and had already drifted — the contract had grown a class that the copy did not have, and nothing reported it. A list that must be kept in sync will eventually not be. Open the contract.
 
 A symptom that fits no class is still fixed — and then added to the contract as a new class or signature. The contract grows from real sessions.
 
@@ -101,14 +87,10 @@ Open `dev_game/docs/post-production-qa-contract.md` §2, read the **fix rules of
 
 Where to read, per matched class:
 
-| Matched class | Read |
-|---|---|
-| A, B, C, D, E | contract §2 `### A`–`### E` |
-| F, G | contract §2 `### F`–`### G` (evidence and re-capture loop — these govern step 5, not the code fix) |
-| H, I, J, K | contract §2 `### H`–`### K` |
-| M (physics bounds) | contract §2 `### M` |
-| L (asset fidelity) | contract §2 `### L` — classify the cause into one of its named categories **before** fixing (rule 11), and check rule 9-1 before calling an oversized background a defect |
-| N (first-play / docs drift) | contract §2 `### N` |
+Read the matched class's own section in the contract — **§2 for classes A–N, §3 for class O** —
+and it owns that class's fix rules. **Except F and G: those govern step 5 (evidence and
+re-capture), not the code fix** — the contract does not know this skill's step numbers, so that
+mapping lives here.
 
 Two cross-skill routings the contract points at but does not own:
 
@@ -122,7 +104,7 @@ Before fixing, check the contract's **§3.1 applicability table** for the matche
 After each fix batch:
 
 - Re-run the exact repro scenario that exposed the defect (same input pattern, stage, viewport) and pair the result with the intake baseline (before/after).
-- Capture screenshots/video AND a state-sample JSON in the same session (`qa-captures/**/*-samples.json`) with at minimum: `browserErrors: 0`, `duplicateVisibleEntities: 0`, `lingeringTransientGraphics: 0`, `activeBgmInstances ≤ 1`, active scene list / scene-stack size, active texture keys for key UI elements, highest stage reached, terminal states reached, and post-respawn `alpha/visible/active` values.
+- Capture screenshots/video AND a state-sample JSON in the same session (`qa-captures/**/*-samples.json`). The minimum field set is contract §F's "최소 필드" list — do not retype it here.
 - For class A fixes, drive ≥10 consecutive hit/respawn cycles and assert entity visibility state each cycle.
 - For class H/I fixes, re-run the audio and input-hostility sweeps from step 1.
 - For class J/K fixes, re-run the persistence sweep and the ≥2 min long-run sweep, sampling FPS / active tween / timer counts for monotonic-growth (leak) signals.
@@ -135,12 +117,10 @@ A green capture from an unrelated path is not evidence.
 ### 6. Re-run production gates
 
 ```bash
-npm --prefix dev_game run factory:production-demo-qa -- --project dev_game/generated/<game-id> --require-gpt-imagegen
-npm --prefix dev_game run factory:image-quality-qa -- --project dev_game/generated/<game-id>
-npm --prefix dev_game run factory:visual-layout-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
-npm --prefix dev_game run factory:scene-composite-qa -- --project dev_game/generated/<game-id> --viewports 390x844,430x932,1080x1920
-npm --prefix dev_game run factory:hq-screen-quality-qa -- --project dev_game/generated/<game-id>
+npm --prefix dev_game run factory:production-gate -- --project dev_game/generated/<game-id> --require-gpt-imagegen
 ```
+
+The per-gate commands live in `production-demo-quality-contract.md` §4 and are deliberately not copied here.
 
 Run only the gates relevant to the touched surface when iterating quickly, but the final pass of a polish session runs all of them.
 

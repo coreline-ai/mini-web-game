@@ -1,0 +1,1 @@
+{"schemaVersion":1,"commands":[{"id":"demo-imagegen","skill":"demo-factory","script":"factory:imagegen","requiredFlags":["--skip-existing"],"responsibility":"자산 재생성"}]}
