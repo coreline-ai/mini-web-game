@@ -8,9 +8,9 @@
 
 import { LAYOUT } from './_helpers.mjs';
 
-async function enterGame(page, { clickLogical, waitScene }) {
+async function enterGame(page, { clickId, waitScene }) {
   if (await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Game')) return;
-  await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+  await clickId('play');
   await waitScene('Game');
   await page.waitForFunction(() => !!globalThis.__KEEPER_DEBUG__, { timeout: 15_000 });
 }
@@ -22,7 +22,7 @@ async function freshGame(page, helpers) {
 }
 
 export async function prepareState(page, state, helpers) {
-  const { baseUrl, waitScene, clickLogical } = helpers;
+  const { baseUrl, waitScene, clickId, clickLogical } = helpers;
 
   switch (state.id) {
     case 'home':
@@ -69,7 +69,7 @@ export async function prepareState(page, state, helpers) {
       return;
 
     case 'help':
-      await clickLogical(LAYOUT.help.x, LAYOUT.help.y);
+      await clickId('help');
       await waitScene('Pause');
       return;
 
@@ -81,7 +81,7 @@ export async function prepareState(page, state, helpers) {
         game.scene.resume('Game');
       });
       await waitScene('Game');
-      await clickLogical(LAYOUT.pause.x, LAYOUT.pause.y);
+      await clickId('pause');
       await waitScene('Pause');
       return;
 

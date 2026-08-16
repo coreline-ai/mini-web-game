@@ -21,13 +21,43 @@ export async function openGame({ width = 390, height = 844, dpr = 2 } = {}) {
   page.on('console', (m) => { if (m.type() === 'error') record(`console:error: ${m.text()}`); });
 
   const waitScene = (scene) => page.waitForFunction(
-    (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected, scene, { timeout: 15_000 });
+    (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected, scene, { timeout: 15_000 })
+    .catch(async () => {
+      // 어느 전환에서 멈췄는지 메시지에 담는다. "Timeout exceeded"만으로는 추적이 안 된다.
+      const actual = await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene ?? '(none)').catch(() => '(unreadable)');
+      throw new Error(`scene "${scene}" not reached in 15000ms — registry still reports "${actual}"`);
+    });
 
   // clickLogical / dragLogical은 **논리 캔버스 좌표**(0..1170, 0..2532)를 받는다.
   const toScreen = async (x, y) => {
     const box = await page.locator('canvas').boundingBox();
     return { x: box.x + x * box.width / CANVAS.width, y: box.y + y * box.height / CANVAS.height };
   };
+  // 등록된 UI는 좌표를 추측하지 말고 **레지스트리가 발행한 실제 위치**를 클릭한다.
+  // 좌표를 상수로 들고 있으면 씬 배치를 바꾸는 순간 어댑터가 조용히 빗나간다 — 실제로
+  // 홈을 팀 시트로 바꾸자 GameOver 재시도 클릭(play.y + 85*3 추정)이 허공을 눌렀다.
+  // 적대적 입력 검사는 씬이 바뀐 **뒤에도 같은 화면 지점**을 눌러야 한다(원샷 전환 증명).
+  // 그때는 매번 id를 조회할 수 없으므로 위치를 먼저 받아 두고 그 점을 연타한다.
+  const locateId = async (id) => {
+    const item = await page.evaluate((wanted) => {
+      const found = (globalThis.__GAME_LAYOUT_BOUNDS__?.items || []).find((it) => it.id === wanted);
+      return found ? { x: found.x + found.width / 2, y: found.y + found.height / 2 } : null;
+    }, id);
+    if (!item) throw new Error(`layout registry has no id "${id}" in scene ${await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene)}`);
+    return item;
+  };
+  const clickPoint = async (p) => { await page.mouse.click(p.x, p.y); };
+
+  const clickId = async (id) => {
+    const item = await page.evaluate((wanted) => {
+      const found = (globalThis.__GAME_LAYOUT_BOUNDS__?.items || []).find((it) => it.id === wanted);
+      // x,y는 getBounds() 기준 좌상단이다 — 중심을 눌러야 히트 영역에 들어간다.
+      return found ? { x: found.x + found.width / 2, y: found.y + found.height / 2 } : null;
+    }, id);
+    if (!item) throw new Error(`layout registry has no id "${id}" in scene ${await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene)}`);
+    await page.mouse.click(item.x, item.y);
+  };
+
   const clickLogical = async (x, y) => { const p = await toScreen(x, y); await page.mouse.click(p.x, p.y); };
   // steps가 많을수록 느린 드래그(이동), 적을수록 빠른 플릭(다이브)이 된다.
   const dragLogical = async (x0, y0, x1, y1, steps = 12) => {
@@ -38,12 +68,13 @@ export async function openGame({ width = 390, height = 844, dpr = 2 } = {}) {
   };
   const debug = () => page.evaluate(() => globalThis.__KEEPER_DEBUG__?.get?.() || null);
 
-  return { browser, context, page, browserErrors, rendererWarnings, waitScene, clickLogical, dragLogical, debug };
+  return { browser, context, page, browserErrors, rendererWarnings, waitScene, clickId, locateId, clickPoint, clickLogical, dragLogical, debug };
 }
 
 export const LAYOUT = {
-  play: { x: CANVAS.width / 2, y: CANVAS.height * 0.645 },
-  sound: { x: CANVAS.width / 2, y: CANVAS.height * 0.725 },
+  // 좌표는 uiDirection.HOME_LAYOUT을 따른다 — 팀 시트 구성이라 행동 버튼이 가로로 놓인다.
+  play: { x: CANVAS.width * 0.30, y: CANVAS.height * 0.845 },
+  sound: { x: CANVAS.width * 0.74, y: CANVAS.height * 0.845 },
   pause: { x: CANVAS.width - 38 * U, y: 140 * U },
   help: { x: CANVAS.width - 38 * U, y: 206 * U },
   resume: { x: CANVAS.width / 2, y: CANVAS.height * 0.5 },

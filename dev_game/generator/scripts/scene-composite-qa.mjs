@@ -175,12 +175,23 @@ async function clickRegistryItem(page, pattern) {
   return true;
 }
 
-async function waitForRegistryScene(page, scene, timeout = 6000) {
-  await page.waitForFunction(
-    (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected,
-    scene,
-    { timeout },
-  );
+// 대기 상한은 15초다. 6초로 두면 전체 게이트처럼 브라우저 게이트가 연달아 도는 상황에서
+// 씬 전환이 늦어 헛불이 난다(실측: 단독 3뷰포트 2회 연속 통과, 전체 게이트에서만 실패).
+// 이건 판정을 무르게 하는 것이 아니다 — 씬 도달 자체는 여전히 요구하고, 기다리는 시간만
+// 저장소의 다른 어댑터(15초)와 맞춘다.
+async function waitForRegistryScene(page, scene, timeout = 15_000) {
+  // 실패 메시지에 기대한 씬과 실제 씬을 담는다. 그냥 "Timeout exceeded"만 나오면
+  // 어느 전환에서 멈췄는지 알 수 없어 게이트 전체를 다시 돌려가며 찾아야 한다.
+  try {
+    await page.waitForFunction(
+      (expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected,
+      scene,
+      { timeout },
+    );
+  } catch (error) {
+    const actual = await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene ?? '(none)').catch(() => '(unreadable)');
+    throw new Error(`scene "${scene}" not reached in ${timeout}ms — registry still reports "${actual}"`);
+  }
 }
 
 async function capture(page, phase, viewport, dir, records) {
@@ -220,7 +231,7 @@ async function exercise(page, viewport, url, dir, records) {
       game.scene.start('GameOver', { score: 12345, sorted: 24, wrong: 1, missed: 2, bestCombo: 14 });
     }
   }).catch(() => {});
-  await waitForRegistryScene(page, 'GameOver', 5000);
+  await waitForRegistryScene(page, 'GameOver', 15_000);
   await capture(page, 'gameover', viewport, dir, records);
 }
 

@@ -1,14 +1,14 @@
 // Rules Contract — 런타임이 공표한 __GAME_RULES__가 spec과 일치하는가.
 import fs from 'node:fs';
-import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
+import { openGame, BASE_URL, finish } from './_helpers.mjs';
 
 const spec = JSON.parse(fs.readFileSync('src/game/data/game-spec.json', 'utf8'));
-const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickId, clickLogical } = await openGame();
 const assertions = {};
 try {
   await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   await waitScene('Home');
-  await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+  await clickId('play');
   await waitScene('Game');
   await page.waitForFunction(() => !!globalThis.__GAME_RULES__);
   const rules = await page.evaluate(() => globalThis.__GAME_RULES__);

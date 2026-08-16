@@ -1,7 +1,7 @@
 // 지속성/세션 — 저장 복구, 손상된 저장소, visibility 전환(결함 클래스 J).
-import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
+import { openGame, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickId, clickLogical, debug } = await openGame();
 const assertions = {};
 let maxBgmInstances = 0;
 try {
@@ -15,7 +15,7 @@ try {
   await waitScene('Home');
   assertions.corruptedStorageBoots = true;
 
-  await clickLogical(LAYOUT.sound.x, LAYOUT.sound.y);
+  await clickId('sound');
   await page.waitForTimeout(150);
   const muted = await page.evaluate(() => JSON.parse(localStorage.getItem('last-minute-keeper_settings') || '{}').mute);
   await page.reload({ waitUntil: 'domcontentloaded' });
@@ -24,19 +24,19 @@ try {
   assertions.settingsPersistAcrossReload = muted === persisted;
 
   for (let i = 0; i < 3; i += 1) {
-    await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+    await clickId('play');
     await waitScene('Game');
     await page.waitForFunction(() => !!globalThis.__KEEPER_DEBUG__);
     maxBgmInstances = Math.max(maxBgmInstances, (await debug()).audio.instances);
-    await clickLogical(LAYOUT.pause.x, LAYOUT.pause.y);
+    await clickId('pause');
     await page.waitForTimeout(150);
-    await clickLogical(LAYOUT.homeFromPause.x, LAYOUT.homeFromPause.y);
+    await clickId('home');
     await waitScene('Home');
     await page.waitForTimeout(150);
   }
   assertions.bgmNeverDuplicates = maxBgmInstances <= 1;
 
-  await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+  await clickId('play');
   await waitScene('Game');
   await page.waitForFunction(() => !!globalThis.__KEEPER_DEBUG__);
   const before = (await debug()).director.stageElapsedMs;

@@ -1,7 +1,7 @@
 // 첫 플레이 이해도 — 처음 보는 사람이 목표·승패·첫 행동을 알 수 있는가.
 import { openGame, LAYOUT, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickId, clickLogical } = await openGame();
 const assertions = {};
 try {
   await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
@@ -9,19 +9,20 @@ try {
   await page.reload({ waitUntil: 'domcontentloaded' });
   await waitScene('Home');
 
-  const home = await page.evaluate(() => {
+  // 배치가 아니라 **공표된 문구**를 본다. 씬 구성이 바뀌어도 요소가 있으면 통과해야 한다.
+  const copy = await page.evaluate(() => {
     const s = globalThis.__GAME__.scene.getScene('Home');
-    return { goal: s.goal?.text || '', tip: s.tip?.text || '' };
+    return s.firstPlayCopy || '';
   });
-  assertions.goalVisibleBeforePlay = /목표/.test(home.goal) && /승리/.test(home.goal) && /패배/.test(home.goal);
-  assertions.firstActionStated = /첫 행동/.test(home.goal);
-  assertions.progressMetricStated = /진행 지표/.test(home.goal);
-  assertions.diveExplainedBeforePlay = /다이빙/.test(home.tip);
+  assertions.goalVisibleBeforePlay = /목표/.test(copy) && /승리/.test(copy) && /패배/.test(copy);
+  assertions.firstActionStated = /첫 행동/.test(copy);
+  assertions.progressMetricStated = /진행 지표/.test(copy);
+  assertions.diveExplainedBeforePlay = /다이빙/.test(copy);
 
-  await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+  await clickId('play');
   await waitScene('Game');
   await page.waitForFunction(() => !!globalThis.__KEEPER_DEBUG__);
-  await clickLogical(LAYOUT.help.x, LAYOUT.help.y);
+  await clickId('help');
   await waitScene('Pause');
   const help = await page.evaluate(() => {
     const s = globalThis.__GAME__.scene.getScene('Pause');
@@ -35,7 +36,7 @@ try {
 
   await clickLogical(LAYOUT.resumeHelp.x, LAYOUT.resumeHelp.y);
   await waitScene('Game');
-  await clickLogical(LAYOUT.help.x, LAYOUT.help.y);
+  await clickId('help');
   await waitScene('Pause');
   assertions.persistentHelpReopensCoach = true;
 } catch (error) {

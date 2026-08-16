@@ -86,7 +86,24 @@ async function run(args) {
     page.on('console', (message) => { if (message.type() === 'error') browserErrors.push(`console:error: ${message.text()}`); });
     const waitScene = (scene) => page.waitForFunction((expected) => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === expected, scene, { timeout: 10_000 });
     const clickLogical = async (x, y) => { const canvas = await page.locator('canvas').boundingBox(); await page.mouse.click(canvas.x + x * canvas.width / spec.canvas.width, canvas.y + y * canvas.height / spec.canvas.height); };
-    const helpers = { baseUrl: args.url, waitScene, clickLogical, spec };
+    // 등록된 UI는 좌표를 계산하지 말고 레지스트리가 발행한 실제 위치를 누른다.
+    // 프로젝트 드라이버가 좌표 상수를 들고 있으면 씬 배치를 바꾸는 순간 조용히 빗나가고,
+    // 캡처는 "왜인지 홈에 머문" 화면이 된다 — 원인이 캡처에 드러나지 않아 추적이 어렵다.
+    const clickId = async (id) => {
+      const item = await page.evaluate((wanted) => {
+        const found = (globalThis.__GAME_LAYOUT_BOUNDS__?.items || []).find((it) => it.id === wanted);
+        // 레지스트리 x,y는 getBounds() 기준 **좌상단**이다. 그대로 누르면 버튼 모서리를
+        // 찍어 히트 영역을 빗나간다 — 클릭은 되지만 아무 일도 안 일어나서 다음 씬 대기가
+        // 타임아웃으로 죽는다. 중심을 계산해서 누른다.
+        return found ? { x: found.x + found.width / 2, y: found.y + found.height / 2 } : null;
+      }, id);
+      if (!item) {
+        const scene = await page.evaluate(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene);
+        throw new Error(`layout registry has no id "${id}" in scene "${scene}"`);
+      }
+      await page.mouse.click(item.x, item.y);
+    };
+    const helpers = { baseUrl: args.url, waitScene, clickId, clickLogical, spec };
     const states = [];
     const screenshotFiles = [];
     const screenshotLabels = [];

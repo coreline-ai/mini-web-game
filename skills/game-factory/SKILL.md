@@ -140,6 +140,30 @@ Minimum required content:
 - QA plan: common smoke plus genre-specific gameplay assertions plus production-demo gates plus a captured-state visual QA matrix for every major scene and moving gameplay state
 - Adversarial review: why this is not just a reskinned existing template
 
+### 3.5. Decide the UI art direction before writing any scene
+
+Contract §2.0.26 splits the interface in two: the **spec** is shared by every game (button size
+tokens, the five first-play elements, layout-registry required IDs, DPR rules) and the
+**expression** must not be (composition, button form, typography, motion).
+
+Before implementing scenes, declare the expression as data in
+`src/game/config/uiDirection.js` — `layoutMetaphor`, `homeComposition`, `buttonForm`,
+`typeScale`, `motionSignature`. The scenes then read it, so the declaration cannot drift from
+what is on screen. `factory:ui-direction` fails the build if a game has no declaration, if two
+games share the same metaphor/composition/form triple, or if a home screen reuses another
+game's vertical placement ladder.
+
+**Do not carry a previous game's layout across.** Measured on 2026-08-16, two games built in
+sequence by the same author ended up with `LayoutRegistry`, `AudioManager`, `MobileButton` and
+`SaveData` byte-identical, `GameOverScene` 88% identical, and home screens placed at
+`0.16/0.15 · 0.225/0.215 · 0.335/0.345` — only the words and the backdrop differed. Three
+custom-loop games written by other authors were all distinct, so the cause was repetition by the
+author, not the scaffold.
+
+Porting a **bug fix** between games is right; copying a file that decides how the game *looks*
+is not. `MobileButton.js` and `theme.js` are design, not infrastructure — start them from the
+declared direction each time, even when the fix inside them is worth reusing.
+
 ### 4. Use the generator only as Foundation when appropriate
 
 The current CLI intentionally creates a Foundation starter:

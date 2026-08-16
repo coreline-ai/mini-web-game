@@ -205,6 +205,60 @@ Placeholder-only assets are not acceptable for final delivery.
 - 버튼이 배경에 묻혀 경계가 보이지 않음 (대비 부족)
 - 절차적 폴백 버튼과 imagegen 버튼의 색 계열 불일치
 
+### 2.0.26 게임별 UI 아트 디렉션 — 규격은 같게, 표현은 다르게
+
+이 계약은 **무엇이 있어야 하는가**를 정하지 **어떻게 보여야 하는가**를 정하지 않는다. 그런데
+구현자가 앞 게임의 배치를 그대로 반복하면 결과적으로 모든 게임이 같은 앱처럼 보인다.
+
+실측 사례(2026-08-16): 같은 작성자가 만든 두 v2 게임에서 `LayoutRegistry`·`AudioManager`·
+`MobileButton`·`SaveData`가 **100% 동일**, `GameOverScene` 88%, `theme` 82%(색만 교체)였고,
+홈 화면 세로 배치 사다리가 `0.16/0.15 · 0.225/0.215 · 0.335/0.345`로 거의 겹쳤다. 글자와
+배경 사진만 달랐다. 반면 다른 작성자가 만든 v2 게임 3개는 서로 달랐다 — **스캐폴드가 아니라
+반복 습관이 원인이다.**
+
+**경계**
+
+| 같아야 하는 것 (규격) | 달라야 하는 것 (표현) |
+|---|---|
+| 버튼 크기 토큰 (§2.0.25) | 버튼 형태·테두리·라벨 처리 |
+| 첫 플레이 5요소의 **존재** | 그 5요소의 **배치와 표현** |
+| Layout Registry `requiredIds` | 화면 구성·정렬·여백 리듬 |
+| 일시정지·도움말의 **동작** | 오버레이의 생김새 |
+| DPR·안전영역·9-slice 규칙 | 타이포 위계·모션 서명 |
+
+규격을 흔들면 사용성이 깨지고, 표현을 강제하면 또 다른 획일화가 된다. 둘을 섞지 않는다.
+
+**선언 — `src/game/config/uiDirection.js`**
+
+schema v2 custom-loop 게임은 UI 아트 디렉션을 **런타임이 읽는 데이터로** 선언한다. 씬이 이
+값을 참조해 배치·형태를 결정하므로 선언과 화면이 어긋날 수 없다. 문서에만 적으면 장식이 된다.
+
+```js
+export const UI_DIRECTION = Object.freeze({
+  layoutMetaphor: 'stadium-scoreboard',   // HUD가 흉내 내는 실제 사물
+  homeComposition: 'left-rail-lineup',    // 홈 화면 구성 방식
+  buttonForm: 'jersey-number-plate',      // 버튼 형태 언어(크기는 §2.0.25가 소유)
+  typeScale: 'condensed-display',         // 타이포 위계
+  motionSignature: 'slide-from-touchline',// 등장·퇴장 모션 서명
+});
+```
+
+어휘는 자유 문자열이다. 사전을 만들지 않는다 — 사전이 생기면 그것이 다시 획일화를 만든다.
+
+**검증 — `factory:ui-direction`**
+
+게이트는 미적 판단을 하지 않는다. 셋만 본다.
+
+1. v2 custom-loop 게임에 선언이 있는가
+2. `layoutMetaphor` + `homeComposition` + `buttonForm` 조합이 다른 게임과 같은가
+3. 홈 씬의 `height * 0.xx` 배치 값이 다른 게임과 **±0.02 이내로 3개 이상** 겹치는가
+   — 위 실측 실패의 기계적 서명이다
+
+**v1 아케이드 게임은 검사 대상이 아니다.** 하나의 템플릿에서 생성되므로 닮은 것이 정상이다.
+
+**게이트가 못 잡는 것**: 배치 숫자만 흔들어 검사를 통과시키면서 여전히 못생긴 UI를 만들 수
+있다. "다른가"는 기계가 재지만 "좋은가"는 사람이 캡처를 봐야 한다(§3.1 수동 항목).
+
 ### 2.0.3 역할별 이미지 Alpha/패딩 품질 계약
 
 AI 시트 crop 후 투명 배경을 만드는 과정에서 “반투명으로 녹아내린” 에셋은 production-demo가 아니다. 아래 항목은 asset QA가 실패 처리해야 한다.
@@ -408,5 +462,15 @@ npm --prefix dev_game run factory:production-gate -- --project dev_game/generate
 ```
 
 schema v1은 compatibility mode에서 기존 게이트를 유지한다. schema v2/custom-loop는 capture matrix, first-play clarity, hostile input, session continuity, docs-runtime sync, image/HQ, 장시간 안정성, `qa-session-report.json`을 필수로 실행한다.
+
+### 4.1.1 QA 어댑터는 좌표를 추측하지 않는다
+
+캡처 드라이버와 `qa/*-qa.mjs` 어댑터가 UI를 누를 때는 **레지스트리에 등록된 id**로 누른다. 러너가 주입하는 `clickId(id)`가 `window.__GAME_LAYOUT_BOUNDS__.items`에서 실제 화면 좌표를 찾아 클릭한다. 좌표 상수나 `play.y + 85 * 3` 같은 상대 추정은 금지한다.
+
+이유는 실측이다. 홈 화면 구성을 세로 스택에서 팀 시트 행으로 바꾸자, 내용은 그대로인데 GameOver 재시도 좌표 추정이 허공을 눌러 장시간 안정성 어댑터가 15초 타임아웃으로 죽었다. 같은 날 첫 플레이 어댑터도 특정 텍스트 객체(`scene.goal.text`)를 긁고 있어서 같은 이유로 실패했다.
+
+따라야 할 원칙은 §2.0.26과 같다 — **검사는 요소의 존재를 보고, 배치를 보지 않는다.** 배치는 게임마다 달라야 하는 표현이므로, 배치에 결합된 검사는 UI를 다르게 만들 때마다 깨진다. 첫 플레이 5요소처럼 텍스트 내용을 검사해야 하면 씬이 `firstPlayCopy` 같은 값을 공표하고 어댑터는 그것을 읽는다.
+
+누르려는 요소가 레지스트리에 없으면 `clickId`는 씬 이름과 함께 즉시 실패한다. 조용히 빗나가서 "왜인지 홈에 머문 캡처"를 남기는 것보다 낫다.
 
 **v1에서 이 게이트들은 실행되지 않으며, 대체 실행법도 없다.** `production-gate.mjs`는 `spec.schemaVersion === '2.0.0' && spec.buildDecision === 'custom-loop'`(또는 `--mode custom-loop-full`)일 때만 `custom-loop-full-qa`를 호출한다. v1 게임에는 `qa/capture-matrix.json`도 `qa/*-qa.mjs` 어댑터도 없으므로 캡처 QA는 **사람이 브라우저에서 수행하고 결과를 기록**하는 것이 유일한 경로다. 어떤 검사가 어느 쪽에 속하는지는 [post-production-qa-contract §3.1 적용 범위 표](post-production-qa-contract.md#31-적용-범위--어떤-검사가-어떤-게임에-실제로-돌아가는가)가 단일 원본이다.

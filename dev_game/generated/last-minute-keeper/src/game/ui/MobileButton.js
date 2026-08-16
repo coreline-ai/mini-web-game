@@ -8,6 +8,10 @@
 // 남으면 안 된다.
 
 import { BUTTON, buttonStyle } from '../config/theme.js';
+import { BUTTON_FORM } from '../config/uiDirection.js';
+
+// 크기는 §2.0.25 토큰이 소유하고(규격), 형태는 uiDirection이 소유한다(표현).
+// 이 분리가 없으면 게임마다 같은 버튼이 나온다 — 실제로 앞 게임과 100% 동일했다.
 
 export function makeTextButton(scene, x, y, label, onClick, options = {}) {
   const variant = options.variant || (options.width || options.height ? 'custom' : 'primary');
@@ -19,11 +23,13 @@ export function makeTextButton(scene, x, y, label, onClick, options = {}) {
   const { oneShot = false, fireOn = 'pointerup', disabled = false } = options;
 
   const bg = scene.add.rectangle(x, y, width, height, style.fill, 1)
-    .setStrokeStyle(Math.max(2, Math.round(height * 0.045)), style.stroke, 0.95);
+    .setStrokeStyle(Math.max(2, Math.round(height * BUTTON_FORM.strokeRatio)), style.stroke, 1);
+  // 유니폼 번호판: 자간을 벌려 각진 판에 새긴 번호처럼 읽히게 한다.
   const txt = scene.add.text(x, y, label, {
     fontFamily: 'Arial Black,Arial', fontSize, color: style.label,
     stroke: style.labelStroke, strokeThickness: Math.max(2, Math.round(height * 0.05)),
   }).setOrigin(0.5);
+  txt.setLetterSpacing?.(BUTTON_FORM.labelLetterSpacing);
 
   let fired = false;
   let enabled = !disabled;

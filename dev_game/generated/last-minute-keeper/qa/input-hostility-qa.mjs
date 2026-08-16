@@ -2,7 +2,7 @@
 // 이 게임에서는 조작 두 층(드래그/플릭)의 구분이 무너지지 않는지도 함께 본다.
 import { openGame, LAYOUT, CANVAS, BASE_URL, finish } from './_helpers.mjs';
 
-const { browser, page, browserErrors, rendererWarnings, waitScene, clickLogical, dragLogical, debug } = await openGame();
+const { browser, page, browserErrors, rendererWarnings, waitScene, clickId, locateId, clickPoint, clickLogical, dragLogical, debug } = await openGame();
 const assertions = {};
 let finalState = {};
 try {
@@ -10,7 +10,10 @@ try {
   await waitScene('Home');
 
   // ① PLAY 연타 — one-shot 버튼이 씬을 두 번 시작하면 안 된다
-  for (let i = 0; i < 5; i += 1) await clickLogical(LAYOUT.play.x, LAYOUT.play.y);
+  // 위치를 먼저 확정한다 — 첫 클릭으로 Home이 사라지면 id 조회가 불가능해지고,
+  // 애초에 이 검사가 보려는 것이 "같은 지점을 계속 눌렀을 때"의 거동이다.
+  const playPoint = await locateId('play');
+  for (let i = 0; i < 5; i += 1) await clickPoint(playPoint);
   await waitScene('Game');
   await page.waitForFunction(() => !!globalThis.__KEEPER_DEBUG__);
   const stack = await page.evaluate(() => globalThis.__GAME__.scene.scenes.filter((s) => s.scene.isActive()).length);
@@ -41,9 +44,9 @@ try {
   // ⑤ 일시정지 ↔ 재개 연타
   await page.waitForTimeout(800);
   for (let i = 0; i < 5; i += 1) {
-    await clickLogical(LAYOUT.pause.x, LAYOUT.pause.y);
+    await clickId('pause');
     await page.waitForTimeout(120);
-    await clickLogical(LAYOUT.resume.x, LAYOUT.resume.y);
+    await clickId('resume');
     await page.waitForTimeout(120);
   }
   await waitScene('Game');
