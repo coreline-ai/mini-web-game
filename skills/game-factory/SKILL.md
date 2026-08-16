@@ -1,6 +1,6 @@
 ---
 name: game-factory
-description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, post-production captured gameplay QA/fix passes, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, post-production game QA, or wants an idea converted into a playable game."
+description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game. Do not use on a game that already exists under dev_game/generated — route repair work to game-polish."
 ---
 
 # Game Factory
@@ -49,7 +49,7 @@ If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 | `dev_game/generator/scripts/captured-state-qa.mjs` | capture-matrix runner; records `devicePixelRatio` and `backingScale` per captured state — the source of DPR evidence |
 | `dev_game/docs/post-production-qa-contract.md` | defect-class contract for post-production fix passes: lifecycle race, visual singularity, UI/gameplay ambiguity, difficulty-axis independence, progression completeness, machine-assertable evidence, fix→re-capture loop |
 | `dev_game/docs/qa-evidence/` | tracked summaries for generated-game QA evidence when `dev_game/generated/**` is gitignored |
-| `dev_game/generated/<game-id>/` | generated/custom game output, gitignored by default |
+| `dev_game/generated/<game-id>/` | generated/custom game output — tracked or ignored **per game** via `dev_game/.gitignore` allowlist; verify with `git check-ignore -v <path>` |
 | `src/`, `assets/`, `docs/DEV-GUIDE.md` | shipped game reference for expansion patterns |
 
 ## Authoritative contracts
@@ -263,7 +263,7 @@ Evidence handling:
 - Save final screenshots, contact sheets, browser videos, and gameplay samples under `dev_game/generated/<game-id>/qa-captures/` or another per-game evidence folder.
 - Add or update `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` with capture paths, custom assertions, production-gate results, fixes made after capture review, and remaining non-blocking expansion ideas.
 - Seed `dev_game/generated/<game-id>/docs/07-REGRESSION-CHECKLIST.md` with the repro scenario (input pattern, scene/stage, viewport, assert values) of every defect fixed during capture review, so later `game-polish` sessions re-run them first.
-- Because `dev_game/generated/**` is gitignored by default, mirror a concise durable summary under `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md` or clearly tell the user which generated artifacts are untracked and must be force-added/preserved if they want them committed.
+- Whether a generated game is tracked depends on the `dev_game/.gitignore` allowlist, not on a blanket rule — several games are explicitly un-ignored and thousands of generated files are tracked today. Run `git check-ignore -v <path>` to find out, mirror a concise durable summary under `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md`, and only then tell the user which artifacts would be lost.
 
 ### 7. Completion standard
 

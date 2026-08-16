@@ -1,6 +1,6 @@
 ---
 name: game-feel-motion-skill
-description: Design and QA game feel, UI motion, feedback animation, and motion-ready asset pipelines for games. Use when creating or reviewing game input feel, hit/reward/skill/UI/transition animations, sequential sprite/VFX assets, spritesheet spacing rules, motion tokens, duration/easing/spring values, or Block/Approve polish QA.
+description: Design and QA game feel, UI motion, feedback animation, and motion-ready asset pipelines for games. Use when creating or reviewing game input feel, hit/reward/skill/UI/transition animations, sequential sprite/VFX assets, spritesheet spacing rules, motion tokens, duration/easing/spring values, or Block/Approve polish QA. Scope is timing, easing, and runtime feel judgement; route pixel-level frame repositioning to game-asset-creation.
 ---
 
 # Game Feel Motion Skill

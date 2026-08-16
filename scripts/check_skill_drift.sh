@@ -104,6 +104,39 @@ else
   check_user "${CLAUDE_HOME:-$HOME/.claude}/skills" "Claude Code"
 fi
 
+# 스킬 선택은 frontmatter description으로 먼저 일어난다. 두 스킬이 같은 트리거 단어를 들고
+# 있으면 본문을 읽기 전에 둘 다 후보가 되고, 어느 쪽이 뽑힐지는 운이다. 실측(2026-08-16):
+# game-factory가 "post-production game QA"를 자기 트리거로 선언해 game-polish와 겹쳤다.
+echo
+if ! python3 - "$ROOT" <<'PYEOF'
+import re, sys
+from pathlib import Path
+root = Path(sys.argv[1])
+TRIGGERS = ["post-production", "qa fix pass", "후보정", "새 게임", "sprite sheet",
+            "sprite-sheet", "frame spacing", "spritesheet spacing", "easing"]
+descs = {}
+for d in sorted((root / "skills").iterdir()):
+    f = d / "SKILL.md"
+    if not f.exists():
+        continue
+    m = re.search(r'^description:\s*"?(.*?)"?\s*$', f.read_text(encoding="utf-8"), re.M | re.S)
+    if m:
+        descs[d.name] = m.group(1).lower()
+bad = []
+for t in TRIGGERS:
+    owners = [n for n, v in descs.items() if t in v]
+    if len(owners) > 1:
+        bad.append((t, owners))
+for t, owners in bad:
+    print(f'ERR frontmatter trigger "{t}" is claimed by {owners} — descriptions must be mutually exclusive')
+sys.exit(1 if bad else 0)
+PYEOF
+then
+  fail=1
+else
+  note "OK  frontmatter triggers are mutually exclusive"
+fi
+
 echo
 if [[ "$fail" == "0" ]]; then
   echo "skill topology: OK"

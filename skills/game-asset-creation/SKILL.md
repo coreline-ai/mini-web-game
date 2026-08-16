@@ -1,6 +1,6 @@
 ---
 name: game-asset-creation
-description: Create, edit, validate, and QA 2D game sprite assets and sprite sheets, especially 1990s arcade fighting game character animation sheets. Use when generating or editing game animation assets, fix sprite-sheet spacing/alignment, preserve character identity, normalize frame cells, or formalize prompts for image editing tasks such as repositioning 5 completed animation assets so assets 1-3 match the center-to-center spacing of assets 4-5 without changing shape, scale, baseline, order, or frame content.
+description: Create, edit, validate, and QA 2D game sprite assets and sprite sheets, especially 1990s arcade fighting game character animation sheets. Use when generating or editing game animation assets, fix sprite-sheet spacing/alignment, preserve character identity, normalize frame cells, or formalize prompts for image editing tasks such as repositioning 5 completed animation assets so assets 1-3 match the center-to-center spacing of assets 4-5 without changing shape, scale, baseline, order, or frame content. Scope is pixel-preserving repositioning of already-approved frames; route animation timing and runtime feel judgement to game-feel-motion-skill.
 ---
 
 # Game Asset Creation

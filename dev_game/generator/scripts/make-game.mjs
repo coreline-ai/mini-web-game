@@ -6,12 +6,14 @@
 //   1) scaffold      cli.mjs         Phaser/Vite Foundation
 //   2) productionize productionize   planning docs + asset-plan + manifest(provenance)
 //   3) ai-art        codex-imagegen  real AI backgrounds/sprites/ui/fx + game wiring
-//   4) qa            production-demo-qa (default) or full production-gate (--gate full)
+//   4) qa            full production-gate (default) — build + browser + layout + composite +
+//                    strict provenance. --gate artifact-contract-only checks the asset
+//                    contract alone and is NOT a completion gate.
 //
 // Usage:
 //   node generator/scripts/make-game.mjs --spec examples/poop-dodge.spec.json --out ../generated/poop-dodge
 //   node generator/scripts/make-game.mjs --name "Meteor Dash" --out ../generated/meteor-dash
-//   ... [--stages 3] [--skip-art] [--gate none|demo|full] [--codex <bin>]
+//   ... [--stages 3] [--skip-art] [--gate none|artifact-contract-only|full] [--codex <bin>]
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -25,7 +27,7 @@ const GEN_ROOT = path.resolve(SCRIPTS, '..');
 const DEFAULT_OUT_ROOT = path.resolve(GEN_ROOT, '..', 'generated');
 
 function parseArgs(argv) {
-  const args = { stages: 3, gate: 'demo', passthrough: [] };
+  const args = { stages: 3, gate: 'full', passthrough: [] };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--help' || a === '-h') args.help = true;
@@ -43,7 +45,12 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.help && !args.spec && !args.name) throw new Error('Provide --spec <file> or --name <name>');
-  if (!['none', 'demo', 'full'].includes(args.gate)) throw new Error('--gate must be none|demo|full');
+  // 'demo'는 오해를 부르는 이름이었다 — 아티팩트 계약만 보고 빌드·브라우저·레이아웃을 전혀
+  // 보지 않는데 결과를 "Production-demo"라고 불렀다. 이름과 판정을 함께 바꾼다.
+  if (args.gate === 'demo') args.gate = 'artifact-contract-only';
+  if (!['none', 'artifact-contract-only', 'full'].includes(args.gate)) {
+    throw new Error('--gate must be none|artifact-contract-only|full (구 이름 demo는 artifact-contract-only로 매핑된다)');
+  }
   if (args.from && !['scaffold', 'productionize', 'art', 'qa'].includes(args.from)) throw new Error('--from must be scaffold|productionize|art|qa');
   return args;
 }
@@ -62,7 +69,10 @@ Options:
   --from scaffold|productionize|art|qa       resume from a stage (earlier outputs must exist)
                                              --from art passes --skip-existing to imagegen
                                              (resume keeps valid art; invalid art is redrawn)
-  --gate none|demo|full                      QA after build (default demo = production-demo-qa)
+  --gate none|artifact-contract-only|full    QA after build (default full — the only gate that
+                                             makes a completion claim). artifact-contract-only
+                                             checks manifest/provenance/asset specs only and
+                                             leaves PRODUCTION-DEMO-NOT-VERIFIED.json behind.
   --codex <bin>                              codex binary for image_gen (auto-detected)
   --with-pwa | --no-sfx                      passthrough to scaffolder`);
 }
@@ -76,6 +86,17 @@ function run(label, cmd, cmdArgs) {
   }
 }
 
+// full gate를 통과한 빌드에서 미검증 표식을 지운다. 지우는 코드가 없어서, 나중에 게이트를
+// 통과시켜도 "검증된 적 없음" 표식이 영원히 남아 있었다.
+function clearIncompleteMarker(projectDir) {
+  const file = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
+  if (!fs.existsSync(file)) return;
+  try {
+    fs.unlinkSync(file);
+    console.log('  ▸ removed PRODUCTION-DEMO-NOT-VERIFIED.json — full gate passed.');
+  } catch {}
+}
+
 // 게이트를 돌리지 않고 끝난 빌드에 남기는 표식. production-demo 미통과 상태를 산문이
 // 아니라 파일로 남겨, 나중에 "완료로 보고됐지만 검증된 적 없는 빌드"를 식별할 수 있게 한다.
 function writeIncompleteMarker(projectDir, reason) {
@@ -83,9 +104,11 @@ function writeIncompleteMarker(projectDir, reason) {
   const payload = {
     status: 'production-demo-미통과',
     reason,
-    note: reason === 'skip-art'
-      ? 'Built with --skip-art: no image assets were generated and no gate was run. This build must not be reported as complete.'
-      : 'Built with --gate none: no completion gate was run. This build must not be reported as complete.',
+    note: {
+      'skip-art': 'Built with --skip-art: no image assets were generated and no gate was run. This build must not be reported as complete.',
+      'gate-none': 'Built with --gate none: no completion gate was run. This build must not be reported as complete.',
+      'artifact-contract-only': 'Built with --gate artifact-contract-only: only the manifest/provenance/asset contract was checked. No build, no browser, no layout, no scene composite. A syntax-broken source passes this path. This build must not be reported as complete.',
+    }[reason] || 'No completion gate was run. This build must not be reported as complete.',
     clearedBy: 'npm --prefix dev_game run factory:production-gate -- --project <dir>',
     writtenAt: new Date().toISOString(),
   };
@@ -171,7 +194,9 @@ function main() {
   // 않으므로, 분기보다 앞서 검사하면 Codex 없는 호스트에서 만들 수도 없는 것이 막힌다. — the art step needs a working codex host, and finding that out in
   // stage 3 means a scaffold and a productionize pass are already on disk. Skipped for
   // --skip-art, which does not need an art host at all.
-  if (!args.skipArt) {
+  // QA만 다시 돌리는 재개(--from qa)는 이미지 생성을 하지 않는다. 그런데도 preflight를
+  // 돌리면 Codex 없는 호스트에서 QA 재실행 자체가 막힌다 — 검사에 필요 없는 의존이다.
+  if (!args.skipArt && args.from !== 'qa') {
     const pfArgs = [path.join(SCRIPTS, 'host-preflight.mjs')];
     if (args.codex) pfArgs.push('--codex', args.codex);
     const pf = spawnSync(node, pfArgs, { stdio: 'inherit' });
@@ -206,14 +231,24 @@ function main() {
     // 기대는 대신, 산출물 자체에 미통과 상태를 남겨 나중에 기계가 읽을 수 있게 한다.
     writeIncompleteMarker(out, args.skipArt ? 'skip-art' : 'gate-none');
   } else if (args.gate === 'full') {
-    run('4/4 QA (full production-gate)', node, [path.join(SCRIPTS, 'production-gate.mjs'), '--project', out]);
+    // strict provenance는 항상 켠다. 옵트인이면 없는 것과 같다 — 실측으로 영수증을 1바이트
+    // 변조한 산출물이 이 플래그 없이는 그대로 통과했다.
+    run('4/4 QA (full production-gate)', node,
+      [path.join(SCRIPTS, 'production-gate.mjs'), '--project', out, '--require-gpt-imagegen']);
+    clearIncompleteMarker(out);
   } else {
-    run('4/4 QA (production-demo-qa)', node, [path.join(SCRIPTS, 'production-demo-qa.mjs'), '--project', out]);
+    run('4/4 QA (artifact contract only — NOT a completion gate)', node,
+      [path.join(SCRIPTS, 'production-demo-qa.mjs'), '--project', out, '--require-gpt-imagegen']);
+    // 이 경로는 manifest/provenance/자산 규격만 본다. 빌드도, 브라우저도, 레이아웃도,
+    // 씬 합성도 보지 않는다. 실측: 문법이 깨져 vite build가 실패하는 소스가 이 경로를
+    // 그대로 통과했다. 따라서 통과해도 "완료"가 아니다.
+    writeIncompleteMarker(out, 'artifact-contract-only');
   }
 
-  // 게이트를 돌리지 않은 빌드를 "Production-demo"라고 부르면 표식 파일과 정면으로
-  // 모순된다. 검증되지 않은 빌드는 스캐폴드라고 부른다.
-  const verified = !(args.gate === 'none' || args.skipArt);
+  // **완료는 full gate만 만든다.** 이전에는 `gate !== 'none' && !skipArt`였고, 그래서 기본
+  // 경로(계약만 검사)가 자동으로 "Production-demo game"을 출력했다. 사람이 실수로 잘못
+  // 말한 것이 아니라 도구가 잘못 말한 것이다.
+  const verified = args.gate === 'full' && !args.skipArt;
   console.log(verified
     ? `\n✔ Done. Production-demo game at: ${out}`
     : `\n▲ Done, but NOT a production demo — no completion gate ran. Scaffold at: ${out}`);

@@ -1,0 +1,18 @@
+{
+  "id": 123,
+  "type": "banana",
+  "motion": false,
+  "frames": true,
+  "fps": 12,
+  "loop": "yes",
+  "pivot": [0.5, 1.0],
+  "layout": {
+    "columns": 2,
+    "rows": 1,
+    "frameWidth": 100,
+    "frameHeight": 100,
+    "margin": 0,
+    "gap": 0,
+    "paddingInsideFrame": 0
+  }
+}

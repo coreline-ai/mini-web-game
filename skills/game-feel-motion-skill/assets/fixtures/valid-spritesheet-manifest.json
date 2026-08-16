@@ -1,0 +1,20 @@
+{
+  "id": "hero-run",
+  "type": "spritesheet",
+  "motion": "run",
+  "frames": 6,
+  "fps": 12,
+  "loop": true,
+  "pivot": [0.5, 1.0],
+  "baselineY": 0.94,
+  "layout": {
+    "columns": 6,
+    "rows": 1,
+    "frameWidth": 192,
+    "frameHeight": 192,
+    "margin": 0,
+    "gap": 0,
+    "paddingInsideFrame": 12
+  },
+  "tags": ["character", "locomotion"]
+}

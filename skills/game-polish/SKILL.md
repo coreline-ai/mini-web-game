@@ -28,7 +28,7 @@ This skill does NOT create games, scaffolds, or new asset pipelines. If the targ
 | Path | Purpose |
 |---|---|
 | `dev_game/docs/post-production-qa-contract.md` | defect classes A–N: symptom → cause → fix rules → verification (§3.1 says which classes an automated gate actually enforces and which are manual capture checks) |
-| `dev_game/generated/<game-id>/` | target game (gitignored by default) |
+| `dev_game/generated/<game-id>/` | target game (tracked or ignored **per game** — `dev_game/.gitignore` allowlists several; check with `git check-ignore -v <path>`) |
 | `dev_game/generated/<game-id>/qa-captures/` | per-game capture evidence: screenshots, video, contact sheets, state-sample JSON |
 | `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` | running log of symptoms, classifications, fixes, re-capture results |
 | `dev_game/generated/<game-id>/docs/07-REGRESSION-CHECKLIST.md` | accumulated repro scenarios of every closed defect; re-run at the start of every polish session |
@@ -148,7 +148,7 @@ Run only the gates relevant to the touched surface when iterating quickly, but t
 
 - Append to `docs/06-FINAL-QA-SUMMARY.md`: verbatim symptom → class → severity → root cause → fix → before/after evidence paths → gate results.
 - Append every closed defect's repro scenario (input pattern, scene/stage, viewport, assert values) to `docs/07-REGRESSION-CHECKLIST.md` so the next session's step 0 re-runs it.
-- Mirror a concise durable summary to `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md` (generated/** is untracked).
+- Mirror a concise durable summary to `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md`. Do not assume `generated/**` is untracked — the ignore file allowlists specific games and thousands of generated files are tracked today. Run `git check-ignore -v <path>` before telling the user their evidence will be lost.
 - If a symptom pattern was seen for the first time or in a new variant, promote it into `post-production-qa-contract.md` so the next game's pre-checks catch it.
 
 ### 8. Exit criteria
@@ -167,7 +167,7 @@ If any symptom remains, report **후보정 미완료** with the open defect list
 ## Scope limits
 
 - No new game creation, no scaffold regeneration, no asset-pipeline changes — route those to `game-factory`.
-- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`. Host adapter and long-run execution rules are the same too — check `factory:host-preflight` first and regenerate individual assets with `factory:imagegen -- --skip-existing --id "<asset-id>"` so a targeted fix does not rebuild the whole art set (`dev_game/docs/ai-art-pipeline.md#호스트-어댑터`).
+- Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`. Host adapter and long-run execution rules are the same too — check `factory:host-preflight` first and regenerate individual assets with `npm --prefix dev_game run factory:imagegen -- --project generated/<game-id> --skip-existing --id "<asset-id>"` so a targeted fix does not rebuild the whole art set (`dev_game/docs/ai-art-pipeline.md#호스트-어댑터`).
 - Do not add features during polish. Difficulty/progression fixes (classes D/E) adjust existing systems to the contract; new mechanics are a `game-factory` expansion request.
 
 ## Response format

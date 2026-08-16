@@ -27,6 +27,10 @@ def ok(message: str) -> None:
 
 
 def require_number(value, name: str, *, integer: bool = False, minimum: float | None = None):
+    # Python에서 bool은 int의 서브클래스라 isinstance(True, int)가 참이다. 배제하지 않으면
+    # `"frames": true`가 정수 1로 통과한다 — 실측으로 그렇게 승인됐다.
+    if isinstance(value, bool):
+        fail(f"{name} must be a number, not a boolean")
     if integer and not isinstance(value, int):
         fail(f"{name} must be an integer")
     if not integer and not isinstance(value, (int, float)):
@@ -34,6 +38,45 @@ def require_number(value, name: str, *, integer: bool = False, minimum: float | 
     if minimum is not None and value < minimum:
         fail(f"{name} must be >= {minimum}")
     return value
+
+
+# 스키마의 type/const/enum을 그대로 적용한다. 스키마가 없거나 읽히지 않으면 조용히 넘어가지
+# 않고 알린다 — 계약이 사라진 채로 통과하는 것이 가장 나쁘다.
+_JSON_TYPES = {
+    "string": str, "boolean": bool, "object": dict, "array": list,
+    "integer": int, "number": (int, float),
+}
+
+
+def _type_ok(value, expected: str) -> bool:
+    if expected in ("integer", "number") and isinstance(value, bool):
+        return False   # bool은 숫자가 아니다
+    py = _JSON_TYPES.get(expected)
+    return py is not None and isinstance(value, py)
+
+
+def _check_against_schema(data: dict) -> None:
+    schema_path = Path(__file__).resolve().parent.parent / "assets" / "templates" / "spritesheet-manifest.schema.json"
+    if not schema_path.exists():
+        warn(f"schema not found at {schema_path}; type checks skipped")
+        return
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        fail(f"schema is unreadable ({exc}) — cannot verify manifest types")
+        return
+
+    for name, spec in (schema.get("properties") or {}).items():
+        if name not in data:
+            continue
+        value = data[name]
+        if "const" in spec and value != spec["const"]:
+            fail(f"{name} must be {spec['const']!r} (got {value!r})")
+        if "enum" in spec and value not in spec["enum"]:
+            fail(f"{name} must be one of {spec['enum']} (got {value!r})")
+        expected = spec.get("type")
+        if expected and not _type_ok(value, expected):
+            fail(f"{name} must be {expected} (got {type(value).__name__}: {value!r})")
 
 
 def load_image_size(path: Path) -> tuple[int, int] | None:
@@ -58,6 +101,15 @@ def main() -> int:
     for field in ["id", "type", "motion", "frames", "fps", "layout", "pivot", "loop"]:
         if field not in data:
             fail(f"missing required field: {field}")
+
+    # 필드의 **존재**만 보고 타입을 안 보면 계약이 반쪽이 된다. 동봉된 스키마
+    # (assets/templates/spritesheet-manifest.schema.json)는 타입과 const를 정하는데
+    # 검증기는 그것을 읽지 않았다 — 실측으로 id:123 · type:"banana" · motion:false ·
+    # frames:true · loop:"yes"인 manifest가 [OK]로 승인됐다.
+    #
+    # jsonschema 패키지에 의존하지 않고 스키마와 동등한 검사를 직접 한다. 이 스크립트는
+    # 의존성 없이 도는 것이 요구사항이라, 스키마 파일을 읽어 type/const/enum만 적용한다.
+    _check_against_schema(data)
 
     frames = require_number(data["frames"], "frames", integer=True, minimum=1)
     fps = require_number(data["fps"], "fps", minimum=0.001)
