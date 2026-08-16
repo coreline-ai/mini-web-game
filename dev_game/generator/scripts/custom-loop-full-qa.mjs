@@ -38,9 +38,10 @@ try {
   run(process.execPath, [path.join(scriptsDir, 'input-hostility-qa.mjs'), ...common]);
   run(process.execPath, [path.join(scriptsDir, 'session-continuity-qa.mjs'), ...common]);
 
-  // 조작 계층 회귀 탐지 (클래스 O). 프로젝트에 qa/play-profiles.js가 없으면 스스로 건너뛴다.
-  // 절대 판정이 아니라 기준선 이탈 탐지다 — 계약 §0.1과 클래스 O의 한계 설명을 함께 읽을 것.
-  run(process.execPath, [path.join(scriptsDir, 'play-profile-qa.mjs'), ...common]);
+  // play-profile-qa는 **완료 게이트에 들어가지 않는다.** 자기 양성 대조에 실패했고(만들게 한
+  // 결함을 되돌려 넣어도 RED가 되지 않았다) 아직 아무것도 잡은 적이 없는데, 매 실행마다
+  // 2분(3프로파일 × 40초)을 쓴다. 잡은 적 없는 검사를 완료 판정에 넣으면 게이트가 아니라
+  // 비용이다. 필요할 때 `factory:play-profile-qa`로 따로 돌린다 — 계약 클래스 O 참조.
   run(npm, ['run', 'test:rules'], { cwd: projectDir, env: { ...process.env, FIREBREAK_QA_URL: url, GAME_QA_URL: url } });
   run(npm, ['run', 'test:lifecycle'], { cwd: projectDir, env: { ...process.env, FIREBREAK_QA_URL: url, GAME_QA_URL: url } });
   run(process.execPath, [path.join(scriptsDir, 'docs-runtime-sync-qa.mjs'), '--project', projectDir]);
