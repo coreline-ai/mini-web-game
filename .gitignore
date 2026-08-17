@@ -10,3 +10,7 @@ tmp_game_*.png
 output/
 # gstack QA 리포트 산출물 (재생성 가능)
 .gstack/
+
+# skill_task_gate 의 기계 상태. 저장소 전체 baseline 스냅샷을 담은 436KB 파일이며
+# 게이트 실행으로 재생성된다. 리뷰 대상이 아니다.
+dev_game/docs/skill-workflow/*.state.json
