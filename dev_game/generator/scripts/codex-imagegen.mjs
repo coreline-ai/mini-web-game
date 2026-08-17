@@ -628,6 +628,44 @@ function assertPlanPrompts(plan) {
   }
 }
 
+/**
+ * 생성 묶음을 쪼개는 재생성을 막는다.
+ *
+ * Path B에서는 프롬프트 하나가 시트 한 장을 만들고 여러 자산을 거기서 잘라냈다. 그 자산들은
+ * `provenance.promptHash`를 공유한다(실측 firebreak-commander: 자산 12개, 해시 2개).
+ * 그중 하나만 다시 만들면 **그 항목만** 새 provenance로 교체되고 나머지는 옛 해시를 계속
+ * 주장한다 — "한 번의 생성에서 나왔다"는 관계가 거짓이 되는데 아무 검사도 그걸 보지 않았다.
+ *
+ * 묶음 전체를 다시 만들 수 없다면(각자의 프롬프트가 필요하다) 아예 시작하지 않는 것이 옳다.
+ * 자산 하나를 고치겠다고 manifest가 거짓을 말하게 두지 않는다.
+ */
+function assertGroupNotSplit(manifest, targets) {
+  if (!targets.length) return;
+  const all = [...(manifest.stageBackgrounds || []), ...(manifest.images || [])];
+  const groups = new Map();
+  for (const entry of all) {
+    const hash = entry?.provenance?.promptHash;
+    if (!hash || !entry.id) continue;
+    if (!groups.has(hash)) groups.set(hash, []);
+    groups.get(hash).push(entry.id);
+  }
+  const selected = new Set(targets);
+  const split = [];
+  for (const [hash, members] of groups) {
+    if (members.length < 2) continue;
+    const inside = members.filter((id) => selected.has(id));
+    if (inside.length && inside.length < members.length) {
+      split.push(`${hash}: 선택 ${inside.join(', ')} / 나머지 ${members.filter((id) => !selected.has(id)).join(', ')}`);
+    }
+  }
+  if (split.length) {
+    throw new Error('생성 묶음을 쪼개는 재생성이다 — 이 자산들은 한 번의 생성에서 나왔다:\n'
+      + split.map((line) => `  ${line}`).join('\n')
+      + '\n  하나만 다시 만들면 나머지가 옛 promptHash를 계속 주장해 manifest가 거짓 관계를 남긴다.'
+      + '\n  묶음 전체를 대상으로 하거나(--id를 모두 지정), 재생성을 하지 말 것.');
+  }
+}
+
 function main() {
   const args = parseCliArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
@@ -660,6 +698,13 @@ function main() {
   const retryStats = [];
   const planAccent = accentHexOf(plan);
   const matchId = idMatcher(args.id);
+  // `--id`가 생성 묶음의 일부만 고르면 여기서 멈춘다. 계획의 모든 id를 대상으로 판정하므로
+  // glob(`fx-*`)로 고른 경우에도 성립한다.
+  if (args.id) {
+    const planned = ['backgrounds', 'sprites', 'ui', 'fx']
+      .flatMap((bucket) => (plan[bucket] || []).map((entry) => entry.id));
+    assertGroupNotSplit(manifest, planned.filter((id) => matchId(id)));
+  }
   if (args.id) console.log(`id filter: ${args.id}`);
   if (args.skipExisting) console.log('skip-existing: reusing on-disk assets that already validate');
 

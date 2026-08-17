@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { promptsFromArtPrompts, recoverPlan } from './asset-plan-recover.mjs';
+import { generationGroups, promptsFromArtPrompts, recoverPlan } from './asset-plan-recover.mjs';
 
 // asset-plan 복원의 계측 검증 (계약 §0.1: 음성·양성 대조 + 실패 사유 지문).
 
@@ -59,6 +59,30 @@ try {
     'a sheet prompt must not be attached to the individual assets cut from it');
   check(w.missing.length === 3, `sheet-derived assets must be reported as missing (got ${w.missing.length})`);
 
+  // ── 생성 묶음 — 재생성 단위 ──
+  // Path B는 프롬프트 하나가 시트 한 장을 만들고 여러 자산을 잘라냈다. 그 자산들은
+  // promptHash를 공유한다. 하나만 다시 만들면 나머지가 옛 해시를 계속 주장해 manifest가
+  // 거짓 관계를 남긴다 — 그래서 묶음이 재생성 단위다.
+  const SHEET_MANIFEST = {
+    stageBackgrounds: [],
+    images: [
+      { id: 'a1', path: 'assets/a1.webp', type: 'sprite', provenance: { promptHash: 'sheet0001' } },
+      { id: 'a2', path: 'assets/a2.webp', type: 'sprite', provenance: { promptHash: 'sheet0001' } },
+      { id: 'solo', path: 'assets/solo.webp', type: 'fx', provenance: { promptHash: 'unique999' } },
+    ],
+  };
+  const groups = generationGroups(SHEET_MANIFEST);
+  check(groups.size === 1, `only shared hashes form a group (got ${groups.size})`);
+  check((groups.get('sheet0001') || []).length === 2, 'the shared-hash pair must be one group');
+  check(!groups.has('unique999'), 'a lone hash is not a group');
+
+  const sheetProject = makeProject('sheet', { manifest: SHEET_MANIFEST });
+  const s = recoverPlan(sheetProject);
+  check(s.plan.generationGroups?.length === 1, 'the recovered plan must carry generationGroups');
+  check(s.plan.sprites.every((e) => e.generationGroup === 'sheet0001'),
+    'group members must be marked in their plan entries');
+  check(!s.plan.fx[0].generationGroup, 'a non-member must not be marked');
+
   // ── 양성 대조: 근거가 없으면 복원하지 않는다 ──
   const noManifest = path.join(root, 'no-manifest');
   fs.mkdirSync(noManifest, { recursive: true });
@@ -85,6 +109,9 @@ check(!/asset-plan\.json missing — run productionize/.test(imagegen),
   'imagegen must not advise productionize.mjs — it overwrites a shipped game\'s planning docs');
 check(imagegen.includes('factory:asset-plan-recover'),
   'imagegen must point at the recovery command when the plan is absent');
+// 호출 지점을 본다 — 정의에만 있는 문자열로는 배선을 증명하지 못한다(이 파일에서 한 번 겪었다).
+check(/if \(args\.id\) \{[\s\S]{0,400}?assertGroupNotSplit\(manifest, planned/.test(imagegen),
+  'imagegen must refuse to regenerate part of a generation group when --id is given');
 
 if (failures.length) {
   console.error('asset-plan recover QA failed:');

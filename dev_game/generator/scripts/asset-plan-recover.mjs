@@ -17,6 +17,13 @@ import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
 // 둘 다 게이트가 "재생성 필요"라고 말하는데 재생성할 방법이 없었다. **스킬이 시키는 일을
 // 실행할 수 없는 상태**였고, 그것이 이 스크립트가 닫는 구멍이다.
 //
+// ── 재생성 단위는 자산이 아니라 "생성 묶음"이다 ─────────────────────────────
+// Path B에서는 프롬프트 하나가 시트 한 장을 만들고 거기서 여러 자산을 잘라냈다. 그 관계는
+// **이미 manifest에 있다** — 같은 `provenance.promptHash`를 공유한다.
+// 실측: firebreak-commander는 자산 12개가 해시 2개를 공유하고(스프라이트 6 / fx·ui 6),
+// keeper-last-light(Path A)는 11개가 전부 고유하다.
+// `generationGroups()`가 그 묶음을 뽑고, `codex-imagegen`이 묶음을 쪼개는 재생성을 막는다.
+//
 // ── 무엇을 복원할 수 있고 무엇은 못 하는가 ──────────────────────────────────
 // manifest는 id·path·role·type·minWidth·minHeight·requiresAlpha를 담는다. 계획에 필요한 것
 // 중 **프롬프트만 없다** — manifest에는 `promptHash`만 있고 원문은 없다.
@@ -92,6 +99,29 @@ function lookupPrompt(entry, prompts) {
   return '';
 }
 
+/**
+ * 한 번의 생성에서 나온 자산 묶음. `provenance.promptHash`를 공유하는 항목들이다.
+ *
+ * Path B에서는 프롬프트 하나가 **시트 한 장**을 만들고 거기서 여러 자산을 잘라냈다. 그 관계는
+ * 이미 manifest에 기록돼 있다 — 실측(firebreak-commander): 자산 12개가 해시 2개를 공유한다
+ * (스프라이트 6개 / fx·ui 6개). Path A는 자산마다 고유 해시다(keeper-last-light 11/11).
+ *
+ * 이 묶음이 **재생성 단위**다. 하나만 다시 만들면 나머지는 여전히 옛 해시를 주장하므로
+ * "한 번의 생성에서 나왔다"는 관계가 거짓이 된다.
+ */
+export function generationGroups(manifest) {
+  const groups = new Map();
+  const all = [...(manifest.stageBackgrounds || []), ...(manifest.images || [])];
+  for (const entry of all) {
+    const hash = entry?.provenance?.promptHash;
+    if (!hash || !entry.id) continue;
+    if (!groups.has(hash)) groups.set(hash, []);
+    groups.get(hash).push(entry.id);
+  }
+  // 혼자인 해시는 묶음이 아니다.
+  return new Map([...groups].filter(([, ids]) => ids.length > 1));
+}
+
 export function recoverPlan(projectDir) {
   const manifestFile = path.join(projectDir, 'assets', 'asset-manifest.json');
   if (!fs.existsSync(manifestFile)) {
@@ -125,9 +155,24 @@ export function recoverPlan(projectDir) {
     plan[bucket].push(planEntry(entry, lookupPrompt(entry, prompts)));
   }
 
+  // 생성 묶음을 계획에 실어 둔다. 재생성 단위가 자산이 아니라 묶음이라는 사실이
+  // 계획을 읽는 사람과 도구 모두에게 보이게 한다.
+  const groups = generationGroups(manifest);
+  if (groups.size) {
+    plan.generationGroups = [...groups].map(([promptHash, members]) => ({ promptHash, members }));
+    const memberOf = new Map();
+    for (const [hash, members] of groups) for (const id of members) memberOf.set(id, hash);
+    for (const bucket of ['backgrounds', 'sprites', 'ui', 'fx']) {
+      for (const entry of plan[bucket]) {
+        const hash = memberOf.get(entry.id);
+        if (hash) entry.generationGroup = hash;
+      }
+    }
+  }
+
   const missing = ['backgrounds', 'sprites', 'ui', 'fx']
     .flatMap((bucket) => plan[bucket].filter((e) => !e.prompt).map((e) => `${bucket}/${e.id}`));
-  return { plan, missing, promptSource: prompts.size ? 'art-prompts.md' : null };
+  return { plan, missing, groups, promptSource: prompts.size ? 'art-prompts.md' : null };
 }
 
 function usage() {
@@ -171,7 +216,7 @@ if (isMainModule(import.meta.url)) {
     process.exit(1);
   }
 
-  const { plan, missing, promptSource } = recoverPlan(projectDir);
+  const { plan, missing, groups, promptSource } = recoverPlan(projectDir);
   const total = plan.backgrounds.length + plan.sprites.length + plan.ui.length + plan.fx.length;
 
   fs.writeFileSync(output, `${JSON.stringify(plan, null, 2)}\n`);
@@ -179,6 +224,10 @@ if (isMainModule(import.meta.url)) {
   console.log(`  항목 ${total}개 — backgrounds ${plan.backgrounds.length} / sprites ${plan.sprites.length}`
     + ` / ui ${plan.ui.length} / fx ${plan.fx.length}`);
   console.log(`  프롬프트 출처: ${promptSource || '없음 (manifest는 promptHash만 담는다)'}`);
+  if (groups.size) {
+    console.log(`  생성 묶음 ${groups.size}개 — 이 자산들은 한 번의 생성에서 나왔고 재생성 단위는 묶음이다:`);
+    for (const [hash, members] of groups) console.log(`    ${hash}  ${members.join(', ')}`);
+  }
 
   if (missing.length) {
     console.error(`\n프롬프트가 소실된 항목 ${missing.length}개:`);
