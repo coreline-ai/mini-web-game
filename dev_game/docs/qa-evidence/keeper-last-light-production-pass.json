@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 2,
+  "status": "PASS",
+  "gateProfile": "custom-loop-full",
+  "gameSpecVersion": "2.0.0",
+  "buildDecision": "custom-loop",
+  "projectFingerprint": "542d7c44c0a53f77fa14eadb311d8015bc9a16120754be0f18ac1861ec49ef19",
+  "qaRunId": "2026-08-17T13-53-50-339Z",
+  "generatedAt": "2026-08-17T13:55:30.360Z"
+}

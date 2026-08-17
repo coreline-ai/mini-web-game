@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "frozenAt": "2026-08-17",
-  "note": "영수증 제도 이전에 이미 존재하던 게임의 닫힌 목록. 이 목록은 늘어나지 않는다 — 새 게임은 legacy-pass가 될 수 없고 반드시 영수증을 벌어야 한다. 목록에 있어도 커밋된 증거 파일이 사라지면 자격도 사라진다. 2026-08-17 시점에 dev_game/docs/qa-evidence/ 에 커밋된 QA 요약을 가진 게임을 실측해 만들었다.",
+  "note": "영수증 제도 이전에 이미 존재하던 게임의 닫힌 목록. 이 목록은 늘어나지 않는다 — 새 게임은 legacy-pass가 될 수 없고 반드시 영수증을 벌어야 한다. 목록에 있어도 커밋된 증거 파일이 사라지면 자격도 사라진다. 2026-08-17 시점에 dev_game/docs/qa-evidence/ 에 커밋된 QA 요약을 가진 게임을 실측해 만들었다. 실제 영수증을 번 게임은 이 목록에서 내린다 — 영수증이 정본이므로 legacy 자격이 남아 있으면 영수증이 사라졌을 때 조용히 되살아난다.",
   "games": [
     {
       "id": "bullseye-rush",
@@ -24,20 +24,8 @@
       "evidence": "jungle-arcshot-2026-07-10.md"
     },
     {
-      "id": "keeper-last-light",
-      "evidence": "keeper-last-light-2026-08-15.md"
-    },
-    {
-      "id": "last-minute-keeper",
-      "evidence": "last-minute-keeper-2026-08-16.md"
-    },
-    {
       "id": "market-panic",
       "evidence": "market-panic-2026-07-10.md"
-    },
-    {
-      "id": "meteor-dash",
-      "evidence": "meteor-dash-2026-07-10.md"
     },
     {
       "id": "night-market-wok",
@@ -63,5 +51,16 @@
       "id": "target-shooter-rush",
       "evidence": "target-shooter-rush-2026-07-10.md"
     }
-  ]
+  ],
+  "migration": {
+    "goal": "이 목록을 0으로 만든다. legacy-pass는 \"통과한 적이 있다\"일 뿐 현재성이 증명되지 않는다 — 게이트를 실제로 통과해 영수증을 벌면 이 목록에서 내린다.",
+    "retiredAt": "2026-08-17",
+    "retired": [
+      "keeper-last-light",
+      "last-minute-keeper",
+      "meteor-dash"
+    ],
+    "remaining": 12,
+    "note": "영수증이 정본이므로 목록에 남겨 두면 영수증이 사라졌을 때 legacy 자격이 조용히 되살아난다. 그래서 번 게임은 반드시 내린다."
+  }
 }
