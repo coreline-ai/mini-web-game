@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { productionGateProfile } from './production-gate-profile.mjs';
 import { assertArgv, isMainModule } from './cli-contract.mjs';
+import { verifyAttestation } from './receipt-attestation.mjs';
 
 // production-demo PASS 영수증 — 첫 PASS 경계를 기계로 판정한다.
 //
@@ -346,6 +347,12 @@ export function verifyPassReceipt(projectDir) {
     }
   }
 
+  // 서명 검증. 공개키가 커밋돼 있을 때만 요구한다 — 그 파일의 존재가 전환 스위치다.
+  // 지문은 공개 해시라 누구나 계산할 수 있으므로, 서명 없이는 "손으로 쓴 영수증"과
+  // "게이트가 발급한 영수증"을 구별할 방법이 없다(실측으로 위조가 성립한다).
+  const attested = verifyAttestation(receipt, devGameRoot(projectDir));
+  if (!attested.ok) return { ok: false, state: 'invalid', file, receipt, reason: attested.reason };
+
   const current = projectFingerprint(projectDir);
   if (receipt.projectFingerprint !== current) {
     return {
@@ -353,7 +360,13 @@ export function verifyPassReceipt(projectDir) {
       reason: 'stale production-demo PASS receipt: project inputs changed since the gate ran',
     };
   }
-  return { ok: true, state: 'pass', file, receipt, current, reason: 'production-demo PASS receipt is current' };
+  return {
+    ok: true, state: 'pass', file, receipt, current,
+    attested: attested.required ? attested.keyId : false,
+    reason: attested.required
+      ? `production-demo PASS receipt is current and CI-signed (key ${attested.keyId})`
+      : 'production-demo PASS receipt is current (unattested — no signing key committed)',
+  };
 }
 
 function resolveProject(projectArg) {
