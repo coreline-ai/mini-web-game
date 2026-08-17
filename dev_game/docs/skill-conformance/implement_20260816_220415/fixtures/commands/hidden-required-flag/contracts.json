@@ -1,0 +1,1 @@
+{"schemaVersion":1,"scripts":{"factory:test":{"requiredAll":["--project","--token"],"requiredOneOf":[],"knownFlags":["--project","--token"]}}}

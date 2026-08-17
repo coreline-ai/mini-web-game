@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "scripts": {
+    "factory:make": {
+      "requiredAll": [],
+      "requiredOneOf": [["--spec", "--name"]],
+      "knownFlags": ["--help", "--spec", "--name", "--title", "--out", "--stages", "--codex", "--skip-art", "--from", "--gate", "--with-pwa", "--no-sfx"]
+    },
+    "factory:production-gate": {
+      "requiredAll": ["--project"],
+      "requiredOneOf": [],
+      "knownFlags": ["--help", "--skip-foundation", "--project", "--min-stage-backgrounds", "--allow-svg-backgrounds", "--require-gpt-imagegen", "--require-imagegen-skill", "--port", "--viewports", "--safe-margin", "--aspect-tolerance", "--allow-missing-registry", "--keep-server", "--mode"]
+    },
+    "factory:imagegen": {
+      "requiredAll": ["--project"],
+      "requiredOneOf": [],
+      "knownFlags": ["--help", "--project", "--only", "--codex", "--timeout", "--skip-existing", "--no-runtime-export", "--id"]
+    },
+    "factory:production-pass-status": {
+      "requiredAll": ["--project"],
+      "requiredOneOf": [],
+      "knownFlags": ["--help", "--project"]
+    }
+  }
+}

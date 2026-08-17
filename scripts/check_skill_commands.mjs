@@ -39,7 +39,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_INVENTORY = path.join(ROOT, 'dev_game', 'docs', 'skill-conformance',
-  'implement_20260816_141036', 'command-inventory.json');
+  'implement_20260816_220415', 'command-inventory.json');
+const DEFAULT_CONTRACTS = path.join(ROOT, 'dev_game', 'generator', 'scripts', 'cli-contracts.json');
 
 function parseArgs(argv) {
   const args = {};
@@ -48,6 +49,7 @@ function parseArgs(argv) {
     if (a === '--skills-root') args.skillsRoot = argv[++i];
     else if (a === '--inventory') args.inventory = argv[++i];
     else if (a === '--package') args.pkg = argv[++i];
+    else if (a === '--contracts') args.contracts = argv[++i];
     else if (a === '--help' || a === '-h') args.help = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -56,7 +58,8 @@ function parseArgs(argv) {
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`Usage:
-  node scripts/check_skill_commands.mjs [--skills-root <dir>] [--inventory <json>] [--package <json>]
+  node scripts/check_skill_commands.mjs [--skills-root <dir>] [--inventory <json>]
+       [--package <json>] [--contracts <json>]
 
 스킬 문서의 factory 명령이 실제 인자 계약과 맞는지 정적으로 검사한다. 하위 프로세스를 띄우지
 않는다. --skills-root로 fixture 디렉터리를 주입해 양성 대조를 돌릴 수 있다.`);
@@ -67,6 +70,7 @@ const args = parseArgs(process.argv.slice(2));
 const SKILLS = path.resolve(args.skillsRoot || path.join(ROOT, 'skills'));
 const PKG = path.resolve(args.pkg || path.join(ROOT, 'dev_game', 'package.json'));
 const INVENTORY = path.resolve(args.inventory || DEFAULT_INVENTORY);
+const CONTRACTS = path.resolve(args.contracts || DEFAULT_CONTRACTS);
 const DEV_GAME = path.dirname(PKG);
 const GENERATED = path.join(DEV_GAME, 'generated');
 
@@ -139,6 +143,20 @@ if (pkgRaw !== null) {
     scripts = JSON.parse(pkgRaw).scripts || {};
   } catch (err) {
     problems.push(`package.json을 파싱할 수 없다: ${err.message}`);
+  }
+}
+
+const contractRaw = readOrFail(CONTRACTS, 'CLI contracts');
+let cliContracts = {};
+if (contractRaw !== null) {
+  try {
+    const parsed = JSON.parse(contractRaw);
+    cliContracts = parsed.scripts || {};
+    if (!parsed.schemaVersion || !Object.keys(cliContracts).length) {
+      problems.push('CLI contracts에 schemaVersion 또는 scripts가 없다');
+    }
+  } catch (err) {
+    problems.push(`CLI contracts를 파싱할 수 없다: ${err.message}`);
   }
 }
 
@@ -261,16 +279,45 @@ for (const skill of skillDirs) {
         + `${script}의 소스를 읽을 수 없다 (${info.file}): ${contract.error}`);
       continue;
     }
-    const missing = contract.required.filter((f) => !flags.includes(f));
+    const declared = cliContracts[script];
+    if (!declared || !Array.isArray(declared.knownFlags)
+      || !Array.isArray(declared.requiredAll) || !Array.isArray(declared.requiredOneOf)) {
+      problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
+        + `${script}의 명시적 CLI contract가 없다 — 오류 문구에서 필수 인자를 추측하지 않는다`);
+      continue;
+    }
+    const declaredFlags = new Set(declared.knownFlags);
+    const sourceMissing = declared.knownFlags.filter((f) => !contract.known.includes(f));
+    if (sourceMissing.length) {
+      problems.push(`${script} CLI contract가 소스와 어긋난다. 소스에서 찾을 수 없는 플래그: `
+        + sourceMissing.join(', '));
+    }
+    const badRequired = [
+      ...declared.requiredAll,
+      ...declared.requiredOneOf.flat(),
+    ].filter((f) => !declaredFlags.has(f));
+    if (badRequired.length) {
+      problems.push(`${script} CLI contract의 required 플래그가 knownFlags에 없다: `
+        + [...new Set(badRequired)].join(', '));
+    }
+    // 에러 문구에서 찾은 required는 보조 교차검사일 뿐, 판정 정본은 명시적 contract다.
+    const undeclaredRequired = contract.required.filter((f) => !declared.requiredAll.includes(f)
+      && !declared.requiredOneOf.some((group) => group.includes(f)));
+    if (undeclaredRequired.length) {
+      problems.push(`${script} 소스가 필수라고 말하지만 CLI contract에 없는 플래그: `
+        + undeclaredRequired.join(', '));
+    }
+    const missing = declared.requiredAll.filter((f) => !flags.includes(f));
+    for (const group of declared.requiredOneOf) {
+      if (!group.some((f) => flags.includes(f))) missing.push(`one-of(${group.join('|')})`);
+    }
     if (missing.length) {
       problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
-        + `누락: ${missing.join(', ')} (스크립트가 필수로 선언)`);
+        + `누락: ${missing.join(', ')} (명시적 CLI contract)`);
     }
-    if (contract.known.length) {
-      const strays = flags.filter((f) => !contract.known.includes(f));
-      if (strays.length) {
-        problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    미지원 플래그: ${strays.join(', ')}`);
-      }
+    const strays = flags.filter((f) => !declaredFlags.has(f));
+    if (strays.length) {
+      problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    미지원 플래그: ${strays.join(', ')}`);
     }
   }
 }
@@ -293,6 +340,13 @@ if (inventory) {
     problems.push('command inventory에 commands 배열이 없다 — 지켜야 할 책임이 정의되지 않았다');
   } else {
     for (const entry of entries) {
+      const declared = cliContracts[entry.script];
+      const contractUnknown = (entry.requiredFlags || [])
+        .filter((f) => declared && !declared.knownFlags?.includes(f));
+      if (contractUnknown.length) {
+        problems.push(`command inventory ${entry.id}가 CLI contract에 없는 플래그를 요구한다: `
+          + contractUnknown.join(', '));
+      }
       const hit = seen.some((s) => s.skill === entry.skill && s.script === entry.script
         && (entry.requiredFlags || []).every((f) => s.flags.includes(f)));
       if (!hit) {

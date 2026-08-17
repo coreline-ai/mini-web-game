@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Factory"
-  short_description: "Idea-first LLM game studio for high-quality first production-grade mobile/web demos"
-  default_prompt: "Use $game-factory to turn this game idea into a planned, implemented, asset-generated, and QA-verified Phaser/Vite high-quality first production-demo — or to expand an existing generated game with a new feature. Treat archetypes as references, not limits. Use gpt 이미지젠 스킬 assets only; do not create external image service scripts or reuse shared/root runtime assets. Do not report completion until factory:production-gate passes; the individual gates are listed in production-demo-quality-contract.md §4, not here. Route repair of an already-passed game to game-polish."
+  short_description: "New-game production, expansion, and pre-PASS acceptance QA"
+  default_prompt: "Use $game-factory to create or expand a dev_game project, or to close acceptance defects when production-pass status is not current."

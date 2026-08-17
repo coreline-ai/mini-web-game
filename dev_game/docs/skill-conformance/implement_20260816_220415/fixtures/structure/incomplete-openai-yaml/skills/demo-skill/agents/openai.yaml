@@ -1,0 +1,3 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "Skill metadata missing default prompt fixture."

@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Asset Creation"
-  short_description: "2D sprite and sprite-sheet creation, editing, and alignment QA."
-  default_prompt: "Use game-asset-creation to produce a 2D character sprite sheet, or — in its low-freedom correction mode — to fix spacing, baseline, pivot, or cell size on already-approved frames without changing pixels, pose, frame count, scale, or order. State which mode applies before starting. Route animation timing and runtime feel judgement to game-feel-motion-skill."
+  short_description: "Standalone 2D sprite creation and pixel-preserving correction"
+  default_prompt: "Use $game-asset-creation for standalone sprite work or approved-frame pixel-preserving correction, routing new dev_game pixels through motion design and game-factory."

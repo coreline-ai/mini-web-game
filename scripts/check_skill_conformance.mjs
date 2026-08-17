@@ -30,6 +30,7 @@ function parseArgs(argv) {
     else if (a === '--conformance-dir') args.dir = argv[++i];
     else if (a === '--repo-root') args.repoRoot = argv[++i];
     else if (a === '--status-file') args.statusFile = argv[++i];
+    else if (a === '--committed-paths-file') args.committedPathsFile = argv[++i];
     else if (a === '--help' || a === '-h') args.help = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -39,11 +40,13 @@ function parseArgs(argv) {
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`Usage:
-  node scripts/check_skill_conformance.mjs --plan <plan.md> [--conformance-dir <dir>] [--status-file <file>]
+  node scripts/check_skill_conformance.mjs --plan <plan.md> [--conformance-dir <dir>]
+       [--status-file <file>] [--committed-paths-file <file>]
 
 계획 본문 불변성·Phase 보고서 구조·선행 승인·경로 소유권을 검사한다. 구조만 본다.
 --status-file은 git status --porcelain=v1 --untracked-files=all 출력을 파일로 주입한다
-(fixture로 범위 밖 변경을 시험할 때 저장소를 더럽히지 않기 위한 것이다).`);
+(fixture로 범위 밖 변경을 시험할 때 저장소를 더럽히지 않기 위한 것이다).
+--committed-paths-file은 baselineHead..HEAD의 변경 경로를 한 줄에 하나씩 주입한다.`);
   process.exit(0);
 }
 
@@ -342,6 +345,37 @@ function dirtyPaths() {
   }
 }
 
+// dirty path만 보면 범위 밖 변경을 커밋하는 순간 작업 트리가 깨끗해져 GREEN이 된다.
+// 승인서가 이미 baselineHead를 갖고 있으므로 그 시점부터 HEAD까지의 committed delta도
+// 같은 allowlist로 검사한다. rename은 양쪽 경로를 모두 보기 위해 --no-renames를 쓴다.
+function committedPaths() {
+  if (args.committedPathsFile) {
+    const raw = readOrFail(path.resolve(args.committedPathsFile), 'committed paths 파일');
+    return raw === null ? [] : raw.split('\n').map((line) => line.trim()).filter(Boolean);
+  }
+  // 기존 synthetic fixture는 실제 git history가 없고 status만 주입한다. committed-path
+  // 대조가 필요한 fixture는 위 전용 입력을 반드시 함께 준다.
+  if (args.statusFile) return [];
+  const baseline = approval?.baselineHead;
+  if (!baseline) return [];
+  try {
+    execFileSync('git', ['merge-base', '--is-ancestor', baseline, 'HEAD'],
+      { cwd: REPO, stdio: 'ignore' });
+  } catch {
+    problems.push(`승인 baselineHead가 현재 HEAD의 조상이 아니다: ${baseline}\n    `
+      + '승인되지 않은 기준선 교체·rebase 상태에서는 변경 범위를 증명할 수 없다');
+    return [];
+  }
+  try {
+    const out = execFileSync('git', ['diff', '--name-only', '--no-renames', `${baseline}..HEAD`],
+      { cwd: REPO, encoding: 'utf8' });
+    return out.split('\n').map((line) => line.trim()).filter(Boolean);
+  } catch (err) {
+    problems.push(`baselineHead..HEAD committed delta를 측정할 수 없다: ${err.message}`);
+    return [];
+  }
+}
+
 if (ownership && currentPhase > 0) {
   const allowed = [...(ownership.alwaysAllowed || [])];
   for (let n = 1; n <= currentPhase; n += 1) {
@@ -374,10 +408,18 @@ if (ownership && currentPhase > 0) {
     }
   }
 
-  for (const p of dirtyPaths()) {
+  const changed = [
+    ...committedPaths().map((p) => ({ path: p, source: 'committed' })),
+    ...dirtyPaths().map((p) => ({ path: p, source: 'dirty' })),
+  ];
+  const seenChanged = new Set();
+  for (const item of changed) {
+    const p = item.path;
+    if (seenChanged.has(`${item.source}:${p}`)) continue;
+    seenChanged.add(`${item.source}:${p}`);
     if (preplan.has(p)) continue; // 위에서 hash로 따로 검사했다
     if (!allowed.some((prefix) => p === prefix || p.startsWith(prefix))) {
-      problems.push(`범위 밖 변경: ${p}\n    `
+      problems.push(`범위 밖 변경: ${p} (${item.source})\n    `
         + `Phase ${currentPhase} 시점에서 허용된 경로가 아니다. 현재 Phase를 BLOCKED하고 `
         + '계획을 고친 뒤 다시 검토해야 한다');
     }

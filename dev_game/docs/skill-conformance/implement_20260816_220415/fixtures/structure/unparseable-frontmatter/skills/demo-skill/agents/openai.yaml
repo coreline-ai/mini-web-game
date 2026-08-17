@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "Skill metadata YAML parsing validation fixture."
+  default_prompt: "Use $demo-skill for structure validation."

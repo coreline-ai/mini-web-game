@@ -1,6 +1,6 @@
 ---
 name: game-asset-creation
-description: Create, edit, validate, and QA 2D game sprite assets and sprite sheets, especially 1990s arcade fighting game character animation sheets. Use when generating a new character sprite sheet or per-action frames, editing existing ones, preserving character identity, normalizing frame cells, or writing prompts for an image-editing model. Has a second, low-freedom mode — correcting spacing, baseline, pivot, or cell size on already-approved frames, where pixels, pose, frame count, scale, and order must not change. Route animation timing and runtime feel judgement to game-feel-motion-skill.
+description: "Create, edit, validate, and QA standalone 2D sprite assets, or correct spacing, baseline, pivot, and cell size on already-approved frames without changing pixels, pose, frame count, scale, or order. For a new sprite/VFX sheet inside dev_game, do not generate it here: route the asset constraints to game-feel-motion-skill first, then generation and provenance to game-factory Path A/B. Route runtime timing and feel judgement to game-feel-motion-skill."
 ---
 
 # Game Asset Creation
@@ -11,9 +11,13 @@ description: Create, edit, validate, and QA 2D game sprite assets and sprite she
 
 이 스킬에는 **자유도가 다른 두 모드**가 있다. 어느 모드인지 먼저 정하고 시작한다.
 
+먼저 대상 위치를 판정한다. **dev_game 안의 새 픽셀 생성**은 이 스킬의 직접 실행 범위가 아니다.
+`game-feel-motion-skill` 설계 PASS 뒤 `game-factory` Path A/B로 넘긴다. 이 스킬이 직접 실행하는
+것은 standalone 생성·편집과, 위치와 무관하게 승인 프레임을 옮기는 픽셀 보존 교정이다.
+
 | 모드 | 언제 | 자유도 |
 |---|---|---|
-| **생성·편집** | 시트가 아직 없거나 다시 그려야 할 때 | 새 포즈·새 프레임·새 동작이 정상 작업이다 |
+| **standalone 생성·편집** | dev_game 밖에서 시트가 아직 없거나 다시 그려야 할 때 | 새 포즈·새 프레임·새 동작이 정상 작업이다 |
 | **픽셀 보존 교정** | 프레임이 이미 승인됐고 간격·기준선·피벗·셀 크기만 어긋났을 때 | 픽셀·포즈·프레임 수·스케일·순서를 **바꾸지 않는다.** 잘라서 옮기고, 필요하면 투명 캔버스만 넓힌다 |
 
 교정 모드의 계산 절차는 [`references/spacing-algorithm.md`](references/spacing-algorithm.md)가 소유한다.
@@ -81,7 +85,7 @@ description: Create, edit, validate, and QA 2D game sprite assets and sprite she
 | 파일 | 언제 읽나 |
 |---|---|
 | `references/spacing-algorithm.md` | 간격·기준선·셀 배치를 계산할 때. 중심 간격 등차수열 수식과 캔버스 확장 우선순위 |
-| `references/prompt-templates.md` | 이미지 편집 모델에 지시하거나 새 시트를 생성할 때 |
+| `references/prompt-templates.md` | standalone 이미지 모델에 지시하거나 승인 프레임을 교정할 때 |
 | `references/qa-and-failures.md` | 결과를 승인/반려할 때, 그리고 재생성·잘림·기준선 흔들림 같은 실패에 대응할 때 |
 
 ## 최종 보고 형식

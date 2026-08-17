@@ -1,6 +1,6 @@
 ---
 name: game-feel-motion-skill
-description: Design and QA game feel, UI motion, feedback animation, and motion-ready asset pipelines for games. Use when creating or reviewing game input feel, hit/reward/skill/UI/transition animations, sequential sprite/VFX assets, spritesheet spacing rules, motion tokens, duration/easing/spring values, or Block/Approve polish QA. Scope is timing, easing, and runtime feel judgement; route pixel-level frame repositioning to game-asset-creation.
+description: "Design and QA game feel, UI motion, feedback animation, and motion-ready asset constraints. Use for input feel, hit/reward/skill/UI/transition timing, sequential sprite/VFX briefs, spacing rules, motion tokens, easing/spring values, and Block/Approve runtime QA. For new sprite/VFX pixels inside dev_game, finish the brief here and hand generation/provenance to game-factory Path A/B. Route pixel-level repositioning of approved frames to game-asset-creation."
 ---
 
 # Game Feel Motion Skill
@@ -43,8 +43,9 @@ single-state or UI; `assets/templates/sequential-asset-brief.md` for frame-based
 
 **4. If the motion needs generated image frames**, enforce the spacing contract in
 `references/sequential-motion-assets.md` — fixed cell size, pivot, baseline, gap, margin, and the
-non-overlap rule. Then produce or request the source assets, game-ready exports, spritesheet/atlas
-metadata, and any audio/haptic markers.
+non-overlap rule. For dev_game, stop after the brief PASS and hand generation/provenance to
+`game-factory` Path A/B; outside dev_game, produce or request the source assets. Then require
+game-ready exports, spritesheet/atlas metadata, and any audio/haptic markers.
 
 **5. Choose the numbers** — duration, easing, spring, frame count, sequencing — from
 `references/motion-values-and-tokens.md`.
@@ -54,6 +55,17 @@ metadata, and any audio/haptic markers.
 **7. Validate, then judge.** Run `scripts/validate_spritesheet_manifest.py` when a manifest exists,
 then Block/Approve QA per `references/review-standards.md`. **Block if readability, spacing, timing,
 accessibility, or the implementation contract fails.**
+
+## Cross-skill sequence
+
+When asset pixels and runtime motion are both in scope, do not combine them into one unbounded task:
+
+1. `game-feel-motion-skill` fixes cell/gap/pivot/baseline and timing intent → **design PASS**.
+2. dev_game generation uses `game-factory`; standalone generation or approved-frame repositioning
+   uses `game-asset-creation` → **asset PASS**.
+3. This skill integrates timing and judges the running game → **runtime motion PASS**.
+
+Even when frames are already approved, step 1 briefly confirms the target values before pixels move.
 
 ## Required Outputs
 

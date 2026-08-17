@@ -295,6 +295,8 @@ GPT Imagegen으로 만든 시트는 통합 단계에서 망가질 수 있다. �
 
 시트를 생성하기 **전에** `game-feel-motion-skill`로 브리프를 확정한다. 고정 셀 크기·gap·margin·pivot·baseline과 비중첩 계약(어떤 부위도 이웃 셀을 침범하지 않는다) 없이 프롬프트를 쓰면, 바깥 셀이 캔버스 경계에서 잘리는 결함이 반복된다. 이 계약이 없는 시트는 생성 자체를 승인하지 않는다.
 
+승인 프레임의 간격 교정도 목표값을 추측하지 않는다. `game-feel-motion-skill`이 cell/gap/pivot/baseline을 확인해 **설계 PASS**를 낸 뒤 `game-asset-creation`이 픽셀 보존 교정을 수행하고 **asset PASS**, 마지막으로 motion 스킬이 런타임 타이밍·가독성을 **runtime PASS**로 판정한다. 각 PASS와 기록 없이 다음 단계로 넘어가지 않는다.
+
 ### 규칙 2 — 생성 경로는 크로마키
 
 dev_game 안에서는 **flat 마젠타 배경 생성 후 크로마키 제거**가 정본이다(내장 image_gen은 투명 배경을 직접 보장하지 않는다). `game-asset-creation`의 생성 프롬프트 템플릿은 `transparent background`를 모델에 직접 요구하는데, 그것은 투명 출력을 보장하는 외부 호스트를 전제한 문구다. dev_game에서 그 템플릿을 쓸 때는 해당 줄을 크로마 문구로 교체하고, 스타일 지시에는 `asset-plan.json`의 `styleGuide.bible`을 주입한다.

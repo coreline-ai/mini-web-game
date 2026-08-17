@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Feel Motion Skill"
-  short_description: "Game feel, motion assets, and polish pipeline."
-  default_prompt: "Use game-feel-motion-skill to design a polished game motion pipeline."
+  short_description: "Game feel, motion specs, timing, runtime readability, and QA"
+  default_prompt: "Use $game-feel-motion-skill to define motion timing and asset constraints, hand dev_game generation to game-factory, and judge runtime readability."

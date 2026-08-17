@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { verifyPassReceipt } from './lib/production-pass-receipt.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCRIPTS = __dirname;
@@ -89,12 +90,15 @@ function run(label, cmd, cmdArgs) {
 // full gate를 통과한 빌드에서 미검증 표식을 지운다. 지우는 코드가 없어서, 나중에 게이트를
 // 통과시켜도 "검증된 적 없음" 표식이 영원히 남아 있었다.
 function clearIncompleteMarker(projectDir) {
+  const pass = verifyPassReceipt(projectDir);
+  if (!pass.ok) throw new Error(`full gate returned without a valid PASS receipt: ${pass.reason}`);
   const file = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
-  if (!fs.existsSync(file)) return;
+  if (!fs.existsSync(file)) return pass;
   try {
     fs.unlinkSync(file);
-    console.log('  ▸ removed PRODUCTION-DEMO-NOT-VERIFIED.json — full gate passed.');
-  } catch {}
+    console.log('  ▸ removed PRODUCTION-DEMO-NOT-VERIFIED.json — full gate receipt verified.');
+  } catch (error) { throw new Error(`could not remove incomplete marker: ${error.message}`); }
+  return pass;
 }
 
 // 게이트를 돌리지 않고 끝난 빌드에 남기는 표식. production-demo 미통과 상태를 산문이

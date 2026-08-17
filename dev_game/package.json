@@ -17,7 +17,7 @@
     "factory:browser-smoke": "node generator/scripts/browser-smoke.mjs",
     "factory:runtime-asset-delivery-test": "node generator/scripts/runtime-asset-delivery-test.mjs",
     "factory:dist-runtime-qa": "node generator/scripts/dist-runtime-qa.mjs",
-    "factory:qa": "npm run factory:skill-drift -- --skip-user && npm run factory:ui-direction && npm run factory:validate && npm run factory:smoke && npm run factory:runtime-asset-delivery-test && npm run factory:asset-qa && npm run factory:imagegen-integrity-qa && npm run factory:browser-smoke && npm run factory:completion-claim-qa && npm run factory:skill-commands",
+    "factory:qa": "npm run factory:skill-drift -- --skip-user && npm run factory:skill-gate-controls && npm run factory:ui-direction && npm run factory:validate && npm run factory:smoke && npm run factory:runtime-asset-delivery-test && npm run factory:asset-qa && npm run factory:imagegen-integrity-qa && npm run factory:browser-smoke && npm run factory:completion-claim-qa && npm run factory:production-pass-receipt-qa && npm run factory:skill-commands",
     "factory:imagegen-integrity-qa": "node generator/scripts/imagegen-integrity-qa.mjs",
     "factory:production-demo-qa": "node generator/scripts/production-demo-qa.mjs",
     "factory:visual-layout-qa": "node generator/scripts/visual-layout-qa.mjs",
@@ -38,7 +38,10 @@
     "games:smoke": "node generator/scripts/run-curated-games.mjs smoke",
     "factory:play-profile-qa": "node generator/scripts/play-profile-qa.mjs",
     "factory:completion-claim-qa": "node generator/scripts/completion-claim-qa.mjs",
-    "factory:skill-commands": "node ../scripts/check_skill_commands.mjs"
+    "factory:skill-commands": "node ../scripts/check_skill_commands.mjs",
+    "factory:skill-gate-controls": "node ../scripts/check_skill_gate_controls.mjs",
+    "factory:production-pass-status": "node generator/scripts/lib/production-pass-receipt.mjs",
+    "factory:production-pass-receipt-qa": "node generator/scripts/production-pass-receipt-qa.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "alwaysAllowed": [
+    "plan.md"
+  ],
+  "phases": {
+    "1": {
+      "name": "one",
+      "allowed": [
+        "src/"
+      ]
+    },
+    "2": {
+      "name": "two",
+      "allowed": [
+        "lib/"
+      ]
+    }
+  }
+}

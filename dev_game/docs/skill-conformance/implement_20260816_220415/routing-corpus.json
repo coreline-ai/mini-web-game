@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "baseCorpus": "../implement_20260816_141036/routing-corpus.json",
+  "note": "선행 corpus는 역사 기록으로 보존하고, PASS 영수증과 dev_game 축을 이 계획에서 추가한다.",
+  "cases": [
+    {
+      "id": "acceptance-defect-missing-receipt",
+      "request": "기존 게임 버튼이 겹치는데 production PASS 영수증이 없어",
+      "receiptStatus": "missing",
+      "expectedPrimarySkill": "game-factory",
+      "expectedStopCondition": "factory가 acceptance 결함을 닫고 production gate가 영수증을 쓸 때까지 완료 금지"
+    },
+    {
+      "id": "defect-current-pass-receipt",
+      "request": "현재 PASS 영수증이 유효한 완료 게임에서 BGM이 겹쳐",
+      "receiptStatus": "current",
+      "expectedPrimarySkill": "game-polish",
+      "expectedStopCondition": "회귀→재현→수정→재캡처→게이트→새 영수증"
+    },
+    {
+      "id": "defect-stale-pass-receipt",
+      "request": "PASS 뒤 소스가 바뀐 게임에서 입력이 두 번 먹어",
+      "receiptStatus": "stale",
+      "expectedPrimarySkill": "game-factory",
+      "expectedStopCondition": "임의 polish 진입 금지; acceptance 상태를 다시 닫는다"
+    },
+    {
+      "id": "expansion-current-pass-receipt",
+      "request": "PASS 영수증이 유효한 게임에 보스 모드를 추가해줘",
+      "receiptStatus": "current",
+      "expectedPrimarySkill": "game-factory",
+      "expectedStopCondition": "새 범위로 production gate 재통과"
+    },
+    {
+      "id": "dev-game-new-sprite-sheet",
+      "supersedes": "base:new-sprite-sheet when target is dev_game",
+      "request": "dev_game 안의 격투 캐릭터 idle/punch/kick 시트를 새로 만들어줘",
+      "expectedPrimarySkill": "game-feel-motion-skill",
+      "expectedHandoffs": ["design PASS 뒤 game-factory Path A/B가 생성·provenance"],
+      "forbiddenDirectSkills": ["game-asset-creation"],
+      "expectedWorkOrder": ["motion 설계 PASS", "factory asset PASS", "motion runtime QA PASS"]
+    },
+    {
+      "id": "standalone-new-sprite-sheet",
+      "supersedes": "base:new-sprite-sheet when target is outside dev_game",
+      "request": "독립 PNG 결과물로 격투 캐릭터 시트를 새로 만들어줘",
+      "expectedPrimarySkill": "game-asset-creation",
+      "expectedHandoffs": ["필요한 셀·피벗·baseline은 motion brief에서 확인"],
+      "expectedWorkOrder": ["motion 설계 PASS", "standalone asset PASS"]
+    },
+    {
+      "id": "approved-frame-correction",
+      "request": "승인 프레임의 픽셀은 그대로 두고 간격과 기준선만 교정해줘",
+      "expectedPrimarySkill": "game-asset-creation",
+      "expectedWorkOrder": ["target 값 확인", "픽셀 보존 교정", "asset PASS"]
+    },
+    {
+      "id": "asset-motion-composite-v2",
+      "supersedes": "base:asset-plus-motion-composite",
+      "request": "프레임 간격과 타격 타이밍을 둘 다 고쳐줘",
+      "expectedPrimarySkill": "game-feel-motion-skill",
+      "expectedHandoffs": ["설계 PASS 후 asset 교정", "asset PASS 후 motion runtime QA"],
+      "expectedWorkOrder": ["motion 설계 PASS", "asset 교정 PASS", "motion runtime QA PASS"],
+      "expectedStopCondition": "한 단계의 PASS와 기록 없이 다음 스킬 작업으로 넘어가지 않는다"
+    }
+  ]
+}

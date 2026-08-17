@@ -4,6 +4,11 @@
 
 Use these patterns when asking an image model, artist, or asset generator to create game-ready motion assets.
 
+> **dev_game routing:** these prompts define the motion brief, not the generation owner. After the brief
+> passes, send it to `game-factory` Path A/B, which replaces direct transparency requests with the flat
+> magenta chroma-key contract and records provenance per `dev_game/docs/ai-art-pipeline.md`. Use direct
+> transparent-background wording only outside dev_game.
+
 ## Universal Sequential Asset Prompt
 
 ```text

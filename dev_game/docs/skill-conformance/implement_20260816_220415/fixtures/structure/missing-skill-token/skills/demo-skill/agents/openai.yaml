@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "Skill metadata missing token validation fixture."
+  default_prompt: "Use this skill for structure validation."

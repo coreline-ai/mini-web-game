@@ -46,6 +46,23 @@ check_structure() {
 import re, sys
 from pathlib import Path
 
+# frontmatter는 **실제 로더가 읽는 대로** 검사한다.
+#
+# 이전 판은 fence·name·description을 정규식으로만 확인했다. 그래서 description 안의
+# 따옴표 없는 콜론처럼 **YAML 문법을 깨뜨리는 입력을 통과시켰다** — 정규식은 `name:` 이라는
+# 글자가 있는지만 보고, 그 블록이 매핑으로 파싱되는지는 묻지 않기 때문이다.
+#
+# 실측(2026-08-16): `description: … mode: correcting …` 이 들어간 SKILL.md에 대해
+#   quick_validate            Invalid YAML in frontmatter (line 2, column 379)
+#   check_skill_drift.sh      exit 0        ← 통과시켰다
+# 스킬이 로드되지 않는 상태인데 게이트는 초록이었다.
+try:
+    import yaml
+except ImportError:
+    print("ERR python3에 yaml 모듈이 없다 — frontmatter를 로더와 같은 방식으로 검사할 수 없다")
+    print("ERR 검사를 건너뛰지 않는다: 확인할 수 없는 것은 통과가 아니다")
+    sys.exit(1)
+
 root = Path(sys.argv[1])
 bad = []
 seen = 0
@@ -64,14 +81,29 @@ for d in sorted(p for p in root.iterdir() if p.is_dir()):
         continue
     fm = m.group(1)
 
-    name = re.search(r'^name:\s*(.+?)\s*$', fm, re.M)
-    if not name or not name.group(1).strip():
-        bad.append(f"{d.name}/SKILL.md: frontmatter name이 비어 있다")
-    elif name.group(1).strip().strip('"\'') != d.name:
-        bad.append(f"{d.name}/SKILL.md: frontmatter name이 디렉터리와 다르다 ({name.group(1).strip()})")
+    # fence 안이 실제로 YAML 매핑으로 읽히는가. 여기서 걸리면 스킬이 로드되지 않는다.
+    try:
+        parsed = yaml.safe_load(fm)
+    except yaml.YAMLError as exc:
+        where = ""
+        mark = getattr(exc, "problem_mark", None)
+        if mark is not None:
+            where = f" (frontmatter {mark.line + 1}행 {mark.column + 1}열)"
+        bad.append(f"{d.name}/SKILL.md: frontmatter가 YAML로 파싱되지 않는다{where} — "
+                   f"{getattr(exc, 'problem', exc)}. 따옴표 없는 콜론이 가장 흔한 원인이다")
+        continue
+    if not isinstance(parsed, dict):
+        bad.append(f"{d.name}/SKILL.md: frontmatter가 매핑이 아니다 ({type(parsed).__name__})")
+        continue
 
-    desc = re.search(r'^description:\s*(.*)$', fm, re.M)
-    if not desc or not desc.group(1).strip().strip('"\''):
+    name = parsed.get("name")
+    if not isinstance(name, str) or not name.strip():
+        bad.append(f"{d.name}/SKILL.md: frontmatter name이 비어 있거나 문자열이 아니다")
+    elif name.strip() != d.name:
+        bad.append(f"{d.name}/SKILL.md: frontmatter name이 디렉터리와 다르다 ({name.strip()})")
+
+    desc = parsed.get("description")
+    if not isinstance(desc, str) or not desc.strip():
         bad.append(f"{d.name}/SKILL.md: frontmatter description이 비어 있다 — "
                    "설명이 없으면 이 스킬은 어떤 요청에도 선택되지 않는다")
 
@@ -81,13 +113,33 @@ for d in sorted(p for p in root.iterdir() if p.is_dir()):
         bad.append(f"{d.name}/agents/openai.yaml이 없다")
         continue
     y = yml.read_text(encoding="utf-8")
-    if not re.search(r'^interface:\s*$', y, re.M):
-        bad.append(f"{d.name}/agents/openai.yaml: 최상위 interface: 블록이 없다")
+    try:
+        y_parsed = yaml.safe_load(y)
+    except yaml.YAMLError as exc:
+        mark = getattr(exc, "problem_mark", None)
+        where = f" ({mark.line + 1}행 {mark.column + 1}열)" if mark is not None else ""
+        bad.append(f"{d.name}/agents/openai.yaml: YAML로 파싱되지 않는다{where} — "
+                   f"{getattr(exc, 'problem', exc)}")
+        continue
+    if not isinstance(y_parsed, dict):
+        bad.append(f"{d.name}/agents/openai.yaml: 최상위 값이 매핑이 아니다")
+        continue
+    interface = y_parsed.get("interface")
+    if not isinstance(interface, dict):
+        bad.append(f"{d.name}/agents/openai.yaml: 최상위 interface: 매핑이 없다")
         continue
     for field in ("display_name", "short_description", "default_prompt"):
-        fm2 = re.search(rf'^\s+{field}:\s*(.*)$', y, re.M)
-        if not fm2 or not fm2.group(1).strip().strip('"\''):
+        value = interface.get(field)
+        if not isinstance(value, str) or not value.strip():
             bad.append(f"{d.name}/agents/openai.yaml: interface.{field}가 없거나 비어 있다")
+    short = interface.get("short_description")
+    if isinstance(short, str) and not 25 <= len(short.strip()) <= 64:
+        bad.append(f"{d.name}/agents/openai.yaml: interface.short_description은 25~64자여야 한다 "
+                   f"(현재 {len(short.strip())}자)")
+    default = interface.get("default_prompt")
+    skill_token = f"${d.name}"
+    if isinstance(default, str) and skill_token not in default:
+        bad.append(f"{d.name}/agents/openai.yaml: interface.default_prompt가 {skill_token}을 명시하지 않는다")
 
 if seen == 0:
     print(f"ERR {root}에 SKILL.md를 가진 디렉터리가 없다 — 공허한 통과를 거부한다")

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "unterminated
+  default_prompt: "Use $demo-skill for the fixture."

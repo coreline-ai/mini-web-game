@@ -3,6 +3,8 @@ import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { productionGateProfile } from './lib/production-gate-profile.mjs';
+import { writePassReceipt } from './lib/production-pass-receipt.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
@@ -26,7 +28,7 @@ Runs:
   4. image-quality-qa role-aware pixel/alpha gate
   5. visual-layout-qa browser overlap/safe-area gate
   6. scene-composite-qa rendered art-direction gate
-  7. schema v2/custom-loop only: captured-state, clarity, hostile-input,
+  7. every schema v2 buildDecision: captured-state, clarity, hostile-input,
      session/long-run, docs-runtime, HQ and qa-session-report gates
 
 Selected options are routed to the gate that understands them:
@@ -213,9 +215,11 @@ const spec = fs.existsSync(specFile) ? JSON.parse(fs.readFileSync(specFile, 'utf
 if (spec.schemaVersion !== '2.0.0' && !spec.captureMatrix) {
   console.warn('Compatibility warning: schema v1 project has no captureMatrix; legacy visual gates remain active.');
 }
-if (split.mode === 'compatibility' && spec.schemaVersion === '2.0.0') {
-  console.error('schema v2/custom-loop cannot use compatibility mode; custom-loop-full is required.');
-  process.exit(1);
-}
-const customRequired = split.mode === 'custom-loop-full' || (spec.schemaVersion === '2.0.0' && spec.buildDecision === 'custom-loop');
+let gateProfile;
+try { gateProfile = productionGateProfile(spec, split.mode); }
+catch (error) { console.error(error.message); process.exit(1); }
+const customRequired = gateProfile === 'custom-loop-full';
 if (customRequired) run(process.execPath, [customLoopFullQa, '--project', projectDir, '--port', String(split.port + 10)], { cwd: workspaceRoot });
+
+const pass = writePassReceipt(projectDir, { gateProfile, spec });
+console.log(`Production-demo PASS receipt: ${pass.output}`);

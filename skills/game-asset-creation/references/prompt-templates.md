@@ -2,6 +2,11 @@
 
 이미지 편집 모델에 넣을 지시문과 신규 시트 생성 프롬프트 기본형.
 
+> **dev_game 예외:** 이 템플릿의 `transparent background`는 standalone 호스트용이다. dev_game의
+> 새 픽셀은 이 스킬에서 생성하지 않고 `game-feel-motion-skill` 설계 PASS 뒤 `game-factory`
+> Path A/B로 넘긴다. 그 경로는 `dev_game/docs/ai-art-pipeline.md` 규칙 2에 따라 flat 마젠타
+> 크로마키와 provenance를 적용한다. 승인 프레임의 cut-and-paste 교정은 계속 이 문서를 쓴다.
+
 ## 이미지 편집 프롬프트 템플릿
 
 이미지 편집 모델에 지시할 때는 다음 템플릿을 사용한다. 가능하면 기존 이미지를 첨부하고, “redraw 금지 / reposition only”를 반복한다.

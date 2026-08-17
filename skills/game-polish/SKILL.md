@@ -18,7 +18,16 @@ A defect found in capture is fixed and re-captured, never downgraded to a known 
 (the line above is the contract's §0 rule; the rest is this skill's own premise)
 ```
 
-This skill does NOT create games, scaffolds, or new asset pipelines. If the target game does not exist under `dev_game/generated/<game-id>`, stop and route to the `game-factory` skill.
+This skill does NOT create games, scaffolds, or new asset pipelines. Before any edit:
+
+```bash
+npm --prefix dev_game run factory:production-pass-status -- --project dev_game/generated/<game-id>
+```
+
+- Missing target, missing/invalid receipt, or stale project fingerprint → stop and route to
+  `game-factory`; do not manufacture a receipt or run a gate merely to qualify for polish.
+- Exit 0 → continue with the regression-first loop below.
+- A requested new feature or mode always routes to `game-factory` expansion, even when the receipt is valid.
 
 ## Authoritative contract
 
@@ -62,7 +71,7 @@ For each symptom, record verbatim wording plus the **exact repro conditions**: i
 
 Map every symptom to a defect class using the translation table in `post-production-qa-contract.md` §1, and read that class's section for its symptom signature.
 
-**The class list is not repeated here.** A copy of it lived in this file until 2026-08-16 and had already drifted — the contract had grown a class that the copy did not have, and nothing reported it. A list that must be kept in sync will eventually not be. Open the contract.
+**The class list is not repeated here.** The contract is its only owner; open it instead of maintaining a second list.
 
 A symptom that fits no class is still fixed — and then added to the contract as a new class or signature. The contract grows from real sessions.
 
@@ -77,7 +86,7 @@ A session with an open severity-1 or severity-2 defect cannot be closed by fixin
 
 ### 3. Reproduce before fixing
 
-**Before you trust any number, validate the instrument that produced it** — `post-production-qa-contract.md` §0.1. A new probe, bot, stub, or measurement script must show a **negative control** (reports OK on a known-good state) and a **positive control** (reports RED on a known-bad state) before its output counts as evidence. Reproducibility is not accuracy: in the 2026-08-16 session three separate defects were "reproduced" consistently and all three were the instrument being wrong — a stub the host silently rejected, a screenshot taken 60px after the measurement, and a bot diving 460ms before a 340ms dive window. One of them drove a balance change that was reported to the user as fact. If you cannot build both controls, the tool is a regression detector only; never state an absolute conclusion from it.
+**Before you trust any number, validate the instrument that produced it** — `post-production-qa-contract.md` §0.1. A new probe, bot, stub, or measurement script needs a known-good negative control and a known-bad positive control. Without both, it is a regression detector only; never state an absolute conclusion from it.
 
 Reproduce each defect under its recorded conditions before touching code. Timing-dependent bugs (class A) require deliberately hostile input: taps faster than the despawn animation, rapid pause/resume, stage-transition spam. Class H/I/J/K bugs require their sweep scenario from step 1. If it cannot be reproduced, say so — do not fix blind.
 
@@ -167,4 +176,4 @@ End with:
 
 ## 공통 QA Session 재사용
 
-기존 schema v2/custom-loop 게임의 full sweep는 개별 결과를 수동 조합하지 말고 `factory:production-gate -- --mode custom-loop-full`을 실행한다. `qa-captures/qa-session-report.json`의 visual, clarity, input, audio, persistence, longRun, assetFidelity, gates를 결함 분류 H~L의 공통 증거로 재사용한다. Capture Matrix의 원래 state/viewport에서 수정 전후를 비교하며, Rules Contract 또는 GDD 숫자가 어긋난 경우 `docs-runtime drift`로 분류하고 `factory:docs-runtime-sync-qa`까지 재실행한다. 첫 플레이 목표·승패·첫 행동·진행 지표·도움말 정지가 누락된 경우 `first-play comprehension` 결함으로 분류한다.
+기존 schema v2 게임의 full sweep는 개별 결과를 수동 조합하지 말고 `factory:production-gate`를 실행한다. 모든 v2 buildDecision은 자동으로 `custom-loop-full` profile을 사용한다. `qa-captures/qa-session-report.json`의 visual, clarity, input, audio, persistence, longRun, assetFidelity, gates를 결함 분류 H~L의 공통 증거로 재사용한다. Capture Matrix의 원래 state/viewport에서 수정 전후를 비교하며, Rules Contract 또는 GDD 숫자가 어긋난 경우 `docs-runtime drift`로 분류하고 `factory:docs-runtime-sync-qa`까지 재실행한다. 첫 플레이 목표·승패·첫 행동·진행 지표·도움말 정지가 누락된 경우 `first-play comprehension` 결함으로 분류한다.

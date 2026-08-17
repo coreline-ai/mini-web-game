@@ -30,7 +30,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const FIX = path.join(ROOT, 'dev_game', 'docs', 'skill-conformance', 'implement_20260816_141036', 'fixtures');
+const FIX = path.join(ROOT, 'dev_game', 'docs', 'skill-conformance', 'implement_20260816_220415', 'fixtures');
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`Usage:
@@ -57,29 +57,55 @@ for (const [name, expect, expectText] of [
   // 아래는 두 fixture의 requiredFlags가 달라서 실제로 배타적인 지문이다(3회차 실측).
   ['responsibility-removed', 1, '--project --require-gpt-imagegen 형태의 명령이 없다'],
   ['unsupported-flag', 1, '미지원 플래그: --turbo-mode'],
+  ['hidden-required-flag', 1, '누락: --token'],
 ]) {
+  const argv = ['scripts/check_skill_commands.mjs',
+    '--skills-root', path.join(commandsDir, name, 'skills'),
+    '--inventory', path.join(commandsDir, name, 'inventory.json')];
+  const needs = [path.join(commandsDir, name, 'skills'), path.join(commandsDir, name, 'inventory.json')];
+  if (name === 'hidden-required-flag') {
+    argv.push('--package', path.join(commandsDir, name, 'package.json'),
+      '--contracts', path.join(commandsDir, name, 'contracts.json'));
+    needs.push(path.join(commandsDir, name, 'package.json'), path.join(commandsDir, name, 'contracts.json'));
+  }
   CONTROLS.push({
     gate: 'commands', name, expect, expectText,
-    needs: [path.join(commandsDir, name, 'skills'), path.join(commandsDir, name, 'inventory.json')],
-    argv: ['scripts/check_skill_commands.mjs',
-      '--skills-root', path.join(commandsDir, name, 'skills'),
-      '--inventory', path.join(commandsDir, name, 'inventory.json')],
+    needs,
+    argv,
   });
 }
 
 const structDir = path.join(FIX, 'structure');
 for (const [name, expect, expectText] of [
   ['ok', 0, null],
-  ['broken-frontmatter', 1, 'frontmatter fence가 없거나'],
+  ['broken-frontmatter', 1, 'fence가 없거나 닫히지 않았다'],
+  ['unparseable-frontmatter', 1, 'YAML로 파싱되지 않는다'],
+  ['unparseable-openai-yaml', 1, 'agents/openai.yaml: YAML로 파싱되지 않는다'],
   ['empty-description', 1, 'description이 비어 있다'],
   ['missing-openai-yaml', 1, 'agents/openai.yaml이 없다'],
   ['incomplete-openai-yaml', 1, 'interface.default_prompt가 없거나'],
+  ['missing-skill-token', 1, 'interface.default_prompt가 $demo-skill을 명시하지 않는다'],
+  ['short-description-length', 1, 'interface.short_description은 25~64자여야 한다'],
   ['name-mismatch', 1, 'name이 디렉터리와 다르다'],
 ]) {
   CONTROLS.push({
     gate: 'structure', name, expect, expectText, bash: true,
     needs: [path.join(structDir, name, 'skills')],
     argv: ['scripts/check_skill_drift.sh', '--skills-root', path.join(structDir, name, 'skills')],
+  });
+}
+
+const motionDir = path.join(ROOT, 'skills', 'game-feel-motion-skill');
+const motionValidator = path.join(motionDir, 'scripts', 'validate_spritesheet_manifest.py');
+for (const [name, fixture, expect, expectText] of [
+  ['valid-manifest', 'valid-spritesheet-manifest.json', 0, '[OK] spritesheet manifest passed'],
+  ['invalid-manifest', 'invalid-spritesheet-manifest.json', 1, '[FAIL] id must be string'],
+]) {
+  const fixturePath = path.join(motionDir, 'assets', 'fixtures', fixture);
+  CONTROLS.push({
+    gate: 'motion-validator', name, expect, expectText, bin: 'python3',
+    needs: [motionValidator, fixturePath],
+    argv: [motionValidator, fixturePath],
   });
 }
 
@@ -90,6 +116,8 @@ for (const [name, expect, expectText] of [
   ['evidence-missing', 1, '템플릿 자리표시자가 남아 있다'],
   ['prior-not-approved', 1, '선행 미승인 상태에서'],
   ['out-of-scope-path', 1, '범위 밖 변경: danger/secret.js'],
+  ['unstaged-out-of-scope', 1, '범위 밖 변경: danger/secret.js'],
+  ['committed-out-of-scope', 1, '범위 밖 변경: danger/secret.js (committed)'],
   ['missing-section', 1, '필수 절'],
   ['no-reports', 1, '보고서가 하나도 없다'],
   ['prior-approved-artifact-modified', 1, '이전 PASS가 무효'],
@@ -101,14 +129,18 @@ for (const [name, expect, expectText] of [
   ['self-referential-manifest', 1, '자기 자신을 담고 있다'],
   ['chain-link-missing', 1, '사슬 링크가 없다'],
 ]) {
+  const argv = ['scripts/check_skill_conformance.mjs',
+    '--plan', path.join(confDir, name, 'plan.md'),
+    '--conformance-dir', path.join(confDir, name, 'conf'),
+    '--repo-root', path.join(confDir, name),
+    '--status-file', path.join(confDir, name, 'status.txt')];
+  if (name === 'committed-out-of-scope') {
+    argv.push('--committed-paths-file', path.join(confDir, name, 'committed-paths.txt'));
+  }
   CONTROLS.push({
     gate: 'conformance', name, expect, expectText,
     needs: [path.join(confDir, name, 'plan.md'), path.join(confDir, name, 'conf')],
-    argv: ['scripts/check_skill_conformance.mjs',
-      '--plan', path.join(confDir, name, 'plan.md'),
-      '--conformance-dir', path.join(confDir, name, 'conf'),
-      '--repo-root', path.join(confDir, name),
-      '--status-file', path.join(confDir, name, 'status.txt')],
+    argv,
   });
 }
 
@@ -138,9 +170,8 @@ for (const c of CONTROLS) {
   }
 
   const opts = { cwd: ROOT, encoding: 'utf8', timeout: 30_000 };
-  const r = c.bash
-    ? spawnSync('bash', c.argv, opts)
-    : spawnSync(process.execPath, c.argv, opts);
+  const bin = c.bin || (c.bash ? 'bash' : process.execPath);
+  const r = spawnSync(bin, c.argv, opts);
 
   // (2) spawn 실패·timeout·signal은 결과를 읽을 수 없다는 뜻이다. 통과가 아니다.
   if (r.error || r.signal || typeof r.status !== 'number') {

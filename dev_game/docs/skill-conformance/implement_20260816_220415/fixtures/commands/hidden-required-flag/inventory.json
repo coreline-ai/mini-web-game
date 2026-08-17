@@ -1,0 +1,1 @@
+{"schemaVersion":1,"commands":[{"id":"demo-test","skill":"demo-factory","script":"factory:test","requiredFlags":["--project"],"responsibility":"숨은 필수 인자 대조"}]}

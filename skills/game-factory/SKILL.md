@@ -30,6 +30,21 @@ Start in the current repo or walk upward until these exist:
 
 If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 
+### Existing-game entry check
+
+For an existing `dev_game/generated/<game-id>` target, classify the request **before editing**:
+
+- New feature, mode, or expansion → stay in `game-factory`, regardless of prior PASS state.
+- Defect/repair → run the status command below. Exit 0 means the current project still matches its
+  first production-demo PASS; stop and route the repair to `game-polish`. Missing, stale, or invalid
+  receipt means the acceptance state is not current, so this skill closes it before a first/current PASS.
+
+```bash
+npm --prefix dev_game run factory:production-pass-status -- --project dev_game/generated/<game-id>
+```
+
+Do not create or refresh a receipt just to change routing. Only a successful production gate writes it.
+
 ## Key paths
 
 | Path | Purpose |
@@ -270,7 +285,7 @@ A game is complete only when current evidence proves:
 - Post-production issues found in screenshots or video were fixed and re-captured instead of only documented
 - Adversarial review does not identify it as a simple reskin
 
-Four of those bullets — "requested core loop is implemented", "browser smoke verifies the gameplay action", "the genre-defining action works", "adversarial review does not identify it as a simple reskin" — have **no gate behind them**. They sit in the same list as gated items, which invites reading a green run as proof of all of them. It is not. In the 2026-08-16 session a keeper game passed every gate while the player could not tell why a shot got past them; the smoke had confirmed that the dive input changed state, not that saving was possible. **Whether an action executes and whether it achieves its purpose are different claims** — the gates only make the first.
+Four bullets above have no automatic gate: requested core loop, gameplay-action smoke, genre-defining action, and non-reskin adversarial review. A green run does not prove them. **Whether an action executes and whether it achieves its purpose are different claims** — the gates only prove the first.
 
 Contract class O puts numbers on the second, and contract §0.1 says why a measurement you built is not evidence until it passes its own positive control. Read both before quoting any number you produced.
 

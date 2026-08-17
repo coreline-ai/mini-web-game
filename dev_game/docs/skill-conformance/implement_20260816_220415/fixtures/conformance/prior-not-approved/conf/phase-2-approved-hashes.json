@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "phase": 2,
+  "files": {
+    "src/a.js": "1063fdbb4716d8150d0b90103ea8455d9a91e418c4c90cddf6aaa18e8e639d3e",
+    "conf/phase-1-approved-hashes.json": "783d159500a330aff7e3b83284c1a5b0b710023b2566f34cc704be7981b9397b",
+    "conf/phase-1-a.md": "d611a571a769688a94d9045912f8a299df10ff09ae9b0e8c4d8661e6dec11643"
+  }
+}
