@@ -11,6 +11,7 @@ output/
 # gstack QA 리포트 산출물 (재생성 가능)
 .gstack/
 
-# skill_task_gate 의 기계 상태. 저장소 전체 baseline 스냅샷을 담은 436KB 파일이며
-# 게이트 실행으로 재생성된다. 리뷰 대상이 아니다.
-dev_game/docs/skill-workflow/*.state.json
+# skill_task_gate 의 상태 파일은 **추적한다.** 한때 "재생성되니 리뷰 대상이 아니다"라며
+# 무시했는데, Phase 0이 PASS의 앵커를 "HEAD에 커밋된 바이트"로 바꾸면서 그 두 결정이
+# 서로를 막았다 — 커밋해야 PASS인데 무시 규칙이 커밋을 막아 **PASS 도달이 불가능**했다.
+# 크기(수백 KB)는 baselineSnapshot 때문이지만, 그게 바로 승인 범위의 증거다.

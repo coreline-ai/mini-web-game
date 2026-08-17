@@ -179,7 +179,17 @@ function buildGitFixture(name, outOfScope, opts = {}) {
   const ownPath = path.join(dir, 'conf', 'path-ownership.json');
   const ownership = JSON.parse(fs.readFileSync(ownPath, 'utf8'));
   ownership.alwaysAllowed = [...new Set([...(ownership.alwaysAllowed || []), 'conf/'])];
+  // 선언한 접두사는 통과해야 한다. 선언 없는 접두사 매칭만 없앤 것이지, 접두사 소유 자체를
+  // 없앤 것이 아니다 — 실제 정본에 `prefix:scripts/check_skill_` 같은 항목이 있다.
+  if (opts.declaredPrefix) ownership.alwaysAllowed.push('prefix:src-extra-');
   fs.writeFileSync(ownPath, `${JSON.stringify(ownership, null, 2)}\n`);
+  // rename의 **원본**은 baseline 커밋에 들어가야 한다. phase-1 커밋에 넣으면 committed delta에
+  // 잡혀서, 대조군이 rename 처리가 아니라 "금지 경로 커밋"을 잡는 것이 된다 — 그러면
+  // `--no-renames`를 빼도 초록이라 공허했다(실측으로 그렇게 만들었다가 잡았다).
+  if (opts.renameFrom) {
+    fs.mkdirSync(path.join(dir, path.dirname(opts.renameFrom)), { recursive: true });
+    fs.writeFileSync(path.join(dir, opts.renameFrom), 'export const seed = 1;\n');
+  }
   git(dir, 'init', '-q', '-b', 'main');
   git(dir, 'add', '-A');
   git(dir, 'commit', '-q', '-m', 'baseline');
@@ -198,6 +208,9 @@ function buildGitFixture(name, outOfScope, opts = {}) {
     fs.mkdirSync(path.join(dir, 'danger'), { recursive: true });
     fs.writeFileSync(path.join(dir, 'danger', 'secret.js'), 'export const leak = 1;\n');
   }
+  if (opts.declaredPrefix) fs.writeFileSync(path.join(dir, 'src-extra-note.md'), '# note\n');
+  // 허용 경로 안의 비ASCII 파일을 **커밋**한다. in-scope이므로 GREEN이어야 한다.
+  if (opts.commitNonAscii) fs.writeFileSync(path.join(dir, opts.commitNonAscii), 'export const x = 1;\n');
   git(dir, 'add', '-A');
   git(dir, 'commit', '-q', '-m', 'phase 1 work');
   // 작업 트리를 더럽힌 채 남긴다 — 실제 `git status` 경로를 검증하는 유일한 대조군이다.
@@ -207,6 +220,14 @@ function buildGitFixture(name, outOfScope, opts = {}) {
     fs.mkdirSync(path.join(dir, 'danger'), { recursive: true });
     fs.writeFileSync(path.join(dir, 'danger', 'secret.js'), 'export const leak = 2;\n');
   }
+  // 허용 경로 → 금지 경로 staged rename. old/new 두 경로가 각각 대조돼야 한다.
+  if (opts.renameTo) {
+    fs.mkdirSync(path.join(dir, path.dirname(opts.renameTo)), { recursive: true });
+    git(dir, 'mv', 'src/b.js', opts.renameTo);
+  }
+  // 금지 경로 → 허용 경로 staged rename. old 경로가 범위 밖이므로 RED여야 한다.
+  if (opts.renameFrom) git(dir, 'mv', opts.renameFrom, 'src/moved.js');
+  if (opts.extraFile) fs.writeFileSync(path.join(dir, opts.extraFile), 'sneak\n');
   return dir;
 }
 for (const [name, outOfScope, expect, expectText, opts] of [
@@ -215,6 +236,24 @@ for (const [name, outOfScope, expect, expectText, opts] of [
   ['real-git-dirty-out-of-scope', false, 1, '범위 밖 변경: danger/secret.js', { dirty: true }],
   ['real-git-baseline-not-ancestor', false, 1, '조상이 아니다',
     { badBaseline: '0123456789012345678901234567890123456789' }],
+  // rename은 `R  old -> new` 한 줄로 나온다. slice(3)으로 자르면 두 경로가 문자열 하나가 되어
+  // 어느 쪽도 대조되지 않았다 — 허용 경로에서 금지 경로로 옮기면 exit 0이었다(실측).
+  ['real-git-staged-rename-out', false, 1, '범위 밖 변경: danger/secret.js (dirty)',
+    { renameTo: 'danger/secret.js' }],
+  // 반대 방향도 같은 구멍이다. 금지 경로에서 허용 경로로 옮겨도 old 경로가 검사돼야 한다.
+  ['real-git-rename-from-forbidden', false, 1, '범위 밖 변경: danger/seed.js (dirty)',
+    { renameFrom: 'danger/seed.js' }],
+  // 공백이 든 경로는 v1이 따옴표로 감싸 이스케이프한다. `-z`가 아니면 경로가 망가진다.
+  ['real-git-rename-spaced-path', false, 1, '범위 밖 변경: danger/two words.js (dirty)',
+    { renameTo: 'danger/two words.js' }],
+  // exact file 허용의 접두사 경계: 허용이 `plan.md`인데 `plan.md.evil`이 통과했다(실측).
+  ['real-git-file-prefix-lookalike', false, 1, '범위 밖 변경: plan.md.evil',
+    { extraFile: 'plan.md.evil' }],
+  // prefix:는 **선언한** 접두사만 허용한다. 선언한 것은 통과해야 한다.
+  ['real-git-declared-prefix', false, 0, null, { declaredPrefix: true }],
+  // committed 채널도 `-z`여야 한다. dirty 쪽만 고치면 비ASCII 경로가 C-quote로 돌아와
+  // allowlist와 절대 매칭되지 않고, **정상 작업이 범위 밖으로 오판된다**.
+  ['real-git-committed-nonascii-in-scope', false, 0, null, { commitNonAscii: 'src/카페.js' }],
 ]) {
   const dir = buildGitFixture(name, outOfScope, opts);
   CONTROLS.push({
@@ -246,6 +285,21 @@ for (const [name, outOfScope, expect, expectText, opts] of [
       '--status-file', path.join(dir, 'status.txt'),
       '--committed-paths-file', path.join(dir, 'committed-paths.txt')],
   });
+}
+
+// skill_task_gate는 호출자가 0개였다(npm script 0, CI 0). 판정 도구가 돌지 않으면 그 판정을
+// 근거로 삼는 모든 완료 조건이 아무것도 증명하지 않는다. 체인에서 빠지는 것 자체를 RED로 만든다.
+// CLI parity harness도 체인에 있어야 한다. 계약만 고치고 leaf 연결을 잃으면 문서는 초록인데
+// 실제 명령이 죽는다 — 그 대조를 돌리지 않으면 알 수 없다.
+{
+  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'dev_game', 'package.json'), 'utf8'));
+  const chain = pkg.scripts?.['factory:qa'] || '';
+  for (const required of ['factory:skill-task-gate-qa', 'factory:cli-parity']) {
+    if (!chain.includes(required)) {
+      console.error(`gate controls failed: factory:qa 체인에 ${required}가 없다`);
+      process.exit(1);
+    }
+  }
 }
 
 // fixture가 통째로 사라지면 대조군 0개로 공허하게 통과한다. 그것부터 막는다.

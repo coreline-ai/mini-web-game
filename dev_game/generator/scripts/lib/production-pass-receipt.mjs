@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { productionGateProfile } from './production-gate-profile.mjs';
+import { assertArgv, isMainModule } from './cli-contract.mjs';
 
 // production-demo PASS 영수증 — 첫 PASS 경계를 기계로 판정한다.
 //
@@ -89,20 +90,80 @@ function fileSha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
 
-export function projectFingerprint(projectDir) {
-  // `assets/**`가 통째로 들어간다. manifest만 해싱하던 판은 **아트를 다시 만들어도 stale이
-  // 되지 않았다** — manifest에 자산별 해시가 없기 때문이다(실측: images/audio 목록만 있다).
-  const entries = ['package.json', 'index.html'];
-  entries.push(...listFiles(projectDir, 'src'));
-  entries.push(...listFiles(projectDir, 'qa'));
-  entries.push(...listFiles(projectDir, 'assets'));
+// ── canonical snapshot ───────────────────────────────────────────────────────
+// 목록을 **열거**하던 판은 열거하지 않은 입력을 보지 못했다. 실측(2026-08-17): `src`, `qa`,
+// `assets`, `package.json`, `index.html`만 해싱해서 `vite.config.js`, lockfile, `scripts/`,
+// `docs/`, `asset-plan.json`을 놓쳤다 — Vite 설정을 바꿔도 영수증이 stale이 되지 않았다.
+// 그래서 **포함을 기본값**으로 뒤집고, 생성 출력만 이름으로 제외한다.
+//
+// 제외는 **경로**로 판정한다. basename으로 판정하던 판은 `src/dist/data.json`,
+// `src/node_modules/x.js`, `assets/qa-captures/a.js`, `src/PRODUCTION-DEMO-NOT-VERIFIED.json`을
+// 전부 지문에서 지웠다(실측). Vite는 그런 경로에서도 import하므로, 임의의 게임 코드를 거기
+// 두면 PASS 뒤에 마음대로 바꿔도 영수증이 그대로 유효했다.
+//
+//   루트 한정  생성 도구가 프로젝트 루트에만 만드는 것들
+//   어느 깊이  진짜로 어디에 있든 내용이 아닌 것 (.git, OS 부산물)
+const SNAPSHOT_EXCLUDED_ROOT_DIRS = new Set([
+  'node_modules', 'dist', 'qa-captures', '.playwright-cli', 'coverage', '.vite',
+]);
+const SNAPSHOT_EXCLUDED_ANY_DIRS = new Set(['.git']);
+// 미검증 표식은 지문이 아니라 **별도의 invalid 조건**이다. 지문에 넣으면 표식을 남기는 것만으로
+// 지문이 바뀌어, 게이트 시작과 종료의 digest가 항상 달라진다. 루트의 그 파일만 해당한다.
+const SNAPSHOT_EXCLUDED_ROOT_FILES = new Set(['PRODUCTION-DEMO-NOT-VERIFIED.json']);
+const SNAPSHOT_EXCLUDED_ANY_FILES = new Set(['.DS_Store']);
+
+export class SnapshotError extends Error {
+  constructor(code, message) { super(message); this.code = code; }
+}
+
+// 이름만 본다. `entry.isDirectory()`로 갈랐더니 **symlink된 디렉터리는 isDirectory()가 false**라
+// 제외 판정을 빠져나가 symlink 가드에 걸렸다 — pnpm 배치의 `node_modules` 하나로 게이트가
+// 완주 불가능했다(실측). 제외 이름은 대상이 실디렉터리든 링크든 똑같이 제외한다.
+function isExcluded(name, atRoot) {
+  if (SNAPSHOT_EXCLUDED_ANY_DIRS.has(name) || SNAPSHOT_EXCLUDED_ANY_FILES.has(name)) return true;
+  return atRoot && (SNAPSHOT_EXCLUDED_ROOT_DIRS.has(name) || SNAPSHOT_EXCLUDED_ROOT_FILES.has(name));
+}
+
+function walkSnapshot(root, relative, out) {
+  const dir = path.join(root, relative);
+  const atRoot = !relative;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = relative ? `${relative}/${entry.name}` : entry.name;
+    // 제외 판정이 symlink 검사보다 **앞**이다. 뒤에 두었더니 pnpm·workspace 배치에서 흔한
+    // symlink된 `node_modules`/`dist`가 snapshot 생성을 실패시켜 게이트를 완주할 수 없었다.
+    if (isExcluded(entry.name, atRoot)) continue;
+    if (entry.isSymbolicLink()) {
+      // 링크 문자열만 봉인하면 대상이 바뀌어도 지문이 그대로다. 프로젝트 밖을 가리키면
+      // 애초에 봉인할 수 없다. 조용히 넘어가는 대신 snapshot 생성 자체를 실패시킨다.
+      throw new SnapshotError('E_SNAPSHOT_SYMLINK',
+        `canonical snapshot에 symlink가 있다: ${rel}\n  `
+        + '링크는 봉인할 수 없다. 실제 파일로 바꾸거나 루트의 제외 디렉터리로 옮길 것');
+    }
+    if (entry.isDirectory()) walkSnapshot(root, rel, out);
+    else if (entry.isFile()) out.push(rel);
+  }
+}
+
+/**
+ * 프로젝트 root 아래 **모든** regular file의 digest. 경로는 POSIX 상대경로로 정규화하고
+ * UTF-8 byte 오름차순으로 정렬한 뒤 `F\0<path>\0<sha256>\n` record를 이어 붙여 해싱한다.
+ * 같은 함수를 QA 시작·QA 종료·writer 직전·verify가 함께 쓴다.
+ */
+export function canonicalSnapshot(projectDir) {
+  const files = [];
+  walkSnapshot(projectDir, '', files);
+  files.sort((a, b) => Buffer.compare(Buffer.from(a, 'utf8'), Buffer.from(b, 'utf8')));
   const hash = crypto.createHash('sha256');
-  for (const rel of [...new Set(entries)].sort()) {
-    const file = path.join(projectDir, rel);
-    hash.update(rel).update('\0');
-    hash.update(fs.existsSync(file) ? fileSha256(file) : 'MISSING').update('\n');
+  for (const rel of files) {
+    hash.update('F\0').update(rel, 'utf8').update('\0')
+      .update(fileSha256(path.join(projectDir, rel))).update('\n');
   }
   return hash.digest('hex');
+}
+
+/** 이전 이름. 호출부가 많아 유지하되 구현은 canonical snapshot 하나다. */
+export function projectFingerprint(projectDir) {
+  return canonicalSnapshot(projectDir);
 }
 
 /** 프로젝트가 속한 dev_game 루트. 추적 경로를 계산하는 데 쓴다. */
@@ -123,6 +184,11 @@ export function passReceiptPath(projectDir) {
   return path.join(devGameRoot(projectDir), 'docs', 'qa-evidence',
     `${path.basename(path.resolve(projectDir))}-production-pass.json`);
 }
+
+export const CLI_CONTRACT_ID = 'factory:production-pass-status';
+
+/** 부팅 경로와 parity harness가 같은 계약을 쓴다. 부작용 없음. */
+export function parseCliArgs(argv) { assertArgv(CLI_CONTRACT_ID, argv); return { project: argv[argv.indexOf('--project') + 1] }; }
 
 export const LEGACY_ALLOWLIST_RELATIVE = 'docs/qa-evidence/legacy-pass-allowlist.json';
 
@@ -166,7 +232,30 @@ export function invalidatePassReceipt(projectDir) {
   return { removed: true, file };
 }
 
-export function writePassReceipt(projectDir, { gateProfile, spec = {} } = {}) {
+/**
+ * 게이트가 검사를 시작하기 직전의 digest. 이 값을 들고 다니다가 종료 시점과 writer 직전에
+ * 다시 대조한다. 그러지 않으면 **QA 도중에 바뀐 상태**가 봉인된다 — QA는 옛 파일을 보고
+ * 영수증은 새 파일을 봉인하는 TOCTOU다.
+ */
+export function beginGateSnapshot(projectDir) {
+  return { projectDir, digest: canonicalSnapshot(projectDir), at: new Date().toISOString() };
+}
+
+/** QA가 끝난 뒤 같은 digest인지 본다. 다르면 영수증을 쓰지 않는다. */
+export function assertSnapshotUnchanged(begun, stage) {
+  const now = canonicalSnapshot(begun.projectDir);
+  if (now !== begun.digest) {
+    throw new SnapshotError('E_SNAPSHOT_DRIFT',
+      `${stage}: QA가 검사한 snapshot이 그 사이 바뀌었다\n  `
+      + `시작 ${begun.digest.slice(0, 16)} / 현재 ${now.slice(0, 16)}\n  `
+      + 'QA가 본 것과 다른 상태를 봉인할 수 없다. 게이트를 처음부터 다시 돌릴 것');
+  }
+  return now;
+}
+
+export function writePassReceipt(projectDir, { gateProfile, spec = {}, verified = null } = {}) {
+  // writer 직전 재대조. 게이트 종료와 쓰기 사이에도 시간이 있다.
+  if (verified) assertSnapshotUnchanged(verified, 'writePassReceipt');
   const output = passReceiptPath(projectDir);
   fs.mkdirSync(path.dirname(output), { recursive: true });
   let qaSession = null;
@@ -292,7 +381,7 @@ function resolveProject(projectArg) {
   }) || candidates[0];
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (isMainModule(import.meta.url)) {
   const argv = process.argv.slice(2);
   if (argv.includes('--help') || argv.includes('-h')) {
     console.log(`Usage: node production-pass-receipt.mjs --project <generated-game-dir>
@@ -315,11 +404,9 @@ Reports whether a game has passed its first production-demo gate.
            unknown      no receipt and no allowlist entitlement`);
     process.exit(0);
   }
+  try { assertArgv(CLI_CONTRACT_ID, argv); }
+  catch (error) { console.error(error.message); process.exit(1); }
   const index = argv.indexOf('--project');
-  if (index < 0 || !argv[index + 1]) {
-    console.error('Missing required --project <generated-game-dir>');
-    process.exit(1);
-  }
   const projectDir = resolveProject(argv[index + 1]);
   // 없는 경로를 그대로 판정하면 `state: unknown`과 함께 **존재하지 않는 영수증 경로**를 찍어
   // 디버깅하는 사람을 헷갈리게 한다. 라우팅 결과(exit 1)는 같지만 이유를 정확히 말한다.

@@ -341,15 +341,31 @@ for (const p of phases) {
 // ── 4. 경로 소유권 ────────────────────────────────────────────────────────────
 const ownership = readJsonOrFail(path.join(DIR, 'path-ownership.json'), '경로 소유권 정본');
 
+// `git status --porcelain=v1`은 rename을 `R  old -> new` 한 줄로 낸다. slice(3)으로 자르면
+// **"old -> new"가 경로 하나의 문자열**이 되어 old도 new도 allowlist와 대조되지 않는다.
+// 실측(2026-08-17): 허용된 `src/` 안의 파일을 `danger/secret.js`로 staged rename하면 검사기가
+// exit 0, 범위 밖 지적 0건이었다. `--no-renames`로 삭제+추가 두 줄로 받아 각각 대조한다.
+// `-z`는 NUL 구분이라 공백·따옴표가 든 경로도 안전하게 쪼갠다(v1의 따옴표 이스케이프 회피).
+function parsePorcelainZ(raw) {
+  return raw.split('\0').filter(Boolean).map((entry) => entry.slice(3)).filter(Boolean);
+}
+
+// ── 알려진 한계: gitignore 된 경로는 보이지 않는다 ─────────────────────────
+// `--untracked-files=all`은 **무시된 파일을 포함하지 않는다.** 그래서 baseline `.gitignore`가
+// 덮는 경로(`dist/`, `*.log`, 생성 게임 등)에 둔 범위 밖 변경은 이 검사에 잡히지 않는다.
+// 실측(2026-08-17): `.gitignore`에 `danger/`가 있으면 `danger/secret.js`를 써도 GREEN이었다.
+// `--ignored`를 켜면 `node_modules` 전체가 쏟아져 검사가 무의미해지므로 켜지 않았다.
+// 이 한계는 계획의 잔여 리스크에 적어 두었다 — 조용히 두는 것보다 낫다.
 function dirtyPaths() {
   if (args.statusFile) {
     const raw = readOrFail(path.resolve(args.statusFile), 'status 파일');
     return raw === null ? [] : raw.split('\n').filter(Boolean).map((l) => l.slice(3).trim());
   }
   try {
-    const out = execFileSync('git', ['status', '--porcelain=v1', '--untracked-files=all'],
+    const out = execFileSync('git',
+      ['status', '--porcelain=v1', '-z', '--no-renames', '--untracked-files=all'],
       { cwd: REPO, encoding: 'utf8' });
-    return out.split('\n').filter(Boolean).map((l) => l.slice(3).trim());
+    return parsePorcelainZ(out);
   } catch (err) {
     problems.push(`git status를 실행할 수 없다: ${err.message}`);
     return [];
@@ -384,13 +400,31 @@ function committedPaths() {
     return [];
   }
   try {
-    const out = execFileSync('git', ['diff', '--name-only', '--no-renames', `${baseline}..HEAD`],
+    // dirty 쪽만 `-z`로 고치고 여기를 두면, 비ASCII·공백 경로가 C-quote로 돌아와 allowlist와
+    // 절대 매칭되지 않는다 — 정상 작업이 범위 밖으로 오판된다. 두 채널이 같은 형식이어야 한다.
+    const out = execFileSync('git', ['diff', '--name-only', '--no-renames', '-z', `${baseline}..HEAD`],
       { cwd: REPO, encoding: 'utf8' });
-    return out.split('\n').map((line) => line.trim()).filter(Boolean);
+    return out.split('\0').map((line) => line.trim()).filter(Boolean);
   } catch (err) {
     problems.push(`baselineHead..HEAD committed delta를 측정할 수 없다: ${err.message}`);
     return [];
   }
+}
+
+// 허용 항목은 **세 형태 중 하나**로 해석한다. 이전 판은 `p === entry || p.startsWith(entry)`
+// 하나였고, 그래서 허용이 `plan.md`인데 `plan.md.evil`이 통과했다(실측 2026-08-17, exit 0).
+//
+//   dir     `/`로 끝난다  → 그 디렉터리 하위만
+//   prefix  `prefix:` 접두어로 **명시 선언**  → 선언한 문자열로 시작하는 경로
+//   file    그 외         → 완전 일치만
+//
+// `prefix:` 형태가 필요한 이유: 현행 정본에 `scripts/check_skill_`처럼 파일도 디렉터리도 아닌
+// 접두사 항목이 실제로 있다(검사기 4종을 한 항목으로 소유). 그런 의도는 선언해야 하고,
+// 선언하지 않은 접두사 매칭은 없앤다. 형태를 적지 않으면 가장 엄격한 `file`로 해석한다.
+function matchesOwnedPath(file, entry) {
+  if (entry.startsWith('prefix:')) return file.startsWith(entry.slice('prefix:'.length));
+  if (entry.endsWith('/')) return file.startsWith(entry);
+  return file === entry;
 }
 
 if (ownership && currentPhase > 0) {
@@ -435,7 +469,7 @@ if (ownership && currentPhase > 0) {
     if (seenChanged.has(`${item.source}:${p}`)) continue;
     seenChanged.add(`${item.source}:${p}`);
     if (preplan.has(p)) continue; // 위에서 hash로 따로 검사했다
-    if (!allowed.some((prefix) => p === prefix || p.startsWith(prefix))) {
+    if (!allowed.some((entry) => matchesOwnedPath(p, entry))) {
       problems.push(`범위 밖 변경: ${p} (${item.source})\n    `
         + `Phase ${currentPhase} 시점에서 허용된 경로가 아니다. 현재 Phase를 BLOCKED하고 `
         + '계획을 고친 뒤 다시 검토해야 한다');

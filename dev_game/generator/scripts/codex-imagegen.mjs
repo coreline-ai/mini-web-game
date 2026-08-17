@@ -17,11 +17,21 @@
 // partial run resumable: rerun the same command and only the missing/broken assets regenerate.
 
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { findCodex, resolveCodexHome, chromaHelperPath, codexGenerate, preserveOriginal } from './lib/codex-host.mjs';
 import { BACKGROUND_EDGE_MIN, FILL_FLOOR, UI_HUE_MAX_DISTANCE, HF_MAX, BG_COLORS_MIN } from './lib/quality-thresholds.mjs';
+
+export const CLI_CONTRACT_ID = 'factory:imagegen';
+
+/** 부팅 경로와 parity harness가 같은 함수를 쓴다. 부작용 없음. */
+export function parseCliArgs(argv) {
+  assertArgv(CLI_CONTRACT_ID, argv);
+  return parseArgs(argv);
+}
 
 function parseArgs(argv) {
   const args = { only: 'all', timeoutSec: 300 };
@@ -598,7 +608,7 @@ function autocropResize(file, targetW, targetH, padRatio = 0, { crop = true } = 
 }
 
 function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const args = parseCliArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
   const projectDir = path.resolve(args.project);
   const planFile = path.join(projectDir, 'asset-plan.json');
@@ -910,4 +920,7 @@ function main() {
   }
 }
 
-try { main(); } catch (err) { console.error(err.message || err); process.exit(1); }
+const isMain = isMainModule(import.meta.url);
+if (isMain) {
+  try { main(); } catch (err) { console.error(err.message || err); process.exit(1); }
+}

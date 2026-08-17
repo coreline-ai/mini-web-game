@@ -4,7 +4,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
-import { writePassReceipt, invalidatePassReceipt } from './lib/production-pass-receipt.mjs';
+import { writePassReceipt, invalidatePassReceipt, beginGateSnapshot, assertSnapshotUnchanged }
+  from './lib/production-pass-receipt.mjs';
+import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
@@ -91,6 +93,17 @@ async function stopPreview(server) {
   }
 }
 
+export const CLI_CONTRACT_ID = 'factory:production-gate';
+
+/**
+ * 부팅 경로와 parity harness가 같은 함수를 쓴다. 공용 계약을 자기 파싱보다 먼저 부르므로
+ * `--mode turbo` 같은 값은 여기서 막힌다. 부작용 없음 — 게이트를 실행하지 않는다.
+ */
+export function parseCliArgs(argv) {
+  assertArgv(CLI_CONTRACT_ID, argv);
+  return splitArgs(argv);
+}
+
 function splitArgs(argv) {
   const productionArgs = [];
   const visualArgs = [];
@@ -100,7 +113,11 @@ function splitArgs(argv) {
   let port = 4325;
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
-    if (a === '--skip-foundation') {
+    if (a === '--help' || a === '-h') {
+      // 부팅 경로는 splitArgs 전에 help를 처리하지만, parseCliArgs는 parity harness도 부른다.
+      // 여기서 받지 않으면 계약은 `-h`를 허용하는데 leaf가 거부해 둘이 어긋난다(실측).
+      continue;
+    } else if (a === '--skip-foundation') {
       skipFoundation = true;
     } else if (a === '--project') {
       const value = argv[++i];
@@ -138,107 +155,116 @@ function splitArgs(argv) {
   return { productionArgs, visualArgs, sceneArgs, skipFoundation, mode, port };
 }
 
-const args = process.argv.slice(2);
-if (args.includes('--help') || args.includes('-h')) {
-  usage();
-  process.exit(0);
-}
-if (!args.includes('--project')) {
-  console.error('Missing required --project <generated-game-dir>');
-  usage();
-  process.exit(1);
-}
-
-let split;
-try {
-  split = splitArgs(args);
-} catch (err) {
-  console.error(err.message || err);
-  usage();
-  process.exit(1);
-}
-
-const projectArg = split.productionArgs[split.productionArgs.indexOf('--project') + 1];
-const projectCandidates = [
-  path.resolve(process.cwd(), projectArg),
-  path.resolve(workspaceRoot, projectArg),
-  path.resolve(workspaceRoot, '..', projectArg),
-];
-const projectDir = projectCandidates.find((candidate) => {
-  try { return fs.statSync(candidate).isDirectory(); } catch { return false; }
-});
-if (!projectDir) throw new Error(`Project directory not found: ${projectArg}`);
-
-// ── 게이트 진입: 이전 판정을 지우고 "미검증" 상태로 내려놓는다 ──────────────
-// 순서가 중요하다. 이 블록은 **첫 게이트(factory:qa)보다 앞**이어야 한다. 뒤에 두었더니
-// foundation gate가 실패했을 때 지난 영수증이 그대로 남아 status가 pass를 보고했다.
-//
-// 그리고 영수증을 지우기만 하면 부족하다. 지우기만 하면 실패한 실행이 게임을 legacy-pass로
-// **승격**시킨다(영수증 없음 → allowlist 조회 → exit 0). 실측으로 확인된 동작이다.
-// 그래서 표식을 함께 남긴다. 성공한 실행만 마지막에 이 표식을 지우고 영수증을 쓴다.
-const notVerifiedMarker = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
-const invalidated = invalidatePassReceipt(projectDir);
-if (invalidated.removed) console.log(`Production-demo PASS receipt invalidated for this run: ${invalidated.file}`);
-fs.writeFileSync(notVerifiedMarker, `${JSON.stringify({
-  reason: 'production gate is running; this marker is removed only when every gate passes',
-  startedAt: new Date().toISOString(),
-}, null, 2)}\n`);
-
-if (split.skipFoundation) console.log('Foundation gate skipped: verified by an upstream CI job');
-else run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
-
-const projectManifest = path.join(projectDir, 'assets', 'asset-manifest.json');
-const runtimeDeliveryEnabled = fs.existsSync(projectManifest)
-  && Boolean(JSON.parse(fs.readFileSync(projectManifest, 'utf8')).assetLayout);
-if (runtimeDeliveryEnabled) {
-  run(npmCommand(), ['run', 'build'], { cwd: projectDir });
-  run(process.execPath, [distRuntimeQa, '--project', projectDir], { cwd: workspaceRoot });
-} else {
-  console.log('Runtime delivery gate skipped: legacy manifest has no assetLayout rollout marker');
-}
-// imagegen 스킬 provenance는 상시 강제 (임의/API/절차적 생성 금지 정책)
-const prodArgs = split.productionArgs.includes('--require-gpt-imagegen')
-  ? split.productionArgs
-  : [...split.productionArgs, '--require-gpt-imagegen'];
-run(process.execPath, [productionDemoQa, ...prodArgs], { cwd: workspaceRoot });
-// 본 게임(똥 피하기) 기준 픽셀 레벨 품질 게이트 (해상도/색수/디테일/placeholder 차단)
-const projIdx = split.productionArgs.indexOf('--project');
-run(process.execPath, [imageQualityQa, '--project', split.productionArgs[projIdx + 1]], { cwd: workspaceRoot });
-
-// Build once and serve once so every viewport gate observes the same immutable
-// preview and does not repeatedly decode the project's high-resolution assets.
-run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
-run(npmCommand(), ['run', 'build'], { cwd: projectDir });
-const previewUrl = `http://127.0.0.1:${split.port}`;
-const preview = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(split.port), '--strictPort'], {
-  cwd: projectDir, stdio: 'ignore', detached: process.platform !== 'win32',
-});
-try {
-  await waitForHttp(previewUrl);
-  const visualRuns = splitViewportRuns(browserArgsForUrl(split.visualArgs, previewUrl));
-  const sceneRuns = splitViewportRuns(browserArgsForUrl(split.sceneArgs, previewUrl));
-  for (let index = 0; index < Math.max(visualRuns.length, sceneRuns.length); index += 1) {
-    if (visualRuns[index]) run(process.execPath, [visualLayoutQa, ...visualRuns[index]], { cwd: workspaceRoot });
-    await wait(600);
-    if (sceneRuns[index]) run(process.execPath, [sceneCompositeQa, ...sceneRuns[index]], { cwd: workspaceRoot });
-    await wait(900);
+// import만으로 게이트가 돌면 안 된다. parity harness는 이 모듈에서 parseCliArgs만 가져간다.
+const isMain = isMainModule(import.meta.url);
+if (isMain) {
+  const args = process.argv.slice(2);
+  if (args.includes('--help') || args.includes('-h')) {
+    usage();
+    process.exit(0);
   }
-} finally {
-  await stopPreview(preview);
-}
+  if (!args.includes('--project')) {
+    console.error('Missing required --project <generated-game-dir>');
+    usage();
+    process.exit(1);
+  }
 
-const specFile = path.join(projectDir, 'src/game/data/game-spec.json');
-const spec = fs.existsSync(specFile) ? JSON.parse(fs.readFileSync(specFile, 'utf8')) : {};
-if (spec.schemaVersion !== '2.0.0' && !spec.captureMatrix) {
-  console.warn('Compatibility warning: schema v1 project has no captureMatrix; legacy visual gates remain active.');
-}
-let gateProfile;
-try { gateProfile = productionGateProfile(spec, split.mode); }
-catch (error) { console.error(error.message); process.exit(1); }
-const customRequired = gateProfile === 'custom-loop-full';
-if (customRequired) run(process.execPath, [customLoopFullQa, '--project', projectDir, '--port', String(split.port + 10)], { cwd: workspaceRoot });
+  let split;
+  try {
+    split = parseCliArgs(args);
+  } catch (err) {
+    console.error(err.message || err);
+    usage();
+    process.exit(1);
+  }
 
-// 여기까지 왔다는 것은 모든 게이트가 통과했다는 뜻이다. 이제서야 표식을 지우고 영수증을 쓴다.
-fs.rmSync(notVerifiedMarker, { force: true });
-const pass = writePassReceipt(projectDir, { gateProfile, spec });
-console.log(`Production-demo PASS receipt: ${pass.output}`);
+  const projectArg = split.productionArgs[split.productionArgs.indexOf('--project') + 1];
+  const projectCandidates = [
+    path.resolve(process.cwd(), projectArg),
+    path.resolve(workspaceRoot, projectArg),
+    path.resolve(workspaceRoot, '..', projectArg),
+  ];
+  const projectDir = projectCandidates.find((candidate) => {
+    try { return fs.statSync(candidate).isDirectory(); } catch { return false; }
+  });
+  if (!projectDir) throw new Error(`Project directory not found: ${projectArg}`);
+
+  // ── 게이트 진입: 이전 판정을 지우고 "미검증" 상태로 내려놓는다 ──────────────
+  // 순서가 중요하다. 이 블록은 **첫 게이트(factory:qa)보다 앞**이어야 한다. 뒤에 두었더니
+  // foundation gate가 실패했을 때 지난 영수증이 그대로 남아 status가 pass를 보고했다.
+  //
+  // 그리고 영수증을 지우기만 하면 부족하다. 지우기만 하면 실패한 실행이 게임을 legacy-pass로
+  // **승격**시킨다(영수증 없음 → allowlist 조회 → exit 0). 실측으로 확인된 동작이다.
+  // 그래서 표식을 함께 남긴다. 성공한 실행만 마지막에 이 표식을 지우고 영수증을 쓴다.
+  const notVerifiedMarker = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
+  const invalidated = invalidatePassReceipt(projectDir);
+  if (invalidated.removed) console.log(`Production-demo PASS receipt invalidated for this run: ${invalidated.file}`);
+  fs.writeFileSync(notVerifiedMarker, `${JSON.stringify({
+    reason: 'production gate is running; this marker is removed only when every gate passes',
+    startedAt: new Date().toISOString(),
+  }, null, 2)}\n`);
+
+  if (split.skipFoundation) console.log('Foundation gate skipped: verified by an upstream CI job');
+  else run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
+
+  const projectManifest = path.join(projectDir, 'assets', 'asset-manifest.json');
+  const runtimeDeliveryEnabled = fs.existsSync(projectManifest)
+    && Boolean(JSON.parse(fs.readFileSync(projectManifest, 'utf8')).assetLayout);
+  if (runtimeDeliveryEnabled) {
+    run(npmCommand(), ['run', 'build'], { cwd: projectDir });
+    run(process.execPath, [distRuntimeQa, '--project', projectDir], { cwd: workspaceRoot });
+  } else {
+    console.log('Runtime delivery gate skipped: legacy manifest has no assetLayout rollout marker');
+  }
+  // imagegen 스킬 provenance는 상시 강제 (임의/API/절차적 생성 금지 정책)
+  const prodArgs = split.productionArgs.includes('--require-gpt-imagegen')
+    ? split.productionArgs
+    : [...split.productionArgs, '--require-gpt-imagegen'];
+  run(process.execPath, [productionDemoQa, ...prodArgs], { cwd: workspaceRoot });
+  // 본 게임(똥 피하기) 기준 픽셀 레벨 품질 게이트 (해상도/색수/디테일/placeholder 차단)
+  const projIdx = split.productionArgs.indexOf('--project');
+  run(process.execPath, [imageQualityQa, '--project', split.productionArgs[projIdx + 1]], { cwd: workspaceRoot });
+
+  // Build once and serve once so every viewport gate observes the same immutable
+  // preview and does not repeatedly decode the project's high-resolution assets.
+  run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
+  run(npmCommand(), ['run', 'build'], { cwd: projectDir });
+  // 의존성 설치·빌드 같은 허용된 준비가 끝난 뒤에 QA 시작 digest를 고정한다. 그보다 앞에서
+  // 재면 node_modules 설치가 곧바로 drift로 잡힌다(제외 목록에 있지만 dist는 빌드가 만든다).
+  const gateSnapshot = beginGateSnapshot(projectDir);
+  const previewUrl = `http://127.0.0.1:${split.port}`;
+  const preview = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(split.port), '--strictPort'], {
+    cwd: projectDir, stdio: 'ignore', detached: process.platform !== 'win32',
+  });
+  try {
+    await waitForHttp(previewUrl);
+    const visualRuns = splitViewportRuns(browserArgsForUrl(split.visualArgs, previewUrl));
+    const sceneRuns = splitViewportRuns(browserArgsForUrl(split.sceneArgs, previewUrl));
+    for (let index = 0; index < Math.max(visualRuns.length, sceneRuns.length); index += 1) {
+      if (visualRuns[index]) run(process.execPath, [visualLayoutQa, ...visualRuns[index]], { cwd: workspaceRoot });
+      await wait(600);
+      if (sceneRuns[index]) run(process.execPath, [sceneCompositeQa, ...sceneRuns[index]], { cwd: workspaceRoot });
+      await wait(900);
+    }
+  } finally {
+    await stopPreview(preview);
+  }
+
+  const specFile = path.join(projectDir, 'src/game/data/game-spec.json');
+  const spec = fs.existsSync(specFile) ? JSON.parse(fs.readFileSync(specFile, 'utf8')) : {};
+  if (spec.schemaVersion !== '2.0.0' && !spec.captureMatrix) {
+    console.warn('Compatibility warning: schema v1 project has no captureMatrix; legacy visual gates remain active.');
+  }
+  let gateProfile;
+  try { gateProfile = productionGateProfile(spec, split.mode); }
+  catch (error) { console.error(error.message); process.exit(1); }
+  const customRequired = gateProfile === 'custom-loop-full';
+  if (customRequired) run(process.execPath, [customLoopFullQa, '--project', projectDir, '--port', String(split.port + 10)], { cwd: workspaceRoot });
+
+  // 여기까지 왔다는 것은 모든 게이트가 통과했다는 뜻이다. 다만 **QA가 본 것과 같은 상태인지**
+  // 먼저 확인한다. QA 도중에 소스나 자산이 바뀌었다면 영수증을 쓰지 않는다.
+  assertSnapshotUnchanged(gateSnapshot, 'production-gate 종료');
+  fs.rmSync(notVerifiedMarker, { force: true });
+  const pass = writePassReceipt(projectDir, { gateProfile, spec, verified: gateSnapshot });
+  console.log(`Production-demo PASS receipt: ${pass.output}`);
+}

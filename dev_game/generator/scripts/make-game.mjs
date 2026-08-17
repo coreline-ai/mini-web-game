@@ -20,12 +20,24 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { verifyPassReceipt } from './lib/production-pass-receipt.mjs';
+import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCRIPTS = __dirname;
 const CLI = path.resolve(SCRIPTS, '..', 'src', 'cli.mjs');
 const GEN_ROOT = path.resolve(SCRIPTS, '..');
 const DEFAULT_OUT_ROOT = path.resolve(GEN_ROOT, '..', 'generated');
+
+export const CLI_CONTRACT_ID = 'factory:make';
+
+/**
+ * 부팅 경로와 parity harness가 **같은** 함수를 쓴다. 공용 계약을 자기 파싱보다 먼저 부르므로
+ * 문서 검사기와 이 leaf의 accept/reject가 정의상 일치한다. 부작용은 없다.
+ */
+export function parseCliArgs(argv) {
+  assertArgv(CLI_CONTRACT_ID, argv);
+  return parseArgs(argv);
+}
 
 function parseArgs(argv) {
   const args = { stages: 3, gate: 'full', passthrough: [] };
@@ -135,7 +147,7 @@ function warnDocOverwrite(projectDir) {
 }
 
 function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const args = parseCliArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
 
   const node = process.execPath;
@@ -260,4 +272,7 @@ function main() {
   if (args.gate !== 'full') console.log('  Full gate:  npm --prefix dev_game run factory:production-gate -- --project ' + out);
 }
 
-try { main(); } catch (err) { console.error(err.message || err); usage(); process.exit(1); }
+const isMain = isMainModule(import.meta.url);
+if (isMain) {
+  try { main(); } catch (err) { console.error(err.message || err); usage(); process.exit(1); }
+}

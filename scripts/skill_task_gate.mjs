@@ -3,8 +3,19 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+
+// ── PASS는 왜 커밋을 요구하는가 ──────────────────────────────────────────────
+// `stateSeal`은 키 없는 `sha256(자기 자신)`이다. 그건 봉인이 아니라 체크섬이다. 실측(2026-08-17):
+// 게이트를 한 번도 실행하지 않고 손으로 쓴 상태 파일이 `verify`에서 exit 0 `PASS`를 받았다.
+// 상태 파일은 untracked라서 지우면 승인 이력 자체가 사라지기도 했다.
+//
+// 로컬 저장소에는 위조자가 갖지 못하는 비밀이 없으므로 서명으로는 닫히지 않는다. 대신 **git을
+// 앵커로 쓴다**: PASS 상태는 HEAD에 커밋돼 있어야 하고, 작업 트리의 바이트가 커밋된 바이트와
+// 같아야 한다. 위조하려면 커밋이 필요하고, 커밋은 이력에 남아 검토자가 볼 수 있다.
+// 커밋된 상태 파일을 지우는 것도 RED다. 같은 방식이 `production-pass-receipt`의 legacy-pass에서
+// 이미 쓰이고 있다.
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const STATES = ['PLANNED', 'IMPLEMENTED', 'DOCUMENTED', 'SKILL_COMPARED', 'REVIEWED', 'PASS'];
@@ -161,10 +172,58 @@ function listStates(repo) {
     .map((name) => ({ file: path.join(dir, name), state: readState(path.join(dir, name)) }));
 }
 
+/** HEAD에 커밋된 바이트. 없으면 null. */
+function committedBytes(repo, relative) {
+  const result = spawnSync('git', ['show', `HEAD:${relative}`], { cwd: repo, encoding: 'buffer' });
+  return result.status === 0 ? result.stdout : null;
+}
+
+/** HEAD에 커밋된 상태 파일 목록. 커밋이 없으면 빈 목록. */
+function committedStateFiles(repo) {
+  const result = spawnSync('git', ['ls-tree', '--name-only', '-r', 'HEAD', '--', `${STATE_DIR}/`],
+    { cwd: repo, encoding: 'utf8' });
+  if (result.status !== 0) return [];
+  return result.stdout.split('\n').map((line) => line.trim()).filter((line) => line.endsWith('.state.json'));
+}
+
+/** 커밋된 상태 파일을 지워 승인 이력을 없애지 못하게 한다. */
+function assertNoDeletedStates(repo) {
+  for (const relative of committedStateFiles(repo)) {
+    if (!fs.existsSync(path.join(repo, relative))) {
+      die('E_STATE_DELETED', `커밋된 상태 파일이 작업 트리에 없다: ${relative}\n  `
+        + '삭제로 승인 이력을 지울 수 없다. 복원한 뒤 다시 실행할 것');
+    }
+  }
+}
+
+/** PASS는 HEAD에 커밋된 사실이어야 한다. 손으로 쓴 상태 파일을 막는 유일한 장치다. */
+function assertPassCommitted(repo, state) {
+  const relative = stateRelative(state.taskId);
+  const committed = committedBytes(repo, relative);
+  if (committed === null) {
+    die('E_PASS_UNCOMMITTED', `PASS 상태 파일이 HEAD에 없다: ${relative}\n  `
+      + 'PASS는 저장소가 공유하는 사실이어야 한다. 상태 파일을 커밋한 뒤 verify할 것');
+  }
+  if (!committed.equals(fs.readFileSync(path.join(repo, relative)))) {
+    die('E_PASS_MODIFIED', `PASS 상태 파일이 HEAD의 내용과 다르다: ${relative}\n  `
+      + '커밋 뒤에 상태 파일을 고칠 수 없다');
+  }
+}
+
 function verifyPassSnapshot(repo, state) {
   if (state.status !== 'PASS' || !state.approvedSnapshot) {
     die('E_NOT_PASS', `${state.taskId}는 검증 가능한 PASS 상태가 아니다`);
   }
+  // 빈 범위의 PASS는 **영원히 drift가 나지 않는다** — scopedSnapshot이 전부 걸러내므로
+  // 저장소를 통째로 바꿔도 verify가 통과하고 다음 task까지 열어 준다. 커밋만 하면 되는
+  // 위조의 가장 값싼 형태였다(독립 검토 실측). 범위 없는 승인은 승인이 아니다.
+  if (!Array.isArray(state.allowedPaths) || !state.allowedPaths.length) {
+    die('E_EMPTY_SCOPE', `${state.taskId} PASS에 allowedPaths가 없다 — 범위 없는 승인은 무효다`);
+  }
+  if (!Object.keys(state.approvedSnapshot).length) {
+    die('E_EMPTY_SCOPE', `${state.taskId} PASS의 approvedSnapshot이 비어 있다 — 봉인된 파일이 없다`);
+  }
+  assertPassCommitted(repo, state);
   const now = scopedSnapshot(snapshot(repo, new Set([stateRelative(state.taskId)])), state.allowedPaths);
   const drift = changedPaths(state.approvedSnapshot, now);
   if (drift.length) {
@@ -219,6 +278,7 @@ if (command === 'start') {
   if (!args.allow.length) die('E_ALLOWLIST', '--allow 경로가 하나 이상 필요하다');
   if (!args.target.length) die('E_TARGET', '--target 구현 경로가 하나 이상 필요하다');
 
+  assertNoDeletedStates(repo);
   const existing = listStates(repo);
   const active = existing.find(({ state }) => state.status !== 'PASS');
   if (active) die('E_ACTIVE_TASK', `미완료 작업 ${active.state.taskId} (${active.state.status})이 있어 새 작업을 시작할 수 없다`);
@@ -268,6 +328,7 @@ if (command === 'status') {
 }
 
 if (command === 'verify') {
+  assertNoDeletedStates(repo);
   if (state.status === 'PASS') {
     const otherPass = listStates(repo).find(({ state: candidate }) => candidate.status === 'PASS'
       && (candidate.supersedes || []).includes(taskId));

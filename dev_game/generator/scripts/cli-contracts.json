@@ -1,25 +1,206 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "note": "문서에 적힌 명령과 실제 leaf 파서가 공유하는 단일 인자 계약. v1은 knownFlags 이름만 담아 값과 enum을 몰랐고, leaf 중 이 파일을 읽는 것이 0개였다 — 그래서 `--mode turbo` 같은 오답 문서가 검사기를 통과했다. arity/type/enum을 담고 lib/cli-contract.mjs가 leaf와 검사기 양쪽에서 쓰인다. 계약값은 실제 파서에서 옮겨 적은 것이 아니라 **파서와 대조해** 정한다 — `--from`을 gate로 잘못 적어 두었더니 문서의 `--from gate`가 통과하고 런타임이 죽었다(독립 검토 실측).",
   "scripts": {
     "factory:make": {
       "requiredAll": [],
-      "requiredOneOf": [["--spec", "--name"]],
-      "knownFlags": ["--help", "--spec", "--name", "--title", "--out", "--stages", "--codex", "--skip-art", "--from", "--gate", "--with-pwa", "--no-sfx"]
+      "requiredOneOf": [
+        [
+          "--spec",
+          "--name"
+        ]
+      ],
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "--spec": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--name": {
+          "arity": 1,
+          "type": "string"
+        },
+        "--title": {
+          "arity": 1,
+          "type": "string"
+        },
+        "--out": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--stages": {
+          "arity": 1,
+          "type": "integer"
+        },
+        "--codex": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--skip-art": {
+          "arity": 0
+        },
+        "--from": {
+          "arity": 1,
+          "type": "enum",
+          "enum": [
+            "scaffold",
+            "productionize",
+            "art",
+            "qa"
+          ]
+        },
+        "--gate": {
+          "arity": 1,
+          "type": "enum",
+          "enum": [
+            "none",
+            "artifact-contract-only",
+            "demo",
+            "full"
+          ]
+        },
+        "--with-pwa": {
+          "arity": 0
+        },
+        "--no-sfx": {
+          "arity": 0
+        },
+        "-h": {
+          "arity": 0
+        }
+      }
     },
     "factory:production-gate": {
-      "requiredAll": ["--project"],
+      "requiredAll": [
+        "--project"
+      ],
       "requiredOneOf": [],
-      "knownFlags": ["--help", "--skip-foundation", "--project", "--min-stage-backgrounds", "--allow-svg-backgrounds", "--require-gpt-imagegen", "--require-imagegen-skill", "--port", "--viewports", "--safe-margin", "--aspect-tolerance", "--allow-missing-registry", "--keep-server", "--mode"]
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "--skip-foundation": {
+          "arity": 0
+        },
+        "--project": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--min-stage-backgrounds": {
+          "arity": 1,
+          "type": "integer"
+        },
+        "--allow-svg-backgrounds": {
+          "arity": 0
+        },
+        "--require-gpt-imagegen": {
+          "arity": 0
+        },
+        "--require-imagegen-skill": {
+          "arity": 0
+        },
+        "--port": {
+          "arity": 1,
+          "type": "integer"
+        },
+        "--viewports": {
+          "arity": 1,
+          "type": "string"
+        },
+        "--safe-margin": {
+          "arity": 1,
+          "type": "string"
+        },
+        "--aspect-tolerance": {
+          "arity": 1,
+          "type": "string"
+        },
+        "--allow-missing-registry": {
+          "arity": 0
+        },
+        "--keep-server": {
+          "arity": 0
+        },
+        "--mode": {
+          "arity": 1,
+          "type": "enum",
+          "enum": [
+            "compatibility",
+            "custom-loop-full"
+          ]
+        },
+        "-h": {
+          "arity": 0
+        }
+      }
     },
     "factory:imagegen": {
-      "requiredAll": ["--project"],
+      "requiredAll": [
+        "--project"
+      ],
       "requiredOneOf": [],
-      "knownFlags": ["--help", "--project", "--only", "--codex", "--timeout", "--skip-existing", "--no-runtime-export", "--id"]
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "--project": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--only": {
+          "arity": 1,
+          "type": "enum",
+          "enum": [
+            "all",
+            "backgrounds",
+            "sprites",
+            "ui",
+            "fx",
+            "wire"
+          ]
+        },
+        "--codex": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--timeout": {
+          "arity": 1,
+          "type": "integer"
+        },
+        "--skip-existing": {
+          "arity": 0
+        },
+        "--no-runtime-export": {
+          "arity": 0
+        },
+        "--id": {
+          "arity": 1,
+          "type": "string"
+        },
+        "-h": {
+          "arity": 0
+        }
+      }
     },
     "factory:production-pass-status": {
-      "requiredAll": ["--project"],
+      "requiredAll": [
+        "--project"
+      ],
       "requiredOneOf": [],
-      "knownFlags": ["--help", "--project"]
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "--project": {
+          "arity": 1,
+          "type": "path"
+        },
+        "-h": {
+          "arity": 0
+        }
+      }
     }
   }
 }

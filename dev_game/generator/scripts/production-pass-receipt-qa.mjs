@@ -5,7 +5,8 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
 import {
-  POLISH_ELIGIBLE_STATES, invalidatePassReceipt, legacyPassEvidence,
+  POLISH_ELIGIBLE_STATES, assertSnapshotUnchanged, beginGateSnapshot, canonicalSnapshot,
+  invalidatePassReceipt, legacyPassEvidence,
   passReceiptPath, projectFingerprint, verifyPassReceipt, writePassReceipt,
 } from './lib/production-pass-receipt.mjs';
 
@@ -130,6 +131,100 @@ try {
     state: 'stale', label: 'regenerated art', fingerprint: /project inputs changed since the gate ran/,
   });
   fs.writeFileSync(path.join(v2, 'assets', 'hero.png'), 'PNG-v1\n');
+
+  // ── canonical snapshot: 열거하지 않은 입력도 전부 봉인된다 ──
+  // 열거 방식이던 판은 vite.config.js·lockfile·scripts/·docs/를 놓쳤다. 설정을 바꿔도
+  // 영수증이 stale이 되지 않았다(실측). 이제 포함이 기본값이고 생성 출력만 제외한다.
+  for (const [label, rel] of [
+    ['vite config', 'vite.config.js'],
+    ['lockfile', 'package-lock.json'],
+    ['build script', 'scripts/build.mjs'],
+    ['planning doc', 'docs/01-GDD.md'],
+    ['asset plan', 'asset-plan.json'],
+  ]) {
+    const file = path.join(v2, rel);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, `// ${label}\n`);
+    expect(verifyPassReceipt(v2), {
+      state: 'stale', label: `snapshot covers ${label}`,
+      fingerprint: /project inputs changed since the gate ran/,
+    });
+    fs.rmSync(file);
+  }
+
+  // 파일 삭제·rename도 감지해야 한다.
+  fs.renameSync(path.join(v2, 'src', 'main.js'), path.join(v2, 'src', 'renamed.js'));
+  expect(verifyPassReceipt(v2), {
+    state: 'stale', label: 'snapshot detects rename',
+    fingerprint: /project inputs changed since the gate ran/,
+  });
+  fs.renameSync(path.join(v2, 'src', 'renamed.js'), path.join(v2, 'src', 'main.js'));
+
+  // 제외 이름이 **중첩 경로**에 있으면 게임 내용이다. basename으로만 걸던 판은
+  // `src/dist/data.json` 같은 경로를 지문에서 통째로 지워, 거기 둔 코드를 PASS 뒤에
+  // 마음대로 바꿔도 영수증이 유효했다(독립 검토 실측). Vite는 그런 경로도 import한다.
+  for (const rel of ['src/dist/data.json', 'src/node_modules/x.js', 'src/coverage/c.js',
+    'src/.vite/v.js', 'assets/qa-captures/a.js', 'src/PRODUCTION-DEMO-NOT-VERIFIED.json',
+    'src/.playwright-cli/p.js']) {
+    const file = path.join(v2, rel);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, 'payload\n');
+    expect(verifyPassReceipt(v2), {
+      state: 'stale', label: `nested exclusion name is content: ${rel}`,
+      fingerprint: /project inputs changed since the gate ran/,
+    });
+    fs.rmSync(file);
+  }
+
+  // 생성 출력은 제외된다 — 빌드했다고 영수증이 stale이 되면 게이트를 통과할 수 없다.
+  for (const dir of ['dist', 'qa-captures', '.playwright-cli', 'node_modules']) {
+    fs.mkdirSync(path.join(v2, dir), { recursive: true });
+    fs.writeFileSync(path.join(v2, dir, 'output.txt'), 'generated\n');
+  }
+  check(verifyPassReceipt(v2).state === 'pass',
+    'generated output directories must not change the snapshot');
+
+  // 루트의 symlink된 생성 디렉터리는 게이트를 막으면 안 된다(pnpm·workspace 배치).
+  // 제외 판정이 symlink 검사보다 앞에 있어야 한다.
+  const nmTarget = fs.mkdtempSync(path.join(os.tmpdir(), 'nm-target-'));
+  fs.writeFileSync(path.join(nmTarget, 'pkg.js'), 'x\n');
+  for (const name of ['node_modules', 'dist']) {
+    // 앞의 생성-출력 대조군이 같은 이름의 실디렉터리를 남겨 둔다. 먼저 치운다.
+    fs.rmSync(path.join(v2, name), { recursive: true, force: true });
+    fs.symlinkSync(nmTarget, path.join(v2, name));
+    check(verifyPassReceipt(v2).state === 'pass',
+      `symlinked ${name} at root must not break the snapshot`);
+    fs.rmSync(path.join(v2, name));
+  }
+  fs.rmSync(nmTarget, { recursive: true, force: true });
+
+  // symlink는 봉인할 수 없다. 조용히 넘어가지 않고 snapshot 생성 자체를 실패시킨다.
+  const linked = makeProject('symlinked');
+  fs.symlinkSync(path.join(linked, 'src', 'main.js'), path.join(linked, 'src', 'alias.js'));
+  let symlinkError = null;
+  try { canonicalSnapshot(linked); } catch (error) { symlinkError = error; }
+  check(symlinkError?.code === 'E_SNAPSHOT_SYMLINK',
+    `symlink must fail snapshot creation (got ${symlinkError?.code || 'no error'})`);
+  fs.rmSync(path.join(linked, 'src', 'alias.js'));
+
+  // TOCTOU: QA 도중 입력이 바뀌면 영수증을 쓰지 않는다.
+  const begun = beginGateSnapshot(v2);
+  check(assertSnapshotUnchanged(begun, 'probe') === begun.digest, 'unchanged snapshot must verify');
+  fs.writeFileSync(path.join(v2, 'src', 'main.js'), 'export const version = 99;\n');
+  let driftError = null;
+  try { assertSnapshotUnchanged(begun, 'probe'); } catch (error) { driftError = error; }
+  check(driftError?.code === 'E_SNAPSHOT_DRIFT',
+    `mid-QA change must be detected (got ${driftError?.code || 'no error'})`);
+  let writerError = null;
+  try { writePassReceipt(v2, { gateProfile: 'custom-loop-full', spec: v2spec, verified: begun }); }
+  catch (error) { writerError = error; }
+  check(writerError?.code === 'E_SNAPSHOT_DRIFT',
+    `writer must re-check the snapshot before writing (got ${writerError?.code || 'no error'})`);
+  fs.writeFileSync(path.join(v2, 'src', 'main.js'), 'export const version = 1;\n');
+  // 표식은 지문이 아니라 별도 조건이다 — 지문에 들어가면 시작/종료 digest가 항상 달라진다.
+  fs.writeFileSync(path.join(v2, 'PRODUCTION-DEMO-NOT-VERIFIED.json'), '{}\n');
+  check(canonicalSnapshot(v2) === begun.digest, 'the not-verified marker must not enter the snapshot');
+  fs.rmSync(path.join(v2, 'PRODUCTION-DEMO-NOT-VERIFIED.json'));
 
   // ── 양성 대조군 2: 세션 리포트 runId 불일치 ──
   writeSessionReport(v2, 'run-different');

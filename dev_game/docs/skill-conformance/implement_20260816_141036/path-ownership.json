@@ -29,28 +29,36 @@
       "name": "기준선 격리·게이트 선행 구축",
       "allowed": [
         "dev_game/docs/llm-game-studio-pipeline.md",
-        "scripts/check_skill_"
+        "prefix:scripts/check_skill_"
       ],
       "forbiddenNote": "네 스킬 내용과 계약 문서는 건드리지 않는다"
     },
     "2": {
       "name": "game-factory 다이어트",
-      "allowed": ["skills/game-factory/"],
+      "allowed": [
+        "skills/game-factory/"
+      ],
       "forbiddenNote": "다른 세 스킬·계약·계획 본문"
     },
     "3": {
       "name": "game-polish 다이어트",
-      "allowed": ["skills/game-polish/"],
+      "allowed": [
+        "skills/game-polish/"
+      ],
       "forbiddenNote": "다른 세 스킬·계약·계획 본문"
     },
     "4": {
       "name": "game-asset-creation 다이어트",
-      "allowed": ["skills/game-asset-creation/"],
+      "allowed": [
+        "skills/game-asset-creation/"
+      ],
       "forbiddenNote": "다른 세 스킬·계약·계획 본문"
     },
     "5": {
       "name": "game-feel-motion-skill 다이어트",
-      "allowed": ["skills/game-feel-motion-skill/"],
+      "allowed": [
+        "skills/game-feel-motion-skill/"
+      ],
       "forbiddenNote": "다른 세 스킬·계약·계획 본문"
     },
     "6": {
@@ -60,5 +68,6 @@
     }
   },
   "cumulative": true,
-  "cumulativeNote": "Phase N 시점에서는 Phase 1~N의 allowed가 모두 dirty일 수 있다. 앞 Phase가 남긴 변경은 커밋 전까지 계속 dirty로 보이기 때문이다. 금지되는 것은 '아직 오지 않은 Phase의 경로'와 '어느 Phase도 소유하지 않은 경로'다."
+  "cumulativeNote": "Phase N 시점에서는 Phase 1~N의 allowed가 모두 dirty일 수 있다. 앞 Phase가 남긴 변경은 커밋 전까지 계속 dirty로 보이기 때문이다. 금지되는 것은 '아직 오지 않은 Phase의 경로'와 '어느 Phase도 소유하지 않은 경로'다.",
+  "pathForms": "dir(`/`로 끝남) | prefix:<문자열>(명시 선언) | file(완전 일치). 형태 미지정은 file로 해석한다."
 }

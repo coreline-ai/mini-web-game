@@ -37,10 +37,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { validateDocCommand, docKnownFlags } from './lib/doc-command-contract.mjs';
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_INVENTORY = path.join(ROOT, 'dev_game', 'docs', 'skill-conformance',
   'implement_20260816_220415', 'command-inventory.json');
 const DEFAULT_CONTRACTS = path.join(ROOT, 'dev_game', 'generator', 'scripts', 'cli-contracts.json');
+// 판정은 공용 계약에 위임한다. 검사기가 자기 규칙을 가지면 계약이 둘이 되고, 그 둘이
+// 어긋나는 것이 원래 결함이었다(문서의 `--mode turbo`가 통과하고 실제 파서는 throw).
 
 function parseArgs(argv) {
   const args = {};
@@ -195,7 +199,9 @@ function argContractOf(file) {
     for (const f of m[1].matchAll(/--[a-z][a-z0-9-]*/g)) required.add(f[0]);
   }
   const known = new Set();
-  for (const m of src.matchAll(/['"](--[a-z][a-z0-9-]*)['"]/g)) known.add(m[1]);
+  // 긴 플래그와 **단일 대시 별칭**(`-h`)을 모두 본다. 긴 것만 훑던 판은 계약이 선언한 `-h`를
+  // "소스에 없는 플래그"로 신고했다 — 실제로는 네 leaf 모두 `-h`를 처리한다.
+  for (const m of src.matchAll(/['"](--[a-z][a-z0-9-]*|-[a-z])['"]/g)) known.add(m[1]);
   const contract = { error: null, required: [...required], known: [...known] };
   contractCache.set(file, contract);
   return contract;
@@ -280,14 +286,14 @@ for (const skill of skillDirs) {
       continue;
     }
     const declared = cliContracts[script];
-    if (!declared || !Array.isArray(declared.knownFlags)
+    if (!declared || !declared.flags
       || !Array.isArray(declared.requiredAll) || !Array.isArray(declared.requiredOneOf)) {
       problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
         + `${script}의 명시적 CLI contract가 없다 — 오류 문구에서 필수 인자를 추측하지 않는다`);
       continue;
     }
-    const declaredFlags = new Set(declared.knownFlags);
-    const sourceMissing = declared.knownFlags.filter((f) => !contract.known.includes(f));
+    const declaredFlags = new Set(docKnownFlags(script, CONTRACTS));
+    const sourceMissing = [...declaredFlags].filter((f) => !contract.known.includes(f));
     if (sourceMissing.length) {
       problems.push(`${script} CLI contract가 소스와 어긋난다. 소스에서 찾을 수 없는 플래그: `
         + sourceMissing.join(', '));
@@ -307,17 +313,13 @@ for (const skill of skillDirs) {
       problems.push(`${script} 소스가 필수라고 말하지만 CLI contract에 없는 플래그: `
         + undeclaredRequired.join(', '));
     }
-    const missing = declared.requiredAll.filter((f) => !flags.includes(f));
-    for (const group of declared.requiredOneOf) {
-      if (!group.some((f) => flags.includes(f))) missing.push(`one-of(${group.join('|')})`);
-    }
-    if (missing.length) {
-      problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
-        + `누락: ${missing.join(', ')} (명시적 CLI contract)`);
-    }
-    const strays = flags.filter((f) => !declaredFlags.has(f));
-    if (strays.length) {
-      problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    미지원 플래그: ${strays.join(', ')}`);
+    // 값과 enum까지 **공용 검증기**로 본다. 이름만 보던 판은 `--mode turbo`를 통과시켰다.
+    const verdict = validateDocCommand(script, tokens.slice(1), CONTRACTS);
+    for (const error of verdict.errors) {
+      const label = { E_UNKNOWN_FLAG: '미지원 플래그', E_MISSING_REQUIRED: '누락',
+        E_MISSING_ONE_OF: '누락', E_MISSING_VALUE: '값 누락',
+        E_BAD_ENUM: '잘못된 값', E_BAD_INTEGER: '잘못된 값' }[error.code] || error.code;
+      problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    ${label}: ${error.message}`);
     }
   }
 }
@@ -342,7 +344,7 @@ if (inventory) {
     for (const entry of entries) {
       const declared = cliContracts[entry.script];
       const contractUnknown = (entry.requiredFlags || [])
-        .filter((f) => declared && !declared.knownFlags?.includes(f));
+        .filter((f) => declared && !docKnownFlags(entry.script, CONTRACTS).includes(f));
       if (contractUnknown.length) {
         problems.push(`command inventory ${entry.id}가 CLI contract에 없는 플래그를 요구한다: `
           + contractUnknown.join(', '));
