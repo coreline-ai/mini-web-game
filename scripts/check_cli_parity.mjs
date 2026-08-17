@@ -14,9 +14,10 @@
 // 셋의 accept/reject와 **오류 code**가 전부 일치해야 한다. leaf가 공용 entrypoint 연결을
 // 잃으면(`runtime-parser-disconnected`) 여기서 RED가 난다.
 
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateArgv } from '../dev_game/generator/scripts/lib/cli-contract.mjs';
+import { validateArgv, contractFor } from '../dev_game/generator/scripts/lib/cli-contract.mjs';
 import { validateDocCommand } from './lib/doc-command-contract.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,6 +37,45 @@ const LEAVES = [
 // enum을 gate로 잘못 적어 둔 채 corpus가 `--from`을 한 번도 건드리지 않아, 문서의
 // `--from gate`가 통과하고 런타임이 죽는 상태가 그대로 남아 있었다.
 // 그래서 **모든 enum 플래그의 정상값과 오답값**, 그리고 `--help`/`-h` 별칭을 전부 넣는다.
+// 필수 인자를 채운 최소 argv. 자동 생성 케이스의 바탕이다.
+const BASE = {
+  'factory:make': ['--name', 'x'],
+  'factory:production-gate': ['--project', 'x'],
+  'factory:imagegen': ['--project', 'x'],
+  'factory:production-pass-status': ['--project', 'x'],
+};
+
+/**
+ * 계약에서 케이스를 **자동 생성**한다. 손으로 나열하던 판은 `--gate`의 정상값을 한 번도
+ * 넣지 않아, 계약과 파서가 어긋나도 parity가 초록이었다(독립 재검토 실측). 새 enum을
+ * 추가하면 그 값들도 자동으로 덮이므로 같은 누락이 반복되지 않는다.
+ */
+function derivedCases(scriptKey) {
+  const contract = contractFor(scriptKey);
+  const base = BASE[scriptKey];
+  const cases = [];
+  for (const [flag, spec] of Object.entries(contract.flags)) {
+    if (spec.enum) {
+      for (const value of spec.enum) {
+        cases.push({ name: `enum ${flag}=${value}`, argv: [...base, flag, value], expect: null });
+      }
+      cases.push({ name: `enum ${flag}=<invalid>`, argv: [...base, flag, '__no_such_value__'],
+        expect: 'E_BAD_ENUM' });
+    }
+    if (spec.arity === 1) {
+      // base에서 이 플래그를 **값과 함께** 뺀다. 이름만 빼면 남은 값이 미지원 플래그로 잡혀
+      // 대조군이 의도한 결함(값 누락)이 아니라 다른 이유로 붉어진다.
+      const without = [];
+      for (let i = 0; i < base.length; i += 1) {
+        if (base[i] === flag) { i += 1; continue; }
+        without.push(base[i]);
+      }
+      cases.push({ name: `value-position ${flag}`, argv: [...without, flag], expect: 'E_MISSING_VALUE' });
+    }
+  }
+  return cases;
+}
+
 const CORPUS = {
   'factory:make': [
     { name: 'valid', argv: ['--name', 'My Game', '--out', 'generated/x'], expect: null },
@@ -99,9 +139,35 @@ async function leafVerdict(leaf, argv) {
   }
 }
 
-const failures = [];
+// ── 반대 방향의 발산 ─────────────────────────────────────────────────────────
+// 자동 생성 케이스는 **계약 안의 값만** 시험한다. 그래서 계약이 값을 잃으면(파서는 여전히
+// 받는데 계약이 거부) 아무 케이스도 그 값을 건드리지 않아 초록이다(실측). leaf 소스의
+// `--flag must be a|b|c` 문구에서 파서 쪽 집합을 읽어, 계약이 그 집합을 **포함**하는지 본다.
+// (계약이 더 클 수는 있다 — `--gate`의 `demo`처럼 검증 전에 매핑되는 별칭이 있다.)
+const enumMismatch = [];
 for (const leaf of LEAVES) {
-  for (const item of CORPUS[leaf.id]) {
+  const source = fs.readFileSync(leaf.module, 'utf8');
+  const contract = contractFor(leaf.id);
+  for (const match of source.matchAll(/(--[a-z][a-z0-9-]*) must be ([a-z0-9|-]+)/g)) {
+    const [, flag, joined] = match;
+    const fromSource = joined.split('|').filter(Boolean);
+    const declared = contract.flags[flag]?.enum;
+    if (!declared) {
+      enumMismatch.push(`${leaf.id} ${flag}: 소스는 ${fromSource.join('|')} 를 강제하는데 계약에 enum이 없다`);
+      continue;
+    }
+    const missing = fromSource.filter((value) => !declared.includes(value));
+    if (missing.length) {
+      enumMismatch.push(`${leaf.id} ${flag}: 소스가 받는 값이 계약에 없다 — ${missing.join(', ')}`);
+    }
+  }
+}
+
+const failures = [...enumMismatch];
+const ALL = Object.fromEntries(LEAVES.map((leaf) =>
+  [leaf.id, [...CORPUS[leaf.id], ...derivedCases(leaf.id)]]));
+for (const leaf of LEAVES) {
+  for (const item of ALL[leaf.id]) {
     const shared = firstCode(validateArgv(leaf.id, item.argv).errors);
     const checker = firstCode(validateDocCommand(leaf.id, item.argv).errors);
     const leafResult = await leafVerdict(leaf, item.argv);
@@ -120,6 +186,6 @@ if (failures.length) {
   console.error('\n계약만 고치고 leaf 연결을 잃으면 문서는 초록인데 실제 명령이 죽는다.');
   process.exit(1);
 }
-const total = Object.values(CORPUS).reduce((n, list) => n + list.length, 0);
+const total = Object.values(ALL).reduce((n, list) => n + list.length, 0);
 console.log(`CLI parity OK: leaf ${LEAVES.length}개 × corpus ${total}건, `
-  + 'shared/leaf/checker 세 갈래의 accept·reject와 오류 code가 전부 일치');
+  + '(계약에서 자동 생성한 enum 전수 포함) shared/leaf/checker 세 갈래의 accept·reject와 오류 code가 전부 일치');

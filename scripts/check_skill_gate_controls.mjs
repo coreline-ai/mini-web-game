@@ -302,6 +302,32 @@ for (const [name, outOfScope, expect, expectText, opts] of [
   }
 }
 
+// ── 심볼릭 링크 호출 대조군 ──────────────────────────────────────────────────
+// main 가드가 argv[1](링크 경로)과 import.meta.url(실경로)을 정규화 없이 비교하면, 링크로
+// 부를 때 본문이 통째로 건너뛰어져 **아무 출력 없이 exit 0**이 된다. 게이트가 조용히 성공한
+// 척하는 최악의 실패 모드이고, 이 저장소는 `.claude/skills/*`가 전부 링크라 특수 상황도
+// 아니다. 독립 검토가 이 P0을 찾았을 때 **대조군이 하나도 없었다** — 되돌려도 전 게이트가
+// 초록이었다. 그래서 여기에 고정한다.
+const linkRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-symlink-'));
+for (const [name, relative, argv, expectText] of [
+  ['symlink-invocation-production-gate', 'dev_game/generator/scripts/production-gate.mjs',
+    ['--project', '__no_such_project__'], 'Project directory not found'],
+  ['symlink-invocation-make-game', 'dev_game/generator/scripts/make-game.mjs',
+    ['--name', 'x', '--gate', '__bad__'], '--gate 값은'],
+  ['symlink-invocation-imagegen', 'dev_game/generator/scripts/codex-imagegen.mjs',
+    ['--project', 'x', '--only', '__bad__'], '--only 값은'],
+  ['symlink-invocation-pass-status', 'dev_game/generator/scripts/lib/production-pass-receipt.mjs',
+    ['--project', '__no_such_project__'], 'project directory not found'],
+]) {
+  const link = path.join(linkRoot, `${name}.mjs`);
+  fs.symlinkSync(path.join(ROOT, relative), link);
+  CONTROLS.push({
+    gate: 'cli-entrypoint', name, expect: 1, expectText,
+    needs: [link],
+    argv: [link, ...argv],
+  });
+}
+
 // fixture가 통째로 사라지면 대조군 0개로 공허하게 통과한다. 그것부터 막는다.
 if (!fs.existsSync(FIX)) {
   console.error(`gate controls failed: fixture 디렉터리가 없다 — ${FIX}`);
@@ -357,6 +383,7 @@ for (const c of CONTROLS) {
 }
 
 fs.rmSync(gitRoot, { recursive: true, force: true });
+fs.rmSync(linkRoot, { recursive: true, force: true });
 
 console.log('');
 if (failures.length) {

@@ -141,6 +141,8 @@ try {
     ['build script', 'scripts/build.mjs'],
     ['planning doc', 'docs/01-GDD.md'],
     ['asset plan', 'asset-plan.json'],
+    ['index.html', 'index.html'],
+    ['qa input', 'qa/capture-matrix.json'],
   ]) {
     const file = path.join(v2, rel);
     fs.mkdirSync(path.dirname(file), { recursive: true });

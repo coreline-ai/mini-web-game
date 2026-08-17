@@ -180,10 +180,12 @@ function committedBytes(repo, relative) {
 
 /** HEAD에 커밋된 상태 파일 목록. 커밋이 없으면 빈 목록. */
 function committedStateFiles(repo) {
-  const result = spawnSync('git', ['ls-tree', '--name-only', '-r', 'HEAD', '--', `${STATE_DIR}/`],
+  // `-z`가 없으면 비ASCII 경로가 C-quote로 돌아와 매칭되지 않는다. task-id 규칙상 지금은
+  // ASCII뿐이지만, 같은 결함을 다른 채널에서 이미 한 번 고쳤다. 두 채널을 같은 형식으로 둔다.
+  const result = spawnSync('git', ['ls-tree', '--name-only', '-r', '-z', 'HEAD', '--', `${STATE_DIR}/`],
     { cwd: repo, encoding: 'utf8' });
   if (result.status !== 0) return [];
-  return result.stdout.split('\n').map((line) => line.trim()).filter((line) => line.endsWith('.state.json'));
+  return result.stdout.split('\0').map((line) => line.trim()).filter((line) => line.endsWith('.state.json'));
 }
 
 /** 커밋된 상태 파일을 지워 승인 이력을 없애지 못하게 한다. */

@@ -74,18 +74,6 @@ import { assertArgv, isMainModule } from './cli-contract.mjs';
 /** polish 진입을 허용하는 상태. 나머지(stale/invalid/unknown)는 factory로 라우팅한다. */
 export const POLISH_ELIGIBLE_STATES = ['pass', 'legacy-pass'];
 
-function listFiles(root, relative = '') {
-  const dir = path.join(root, relative);
-  if (!fs.existsSync(dir)) return [];
-  const out = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const rel = path.posix.join(relative.split(path.sep).join('/'), entry.name);
-    if (entry.isDirectory()) out.push(...listFiles(root, rel));
-    else if (entry.isFile()) out.push(rel);
-  }
-  return out.sort();
-}
-
 function fileSha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }

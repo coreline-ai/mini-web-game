@@ -179,6 +179,32 @@ function classify(name) {
   return { kind: 'opaque', value };
 }
 
+/**
+ * aggregate npm script 그래프에서 순환을 찾는다. 있으면 경로를 돌려준다.
+ * 등록 여부 검사만으로는 `a → b → a`가 통과한다 — 실행하면 무한 재귀인데 초록이었다.
+ */
+function findScriptCycle(entry) {
+  const stack = [];
+  const state = new Map(); // 0 = 방문 중, 1 = 완료
+  function walk(name) {
+    if (state.get(name) === 1) return null;
+    if (state.get(name) === 0) return [...stack.slice(stack.indexOf(name)), name];
+    state.set(name, 0);
+    stack.push(name);
+    const info = classify(name);
+    if (info.kind === 'aggregate') {
+      for (const member of info.members) {
+        const found = walk(member);
+        if (found) return found;
+      }
+    }
+    stack.pop();
+    state.set(name, 1);
+    return null;
+  }
+  return walk(entry);
+}
+
 // 소스에서 인자 계약을 뽑는다. 이 저장소의 스크립트는 두 패턴으로 선언한다.
 //   required : `Missing required --project <dir>` / `Required: --project <dir> --url <u>`
 //   known    : parse 루프의 `a === '--flag'` 문자열 리터럴
@@ -266,6 +292,13 @@ for (const skill of skillDirs) {
           problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
             + `${script} 체인이 부르는 ${member}가 등록돼 있지 않다`);
         }
+      }
+      // 순환은 등록 여부만 봐서는 보이지 않는다. 체인이 자기 자신으로 돌아오면 실행이 무한
+      // 재귀하는데, 검사기는 "member가 전부 등록됨"으로 통과시켰다(재검토 지적).
+      const cycle = findScriptCycle(script);
+      if (cycle) {
+        problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
+          + `${script} 체인이 순환한다: ${cycle.join(' → ')}`);
       }
       if (flags.length) {
         problems.push(`${skill}/SKILL.md\n    명령: ${raw}\n    `
