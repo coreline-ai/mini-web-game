@@ -169,6 +169,39 @@ try {
   expect('deleted/start-after-delete', invoke(deleted, ['start', '--task-id', 'fresh-task',
     '--implementer', 'w', '--target', 'README.md', '--allow', 'README.md']), 1, 'E_STATE_DELETED');
 
+  // drift가 난 PASS는 새 작업을 막는다. 그런데 그 유일한 해소 수단이 supersede인데,
+  // supersede **대상까지** 검증하면 게이트가 영구 교착이다 — 실제 저장소가 그 상태였다
+  // (계획서를 재작성해 PASS가 drift → 어떤 start도 불가 → supersede도 불가). 그래서
+  // 대상은 검증에서 빼되, drift를 지우지 않고 새 상태 파일에 **기록**한다.
+  const drifted = makeRepo('drifted');
+  const dAllow = ['src/skill.txt', 'docs/impl.md', 'docs/comp.md', 'docs/rev.md'];
+  expect('drifted/start', invoke(drifted, ['start', '--task-id', 'first-task', '--implementer', 'w',
+    '--target', 'src/skill.txt', ...dAllow.flatMap((i) => ['--allow', i])]), 0, 'PLANNED');
+  write(drifted, 'src/skill.txt', 'version 2\n');
+  invoke(drifted, ['advance', '--task-id', 'first-task', '--to', 'IMPLEMENTED']);
+  write(drifted, 'docs/impl.md', '# i\n');
+  invoke(drifted, ['advance', '--task-id', 'first-task', '--to', 'DOCUMENTED', '--evidence', 'docs/impl.md']);
+  write(drifted, 'docs/comp.md', '# c\n');
+  invoke(drifted, ['advance', '--task-id', 'first-task', '--to', 'SKILL_COMPARED', '--evidence', 'docs/comp.md', '--comparison', 'MATCH']);
+  write(drifted, 'docs/rev.md', '# r\n');
+  invoke(drifted, ['advance', '--task-id', 'first-task', '--to', 'REVIEWED', '--evidence', 'docs/rev.md', '--reviewer', 'r2']);
+  invoke(drifted, ['advance', '--task-id', 'first-task', '--to', 'PASS']);
+  commitAll(drifted, 'first pass');
+  write(drifted, 'src/skill.txt', 'version 3 — drift\n');
+  commitAll(drifted, 'edit after pass');
+  expect('drifted/plain-start-blocked', invoke(drifted, ['start', '--task-id', 'plain-task',
+    '--implementer', 'w', '--target', 'README.md', '--allow', 'README.md']), 1, 'E_PASS_DRIFT');
+  expect('drifted/supersede-start-allowed', invoke(drifted, ['start', '--task-id', 'successor-task',
+    '--implementer', 'w', '--target', 'src/skill.txt', '--allow', 'src/skill.txt',
+    '--supersede', 'first-task']), 0, 'SUPERSEDE_DRIFT');
+  const successor = JSON.parse(fs.readFileSync(path.join(drifted,
+    'dev_game/docs/skill-workflow/successor-task.state.json'), 'utf8'));
+  results.push({ name: 'drifted/drift-recorded',
+    ok: Array.isArray(successor.supersededDrift?.['first-task'])
+      && successor.supersededDrift['first-task'].includes('src/skill.txt'),
+    detail: 'supersededDrift must record which approved paths changed',
+    output: JSON.stringify(successor.supersededDrift) });
+
   // 2. 단계 건너뛰기 RED + 5. 미완료 상태에서 새 작업 RED
   const order = makeRepo('order');
   expect('order/start', invoke(order, ['start', '--task-id', 'order-task', '--implementer', 'worker-a',
@@ -211,7 +244,7 @@ for (const item of results) {
 }
 // 개수를 세어 출력만 하면 검사를 지워도 "OK"가 나온다. 실측(2026-08-17): 9개를 지워도 통과했다.
 // 기대 개수를 고정해, 대조군이 사라지는 것 자체를 RED로 만든다.
-const EXPECTED_ASSERTIONS = 27;
+const EXPECTED_ASSERTIONS = 31;
 if (results.length !== EXPECTED_ASSERTIONS) {
   console.error(`skill task gate QA: 대조군 개수가 ${EXPECTED_ASSERTIONS}개가 아니다 (실제 ${results.length}개)`);
   console.error('대조군을 늘렸다면 EXPECTED_ASSERTIONS를 함께 올릴 것. 줄었다면 왜 사라졌는지 확인할 것.');

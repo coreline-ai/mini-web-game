@@ -212,6 +212,12 @@ function assertPassCommitted(repo, state) {
   }
 }
 
+/** PASS 이후 승인 범위에서 바뀐 경로. 죽지 않고 목록만 돌려준다. */
+function passDrift(repo, state) {
+  const now = scopedSnapshot(snapshot(repo, new Set([stateRelative(state.taskId)])), state.allowedPaths);
+  return changedPaths(state.approvedSnapshot || {}, now);
+}
+
 function verifyPassSnapshot(repo, state) {
   if (state.status !== 'PASS' || !state.approvedSnapshot) {
     die('E_NOT_PASS', `${state.taskId}는 검증 가능한 PASS 상태가 아니다`);
@@ -284,15 +290,34 @@ if (command === 'start') {
   const existing = listStates(repo);
   const active = existing.find(({ state }) => state.status !== 'PASS');
   if (active) die('E_ACTIVE_TASK', `미완료 작업 ${active.state.taskId} (${active.state.status})이 있어 새 작업을 시작할 수 없다`);
-  const supersededByPass = new Set(existing.flatMap(({ state }) => state.status === 'PASS' ? (state.supersedes || []) : []));
-  for (const { state } of existing) {
-    if (state.status === 'PASS' && !supersededByPass.has(state.taskId)) verifyPassSnapshot(repo, state);
-  }
 
+  // supersede 대상은 **검증 전에** 정한다. 순서를 반대로 두었더니, drift가 난 PASS가 새 작업을
+  // 전부 막고 그 유일한 해소 수단(supersede)까지 막았다 — 게이트가 영구 교착이었다(실측).
+  // 대상이 PASS 상태인지는 여전히 확인한다.
   const supersedes = [...new Set(args.supersede.map(normalizeTaskId))].sort();
   for (const id of supersedes) {
     const target = existing.find(({ state }) => state.taskId === id)?.state;
     if (!target || target.status !== 'PASS') die('E_SUPERSEDE', `supersede 대상이 유효한 PASS가 아니다: ${id}`);
+  }
+  const supersedingNow = new Set(supersedes);
+
+  const supersededByPass = new Set(existing.flatMap(({ state }) => state.status === 'PASS' ? (state.supersedes || []) : []));
+  for (const { state } of existing) {
+    if (state.status !== 'PASS') continue;
+    if (supersededByPass.has(state.taskId) || supersedingNow.has(state.taskId)) continue;
+    verifyPassSnapshot(repo, state);
+  }
+
+  // supersede로 넘어가는 drift는 **지우지 않고 기록한다.** 그래야 "왜 저 승인이 대체됐는지"가
+  // 커밋된 상태 파일에 남아 검토 가능하다. 조용히 넘어가면 승인 이력이 세탁된다.
+  const supersededDrift = {};
+  for (const id of supersedes) {
+    const target = existing.find(({ state }) => state.taskId === id)?.state;
+    const drift = passDrift(repo, target);
+    if (drift.length) {
+      supersededDrift[id] = drift;
+      console.log(`[SKILL_TASK_GATE:SUPERSEDE_DRIFT] ${id}의 승인 범위가 바뀐 채로 대체된다: ${drift.join(', ')}`);
+    }
   }
 
   const allowedPaths = [...new Set(args.allow.map((entry) => repoRelative(repo, entry, 'allow')))].sort();
@@ -308,6 +333,7 @@ if (command === 'start') {
     allowedPaths,
     targetPaths,
     supersedes,
+    supersededDrift,
     baselineHead: git(repo, ['rev-parse', 'HEAD']),
     baselineSnapshot,
     evidence: {},
