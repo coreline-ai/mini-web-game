@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 2,
+  "status": "PASS",
+  "gateProfile": "compatibility",
+  "gameSpecVersion": "1.0.0",
+  "buildDecision": null,
+  "projectFingerprint": "802fefaf88178a119a5660d1e99e081de0f56d841ab25d38c3df559cd3bb7abf",
+  "qaRunId": null,
+  "generatedAt": "2026-08-17T14:16:52.266Z"
+}
