@@ -265,10 +265,34 @@ function printUsage() {
   node scripts/skill_task_gate.mjs start --task-id <id> --implementer <id> --target <path> --allow <path> [--allow <path> ...]
   node scripts/skill_task_gate.mjs advance --task-id <id> --to <state> [--evidence <file>] [--comparison MATCH] [--reviewer <id>]
   node scripts/skill_task_gate.mjs verify --task-id <id>
+  node scripts/skill_task_gate.mjs verify-all
   node scripts/skill_task_gate.mjs status --task-id <id>
 
 States: ${STATES.join(' -> ')}
 Use --repo <path> only for an alternate repository or test fixture.`);
+}
+
+/**
+ * 저장소의 모든 유효 PASS를 검증한다. `verify`는 task-id가 필요해 체인에 넣을 수 없었고,
+ * 그래서 저장소 자신의 PASS가 drift 상태인 것을 아무도 몰랐다(독립 재검토 R-02).
+ * task가 하나도 없으면 검사할 것이 없는 것이지 실패가 아니다.
+ */
+function verifyAll(repo) {
+  assertNoDeletedStates(repo);
+  const all = listStates(repo);
+  const supersededByPass = new Set(all.flatMap(({ state }) => state.status === 'PASS' ? (state.supersedes || []) : []));
+  let checked = 0;
+  for (const { state } of all) {
+    if (state.status !== 'PASS') {
+      console.log(`[SKILL_TASK_GATE:ACTIVE] ${state.taskId} ${state.status}`);
+      continue;
+    }
+    if (supersededByPass.has(state.taskId)) continue;
+    verifyPassSnapshot(repo, state);
+    checked += 1;
+    console.log(`[SKILL_TASK_GATE:OK] ${state.taskId} PASS`);
+  }
+  console.log(`[SKILL_TASK_GATE:OK] verify-all — 유효 PASS ${checked}개, superseded ${supersededByPass.size}개`);
 }
 
 const [command, ...rest] = process.argv.slice(2);
@@ -277,6 +301,10 @@ const args = parseArgs(rest);
 if (!command || args.help) { printUsage(); process.exit(command ? 0 : 1); }
 const repo = path.resolve(args.repo || SCRIPT_ROOT);
 if (!fs.existsSync(path.join(repo, '.git'))) die('E_REPO', `git 저장소가 아니다: ${repo}`);
+if (command === 'verify-all') {
+  verifyAll(repo);
+  process.exit(0);
+}
 const taskId = normalizeTaskId(args.taskId);
 const file = statePath(repo, taskId);
 

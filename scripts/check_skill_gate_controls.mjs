@@ -294,7 +294,7 @@ for (const [name, outOfScope, expect, expectText, opts] of [
 {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'dev_game', 'package.json'), 'utf8'));
   const chain = pkg.scripts?.['factory:qa'] || '';
-  for (const required of ['factory:skill-task-gate-qa', 'factory:cli-parity']) {
+  for (const required of ['factory:skill-task-gate-qa', 'factory:cli-parity', 'factory:skill-task-gate-verify']) {
     if (!chain.includes(required)) {
       console.error(`gate controls failed: factory:qa 체인에 ${required}가 없다`);
       process.exit(1);

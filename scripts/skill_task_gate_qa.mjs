@@ -202,6 +202,13 @@ try {
     detail: 'supersededDrift must record which approved paths changed',
     output: JSON.stringify(successor.supersededDrift) });
 
+  // verify-all: task-id 없이 저장소의 모든 유효 PASS를 검증한다. 체인에 넣을 수 있는 유일한
+  // 형태다 — 이것이 없어서 저장소 자신의 PASS drift가 조용히 남았다.
+  // green은 깨끗한 PASS를 가진 normal 저장소에서. drifted 저장소는 successor가 아직 PASS가
+  // 아니므로 first-task가 superseded로 취급되지 않고, 이미 drift 상태다 — 그대로 RED 케이스다.
+  expect('normal/verify-all-green', invoke(normal, ['verify-all']), 0, 'verify-all — 유효 PASS 1개');
+  expect('drifted/verify-all-drift', invoke(drifted, ['verify-all']), 1, 'E_PASS_DRIFT');
+
   // 2. 단계 건너뛰기 RED + 5. 미완료 상태에서 새 작업 RED
   const order = makeRepo('order');
   expect('order/start', invoke(order, ['start', '--task-id', 'order-task', '--implementer', 'worker-a',
@@ -244,7 +251,7 @@ for (const item of results) {
 }
 // 개수를 세어 출력만 하면 검사를 지워도 "OK"가 나온다. 실측(2026-08-17): 9개를 지워도 통과했다.
 // 기대 개수를 고정해, 대조군이 사라지는 것 자체를 RED로 만든다.
-const EXPECTED_ASSERTIONS = 31;
+const EXPECTED_ASSERTIONS = 33;
 if (results.length !== EXPECTED_ASSERTIONS) {
   console.error(`skill task gate QA: 대조군 개수가 ${EXPECTED_ASSERTIONS}개가 아니다 (실제 ${results.length}개)`);
   console.error('대조군을 늘렸다면 EXPECTED_ASSERTIONS를 함께 올릴 것. 줄었다면 왜 사라졌는지 확인할 것.');
