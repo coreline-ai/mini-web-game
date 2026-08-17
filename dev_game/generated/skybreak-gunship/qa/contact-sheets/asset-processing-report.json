@@ -1,0 +1,326 @@
+{
+  "backgrounds": [
+    {
+      "source": "assets/_source/city-approach-raw.png",
+      "runtime": "assets/backgrounds/city-approach.webp",
+      "source_size": [
+        862,
+        1824
+      ],
+      "runtime_size": [
+        1440,
+        3120
+      ]
+    },
+    {
+      "source": "assets/_source/city-conflict-raw.png",
+      "runtime": "assets/backgrounds/city-conflict.webp",
+      "source_size": [
+        863,
+        1822
+      ],
+      "runtime_size": [
+        1440,
+        3120
+      ]
+    },
+    {
+      "source": "assets/_source/bridge-extraction-raw.png",
+      "runtime": "assets/backgrounds/bridge-extraction.webp",
+      "source_size": [
+        852,
+        1846
+      ],
+      "runtime_size": [
+        1440,
+        3120
+      ]
+    }
+  ],
+  "sprites": [
+    {
+      "id": "enemy-rifleman",
+      "path": "assets/images/enemy-rifleman.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2085,
+      "alpha_bbox": [
+        189,
+        54,
+        579,
+        714
+      ]
+    },
+    {
+      "id": "enemy-rocketman",
+      "path": "assets/images/enemy-rocketman.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2212,
+      "alpha_bbox": [
+        194,
+        54,
+        574,
+        714
+      ]
+    },
+    {
+      "id": "enemy-drone",
+      "path": "assets/images/enemy-drone.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.1921,
+      "alpha_bbox": [
+        54,
+        315,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "enemy-apc",
+      "path": "assets/images/enemy-apc.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.3727,
+      "alpha_bbox": [
+        54,
+        150,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-rescue-truck",
+      "path": "assets/images/friendly-rescue-truck.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.4165,
+      "alpha_bbox": [
+        54,
+        125,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-civilians",
+      "path": "assets/images/friendly-civilians.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.367,
+      "alpha_bbox": [
+        54,
+        128,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "hero-gunship",
+      "path": "assets/images/hero-gunship.png",
+      "size": [
+        1504,
+        890
+      ],
+      "alpha_bbox": [
+        48,
+        48,
+        1456,
+        841
+      ]
+    },
+    {
+      "id": "boss-helicopter",
+      "path": "assets/images/boss-helicopter.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2226,
+      "alpha_bbox": [
+        54,
+        108,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-helicopter-damaged",
+      "path": "assets/images/boss-helicopter-damaged.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2205,
+      "alpha_bbox": [
+        54,
+        114,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-missile-pod",
+      "path": "assets/images/boss-missile-pod.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.4488,
+      "alpha_bbox": [
+        77,
+        54,
+        690,
+        714
+      ]
+    },
+    {
+      "id": "enemy-missile",
+      "path": "assets/images/enemy-missile.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2576,
+      "alpha_bbox": [
+        54,
+        59,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-guided-missile",
+      "path": "assets/images/friendly-guided-missile.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2447,
+      "alpha_bbox": [
+        54,
+        54,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-debris",
+      "path": "assets/images/boss-debris.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2048,
+      "alpha_bbox": [
+        54,
+        298,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "ui-tactical-button",
+      "path": "assets/images/ui-tactical-button.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2762,
+      "alpha_bbox": [
+        54,
+        284,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "ui-pause",
+      "path": "assets/images/ui-pause.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.5715,
+      "alpha_bbox": [
+        55,
+        54,
+        713,
+        714
+      ]
+    },
+    {
+      "id": "fx-impact",
+      "path": "assets/images/fx-impact.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.0937,
+      "alpha_bbox": [
+        54,
+        139,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "fx-explosion",
+      "path": "assets/images/fx-explosion.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.4225,
+      "alpha_bbox": [
+        54,
+        116,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "ui-lock",
+      "path": "assets/images/ui-lock.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.0748,
+      "alpha_bbox": [
+        54,
+        198,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "fx-support-badge",
+      "path": "assets/images/fx-support-badge.png",
+      "size": [
+        768,
+        768
+      ],
+      "opaque_ratio": 0.2091,
+      "alpha_bbox": [
+        54,
+        331,
+        714,
+        714
+      ]
+    }
+  ]
+}

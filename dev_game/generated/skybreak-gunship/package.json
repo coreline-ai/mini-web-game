@@ -1,0 +1,23 @@
+{
+  "name": "skybreak-gunship",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5187 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:rules": "node qa/logic-qa.mjs",
+    "test:lifecycle": "node qa/lifecycle-soak-qa.mjs",
+    "test:combat": "node qa/combat-systems-qa.mjs"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

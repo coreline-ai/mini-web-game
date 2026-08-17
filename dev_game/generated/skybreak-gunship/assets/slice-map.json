@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "processor": "scripts/process_assets.py",
+  "outputCanvas": [768, 768],
+  "anchorPolicy": "bottom-center with 54 px minimum padding",
+  "sheets": [
+    {
+      "source": "assets/_source/core-entities-magenta.png",
+      "layout": [3, 2],
+      "sourceSize": [1536, 1024],
+      "items": [
+        { "id": "enemy-rifleman", "cell": [0, 0] },
+        { "id": "enemy-rocketman", "cell": [1, 0], "cropOverride": [512, 0, 930, 512] },
+        { "id": "enemy-drone", "cell": [2, 0], "cropOverride": [900, 0, 1536, 512] },
+        { "id": "enemy-apc", "cell": [0, 1] },
+        { "id": "friendly-rescue-truck", "cell": [1, 1] },
+        { "id": "friendly-civilians", "cell": [2, 1] }
+      ]
+    },
+    {
+      "source": "assets/_source/boss-projectiles-magenta.png",
+      "layout": [3, 2],
+      "sourceSize": [1536, 1024],
+      "items": [
+        { "id": "boss-helicopter", "cell": [0, 0] },
+        { "id": "boss-helicopter-damaged", "cell": [1, 0] },
+        { "id": "boss-missile-pod", "cell": [2, 0] },
+        { "id": "enemy-missile", "cell": [0, 1] },
+        { "id": "friendly-guided-missile", "cell": [1, 1], "cropOverride": [512, 512, 940, 1024] },
+        { "id": "boss-debris", "cell": [2, 1], "cropOverride": [940, 512, 1536, 1024] }
+      ]
+    },
+    {
+      "source": "assets/_source/ui-fx-magenta.png",
+      "layout": [3, 2],
+      "sourceSize": [1536, 1024],
+      "items": [
+        { "id": "ui-tactical-button", "cell": [0, 0], "cropOverride": [0, 0, 620, 512] },
+        { "id": "ui-pause", "cell": [1, 0], "cropOverride": [620, 0, 1024, 512] },
+        { "id": "fx-impact", "cell": [2, 0] },
+        { "id": "fx-explosion", "cell": [0, 1] },
+        { "id": "ui-lock", "cell": [1, 1], "cropOverride": [512, 512, 960, 1024] },
+        { "id": "fx-support-badge", "cell": [2, 1], "cropOverride": [960, 512, 1536, 1024] }
+      ]
+    }
+  ]
+}

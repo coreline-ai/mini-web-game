@@ -1,0 +1,55 @@
+{
+  "gameId": "skybreak-gunship",
+  "title": "Skybreak Gunship",
+  "canvas": { "width": 390, "height": 844, "maxDpr": 3 },
+  "qualityTier": "production-candidate",
+  "styleGuide": {
+    "medium": "premium stylized 3D military rescue mobile render",
+    "camera": "high-oblique gunship view with a clear central combat corridor",
+    "proportions": "realistic and readable, never chibi or toy-like",
+    "palette": {
+      "world": ["#071725", "#19384f", "#637b89"],
+      "friendly": ["#31d6ff", "#e8f5ff"],
+      "hostile": ["#ff4b45", "#8c2025"],
+      "warning": ["#ffb43b"]
+    },
+    "ownership": "backgrounds contain environment only; every target, convoy, projectile, marker, FX, and text is runtime-owned"
+  },
+  "artboards": [
+    {
+      "id": "game",
+      "path": "assets/artboards/game.png",
+      "status": "approved-composition-reference",
+      "source": "assets/_source/game-artboard-raw.png"
+    }
+  ],
+  "backgrounds": [
+    { "id": "city-approach", "path": "assets/backgrounds/city-approach.webp", "size": [1440, 3120], "missionWindow": [0, 30] },
+    { "id": "city-conflict", "path": "assets/backgrounds/city-conflict.webp", "size": [1440, 3120], "missionWindow": [30, 65] },
+    { "id": "bridge-extraction", "path": "assets/backgrounds/bridge-extraction.webp", "size": [1440, 3120], "missionWindow": [65, 100] }
+  ],
+  "runtimeSprites": {
+    "sourceCanvas": [768, 768],
+    "hostiles": ["enemy-rifleman", "enemy-rocketman", "enemy-drone", "enemy-apc", "boss-helicopter", "boss-helicopter-damaged"],
+    "friendlies": ["friendly-rescue-truck", "friendly-civilians"],
+    "projectilesAndParts": ["boss-missile-pod", "enemy-missile", "friendly-guided-missile", "boss-debris"],
+    "home": ["hero-gunship"]
+  },
+  "uiPolicy": {
+    "panels": "code-rendered glass/metal panels",
+    "reticle": "code-rendered cyan corner brackets and center dot",
+    "markers": "shape plus color: red diamond hostile, cyan shield friendly, white rescue bracket civilian",
+    "text": "runtime text only; no baked labels"
+  },
+  "remainingArt": [
+    "Home/Pause/Result/GameOver artboard references",
+    "30mm impact and explosion FX sheet",
+    "dedicated marker/icon sheet if code-rendered shapes fail readability QA"
+  ],
+  "provenance": {
+    "tool": "image_gen.imagegen",
+    "generatedOn": "2026-07-12",
+    "postProcess": "scripts/process_assets.py",
+    "manifestBuilder": "scripts/build_asset_manifest.py"
+  }
+}

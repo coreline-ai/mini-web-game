@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "viewports": [
+    { "width": 390, "height": 844, "dpr": 2 },
+    { "width": 430, "height": 932, "dpr": 3 },
+    { "width": 1080, "height": 1920, "dpr": 1 }
+  ],
+  "states": [
+    { "id": "loading", "expectedScene": "Loading", "requiredIds": ["loading"] },
+    { "id": "home", "expectedScene": "Home", "requiredIds": ["title", "play", "sound"] },
+    { "id": "briefing", "expectedScene": "Briefing", "requiredIds": ["launch"] },
+    { "id": "approach", "expectedScene": "Game", "requiredIds": ["score", "time", "convoy", "heat", "pause", "gun", "missile"] },
+    { "id": "gun-hit", "expectedScene": "Game", "requiredIds": ["score", "heat", "gun"] },
+    { "id": "missile-lock", "expectedScene": "Game", "requiredIds": ["time", "missile"] },
+    { "id": "escort", "expectedScene": "Game", "requiredIds": ["convoy", "gun", "missile"] },
+    { "id": "apc-part-break", "expectedScene": "Game", "requiredIds": ["score", "convoy", "heat"] },
+    { "id": "boss", "expectedScene": "Game", "requiredIds": ["time", "convoy", "pause"] },
+    { "id": "pause", "expectedScene": "Pause", "requiredIds": ["paused", "home"] },
+    { "id": "result", "expectedScene": "Result", "requiredIds": ["retry", "home"], "terminal": "win" },
+    { "id": "gameover", "expectedScene": "GameOver", "requiredIds": ["retry", "home"], "terminal": "loss" }
+  ]
+}

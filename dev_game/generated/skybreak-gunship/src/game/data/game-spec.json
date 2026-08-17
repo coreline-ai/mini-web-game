@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "skybreak-gunship",
+    "title": "SKYBREAK GUNSHIP",
+    "subtitle": "OPERATION SKYBRIDGE",
+    "description": "Precision gunship support over a civilian evacuation corridor.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": { "width": 390, "height": 844, "backgroundColor": "#07131e", "scaleMode": "fit", "maxDpr": 3 },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "production-demo",
+  "runtimeConfig": "src/game/config/gameRules.js",
+  "requiredAssetRoles": ["stage-background", "player", "enemy", "vehicle", "boss", "projectile", "ui-icon", "feedback"],
+  "captureMatrix": "qa/capture-matrix.json",
+  "rules": {
+    "durationSeconds": 90,
+    "goal": "boss-defeated-and-convoy-survives",
+    "progressMetric": "mission-seconds-and-boss-hp",
+    "requiredObjectives": ["medical-convoy", "civilian-corridor"],
+    "failConditions": ["convoy-destroyed", "three-civilian-strikes", "hard-timeout"],
+    "commands": [
+      { "id": "aim", "label": "AIM", "input": "playfield drag" },
+      { "id": "gun", "label": "30MM GUN", "input": "button hold" },
+      { "id": "missile", "label": "MISSILE", "input": "button hold 650ms then release" }
+    ]
+  },
+  "session": { "durationSeconds": 90, "hardTimeoutSeconds": 100 },
+  "weapon": {
+    "gun": { "rateMs": 100, "damage": 12, "heatPerShot": 4, "coolPerSecond": 24, "overheatAt": 100, "readyAt": 40 },
+    "missile": { "ammo": 4, "lockMs": 650, "cooldownMs": 2800, "damage": 180, "blastRadius": 54 }
+  },
+  "convoy": { "maxHp": 1000 },
+  "scoring": { "highScoreLocalStorageKey": "skybreak-gunship_best" },
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "start": "audio/ui_click.wav",
+      "gun": "audio/gun_30mm.wav",
+      "gunOverheat": "audio/gun_overheat.wav",
+      "gunReady": "audio/gun_ready.wav",
+      "missileLockTick": "audio/missile_lock_tick.wav",
+      "missileLockComplete": "audio/missile_lock_complete.wav",
+      "missileLaunch": "audio/missile_launch.wav",
+      "impactMetal": "audio/impact_metal.wav",
+      "explosionSmall": "audio/explosion_small.wav",
+      "explosionLarge": "audio/explosion_large.wav",
+      "convoyHit": "audio/convoy_hit.wav",
+      "civilianWarning": "audio/civilian_warning.wav",
+      "bossPhase": "audio/boss_phase.wav",
+      "missionClear": "audio/mission_clear.wav",
+      "missionFailed": "audio/mission_failed.wav"
+    },
+    "music": {
+      "home": "audio/home_command_ambient.wav",
+      "gameplay": "audio/gunship_mission_loop.wav",
+      "rotor": "audio/rotor_interior_loop.wav",
+      "boss": "audio/boss_intercept_layer.wav"
+    }
+  },
+  "performance": { "targetFps": 60, "pauseWhenHidden": true }
+}

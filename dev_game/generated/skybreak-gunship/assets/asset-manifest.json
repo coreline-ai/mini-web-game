@@ -1,0 +1,1187 @@
+{
+  "assetsVersion": "2.0.0",
+  "qualityTier": "production-demo",
+  "gameId": "skybreak-gunship",
+  "imagePolicy": {
+    "allowedFormats": [
+      "png",
+      "webp"
+    ],
+    "backgroundRuntimeSize": [
+      1440,
+      3120
+    ],
+    "spriteSourceSize": [
+      768,
+      768
+    ],
+    "requireAlphaForSprites": true,
+    "minTouchUiSize": 44
+  },
+  "imagegen": {
+    "method": "codex-gpt-imagegen-skill",
+    "model": "openai-builtin-image_gen (version opaque)",
+    "sourceSkill": "imagegen",
+    "toolMode": "built-in",
+    "generatedFor": "skybreak-gunship"
+  },
+  "artboards": [
+    {
+      "id": "home-artboard",
+      "path": "assets/artboards/home.png",
+      "type": "sprite",
+      "role": "artboard",
+      "width": 853,
+      "height": 1844,
+      "format": "png",
+      "mode": "RGB",
+      "bytes": 2027763,
+      "sha256": "2ae8d3feb32d02608d92b9184ebcab03bf2c45e28353c8e0a31f2ccae3d0c465",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "2ae8d3feb32d0260",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/home-artboard-raw.png",
+        "postProcess": "scripts/process_assets.py"
+      }
+    },
+    {
+      "id": "game-artboard",
+      "path": "assets/artboards/game.png",
+      "type": "sprite",
+      "role": "artboard",
+      "width": 853,
+      "height": 1844,
+      "format": "png",
+      "mode": "RGB",
+      "bytes": 2380378,
+      "sha256": "f2352690a936bbff9905a845135191906cb34dc30ff52e7a65ac4f75c55291a7",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "f2352690a936bbff",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/game-artboard-raw.png",
+        "postProcess": "scripts/process_assets.py"
+      }
+    },
+    {
+      "id": "boss-artboard",
+      "path": "assets/artboards/boss.png",
+      "type": "sprite",
+      "role": "artboard",
+      "width": 853,
+      "height": 1844,
+      "format": "png",
+      "mode": "RGB",
+      "bytes": 2252296,
+      "sha256": "879e707cd996bd04e751de902ea8f11705cbf3a23099a5cc4eb9bcffb6cc48a1",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "879e707cd996bd04",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-artboard-raw.png",
+        "postProcess": "scripts/process_assets.py"
+      }
+    },
+    {
+      "id": "pause-artboard",
+      "path": "assets/artboards/pause.png",
+      "type": "sprite",
+      "role": "artboard",
+      "width": 852,
+      "height": 1846,
+      "format": "png",
+      "mode": "RGB",
+      "bytes": 1816483,
+      "sha256": "369fc35fab0b56511db8fdf6d47439b773cdd55e9d6e8ff1ae86f6fd85e7a918",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "369fc35fab0b5651",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/pause-artboard-raw.png",
+        "postProcess": "scripts/process_assets.py"
+      }
+    },
+    {
+      "id": "result-artboard",
+      "path": "assets/artboards/result.png",
+      "type": "sprite",
+      "role": "artboard",
+      "width": 852,
+      "height": 1846,
+      "format": "png",
+      "mode": "RGB",
+      "bytes": 2092076,
+      "sha256": "11b1b0bd9bc60ab0f7bc834ec5b1cef566eb788ae7eeed122ae3ef476ea2bd98",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "11b1b0bd9bc60ab0",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/result-artboard-raw.png",
+        "postProcess": "scripts/process_assets.py"
+      }
+    }
+  ],
+  "sceneFirst": {
+    "artboards": [
+      "assets/artboards/home.png",
+      "assets/artboards/game.png",
+      "assets/artboards/boss.png",
+      "assets/artboards/pause.png",
+      "assets/artboards/result.png"
+    ],
+    "sliceMap": "assets/slice-map.json",
+    "contactSheets": [
+      "qa/contact-sheets/core-entities-magenta-processed.png",
+      "qa/contact-sheets/boss-projectiles-magenta-processed.png",
+      "qa/contact-sheets/ui-fx-magenta-processed.png"
+    ]
+  },
+  "stageBackgrounds": [
+    {
+      "id": "city-approach",
+      "path": "assets/backgrounds/city-approach.webp",
+      "type": "background",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 3120,
+      "format": "webp",
+      "mode": "RGB",
+      "bytes": 366802,
+      "sha256": "12983a07a8a7c0ba8ec9d7e91ce42b7329bb09cda6f10871f97a384d657993af",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "0beb8c91426aa1f0",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/city-approach-raw.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      }
+    },
+    {
+      "id": "city-conflict",
+      "path": "assets/backgrounds/city-conflict.webp",
+      "type": "background",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 3120,
+      "format": "webp",
+      "mode": "RGB",
+      "bytes": 369342,
+      "sha256": "ba5ed2fd9f73209632a2d65e8fb93817e719d095d3b84b3fffbd7d8263ebceee",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d5d75fe3bc22e2f9",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/city-conflict-raw.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      }
+    },
+    {
+      "id": "bridge-extraction",
+      "path": "assets/backgrounds/bridge-extraction.webp",
+      "type": "background",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 3120,
+      "format": "webp",
+      "mode": "RGB",
+      "bytes": 371550,
+      "sha256": "a2d2635f3b6f250d0642aef17f21635199a566c7e9527976d4340e055a5eb519",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "811b241e16522ddf",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/bridge-extraction-raw.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      }
+    }
+  ],
+  "images": [
+    {
+      "id": "enemy-rifleman",
+      "path": "assets/images/enemy-rifleman.png",
+      "type": "sprite",
+      "role": "enemy",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 283404,
+      "sha256": "4080de718317f9afe8b69fda76db7ce2266a3c9216fb5cf29bb3feeb9c9df900",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        189,
+        54,
+        579,
+        714
+      ]
+    },
+    {
+      "id": "enemy-rocketman",
+      "path": "assets/images/enemy-rocketman.png",
+      "type": "sprite",
+      "role": "enemy",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 297279,
+      "sha256": "b9865f8ad94531e5ec8e27384420e2eb85820596a50bae7523465550915a9b8e",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        194,
+        54,
+        574,
+        714
+      ]
+    },
+    {
+      "id": "enemy-drone",
+      "path": "assets/images/enemy-drone.png",
+      "type": "sprite",
+      "role": "enemy",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 320249,
+      "sha256": "c1c69ce8b308c765a660602ede254edd8c2aa864e7a38a6ad2ecbe74b6fcc9f7",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        315,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "enemy-apc",
+      "path": "assets/images/enemy-apc.png",
+      "type": "sprite",
+      "role": "vehicle",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 483895,
+      "sha256": "124abc6fef4843c875421f86d1a81abedb525a8a1b8a33de0223387a888aefac",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        150,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-rescue-truck",
+      "path": "assets/images/friendly-rescue-truck.png",
+      "type": "sprite",
+      "role": "vehicle",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 513323,
+      "sha256": "5c576e16111632a4b02dcdae3118d54fe0b6d0c3299e24bfe94947f179665e84",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        125,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-civilians",
+      "path": "assets/images/friendly-civilians.png",
+      "type": "sprite",
+      "role": "target",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 433962,
+      "sha256": "e92ced83de170e61c91395b95465149f041c636ed12055993adfcba7ce746e92",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "b3050de933037e43",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/core-entities-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        128,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-helicopter",
+      "path": "assets/images/boss-helicopter.png",
+      "type": "sprite",
+      "role": "boss",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 385169,
+      "sha256": "6f2f376ae4c6da50e7b94ccebcde51741d3a9d8c283e18a6ab3c419b3f333914",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        108,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-helicopter-damaged",
+      "path": "assets/images/boss-helicopter-damaged.png",
+      "type": "sprite",
+      "role": "boss",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 383823,
+      "sha256": "be01199b5368e3ab7d5c23b251f19beca258e3b35d87fb0e4bf1105a2dda0fe2",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        114,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-missile-pod",
+      "path": "assets/images/boss-missile-pod.png",
+      "type": "sprite",
+      "role": "target",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 533533,
+      "sha256": "ae22ce3948ecdaf4a966345826c2d0d5e5d5033928278549305768cbf69f724b",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        77,
+        54,
+        690,
+        714
+      ]
+    },
+    {
+      "id": "enemy-missile",
+      "path": "assets/images/enemy-missile.png",
+      "type": "sprite",
+      "role": "projectile",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 355249,
+      "sha256": "9a9cf74c2005d297a36b6ad9501ac37ef6a8c309254286f506ea81f622cee023",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        59,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "friendly-guided-missile",
+      "path": "assets/images/friendly-guided-missile.png",
+      "type": "sprite",
+      "role": "projectile",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 322087,
+      "sha256": "7f720c6bc2ea894ff8d04fddc36f1ecc38898d8d0a0faaaeb38db5a892f85919",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        54,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "boss-debris",
+      "path": "assets/images/boss-debris.png",
+      "type": "sprite",
+      "role": "feedback",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 343215,
+      "sha256": "a9b64b4bbcf0bdca32c98b00725f1a0738331affd81513330999e349a45e3e9b",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "cf9cd047c5a9f9a8",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/boss-projectiles-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        298,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "hero-gunship",
+      "path": "assets/images/hero-gunship.png",
+      "type": "sprite",
+      "role": "player",
+      "width": 1504,
+      "height": 890,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 1141925,
+      "sha256": "4ec7063eabfe6fc64fc44c1050055a933030a27941514645b2e54faae8030aef",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "367e18cd1b87b66b",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/hero-gunship-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        48,
+        48,
+        1456,
+        841
+      ]
+    },
+    {
+      "id": "ui-tactical-button",
+      "path": "assets/images/ui-tactical-button.png",
+      "type": "sprite",
+      "role": "button",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 236682,
+      "sha256": "c0269cc234fdb4f52c8688ca7c8a0a298b6f94ed9aaa11722528c2b33fb58ca7",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        284,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "ui-pause",
+      "path": "assets/images/ui-pause.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 544433,
+      "sha256": "86f3c339a353fc38a02a6ef559cb9d4cfc2fd711d8bc9bef8a456bc44305004f",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        55,
+        54,
+        713,
+        714
+      ]
+    },
+    {
+      "id": "fx-impact",
+      "path": "assets/images/fx-impact.png",
+      "type": "sprite",
+      "role": "feedback",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 188894,
+      "sha256": "4d744bdf854b1079b9f6950ad4f7ba5400894d5ed71781cf2fc83bf599e18944",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        139,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "fx-explosion",
+      "path": "assets/images/fx-explosion.png",
+      "type": "sprite",
+      "role": "feedback",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 535541,
+      "sha256": "f93345b58e2295e0950f975d776d876baacdc49ce397f598177b976e3b51550e",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        116,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "ui-lock",
+      "path": "assets/images/ui-lock.png",
+      "type": "sprite",
+      "role": "ui-icon",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 95007,
+      "sha256": "fbddb15078273955b897e57d206913630a9c9c1ec17af7a8e5e2cb751a11078e",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        198,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "fx-support-badge",
+      "path": "assets/images/fx-support-badge.png",
+      "type": "sprite",
+      "role": "feedback",
+      "width": 768,
+      "height": 768,
+      "format": "png",
+      "mode": "RGBA",
+      "bytes": 290723,
+      "sha256": "75540b84c276b596a2300829348c692b1bb55f9c550456ed0160b6d76aae6620",
+      "quality": "production-demo",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "codex-gpt-imagegen-skill",
+        "model": "openai-builtin-image_gen (version opaque)",
+        "sourceSkill": "imagegen",
+        "promptHash": "d468dd6cb400a5f4",
+        "tool": "image_gen.imagegen",
+        "generatedOn": "2026-07-12",
+        "rawPath": "assets/_source/ui-fx-magenta.png",
+        "postProcess": "scripts/process_assets.py",
+        "provenanceVersion": "legacy-1"
+      },
+      "requiresAlpha": true,
+      "alphaBBox": [
+        54,
+        331,
+        714,
+        714
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "id": "boss_intercept_layer",
+      "path": "assets/audio/boss_intercept_layer.wav",
+      "type": "bgm",
+      "bytes": 352844,
+      "sha256": "214b1c2eb10807d983c4c2da3e87b6899bf20f289af8899b22a506028733242a",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "boss_phase",
+      "path": "assets/audio/boss_phase.wav",
+      "type": "sfx",
+      "bytes": 39734,
+      "sha256": "582709f6b0074f71306285acfe4f0198c996304f3e8ac2ff2fef15aa0fb96057",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "civilian_warning",
+      "path": "assets/audio/civilian_warning.wav",
+      "type": "sfx",
+      "bytes": 28708,
+      "sha256": "ed151858d56371d340726ba17da90fac08f26d0d676b0ed71a007f0be13a5339",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "collect",
+      "path": "assets/audio/collect.wav",
+      "type": "sfx",
+      "bytes": 15478,
+      "sha256": "de21ef026987370ce03a3184ccd1256138b054ed7cad30745e9dad3c4675ee5d",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "foundation-procedural-audio",
+        "replacementRequired": true
+      }
+    },
+    {
+      "id": "convoy_hit",
+      "path": "assets/audio/convoy_hit.wav",
+      "type": "sfx",
+      "bytes": 18566,
+      "sha256": "ce88e610af78b494929b8f08d2b7a21637931dba174c3795dc81de6bdbc4b5ff",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "explosion_large",
+      "path": "assets/audio/explosion_large.wav",
+      "type": "sfx",
+      "bytes": 55168,
+      "sha256": "408d36b0b610f48fec9ce2ff18097967c17b14f040f249d4e0d64fdf6f1733ac",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "explosion_small",
+      "path": "assets/audio/explosion_small.wav",
+      "type": "sfx",
+      "bytes": 34442,
+      "sha256": "34ea87a051773444271c4738ea2e5885c8bee6b15ce36490ecdc129119f153c2",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "game_loop",
+      "path": "assets/audio/game_loop.wav",
+      "type": "bgm",
+      "bytes": 352844,
+      "sha256": "e16995a1a73e9b43bc693e3abdfce4c0f2b651628b1a65ec190fddeaa3ae2437",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "foundation-procedural-audio",
+        "replacementRequired": true
+      }
+    },
+    {
+      "id": "game_over",
+      "path": "assets/audio/game_over.wav",
+      "type": "sfx",
+      "bytes": 39734,
+      "sha256": "b0ae427f9328b7d6f02a0322fe2e30b9f878cff980c4aa04467a841f3760f9ce",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "foundation-procedural-audio",
+        "replacementRequired": true
+      }
+    },
+    {
+      "id": "gun_30mm",
+      "path": "assets/audio/gun_30mm.wav",
+      "type": "sfx",
+      "bytes": 15038,
+      "sha256": "40f3569691c1773a8ba0a4b50eae72922e6c852d30e9ae6d3a30c1740a9cb1e0",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "gun_overheat",
+      "path": "assets/audio/gun_overheat.wav",
+      "type": "sfx",
+      "bytes": 27386,
+      "sha256": "bf6ccb93f108ce8f396d78e43293f591e2f0677d79905c20d92fe888ae7ced50",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "gun_ready",
+      "path": "assets/audio/gun_ready.wav",
+      "type": "sfx",
+      "bytes": 15038,
+      "sha256": "d2e01d1b5074d1b6a57b90b32d152789fd2d193401c775f08943f45320398c51",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "gunship_mission_loop",
+      "path": "assets/audio/gunship_mission_loop.wav",
+      "type": "bgm",
+      "bytes": 529244,
+      "sha256": "25e5c50a20176e95ea6da1a860a5cf8bfc5cc1a8a2229c75c558b056d8981633",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "hit",
+      "path": "assets/audio/hit.wav",
+      "type": "sfx",
+      "bytes": 18566,
+      "sha256": "04c62da773f863eb33e80660ee30a7727f8afd5579f3926ebaad939b3b2e81a8",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "foundation-procedural-audio",
+        "replacementRequired": true
+      }
+    },
+    {
+      "id": "home_command_ambient",
+      "path": "assets/audio/home_command_ambient.wav",
+      "type": "bgm",
+      "bytes": 352844,
+      "sha256": "f6641461c05c716258fead267b7a67938ca723bf61d32cd532ac13c16ea9ff97",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "impact_metal",
+      "path": "assets/audio/impact_metal.wav",
+      "type": "sfx",
+      "bytes": 11510,
+      "sha256": "14c65ed84054c2e52e2a91637b83fe9c5cf885875b78f8d793aed750bdcc447d",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "missile_launch",
+      "path": "assets/audio/missile_launch.wav",
+      "type": "sfx",
+      "bytes": 32678,
+      "sha256": "f4939b0e20bde110873de40e309bacbc40e787288d51c576e2de0f21ec30d543",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "missile_lock_complete",
+      "path": "assets/audio/missile_lock_complete.wav",
+      "type": "sfx",
+      "bytes": 18566,
+      "sha256": "c8a238cadba02d26159af38af869aa7f5a219652725d6b9aefff993b30817179",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "missile_lock_tick",
+      "path": "assets/audio/missile_lock_tick.wav",
+      "type": "sfx",
+      "bytes": 6218,
+      "sha256": "8885f688544cadb83d95efe496fc0d98da050eeac0b205ca16495e21ff31f69b",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "mission_clear",
+      "path": "assets/audio/mission_clear.wav",
+      "type": "sfx",
+      "bytes": 66194,
+      "sha256": "70d51b9c77d23135ef9cbe3612bbee0de75d5a324ff3aa3f1facbf3dabdd0291",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "mission_failed",
+      "path": "assets/audio/mission_failed.wav",
+      "type": "sfx",
+      "bytes": 57374,
+      "sha256": "4c33945fb5378829649d22deab95220ead0809ed5fb599db76bff888b856a755",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "rotor_interior_loop",
+      "path": "assets/audio/rotor_interior_loop.wav",
+      "type": "bgm",
+      "bytes": 176444,
+      "sha256": "14a4bee56649afcabe9d2f57d73977ac7d5b56bc219cf79eaa971bbee6528864",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "project-audio-synthesis",
+        "replacementRequired": false
+      }
+    },
+    {
+      "id": "ui_click",
+      "path": "assets/audio/ui_click.wav",
+      "type": "ui",
+      "bytes": 4894,
+      "sha256": "e66dd66a9e4eb9664319c797926881c646b212835a0d4b9095cca389952003e6",
+      "provenance": {
+        "source": "generated-for-game",
+        "generatedFor": "skybreak-gunship",
+        "method": "foundation-procedural-audio",
+        "replacementRequired": false
+      }
+    }
+  ],
+  "assetPlan": "asset-plan.json",
+  "sliceMap": "assets/slice-map.json",
+  "assetIsolation": {
+    "mode": "per-game",
+    "generatedFor": "skybreak-gunship",
+    "noSharedRuntimeAssets": true
+  }
+}
