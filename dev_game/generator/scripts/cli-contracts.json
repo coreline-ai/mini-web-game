@@ -201,6 +201,30 @@
           "arity": 0
         }
       }
+    },
+    "factory:asset-plan-recover": {
+      "requiredAll": [
+        "--project"
+      ],
+      "requiredOneOf": [],
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "-h": {
+          "arity": 0
+        },
+        "--project": {
+          "arity": 1,
+          "type": "path"
+        },
+        "--force": {
+          "arity": 0
+        },
+        "--allow-missing-prompts": {
+          "arity": 0
+        }
+      }
     }
   }
 }

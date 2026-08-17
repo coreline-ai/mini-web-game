@@ -607,18 +607,49 @@ function autocropResize(file, targetW, targetH, padRatio = 0, { crop = true } = 
   return r.status === 0;
 }
 
+/**
+ * 생성 대상 항목에 프롬프트가 없으면 멈춘다.
+ *
+ * 프롬프트는 문자열 연결로 쓰인다 — `${sp.prompt} Flat solid pure-magenta ...`. 빈 값이면
+ * 크로마키 보일러플레이트만으로 이미지를 만들고, 그 결과를 production provenance로 기록한다.
+ * 복원된 계획은 프롬프트가 비어 있을 수 있으므로(원문이 소실된 세대) 여기서 반드시 막는다.
+ */
+function assertPlanPrompts(plan) {
+  const missing = [];
+  for (const bucket of ['backgrounds', 'sprites', 'ui', 'fx']) {
+    for (const entry of plan[bucket] || []) {
+      if (typeof entry.prompt !== 'string' || !entry.prompt.trim()) missing.push(`${bucket}/${entry.id}`);
+    }
+  }
+  if (missing.length) {
+    throw new Error(`asset-plan에 프롬프트가 없는 항목이 있다: ${missing.join(', ')}\n`
+      + '  빈 프롬프트로 생성하면 보일러플레이트만으로 만든 이미지가 production 자산으로 기록된다.\n'
+      + '  해당 항목의 prompt를 작성한 뒤 다시 실행할 것.');
+  }
+}
+
 function main() {
   const args = parseCliArgs(process.argv.slice(2));
   if (args.help) { usage(); process.exit(0); }
   const projectDir = path.resolve(args.project);
   const planFile = path.join(projectDir, 'asset-plan.json');
   const manifestFile = path.join(projectDir, 'assets/asset-manifest.json');
-  if (!fs.existsSync(planFile)) throw new Error(`asset-plan.json missing — run productionize.mjs first: ${planFile}`);
+  if (!fs.existsSync(planFile)) {
+    // 이전 문구는 "run productionize.mjs first"였다. 이미 출시된 게임에는 **틀린 조언**이다 —
+    // productionize는 기획 문서(docs/01~05)를 다시 쓰므로 손으로 고친 내용이 사라진다
+    // (make-game이 그 경고를 직접 출력한다). 자산 하나를 다시 만들려다 문서를 잃는 것은
+    // 고치는 것이 아니다. 계획만 복원하는 경로를 가리킨다.
+    throw new Error(`asset-plan.json missing: ${planFile}\n`
+      + '  이 게임은 asset-plan 규약 이전 세대다. manifest에서 계획을 복원할 것:\n'
+      + `    npm --prefix dev_game run factory:asset-plan-recover -- --project ${args.project}\n`
+      + '  productionize.mjs는 실행하지 말 것 — 기획 문서를 덮어쓴다.');
+  }
   if (!fs.existsSync(manifestFile)) throw new Error(`asset-manifest.json missing: ${manifestFile}`);
 
   const codex = findCodex(args.codex);
   const codexHome = resolveCodexHome();
   const plan = readJson(planFile);
+  assertPlanPrompts(plan);
   const manifest = readJson(manifestFile);
   console.log(`codex: ${codex}`);
   console.log(`project: ${projectDir}`);
