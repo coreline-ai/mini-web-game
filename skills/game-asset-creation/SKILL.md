@@ -17,7 +17,7 @@ description: "Create, edit, validate, and QA standalone 2D sprite assets, or cor
 
 | 모드 | 언제 | 자유도 |
 |---|---|---|
-| **standalone 생성·편집** | dev_game 밖에서 시트가 아직 없거나 다시 그려야 할 때 | 새 포즈·새 프레임·새 동작이 정상 작업이다 |
+| **standalone 생성·편집** | dev_game 밖 — 생성 게임에 들어가지 않는 독립 산출물이고, 시트가 아직 없거나 다시 그려야 할 때 | 새 포즈·새 프레임·새 동작이 정상 작업이다 |
 | **픽셀 보존 교정** | 프레임이 이미 승인됐고 간격·기준선·피벗·셀 크기만 어긋났을 때 | 픽셀·포즈·프레임 수·스케일·순서를 **바꾸지 않는다.** 잘라서 옮기고, 필요하면 투명 캔버스만 넓힌다 |
 
 교정 모드의 계산 절차는 [`references/spacing-algorithm.md`](references/spacing-algorithm.md)가 소유한다.

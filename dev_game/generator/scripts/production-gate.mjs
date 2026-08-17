@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
-import { writePassReceipt } from './lib/production-pass-receipt.mjs';
+import { writePassReceipt, invalidatePassReceipt } from './lib/production-pass-receipt.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
@@ -158,8 +158,6 @@ try {
   process.exit(1);
 }
 
-if (split.skipFoundation) console.log('Foundation gate skipped: verified by an upstream CI job');
-else run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
 const projectArg = split.productionArgs[split.productionArgs.indexOf('--project') + 1];
 const projectCandidates = [
   path.resolve(process.cwd(), projectArg),
@@ -170,6 +168,25 @@ const projectDir = projectCandidates.find((candidate) => {
   try { return fs.statSync(candidate).isDirectory(); } catch { return false; }
 });
 if (!projectDir) throw new Error(`Project directory not found: ${projectArg}`);
+
+// ── 게이트 진입: 이전 판정을 지우고 "미검증" 상태로 내려놓는다 ──────────────
+// 순서가 중요하다. 이 블록은 **첫 게이트(factory:qa)보다 앞**이어야 한다. 뒤에 두었더니
+// foundation gate가 실패했을 때 지난 영수증이 그대로 남아 status가 pass를 보고했다.
+//
+// 그리고 영수증을 지우기만 하면 부족하다. 지우기만 하면 실패한 실행이 게임을 legacy-pass로
+// **승격**시킨다(영수증 없음 → allowlist 조회 → exit 0). 실측으로 확인된 동작이다.
+// 그래서 표식을 함께 남긴다. 성공한 실행만 마지막에 이 표식을 지우고 영수증을 쓴다.
+const notVerifiedMarker = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
+const invalidated = invalidatePassReceipt(projectDir);
+if (invalidated.removed) console.log(`Production-demo PASS receipt invalidated for this run: ${invalidated.file}`);
+fs.writeFileSync(notVerifiedMarker, `${JSON.stringify({
+  reason: 'production gate is running; this marker is removed only when every gate passes',
+  startedAt: new Date().toISOString(),
+}, null, 2)}\n`);
+
+if (split.skipFoundation) console.log('Foundation gate skipped: verified by an upstream CI job');
+else run(npmCommand(), ['run', 'factory:qa'], { cwd: workspaceRoot });
+
 const projectManifest = path.join(projectDir, 'assets', 'asset-manifest.json');
 const runtimeDeliveryEnabled = fs.existsSync(projectManifest)
   && Boolean(JSON.parse(fs.readFileSync(projectManifest, 'utf8')).assetLayout);
@@ -221,5 +238,7 @@ catch (error) { console.error(error.message); process.exit(1); }
 const customRequired = gateProfile === 'custom-loop-full';
 if (customRequired) run(process.execPath, [customLoopFullQa, '--project', projectDir, '--port', String(split.port + 10)], { cwd: workspaceRoot });
 
+// 여기까지 왔다는 것은 모든 게이트가 통과했다는 뜻이다. 이제서야 표식을 지우고 영수증을 쓴다.
+fs.rmSync(notVerifiedMarker, { force: true });
 const pass = writePassReceipt(projectDir, { gateProfile, spec });
 console.log(`Production-demo PASS receipt: ${pass.output}`);

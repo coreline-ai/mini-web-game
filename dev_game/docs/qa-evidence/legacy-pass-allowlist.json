@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-08-17",
+  "note": "영수증 제도 이전에 이미 존재하던 게임의 닫힌 목록. 이 목록은 늘어나지 않는다 — 새 게임은 legacy-pass가 될 수 없고 반드시 영수증을 벌어야 한다. 목록에 있어도 커밋된 증거 파일이 사라지면 자격도 사라진다. 2026-08-17 시점에 dev_game/docs/qa-evidence/ 에 커밋된 QA 요약을 가진 게임을 실측해 만들었다.",
+  "games": [
+    {
+      "id": "bullseye-rush",
+      "evidence": "bullseye-rush-2026-07-10.md"
+    },
+    {
+      "id": "castle-archer",
+      "evidence": "castle-archer-2026-07-10.md"
+    },
+    {
+      "id": "firebreak-commander",
+      "evidence": "firebreak-commander-2026-07-12.md"
+    },
+    {
+      "id": "iron-courier-last-line",
+      "evidence": "iron-courier-last-line-2026-07-12-polish-02.md"
+    },
+    {
+      "id": "jungle-arcshot",
+      "evidence": "jungle-arcshot-2026-07-10.md"
+    },
+    {
+      "id": "keeper-last-light",
+      "evidence": "keeper-last-light-2026-08-15.md"
+    },
+    {
+      "id": "last-minute-keeper",
+      "evidence": "last-minute-keeper-2026-08-16.md"
+    },
+    {
+      "id": "market-panic",
+      "evidence": "market-panic-2026-07-10.md"
+    },
+    {
+      "id": "meteor-dash",
+      "evidence": "meteor-dash-2026-07-10.md"
+    },
+    {
+      "id": "night-market-wok",
+      "evidence": "night-market-wok-2026-08-15.md"
+    },
+    {
+      "id": "parcel-sort-rush",
+      "evidence": "parcel-sort-rush-2026-07-10.md"
+    },
+    {
+      "id": "road-stream-racer",
+      "evidence": "road-stream-racer-2026-07-10.md"
+    },
+    {
+      "id": "rush-lane-racer",
+      "evidence": "rush-lane-racer-2026-07-10.md"
+    },
+    {
+      "id": "sky-archer",
+      "evidence": "sky-archer-2026-07-10.md"
+    },
+    {
+      "id": "target-shooter-rush",
+      "evidence": "target-shooter-rush-2026-07-10.md"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: game-factory
-description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game. Also use to add a new feature or mode to a game that already exists under dev_game/generated (expansion work), and to close acceptance defects found before that game's first production-demo PASS. Do not use to repair a game that has already passed — route that to game-polish."
+description: "Turn a game idea into a high-quality first production-grade mobile/web game demo through an LLM game-studio workflow: idea analysis, GDD, technical design, Phaser/Vite foundation, custom gameplay implementation, production-grade assets/audio planning, and enforced QA gates. Use when the user asks to create a new game, 새 게임 만들기, 게임 팩토리, dev_game 생성, production-demo game, playable arcade prototype, or wants an idea converted into a playable game. Also use to add a new feature or mode to a game that already exists under dev_game/generated (expansion work), and to close acceptance defects found before that game's first production-demo PASS. Do not use to repair a game whose production-demo PASS is still current — factory:production-pass-status reports pass or legacy-pass there, and the repair belongs to game-polish; a stale, invalid, or unknown status is this skill's work."
 ---
 
 # Game Factory
@@ -35,9 +35,11 @@ If not found, ask for the `game-dd` repo path. Do not recreate the generator.
 For an existing `dev_game/generated/<game-id>` target, classify the request **before editing**:
 
 - New feature, mode, or expansion → stay in `game-factory`, regardless of prior PASS state.
-- Defect/repair → run the status command below. Exit 0 means the current project still matches its
-  first production-demo PASS; stop and route the repair to `game-polish`. Missing, stale, or invalid
-  receipt means the acceptance state is not current, so this skill closes it before a first/current PASS.
+- Defect/repair → run the status command below. Exit 0 (`pass`, or `legacy-pass` for games built
+  before receipts existed — a missing receipt alone does not make it factory's) means the acceptance
+  state still holds; stop and route the repair to `game-polish`. Exit 1 (`stale`, `invalid`,
+  `unknown`) means it does not, so this skill closes the defect and drives the gate to a
+  first/current PASS.
 
 ```bash
 npm --prefix dev_game run factory:production-pass-status -- --project dev_game/generated/<game-id>

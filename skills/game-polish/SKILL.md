@@ -1,6 +1,6 @@
 ---
 name: game-polish
-description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into a defect class from post-production-qa-contract.md, triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input/persistence/visual-quality bugs in a game that has already passed its first production-demo gate. Do not use before that first PASS — acceptance defects there belong to game-factory. Do not use to create a new game or to add a new feature or mode to an existing one — that is game-factory expansion."
+description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into a defect class from post-production-qa-contract.md, triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input/persistence/visual-quality bugs in a game whose first production-demo PASS still stands — confirm with factory:production-pass-status, which must report pass or legacy-pass. A missing receipt is not by itself disqualifying; legacy-pass covers the frozen set of games that predate receipts. Do not use before that first PASS, and do not use when the status is stale, invalid, or unknown — those belong to game-factory. Do not use to create a new game or to add a new feature or mode to an existing one — that is game-factory expansion."
 ---
 
 # Game Polish
@@ -24,10 +24,20 @@ This skill does NOT create games, scaffolds, or new asset pipelines. Before any 
 npm --prefix dev_game run factory:production-pass-status -- --project dev_game/generated/<game-id>
 ```
 
-- Missing target, missing/invalid receipt, or stale project fingerprint → stop and route to
-  `game-factory`; do not manufacture a receipt or run a gate merely to qualify for polish.
-- Exit 0 → continue with the regression-first loop below.
-- A requested new feature or mode always routes to `game-factory` expansion, even when the receipt is valid.
+- Exit 0 — `pass` (receipt matches the project as it stands) or `legacy-pass` → continue with the
+  loop below. **A missing receipt is not by itself a failure**: 15 of this repo's 19 games are
+  `legacy-pass`, so do not read "영수증이 없다" as "route to factory".
+- Exit 1 — `stale` (project changed since the gate ran), `invalid` (receipt broken, a
+  `PRODUCTION-DEMO-NOT-VERIFIED.json` marker, a `gateProfile` weaker than the spec requires, or a
+  custom-loop-full receipt with no QA session behind it), `unknown`, or a missing target → stop and
+  route to `game-factory`. Never manufacture a receipt, write an evidence file, or run a gate merely
+  to qualify for polish.
+- `legacy-pass` is a **frozen** set: `dev_game/docs/qa-evidence/legacy-pass-allowlist.json` lists the
+  games that predate receipts, and it never grows. Four games are outside it and are `unknown` —
+  that is correct, not a gap to backfill. It is also not fingerprinted, so it means "passed at some
+  point", not "still current". Step 6's gate run ends it either way: passing writes a real receipt,
+  failing leaves the not-verified marker and the game becomes `invalid`.
+- A requested new feature or mode always routes to `game-factory` expansion, even when the state is `pass`.
 
 ## Authoritative contract
 

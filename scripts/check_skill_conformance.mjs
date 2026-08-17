@@ -137,6 +137,17 @@ if (!problems.length && !reports.length) {
   problems.push(`${DIR}에 phase-<N>-*.md 보고서가 하나도 없다 — 공허한 통과를 거부한다`);
 }
 
+// Phase 번호는 1부터다. `phase-0-*.md`로 이름 지으면 보고서는 존재하므로 "보고서가 없다"
+// 검사를 통과하고, `currentPhase`가 0이 되어 **경로 소유권 블록 전체(dirty + committed)가
+// 통째로 건너뛰어진다.** 범위 밖 변경이 양쪽 채널에 다 있어도 OK가 나온다. 침묵 SKIP이므로
+// 여기서 이름부터 막는다.
+for (const file of reports) {
+  if (Number(/^phase-(\d+)/.exec(file)[1]) < 1) {
+    problems.push(`Phase 번호는 1부터다: ${file}\n    `
+      + 'phase-0-*.md는 경로 소유권 검사를 통째로 건너뛰게 만든다');
+  }
+}
+
 const phases = [];
 for (const file of reports) {
   const n = Number(/^phase-(\d+)/.exec(file)[1]);
@@ -353,9 +364,15 @@ function committedPaths() {
     const raw = readOrFail(path.resolve(args.committedPathsFile), 'committed paths 파일');
     return raw === null ? [] : raw.split('\n').map((line) => line.trim()).filter(Boolean);
   }
-  // 기존 synthetic fixture는 실제 git history가 없고 status만 주입한다. committed-path
-  // 대조가 필요한 fixture는 위 전용 입력을 반드시 함께 준다.
-  if (args.statusFile) return [];
+  // synthetic fixture는 실제 git history가 없고 status만 주입한다. 그때 committed delta를
+  // 조용히 []로 두면 **committed 범위 검사가 통째로 꺼진 채 GREEN이 된다** — 검사기 스스로
+  // fail-open이 되는 구멍이었다. status를 주입하는 fixture는 committed delta도 명시적으로
+  // 선언해야 한다. 커밋된 변경이 없으면 빈 파일을 주면 된다. 침묵은 선언이 아니다.
+  if (args.statusFile) {
+    problems.push('--status-file은 --committed-paths-file과 함께 써야 한다\n    '
+      + 'committed delta를 선언하지 않으면 범위 밖 커밋을 검사하지 않은 채 통과한다');
+    return [];
+  }
   const baseline = approval?.baselineHead;
   if (!baseline) return [];
   try {
