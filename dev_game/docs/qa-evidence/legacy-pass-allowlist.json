@@ -4,36 +4,8 @@
   "note": "영수증 제도 이전에 이미 존재하던 게임의 닫힌 목록. 이 목록은 늘어나지 않는다 — 새 게임은 legacy-pass가 될 수 없고 반드시 영수증을 벌어야 한다. 목록에 있어도 커밋된 증거 파일이 사라지면 자격도 사라진다. 2026-08-17 시점에 dev_game/docs/qa-evidence/ 에 커밋된 QA 요약을 가진 게임을 실측해 만들었다. 실제 영수증을 번 게임은 이 목록에서 내린다 — 영수증이 정본이므로 legacy 자격이 남아 있으면 영수증이 사라졌을 때 조용히 되살아난다.",
   "games": [
     {
-      "id": "bullseye-rush",
-      "evidence": "bullseye-rush-2026-07-10.md"
-    },
-    {
-      "id": "castle-archer",
-      "evidence": "castle-archer-2026-07-10.md"
-    },
-    {
-      "id": "firebreak-commander",
-      "evidence": "firebreak-commander-2026-07-12.md"
-    },
-    {
       "id": "iron-courier-last-line",
       "evidence": "iron-courier-last-line-2026-07-12-polish-02.md"
-    },
-    {
-      "id": "jungle-arcshot",
-      "evidence": "jungle-arcshot-2026-07-10.md"
-    },
-    {
-      "id": "night-market-wok",
-      "evidence": "night-market-wok-2026-08-15.md"
-    },
-    {
-      "id": "parcel-sort-rush",
-      "evidence": "parcel-sort-rush-2026-07-10.md"
-    },
-    {
-      "id": "road-stream-racer",
-      "evidence": "road-stream-racer-2026-07-10.md"
     }
   ],
   "migration": {
@@ -46,9 +18,16 @@
       "sky-archer",
       "market-panic",
       "rush-lane-racer",
-      "target-shooter-rush"
+      "target-shooter-rush",
+      "bullseye-rush",
+      "jungle-arcshot",
+      "night-market-wok",
+      "road-stream-racer",
+      "castle-archer",
+      "firebreak-commander",
+      "parcel-sort-rush"
     ],
-    "remaining": 8,
+    "remaining": 1,
     "note": "영수증이 정본이므로 목록에 남겨 두면 영수증이 사라졌을 때 legacy 자격이 조용히 되살아난다. 그래서 번 게임은 반드시 내린다.",
     "stopNote": "배치 2 이후 중단. v1·v2 경로는 앞선 3건에서 이미 증명됐고, 그 뒤 게임을 더 도는 것은 스킬 강화가 아니라 처리량이다. 남은 8개는 필요할 때 같은 명령으로 이어서 돌린다.",
     "batches": [
@@ -72,7 +51,34 @@
           "target-shooter-rush"
         ],
         "failed": []
+      },
+      {
+        "n": 3,
+        "games": [
+          "bullseye-rush",
+          "jungle-arcshot",
+          "night-market-wok",
+          "road-stream-racer"
+        ],
+        "failed": []
+      },
+      {
+        "n": 4,
+        "games": [
+          "castle-archer",
+          "firebreak-commander",
+          "parcel-sort-rush"
+        ],
+        "failed": []
+      },
+      {
+        "n": 5,
+        "games": [],
+        "failed": [
+          "iron-courier-last-line"
+        ]
       }
-    ]
+    ],
+    "conclusion": "이전 완료. 남은 1개(iron-courier-last-line)는 게이트를 실제로 돌려 미통과가 확정됐다 — core 스프라이트 4장이 최소 변 256px 미달이고 asset-plan 이 없어 재생성 경로가 없다. allowlist 에 남겨 두는 것은 \"통과한 적이 있다\"는 사실 기록이며, 게이트를 통과할 때까지 pass 가 되지 않는다."
   }
 }
