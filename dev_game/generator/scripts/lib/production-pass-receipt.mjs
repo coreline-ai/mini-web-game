@@ -5,7 +5,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { productionGateProfile } from './production-gate-profile.mjs';
 import { assertArgv, isMainModule } from './cli-contract.mjs';
-import { verifyAttestation } from './receipt-attestation.mjs';
 
 // production-demo PASS 영수증 — 첫 PASS 경계를 기계로 판정한다.
 //
@@ -54,6 +53,19 @@ import { verifyAttestation } from './receipt-attestation.mjs';
 // 영수증을 가진 게임에만 성립한다. 그러니 legacy-pass는 "지금도 통과 상태"가 아니라
 // "통과한 적이 있고, 현재성은 증명되지 않았다"는 뜻이다. 이건 일회성 다리다: 다음 게이트
 // 실행이 성공하면 pass로, 실패하면 미검증 표식이 남아 invalid로 바뀌며 영구히 사라진다.
+//
+// ── 위조는 닫지 않는다. 그게 결정이다 ───────────────────────────────────────
+// 한때 ed25519 서명 + CI 발급으로 위조를 닫으려 했다. **걷어냈다.**
+//
+// 위협 모델을 제대로 세우면 답이 다르다. 여기서 "위조자"는 외부 공격자가 아니라 이 저장소에서
+// 일하는 에이전트나 사람이다. 그리고 스킬은 **로컬에서 `factory:production-gate`를 돌려
+// 완료하라**고 지시한다. 서명 스위치를 켜면 비밀키가 CI에만 있으므로 로컬 게이트가 만든
+// 영수증이 전부 invalid가 된다 — 켜는 순간 문서화된 워크플로가 깨지고 pass 15개가 무효가 된다.
+// 활성화하면 스킬을 깨는 기능은 기능이 아니라 함정이다.
+//
+// 영수증이 막는 것은 "게이트를 안 돌리고 완료라고 말하는 것"이고, 그건 지문·미검증 표식·
+// QA 세션 교차 검증으로 충분히 비싸다. 손으로 쓴 영수증은 여전히 가능하지만 그건 규칙을
+// 어기기로 **작정한** 경우이며, 암호가 아니라 검토가 잡을 문제다.
 //
 // ── 위조에 대해 정직하게 ─────────────────────────────────────────────────────
 // `projectFingerprint`는 공개 파일의 공개 해시다. 서명도 비밀값도 없으므로 **암호학적으로
@@ -347,12 +359,6 @@ export function verifyPassReceipt(projectDir) {
     }
   }
 
-  // 서명 검증. 공개키가 커밋돼 있을 때만 요구한다 — 그 파일의 존재가 전환 스위치다.
-  // 지문은 공개 해시라 누구나 계산할 수 있으므로, 서명 없이는 "손으로 쓴 영수증"과
-  // "게이트가 발급한 영수증"을 구별할 방법이 없다(실측으로 위조가 성립한다).
-  const attested = verifyAttestation(receipt, devGameRoot(projectDir));
-  if (!attested.ok) return { ok: false, state: 'invalid', file, receipt, reason: attested.reason };
-
   const current = projectFingerprint(projectDir);
   if (receipt.projectFingerprint !== current) {
     return {
@@ -360,13 +366,7 @@ export function verifyPassReceipt(projectDir) {
       reason: 'stale production-demo PASS receipt: project inputs changed since the gate ran',
     };
   }
-  return {
-    ok: true, state: 'pass', file, receipt, current,
-    attested: attested.required ? attested.keyId : false,
-    reason: attested.required
-      ? `production-demo PASS receipt is current and CI-signed (key ${attested.keyId})`
-      : 'production-demo PASS receipt is current (unattested — no signing key committed)',
-  };
+  return { ok: true, state: 'pass', file, receipt, current, reason: 'production-demo PASS receipt is current' };
 }
 
 function resolveProject(projectArg) {

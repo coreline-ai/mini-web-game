@@ -46,8 +46,7 @@
     "factory:cli-parity": "node ../scripts/check_cli_parity.mjs",
     "factory:skill-task-gate-verify": "node ../scripts/skill_task_gate.mjs verify-all",
     "factory:asset-plan-recover": "node generator/scripts/asset-plan-recover.mjs",
-    "factory:asset-plan-recover-qa": "node generator/scripts/asset-plan-recover-qa.mjs",
-    "factory:sign-pass-receipt": "node generator/scripts/sign-pass-receipt.mjs"
+    "factory:asset-plan-recover-qa": "node generator/scripts/asset-plan-recover-qa.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"

@@ -25,11 +25,6 @@ on:
   schedule:
     - cron: '0 18 * * *'
   workflow_dispatch:
-    inputs:
-      game:
-        description: '영수증을 발급할 게임 id (dev_game/generated/<id>). 비우면 QA만 돈다.'
-        required: false
-        type: string
 
 permissions:
   contents: read
@@ -59,58 +54,6 @@ jobs:
         run: python -m pip install Pillow
       - name: Run factory QA
         run: npm --prefix dev_game run factory:qa
-
-  issue-pass-receipt:
-    # PASS 영수증 발급. 비밀키는 이 잡에만 있고 로컬에는 없다 — 그래서 "게이트를 돌렸다"는
-    # 주장을 CI만 발급할 수 있다. 지문은 공개 해시라 서명 없이는 손으로 쓴 영수증과
-    # 게이트가 낸 영수증을 구별할 방법이 없다.
-    #
-    # 켜는 방법:
-    #   1. ed25519 키쌍 생성
-    #        openssl genpkey -algorithm ed25519 -out signing.pem
-    #        openssl pkey -in signing.pem -pubout -out dev_game/docs/qa-evidence/receipt-signing-public.pem
-    #   2. signing.pem 내용을 저장소 시크릿 RECEIPT_SIGNING_KEY 로 등록하고 로컬 파일은 파기
-    #   3. 공개키를 커밋 — 그 순간부터 무서명 영수증은 invalid 다
-    #
-    # 주의: 3단계는 **기존 영수증을 전부 무효화한다.** 이 잡이 다시 발급해야 한다.
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    if: github.event_name == 'workflow_dispatch' && inputs.game != ''
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - name: Install dev_game tooling
-        run: npm --prefix dev_game install
-      - name: Install Playwright Chromium
-        run: npm --prefix dev_game exec playwright install --with-deps chromium
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install Pillow
-        run: python -m pip install Pillow
-      - name: Run the production gate
-        run: |
-          npm --prefix dev_game run factory:production-gate -- \
-            --project "dev_game/generated/${{ inputs.game }}" \
-            --require-gpt-imagegen \
-            --viewports 390x844,430x932,1080x1920
-      - name: Sign the receipt
-        env:
-          RECEIPT_SIGNING_KEY: ${{ secrets.RECEIPT_SIGNING_KEY }}
-        run: |
-          test -n "$RECEIPT_SIGNING_KEY" || {
-            echo '::error::RECEIPT_SIGNING_KEY secret is not set — see the comment on this job'; exit 1; }
-          npm --prefix dev_game run factory:sign-pass-receipt -- \
-            --receipt "dev_game/docs/qa-evidence/${{ inputs.game }}-production-pass.json"
-      - name: Verify the signed receipt
-        run: npm --prefix dev_game run factory:production-pass-status -- --project "dev_game/generated/${{ inputs.game }}"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: pass-receipt-${{ inputs.game }}
-          path: dev_game/docs/qa-evidence/${{ inputs.game }}-production-pass.json
 
   curated-runtime-qa:
     runs-on: ubuntu-latest

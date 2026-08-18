@@ -29,7 +29,6 @@ const LEAVES = [
   { id: 'factory:imagegen', module: path.join(S, 'codex-imagegen.mjs') },
   { id: 'factory:production-pass-status', module: path.join(S, 'lib', 'production-pass-receipt.mjs') },
   { id: 'factory:asset-plan-recover', module: path.join(S, 'asset-plan-recover.mjs') },
-  { id: 'factory:sign-pass-receipt', module: path.join(S, 'sign-pass-receipt.mjs') },
 ];
 
 // 정상 / 값 누락 / 잘못된 enum / 잘못된 정수 / 미지원 플래그 / 필수 누락
@@ -46,7 +45,6 @@ const BASE = {
   'factory:imagegen': ['--project', 'x'],
   'factory:production-pass-status': ['--project', 'x'],
   'factory:asset-plan-recover': ['--project', 'x'],
-  'factory:sign-pass-receipt': ['--receipt', 'x'],
 };
 
 /**
@@ -119,10 +117,6 @@ const CORPUS = {
   'factory:asset-plan-recover': [
     { name: 'valid', argv: ['--project', 'x'], expect: null },
     { name: 'missing-required', argv: ['--force'], expect: 'E_MISSING_REQUIRED' },
-  ],
-  'factory:sign-pass-receipt': [
-    { name: 'valid', argv: ['--receipt', 'x'], expect: null },
-    { name: 'missing-required', argv: [], expect: 'E_MISSING_REQUIRED' },
   ],
   'factory:production-pass-status': [
     { name: 'valid', argv: ['--project', 'x'], expect: null },

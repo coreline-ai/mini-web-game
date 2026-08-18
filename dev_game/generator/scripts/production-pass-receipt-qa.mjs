@@ -10,7 +10,6 @@ import {
   invalidatePassReceipt, legacyPassEvidence,
   passReceiptPath, projectFingerprint, verifyPassReceipt, writePassReceipt,
 } from './lib/production-pass-receipt.mjs';
-import { publicKeyPath, signReceipt } from './lib/receipt-attestation.mjs';
 
 // production-demo PASS 영수증의 계측 검증.
 //
@@ -104,7 +103,7 @@ try {
   const v1 = makeProject('v1-game');
   writePassReceipt(v1, { gateProfile: 'compatibility', spec: { schemaVersion: '1.0.0' } });
   expect(verifyPassReceipt(v1), {
-    state: 'pass', label: 'v1 compatibility receipt', fingerprint: /receipt is current \(unattested/,
+    state: 'pass', label: 'v1 compatibility receipt', fingerprint: /PASS receipt is current/,
   });
 
   // ── 음성 대조군 2: v2 custom-loop-full + 일치하는 세션 리포트 ──
@@ -115,7 +114,7 @@ try {
   check(fs.existsSync(written.output), 'receipt must be written');
   check(written.receipt.qaRunId === 'run-2026-08-17-abc', 'receipt must capture the QA session runId');
   expect(verifyPassReceipt(v2), {
-    state: 'pass', label: 'v2 receipt with session report', fingerprint: /receipt is current \(unattested/,
+    state: 'pass', label: 'v2 receipt with session report', fingerprint: /PASS receipt is current/,
   });
 
   // ── 양성 대조군 1: stale — 프로젝트가 바뀌었다 ──
@@ -362,7 +361,7 @@ try {
   writePassReceipt(marked, { gateProfile: 'compatibility', spec: { schemaVersion: '1.0.0' } });
   expect(verifyPassReceipt(marked), {
     state: 'pass', label: 'valid receipt outranks a stale marker (no deadlock)',
-    fingerprint: /receipt is current \(unattested/,
+    fingerprint: /PASS receipt is current/,
   });
 
   // ── 없는 프로젝트는 라이브러리 수준에서도 자격이 없다 ──
@@ -370,57 +369,6 @@ try {
   expect(verifyPassReceipt(path.join(root, 'dev_game', 'generated', 'legacy-evidence-deleted')), {
     state: 'unknown', label: 'missing project directory', fingerprint: /project directory not found/,
   });
-
-  // ── 서명(attestation) — 위조를 문턱이 아니라 차단으로 바꾸는 유일한 수단 ──
-  // 지문은 공개 해시라 누구나 계산한다. 실측: 게이트를 한 번도 돌리지 않고 손으로 쓴
-  // 영수증이 `pass`였다. 대칭키로는 못 막는다(검증자가 곧 위조자다). 비대칭 서명만
-  // 유효하며, 공개키 파일의 **존재가 전환 스위치**다.
-  const signed = makeProject('signed-game');
-  const signedDevGame = path.join(root, 'dev_game');
-  writePassReceipt(signed, { gateProfile: 'compatibility', spec: { schemaVersion: '1.0.0' } });
-  expect(verifyPassReceipt(signed), {
-    state: 'pass', label: 'unsigned receipt before a key is committed',
-    fingerprint: /receipt is current \(unattested/,
-  });
-
-  const pair = crypto.generateKeyPairSync('ed25519');
-  const publicPem = pair.publicKey.export({ type: 'spki', format: 'pem' });
-  const privatePem = pair.privateKey.export({ type: 'pkcs8', format: 'pem' });
-  fs.writeFileSync(publicKeyPath(signedDevGame), publicPem);
-
-  // 스위치가 켜지면 무서명 영수증은 무효다.
-  expect(verifyPassReceipt(signed), {
-    state: 'invalid', label: 'unsigned receipt once a key is committed',
-    fingerprint: /requires CI-signed receipts/,
-  });
-
-  const body = JSON.parse(fs.readFileSync(passReceiptPath(signed), 'utf8'));
-  fs.writeFileSync(passReceiptPath(signed), `${JSON.stringify(signReceipt(body, privatePem, publicPem), null, 2)}\n`);
-  expect(verifyPassReceipt(signed), {
-    state: 'pass', label: 'CI-signed receipt', fingerprint: /CI-signed \(key /,
-  });
-
-  // 서명 뒤 한 글자라도 바뀌면 무효다.
-  // 변조 대상은 **다른 검사가 보지 않는 필드**여야 한다. `gateProfile`을 바꾸면 spec 대조가
-  // 먼저 걸려서, 서명 검증이 아니라 엉뚱한 이유로 붉어진다(실측으로 그렇게 만들었다가 잡았다).
-  const tampered = JSON.parse(fs.readFileSync(passReceiptPath(signed), 'utf8'));
-  tampered.generatedAt = '2099-01-01T00:00:00.000Z';
-  fs.writeFileSync(passReceiptPath(signed), `${JSON.stringify(tampered, null, 2)}\n`);
-  expect(verifyPassReceipt(signed), {
-    state: 'invalid', label: 'receipt edited after signing',
-    fingerprint: /does not match the receipt/,
-  });
-
-  // 다른 키로 서명한 것은 이 저장소의 영수증이 아니다.
-  const other = crypto.generateKeyPairSync('ed25519');
-  fs.writeFileSync(passReceiptPath(signed), `${JSON.stringify(signReceipt(body,
-    other.privateKey.export({ type: 'pkcs8', format: 'pem' }),
-    other.publicKey.export({ type: 'spki', format: 'pem' })), null, 2)}\n`);
-  expect(verifyPassReceipt(signed), {
-    state: 'invalid', label: 'receipt signed by a different key',
-    fingerprint: /does not match the committed signing key/,
-  });
-  fs.rmSync(publicKeyPath(signedDevGame));
 
   // ── 게이트 시작 시 무효화 ──
   const invalidated = invalidatePassReceipt(v2);
@@ -462,53 +410,7 @@ check(gateSource.indexOf('fs.rmSync(notVerifiedMarker') > gateSource.lastIndexOf
 check(makeSource.indexOf('verifyPassReceipt(projectDir)') < makeSource.indexOf('fs.unlinkSync(file)'),
   'make-game must verify the receipt before removing the incomplete marker');
 
-// ── CI 발급 배선 ─────────────────────────────────────────────────────────────
-// 서명은 CI에만 있는 비밀키로 한다. 워크플로에서 **게이트 뒤에** 서명하고, 서명 뒤 검증해야
-// 한다. 순서가 어긋나면 게이트를 돌리지 않은 영수증에 서명하거나, 서명이 검증되지 않는다.
-const workflow = fs.readFileSync(path.join(scriptsDir, '..', '..', '..',
-  '.github', 'workflows', 'dev-game-factory.yml'), 'utf8');
-const gateStep = workflow.indexOf('factory:production-gate --');
-const signStep = workflow.indexOf('factory:sign-pass-receipt');
-const verifyStep = workflow.indexOf('factory:production-pass-status');
-check(gateStep > 0 && signStep > gateStep,
-  'CI must run the production gate before signing the receipt');
-check(verifyStep > signStep, 'CI must verify the receipt after signing it');
-check(workflow.includes('secrets.RECEIPT_SIGNING_KEY'),
-  'CI must take the signing key from a repository secret, never from the tree');
-const signSource = fs.readFileSync(path.join(scriptsDir, 'sign-pass-receipt.mjs'), 'utf8');
-check(signSource.includes('process.env.RECEIPT_SIGNING_KEY'),
-  'the signer must read the key from the environment');
-check(/이미 서명된 영수증이다/.test(signSource), 'the signer must refuse to re-sign');
 
-// 서명기를 **CI가 부르는 형태 그대로** 실행한다. `npm --prefix dev_game run` 은 cwd 가
-// dev_game 이므로, 저장소 루트 기준 경로를 그대로 resolve 하면 `dev_game/dev_game/...` 이 된다.
-// 실측으로 커밋된 워크플로가 정확히 이 경로로 실패했다 — 소스 문자열 검사로는 잡히지 않는
-// 종류라 실제 실행으로 건다.
-{
-  const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), 'sign-cwd-'));
-  const devGameDir = path.join(sandbox, 'dev_game', 'docs', 'qa-evidence');
-  fs.mkdirSync(devGameDir, { recursive: true });
-  const rel = path.join('dev_game', 'docs', 'qa-evidence', 'probe-production-pass.json');
-  fs.writeFileSync(path.join(sandbox, rel), `${JSON.stringify({
-    schemaVersion: 2, status: 'PASS', gateProfile: 'compatibility',
-    projectFingerprint: 'deadbeef', generatedAt: '2026-08-17T00:00:00.000Z',
-  }, null, 2)}\n`);
-  const keys = crypto.generateKeyPairSync('ed25519');
-  // 공개키는 **샌드박스 안**에 둔다. 실제 저장소에 쓰면 시험이 스위치를 켜 버린다.
-  fs.writeFileSync(path.join(devGameDir, 'receipt-signing-public.pem'),
-    keys.publicKey.export({ type: 'spki', format: 'pem' }));
-  // dev_game 을 cwd 로 두고(=npm --prefix 와 같은 상황) 저장소 루트 기준 경로를 넘긴다.
-  const result = spawnSync(process.execPath, [path.join(scriptsDir, 'sign-pass-receipt.mjs'),
-    '--receipt', rel], {
-    cwd: path.join(sandbox, 'dev_game'),
-    encoding: 'utf8',
-    env: { ...process.env, RECEIPT_SIGNING_KEY: keys.privateKey.export({ type: 'pkcs8', format: 'pem' }) },
-  });
-  const output = `${result.stdout || ''}${result.stderr || ''}`;
-  check(!/서명할 영수증이 없다/.test(output),
-    `the signer must resolve a repo-root path when cwd is dev_game (got: ${output.trim().split('\n')[0]})`);
-  fs.rmSync(sandbox, { recursive: true, force: true });
-}
 
 if (failures.length) {
   console.error('production PASS receipt QA failed:');
