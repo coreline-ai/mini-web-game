@@ -1,0 +1,157 @@
+{
+  "gameId": "last-light-zero-hour",
+  "recoveredFrom": "assets/asset-manifest.json",
+  "recoveredAt": "2026-08-18T09:48:34.387Z",
+  "backgrounds": [
+    {
+      "id": "phase-1-dawn",
+      "path": "assets/backgrounds/bg-dawn.jpg",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 2560,
+      "prompt": ""
+    },
+    {
+      "id": "phase-2-day",
+      "path": "assets/backgrounds/bg-day.jpg",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 2560,
+      "prompt": ""
+    },
+    {
+      "id": "phase-3-dusk",
+      "path": "assets/backgrounds/bg-dusk.jpg",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 2560,
+      "prompt": ""
+    },
+    {
+      "id": "phase-4-night",
+      "path": "assets/backgrounds/bg-night.jpg",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 2560,
+      "prompt": ""
+    },
+    {
+      "id": "phase-5-bloodmoon",
+      "path": "assets/backgrounds/bg-bloodmoon.jpg",
+      "role": "stage-background",
+      "width": 1440,
+      "height": 2560,
+      "prompt": ""
+    }
+  ],
+  "sprites": [
+    {
+      "id": "player-gunner-motion",
+      "path": "assets/sprites/player/player-gunner-motion.png",
+      "role": "response-unit-motion-sheet",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "player-gunner-preview",
+      "path": "assets/sprites/player/player-gunner-preview.png",
+      "role": "player",
+      "width": 512,
+      "height": 512,
+      "prompt": ""
+    },
+    {
+      "id": "weapon-models",
+      "path": "assets/sprites/player/weapon-models.png",
+      "role": "weapon",
+      "width": 1280,
+      "height": 384,
+      "prompt": ""
+    },
+    {
+      "id": "zombie-walker-motion",
+      "path": "assets/sprites/enemies/zombie-walker-motion.png",
+      "role": "enemy-motion-sheet",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "zombie-walker-preview",
+      "path": "assets/sprites/enemies/zombie-walker-preview.png",
+      "role": "enemy",
+      "width": 512,
+      "height": 512,
+      "prompt": ""
+    },
+    {
+      "id": "zombie-runner-motion",
+      "path": "assets/sprites/enemies/zombie-runner-motion.png",
+      "role": "enemy-motion-sheet",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "zombie-brute-motion",
+      "path": "assets/sprites/enemies/zombie-brute-motion.png",
+      "role": "elite-enemy",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "titan-motion",
+      "path": "assets/sprites/boss/titan-motion.png",
+      "role": "boss-motion-sheet",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "titan-preview",
+      "path": "assets/sprites/boss/titan-preview.png",
+      "role": "boss",
+      "width": 512,
+      "height": 512,
+      "prompt": ""
+    }
+  ],
+  "ui": [
+    {
+      "id": "ui-pause",
+      "path": "assets/ui/ui-pause.png",
+      "role": "pause-button",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "ui-weapon-card",
+      "path": "assets/ui/ui-weapon-card.png",
+      "role": "button",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    }
+  ],
+  "fx": [
+    {
+      "id": "fx-infected-burst",
+      "path": "assets/fx/fx-infected-burst.png",
+      "role": "feedback",
+      "width": 1024,
+      "height": 1024,
+      "prompt": ""
+    },
+    {
+      "id": "fx-rocket-explosion-v1",
+      "path": "assets/fx/rocket-explosion-v1.webp",
+      "role": "rocket-explosion-feedback",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Use case: stylized-concept\nAsset type: single production FX sprite for the vertical mobile survival shooter LAST LIGHT: Zero Hour — a rocket impact explosion played as hit feedback over the lower combat zone\nPrimary request: one centered rocket detonation burst on a fully transparent background, square 1024x1024 master, subject occupying about 84% of the frame with even transparent margin on all sides\nSubject: a compact volumetric fireball at the centre — a hot white-amber core, a surrounding orange-to-deep-red plume, and a thin outward shock ring; a few broad smoke lobes rolling outward\nStyle/medium: smooth painterly game FX, soft volumetric light, broad simple shapes, clean silhouette that reads instantly at small size on a dark background\nPalette: warm amber and orange core against deep crimson and charcoal smoke, matching the game's cold 2041 infected-city palette where warm light means impact\nConstraints: transparent background only, no backdrop, no ground, no characters, no rockets, no weapons, no UI, no text, no numbers, no watermark, no border\nCRITICAL — keep high-frequency detail LOW: render with broad smooth gradients and large soft masses. NO fine debris, NO scattered sparks, NO speckle, NO grain, NO noise texture, NO dense particle spray, NO sharp radial streaks, NO oversharpening, NO high-contrast micro detail, NO stippling. Edges between fire, smoke and transparency must be soft and continuous rather than crisp and jagged. The image must stay readable and calm when scaled down to 128px."
+    }
+  ]
+}

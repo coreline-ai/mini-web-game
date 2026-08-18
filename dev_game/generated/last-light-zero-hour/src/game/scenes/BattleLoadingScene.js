@@ -60,7 +60,7 @@ export default class BattleLoadingScene extends Phaser.Scene {
     ANIMATIONS.forEach(([key, texture, frameRate]) => {
       if (!this.anims.exists(key)) this.anims.create({ key, frames: this.anims.generateFrameNumbers(texture, { start: 0, end: 3 }), frameRate, repeat: -1 });
     });
-    const items = [{ id: 'loading-title', obj: this.loadingUI.title }, { id: 'loading-status', obj: this.loadingUI.tip }, { id: 'loading-bar-back', obj: this.loadingUI.barBack }, { id: 'loading-bar-fill', obj: this.loadingUI.bar }, { id: 'loading-percent', obj: this.loadingUI.percent }];
+    const items = [{ id: 'loading-title', obj: this.loadingUI.title }, { id: 'loading-status', obj: this.loadingUI.tip }, { id: 'loading-bar-back', obj: this.loadingUI.barBack, allowOverlapWith: ['loading-bar-fill'] }, { id: 'loading-bar-fill', obj: this.loadingUI.bar, allowOverlapWith: ['loading-bar-back'] }, { id: 'loading-percent', obj: this.loadingUI.percent }];
     publishLayout(this, items, { requiredIds: items.map((item) => item.id) });
     this.time.delayedCall(120, () => this.scene.start(this.destination));
   }

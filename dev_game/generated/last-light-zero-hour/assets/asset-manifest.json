@@ -49,11 +49,12 @@
     "maxTrimSilenceMs": 350
   },
   "imagegen": {
-    "method": "codex-gpt-imagegen-skill",
     "model": "openai-builtin-image_gen (version opaque)",
+    "modelVerified": false,
+    "method": "codex-gpt-imagegen-skill",
     "sourceSkill": "imagegen",
-    "toolMode": "built-in",
-    "generatedFor": "last-light-zero-hour"
+    "toolMode": "built-in-image_gen",
+    "lastRunAt": "2026-08-18T10:00:08.012Z"
   },
   "stageBackgrounds": [
     {
@@ -554,11 +555,21 @@
       "provenance": {
         "source": "generated-for-game",
         "generatedFor": "last-light-zero-hour",
+        "generator": "dev_game/generator/scripts/codex-imagegen.mjs",
         "method": "codex-gpt-imagegen-skill",
-        "model": "openai-builtin-image_gen (version opaque)",
+        "model": "gpt 이미지젠 스킬",
+        "modelVerified": false,
+        "postProcessing": [
+          "chroma-key-removal",
+          "autocrop-resize"
+        ],
         "sourceSkill": "imagegen",
-        "promptHash": "080cf5ca76e73dfb405abbbf9666dfc6da528ef15d22964b29642a11a328dd66",
-        "provenanceVersion": "legacy-1"
+        "toolMode": "built-in-image_gen",
+        "promptHash": "7d2e1b2472bed82b",
+        "quality": "high",
+        "runId": "ee6568d7531f8e19",
+        "generatedAt": "2026-08-18T10:00:07.996Z",
+        "outputSha256": "adcbdbd0f3ab28ff028279d2bad8fa44f07f285daf92ca674c18514630863bb3"
       },
       "sha256": "54c4ab27aa71ab339a011aa41fbfc25e080b028faa4e17ab14bc8ef675aa439f",
       "transparentPadding": {

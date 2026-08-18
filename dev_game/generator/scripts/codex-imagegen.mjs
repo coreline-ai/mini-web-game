@@ -614,10 +614,14 @@ function autocropResize(file, targetW, targetH, padRatio = 0, { crop = true } = 
  * 크로마키 보일러플레이트만으로 이미지를 만들고, 그 결과를 production provenance로 기록한다.
  * 복원된 계획은 프롬프트가 비어 있을 수 있으므로(원문이 소실된 세대) 여기서 반드시 막는다.
  */
-function assertPlanPrompts(plan) {
+function assertPlanPrompts(plan, selected = () => true) {
+  // **이번 실행이 실제로 만들 항목만** 본다. 계획 전체를 요구하던 첫 판은 자산 하나를
+  // 다시 만들려는데 나머지 17개의 프롬프트를 요구해 targeted 재생성을 막았다 — 복원된
+  // 계획은 프롬프트가 비어 있는 것이 정상이므로, 그 요구는 이 경로를 통째로 닫는다.
   const missing = [];
   for (const bucket of ['backgrounds', 'sprites', 'ui', 'fx']) {
     for (const entry of plan[bucket] || []) {
+      if (!selected(entry.id)) continue;
       if (typeof entry.prompt !== 'string' || !entry.prompt.trim()) missing.push(`${bucket}/${entry.id}`);
     }
   }
@@ -687,7 +691,6 @@ function main() {
   const codex = findCodex(args.codex);
   const codexHome = resolveCodexHome();
   const plan = readJson(planFile);
-  assertPlanPrompts(plan);
   const manifest = readJson(manifestFile);
   console.log(`codex: ${codex}`);
   console.log(`project: ${projectDir}`);
@@ -698,6 +701,7 @@ function main() {
   const retryStats = [];
   const planAccent = accentHexOf(plan);
   const matchId = idMatcher(args.id);
+  assertPlanPrompts(plan, matchId);
   // `--id`가 생성 묶음의 일부만 고르면 여기서 멈춘다. 계획의 모든 id를 대상으로 판정하므로
   // glob(`fx-*`)로 고른 경우에도 성립한다.
   if (args.id) {

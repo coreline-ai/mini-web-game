@@ -20,7 +20,7 @@ export default class LoadingScene extends Phaser.Scene {
     if (SPEC.audio?.enabled) this.load.audio(ASSET_KEYS.sfxStart, 'audio/ui-start.wav');
   }
   create() {
-    const items = this.loadingUI ? [{ id: 'loading-title', obj: this.loadingUI.title }, { id: 'loading-status', obj: this.loadingUI.tip }, { id: 'loading-bar-back', obj: this.loadingUI.barBack }, { id: 'loading-bar-fill', obj: this.loadingUI.bar }, { id: 'loading-percent', obj: this.loadingUI.percent }] : [];
+    const items = this.loadingUI ? [{ id: 'loading-title', obj: this.loadingUI.title }, { id: 'loading-status', obj: this.loadingUI.tip }, { id: 'loading-bar-back', obj: this.loadingUI.barBack, allowOverlapWith: ['loading-bar-fill'] }, { id: 'loading-bar-fill', obj: this.loadingUI.bar, allowOverlapWith: ['loading-bar-back'] }, { id: 'loading-percent', obj: this.loadingUI.percent }] : [];
     publishLayout(this, items, { requiredIds: items.map((item) => item.id) });
     const hold = typeof location !== 'undefined' && /qaHoldLoading/.test(location.search || '');
     if (hold) { if (typeof window !== 'undefined') window.__RELEASE_LOADING__ = () => this.scene.start(SCENES.HOME); } else { this.time.delayedCall(250, () => this.scene.start(SCENES.HOME)); }

@@ -34,7 +34,13 @@ export default class HudUI {
     this.cards = [];
     const cardY = height - 162;
     WEAPON_ORDER.forEach((id, i) => {
-      const cfg = WEAPONS[id]; const x = 152 + i * 284;
+        // 카드 x 는 하드코딩(152 + i*284)이었다. 논리 폭 1440 기준 좌우 여백이 27px 이고,
+        // 390px 뷰포트에서 27 * 390/1440 = 7.3px 라 안전 여백 8px 를 0.7px 넘겼다.
+        // 폭에서 계산해 여백을 확보한다 — 카드 수가 바뀌어도 유지된다.
+        const cfg = WEAPONS[id];
+        const cardMargin = 36;
+        const cardStep = WEAPON_ORDER.length > 1 ? (width - cardMargin * 2 - 250) / (WEAPON_ORDER.length - 1) : 0;
+        const x = cardMargin + 125 + i * cardStep;
       const art = scene.add.image(x, cardY, ASSET_KEYS.uiWeaponCard).setDisplaySize(216, 216).setDepth(93).setAlpha(0.84);
       const bg = scene.add.rectangle(x, cardY, 250, 210, 0x081519, 0.38).setStrokeStyle(5, 0x58736e, 0.78).setDepth(94).setInteractive({ useHandCursor: true });
       const icon = scene.add.image(x, cardY - 38, ASSET_KEYS.weapons, cfg.frame).setDisplaySize(84, 126).setDepth(95);

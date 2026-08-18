@@ -103,8 +103,11 @@ const here = path.dirname(new URL(import.meta.url).pathname);
 const imagegen = fs.readFileSync(path.join(here, 'codex-imagegen.mjs'), 'utf8');
 // 호출 **지점**을 본다. `assertPlanPrompts(plan)`만 찾으면 함수 정의에도 그 문자열이 있어서
 // 호출을 지워도 통과한다 — 실제로 그렇게 공허했다(주입으로 확인).
-check(/const plan = readJson\(planFile\);\s*\n\s*assertPlanPrompts\(plan\);/.test(imagegen),
-  'imagegen must call assertPlanPrompts right after loading the plan, before generating');
+check(/const matchId = idMatcher\(args\.id\);\s*\n\s*assertPlanPrompts\(plan, matchId\);/.test(imagegen),
+  'imagegen must check prompts for the selected assets before generating');
+// 선택하지 않은 항목까지 요구하면 targeted 재생성이 막힌다 — 복원된 계획은 대부분 비어 있다.
+check(/if \(!selected\(entry\.id\)\) continue;/.test(imagegen),
+  'the prompt guard must only inspect the assets this run will generate');
 check(!/asset-plan\.json missing — run productionize/.test(imagegen),
   'imagegen must not advise productionize.mjs — it overwrites a shipped game\'s planning docs');
 check(imagegen.includes('factory:asset-plan-recover'),
