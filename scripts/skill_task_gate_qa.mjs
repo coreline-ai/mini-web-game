@@ -236,6 +236,39 @@ try {
   expect('no-change/implemented', invoke(noChange, ['advance', '--task-id', 'no-change-task', '--to', 'IMPLEMENTED']),
     1, 'E_NO_CHANGE');
 
+  // 6. 미검증 표식은 승인 범위를 깨뜨리지 않는다 (대조군 포함)
+  // production-gate가 진입 시 쓰는 흔적이라, 봉인된 범위 안의 게임을 다시 게이트에 넣는 것
+  // 자체가 불가능했다(실측 2026-08-18: last-light-zero-hour). 제외가 "새 파일을 전부 무시"로
+  // 넓어지지 않았다는 것은 바로 아래 control 케이스가 증명한다.
+  const marker = makeRepo('marker');
+  write(marker, 'game/src.txt', 'v1\n');
+  commitAll(marker, 'game baseline');
+  const markerAllow = ['game', 'docs/implementation.md', 'docs/comparison.md', 'docs/review.md'];
+  expect('marker/start', invoke(marker, ['start', '--task-id', 'marker-task', '--implementer', 'worker-m',
+    '--target', 'game', ...markerAllow.flatMap((item) => ['--allow', item])]), 0, 'PLANNED');
+  write(marker, 'game/src.txt', 'v2\n');
+  invoke(marker, ['advance', '--task-id', 'marker-task', '--to', 'IMPLEMENTED']);
+  write(marker, 'docs/implementation.md', '# Implemented\n- changed game\n');
+  invoke(marker, ['advance', '--task-id', 'marker-task', '--to', 'DOCUMENTED', '--evidence', 'docs/implementation.md']);
+  write(marker, 'docs/comparison.md', '# Skill comparison\n- MATCH\n');
+  invoke(marker, ['advance', '--task-id', 'marker-task', '--to', 'SKILL_COMPARED',
+    '--evidence', 'docs/comparison.md', '--comparison', 'MATCH']);
+  write(marker, 'docs/review.md', '# Independent review\n- approve\n');
+  invoke(marker, ['advance', '--task-id', 'marker-task', '--to', 'REVIEWED',
+    '--evidence', 'docs/review.md', '--reviewer', 'reviewer-m']);
+  expect('marker/pass', invoke(marker, ['advance', '--task-id', 'marker-task', '--to', 'PASS']), 0, 'PASS');
+  commitAll(marker, 'marker task pass');
+  expect('marker/verify', invoke(marker, ['verify', '--task-id', 'marker-task']), 0, 'PASS');
+  write(marker, 'game/PRODUCTION-DEMO-NOT-VERIFIED.json', '{"reason":"gate running"}\n');
+  expect('marker/exempt', invoke(marker, ['verify', '--task-id', 'marker-task']), 0, 'PASS');
+  write(marker, 'game/other.json', '{"real":"change"}\n');
+  expect('marker/control-drift', invoke(marker, ['verify', '--task-id', 'marker-task']), 1, 'E_PASS_DRIFT');
+  // 커밋된 표식은 제외 대상이 아니다 — 그것은 흔적이 아니라 저장소가 공유하는 판정이다.
+  fs.rmSync(path.join(marker, 'game/other.json'));
+  expect('marker/exempt-still', invoke(marker, ['verify', '--task-id', 'marker-task']), 0, 'PASS');
+  commitAll(marker, 'commit the marker as a shared verdict');
+  expect('marker/tracked-not-exempt', invoke(marker, ['verify', '--task-id', 'marker-task']), 1, 'E_PASS_DRIFT');
+
   // 4. PASS 후 승인 파일 변경 RED, 다음 작업도 차단
   write(normal, 'src/skill.txt', 'version 3 after pass\n');
   expect('pass-drift/verify', invoke(normal, ['verify', '--task-id', 'normal-task']), 1, 'E_PASS_DRIFT');
@@ -251,7 +284,7 @@ for (const item of results) {
 }
 // 개수를 세어 출력만 하면 검사를 지워도 "OK"가 나온다. 실측(2026-08-17): 9개를 지워도 통과했다.
 // 기대 개수를 고정해, 대조군이 사라지는 것 자체를 RED로 만든다.
-const EXPECTED_ASSERTIONS = 33;
+const EXPECTED_ASSERTIONS = 40;
 if (results.length !== EXPECTED_ASSERTIONS) {
   console.error(`skill task gate QA: 대조군 개수가 ${EXPECTED_ASSERTIONS}개가 아니다 (실제 ${results.length}개)`);
   console.error('대조군을 늘렸다면 EXPECTED_ASSERTIONS를 함께 올릴 것. 줄었다면 왜 사라졌는지 확인할 것.');

@@ -109,20 +109,48 @@ function git(repo, args) {
   }
 }
 
-function snapshot(repo, excluded = new Set()) {
+// ── 게이트가 만드는 흔적은 승인 내용이 아니다 ────────────────────────────────
+// `production-gate.mjs`는 진입할 때 대상 게임 폴더에 `PRODUCTION-DEMO-NOT-VERIFIED.json`을
+// 쓰고, 모든 게이트가 통과하면 지운다. 그 파일은 승인된 내용이 아니라 **게이트가 돌고 있다는
+// 흔적**이다.
+//
+// 실측(2026-08-18): `lastlight-marker-untrack` PASS의 승인 범위가
+// `dev_game/generated/last-light-zero-hour`였고, 그 게임의 게이트를 다시 돌리자 표식이 생기는
+// 순간 `factory:qa` 안의 verify-all이 E_PASS_DRIFT로 죽었다. 게이트가 **자기 자신이 만든 파일
+// 때문에** 완주하지 못하고, 표식이 남아 게임은 invalid로 굳었다. 스킬이 지시하는 절차(게이트를
+// 돌려 영수증을 번다)가 그 게임에서는 실행 불가능했다.
+//
+// 같은 판단이 이미 `production-pass-receipt.mjs`에 있다 — 그 파일도 이 표식을 지문에서 뺀다
+// ("표식을 남기는 것만으로 지문이 바뀌면 게이트 시작과 종료의 digest가 항상 다르다").
+// 여기서도 같은 이유로 뺀다. 정확히 이 이름 하나이며 그 파일의 유일한 역할이 표식이다.
+// 게임이 invalid인지는 여전히 파일 시스템을 보는 영수증 쪽이 소유한다 — 이 제외는 표식의
+// 효력을 없애지 않고, 표식이 **다른 작업의 승인 범위를 깨뜨리는 것**만 막는다.
+//
+// **추적되지 않는 표식만 제외한다.** 커밋된 표식은 다르다 — `iron-courier-last-line`의 표식은
+// 9afe541에 커밋돼 있고, 그것은 "이 게임은 게이트를 통과하지 못했다"는 저장소가 공유하는
+// 사실이다. 그것까지 제외하면 승인 범위 안의 커밋된 파일이 조용히 사라져도 게이트가 보지
+// 못한다(실측: 이 제외를 무조건 적용했더니 iron-courier의 커밋된 표식이 스냅샷에서 빠져
+// E_SCOPE가 났다 — 게이트가 옳았다). 흔적은 로컬이고, 사실은 커밋된다.
+const SNAPSHOT_EXEMPT_BASENAMES = new Set(['PRODUCTION-DEMO-NOT-VERIFIED.json']);
+
+function gitFileList(repo, args) {
   let raw;
   try {
-    raw = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
-      cwd: repo,
-      encoding: 'buffer',
-    });
+    raw = execFileSync('git', ['ls-files', ...args, '-z'], { cwd: repo, encoding: 'buffer' });
   } catch (error) {
     die('E_GIT', `저장소 파일 목록을 읽을 수 없다: ${error.message}`);
   }
+  return raw.toString('utf8').split('\0').filter(Boolean)
+    .map((file) => file.split(path.sep).join('/'));
+}
+
+function snapshot(repo, excluded = new Set()) {
+  const tracked = new Set(gitFileList(repo, ['--cached']));
+  const files = [...new Set([...tracked, ...gitFileList(repo, ['--others', '--exclude-standard'])])].sort();
   const result = {};
-  for (const file of raw.toString('utf8').split('\0').filter(Boolean).sort()) {
-    const relative = file.split(path.sep).join('/');
+  for (const relative of files) {
     if (excluded.has(relative)) continue;
+    if (SNAPSHOT_EXEMPT_BASENAMES.has(path.posix.basename(relative)) && !tracked.has(relative)) continue;
     const absolute = path.join(repo, relative);
     let stat;
     try { stat = fs.lstatSync(absolute); }
