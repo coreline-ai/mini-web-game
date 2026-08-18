@@ -225,6 +225,24 @@
           "arity": 0
         }
       }
+    },
+    "factory:sign-pass-receipt": {
+      "requiredAll": [
+        "--receipt"
+      ],
+      "requiredOneOf": [],
+      "flags": {
+        "--help": {
+          "arity": 0
+        },
+        "-h": {
+          "arity": 0
+        },
+        "--receipt": {
+          "arity": 1,
+          "type": "path"
+        }
+      }
     }
   }
 }

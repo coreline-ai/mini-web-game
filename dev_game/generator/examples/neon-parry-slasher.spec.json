@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "2.0.0",
+  "game": {
+    "id": "neon-parry-slasher",
+    "title": "Neon Parry: Blade Slasher",
+    "description": "A high-intensity cyberpunk rhythm & parry action game. Deflect incoming neon projectiles and drones with precise slash timing.",
+    "orientation": "portrait",
+    "target": "mobile-web"
+  },
+  "canvas": {
+    "width": 390,
+    "height": 844,
+    "backgroundColor": "#090a16",
+    "scaleMode": "fit"
+  },
+  "buildDecision": "custom-loop",
+  "implementationStatus": "implemented",
+  "runtimeConfig": "src/game/config/customGameConfig.js",
+  "rules": {
+    "durationSeconds": 180,
+    "goal": "survive-and-chain-parry-combos",
+    "progressMetric": "score-and-combo",
+    "requiredObjectives": ["deflect-projectiles", "maintain-combo", "trigger-overdrive"],
+    "failConditions": ["shield-depleted"],
+    "commands": [
+      {
+        "id": "slash-parry",
+        "label": "Slash / Parry",
+        "input": "swipe-or-tap",
+        "costs": {}
+      }
+    ]
+  },
+  "requiredAssetRoles": ["player-ronin", "drone-striker", "energy-bullet", "slash-arc", "fever-shockwave"],
+  "captureMatrix": "qa/capture-matrix.json",
+  "audio": {
+    "enabled": true,
+    "sfx": {
+      "slash": "audio/slash.wav",
+      "parry": "audio/parry.wav",
+      "hit": "audio/hit.wav",
+      "fever": "audio/fever.wav"
+    },
+    "music": {
+      "home": "audio/home-loop.wav",
+      "gameplay": "audio/gameplay-loop.wav"
+    }
+  },
+  "ui": {
+    "showPause": true,
+    "showProgressMetric": true,
+    "helpRequired": true
+  },
+  "performance": {
+    "targetFps": 60,
+    "pauseWhenHidden": true,
+    "maxTargetDpr": 3
+  }
+}

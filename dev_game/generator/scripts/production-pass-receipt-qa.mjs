@@ -480,6 +480,36 @@ check(signSource.includes('process.env.RECEIPT_SIGNING_KEY'),
   'the signer must read the key from the environment');
 check(/이미 서명된 영수증이다/.test(signSource), 'the signer must refuse to re-sign');
 
+// 서명기를 **CI가 부르는 형태 그대로** 실행한다. `npm --prefix dev_game run` 은 cwd 가
+// dev_game 이므로, 저장소 루트 기준 경로를 그대로 resolve 하면 `dev_game/dev_game/...` 이 된다.
+// 실측으로 커밋된 워크플로가 정확히 이 경로로 실패했다 — 소스 문자열 검사로는 잡히지 않는
+// 종류라 실제 실행으로 건다.
+{
+  const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), 'sign-cwd-'));
+  const devGameDir = path.join(sandbox, 'dev_game', 'docs', 'qa-evidence');
+  fs.mkdirSync(devGameDir, { recursive: true });
+  const rel = path.join('dev_game', 'docs', 'qa-evidence', 'probe-production-pass.json');
+  fs.writeFileSync(path.join(sandbox, rel), `${JSON.stringify({
+    schemaVersion: 2, status: 'PASS', gateProfile: 'compatibility',
+    projectFingerprint: 'deadbeef', generatedAt: '2026-08-17T00:00:00.000Z',
+  }, null, 2)}\n`);
+  const keys = crypto.generateKeyPairSync('ed25519');
+  // 공개키는 **샌드박스 안**에 둔다. 실제 저장소에 쓰면 시험이 스위치를 켜 버린다.
+  fs.writeFileSync(path.join(devGameDir, 'receipt-signing-public.pem'),
+    keys.publicKey.export({ type: 'spki', format: 'pem' }));
+  // dev_game 을 cwd 로 두고(=npm --prefix 와 같은 상황) 저장소 루트 기준 경로를 넘긴다.
+  const result = spawnSync(process.execPath, [path.join(scriptsDir, 'sign-pass-receipt.mjs'),
+    '--receipt', rel], {
+    cwd: path.join(sandbox, 'dev_game'),
+    encoding: 'utf8',
+    env: { ...process.env, RECEIPT_SIGNING_KEY: keys.privateKey.export({ type: 'pkcs8', format: 'pem' }) },
+  });
+  const output = `${result.stdout || ''}${result.stderr || ''}`;
+  check(!/서명할 영수증이 없다/.test(output),
+    `the signer must resolve a repo-root path when cwd is dev_game (got: ${output.trim().split('\n')[0]})`);
+  fs.rmSync(sandbox, { recursive: true, force: true });
+}
+
 if (failures.length) {
   console.error('production PASS receipt QA failed:');
   for (const failure of failures) console.error(`- ${failure}`);
