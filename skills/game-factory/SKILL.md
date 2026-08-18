@@ -60,7 +60,7 @@ Do not create or refresh a receipt just to change routing. Only a successful pro
 | `dev_game/generator/examples/poop-dodge.spec.json` | known-good Foundation spec |
 | `dev_game/generator/scripts/*.mjs` | the individual gates. **Which gate checks what, and which run automatically on v1 vs v2, is the §3.1 applicability table of `post-production-qa-contract.md`** — not this file |
 | `dev_game/docs/post-production-qa-contract.md` | defect classes, symptom → fix rules, and §3.1: automated gate vs manual capture check |
-| `dev_game/docs/qa-evidence/` | tracked summaries for generated-game QA evidence when `dev_game/generated/**` is gitignored |
+| `dev_game/docs/qa-evidence/` | tracked QA-evidence summaries and production-PASS receipts — tracked whether or not the game directory itself is |
 | `dev_game/generated/<game-id>/` | generated/custom game output — tracked or ignored **per game** via `dev_game/.gitignore` allowlist; verify with `git check-ignore -v <path>` |
 | `src/`, `assets/`, `docs/DEV-GUIDE.md` | shipped game reference for expansion patterns |
 
@@ -255,7 +255,9 @@ Also run or create a browser smoke that proves:
 - No console/page errors
 - The core input changes game state
 - The genre-defining action works
-- UI elements do not overlap in target mobile viewports
+- UI elements do not overlap in target mobile viewports — where an overlap is by design (a bar's
+  fill inside its track, a badge pinned on a card), declare the pair with `allowOverlapWith` in the
+  layout registry rather than moving a correctly-placed element to satisfy the gate
 
 Captured-state QA is mandatory before any completion report. What a capture must prove, how to
 classify what it shows, and the asset/imagegen rules are contract-owned — apply them, do not

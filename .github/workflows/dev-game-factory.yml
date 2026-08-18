@@ -8,9 +8,7 @@ on:
       - 'skills/**'
       - '.claude/skills/**'
       - '.agents/skills/**'
-      - 'scripts/install_game_factory_skill.sh'
-      - 'scripts/check_skill_drift.sh'
-      - 'scripts/check_doc_constants.mjs'
+      - 'scripts/**'
       - '.github/workflows/dev-game-factory.yml'
   pull_request:
     paths:
@@ -18,9 +16,7 @@ on:
       - 'skills/**'
       - '.claude/skills/**'
       - '.agents/skills/**'
-      - 'scripts/install_game_factory_skill.sh'
-      - 'scripts/check_skill_drift.sh'
-      - 'scripts/check_doc_constants.mjs'
+      - 'scripts/**'
       - '.github/workflows/dev-game-factory.yml'
   schedule:
     - cron: '0 18 * * *'
@@ -43,6 +39,18 @@ jobs:
         with:
           node-version: 20
           cache: npm
+      - name: Check skill documents against the tooling they describe
+        run: |
+          # 이 네 검사는 하위 프로세스도 브라우저도 npm install도 필요 없다.
+          # 무거운 단계 앞에 두어 문서/게이트 결함이면 몇 초 만에 실패하게 한다.
+          node scripts/check_skill_commands.mjs \
+            || { echo '::error::스킬 문서의 명령·플래그가 실제 CLI 계약과 어긋난다'; exit 1; }
+          node scripts/check_cli_parity.mjs \
+            || { echo '::error::공유 검증기와 leaf 파서의 수용/거부 또는 오류 코드가 갈라졌다'; exit 1; }
+          node scripts/check_skill_gate_controls.mjs \
+            || { echo '::error::skill_task_gate 대조군이 기대대로 동작하지 않는다'; exit 1; }
+          node scripts/skill_task_gate_qa.mjs \
+            || { echo '::error::skill_task_gate 결함 주입 QA 실패'; exit 1; }
       - name: Install dev_game tooling
         run: npm --prefix dev_game install
       - name: Install Playwright Chromium

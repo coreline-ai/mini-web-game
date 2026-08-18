@@ -398,6 +398,62 @@ if (inventory) {
   }
 }
 
+// ── 산문 플래그 실재 검증 ─────────────────────────────────────────────────────
+// 위의 검사는 완전한 명령줄만 본다. 그런데 스킬은 산문 안에서도 플래그를 지시한다
+// ("`--no-runtime-export`로 재생성하라"). 그 플래그가 사라지거나 이름이 바뀌면 명령줄
+// 검사는 조용히 통과하고 스킬만 거짓말쟁이가 된다 — 이 저장소가 실제로 겪은 부패 경로다.
+// 근거 집합은 "어떤 소스가 실제로 이 플래그를 파싱하거나 usage에 선언하는가"이다.
+// 주석·usage 문자열까지 포함해 일부러 관대하게 잡는다: 문서 검사에서 위양성은
+// 위음성보다 비싸고, 목표는 "존재하지 않는 플래그"를 잡는 것이지 사용법 심사가 아니다.
+{
+  const known = new Set();
+  const scanFlags = (dir) => {
+    let entries = [];
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) {
+        if (e.name !== 'node_modules' && e.name !== 'generated') scanFlags(full);
+        continue;
+      }
+      if (!e.name.endsWith('.mjs') && !e.name.endsWith('.js')) continue;
+      let src = '';
+      try {
+        src = fs.readFileSync(full, 'utf8');
+      } catch {
+        continue;
+      }
+      for (const m of src.matchAll(/(--[a-z][a-z0-9-]*)/g)) known.add(m[1]);
+    }
+  };
+  scanFlags(path.join(DEV_GAME, 'generator'));
+  for (const m of contractRaw.matchAll(/(--[a-z][a-z0-9-]*)/g)) known.add(m[1]);
+
+  if (known.size < 20) {
+    problems.push(`산문 플래그 근거 집합이 ${known.size}개뿐이다 — 소스를 못 읽었을 때 `
+      + '모든 플래그가 통과해버리므로 공허한 GREEN이 된다');
+  }
+
+  for (const skill of skillDirs) {
+    let md = '';
+    try {
+      md = fs.readFileSync(path.join(SKILLS, skill, 'SKILL.md'), 'utf8');
+    } catch {
+      continue;
+    }
+    const bad = new Set();
+    for (const m of md.matchAll(/(--[a-z][a-z0-9-]*)/g)) if (!known.has(m[1])) bad.add(m[1]);
+    for (const flag of bad) {
+      problems.push(`${skill}: 산문이 지시하는 ${flag}를 파싱하는 소스가 dev_game/generator 어디에도 `
+        + '없다 — 문서가 실재하지 않는 플래그를 시킨다');
+    }
+  }
+}
+
 // ── 보고 ──────────────────────────────────────────────────────────────────────
 if (problems.length) {
   console.error('skill commands check failed — 문서에 적힌 명령이 인자 계약과 맞지 않는다:');

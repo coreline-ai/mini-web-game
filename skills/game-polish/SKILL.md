@@ -1,6 +1,6 @@
 ---
 name: game-polish
-description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into a defect class from post-production-qa-contract.md, triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input/persistence/visual-quality bugs in a game whose first production-demo PASS still stands — confirm with factory:production-pass-status, which must report pass or legacy-pass. A missing receipt is not by itself disqualifying; legacy-pass covers the frozen set of games that predate receipts. Do not use before that first PASS, and do not use when the status is stale, invalid, or unknown — those belong to game-factory. Do not use to create a new game or to add a new feature or mode to an existing one — that is game-factory expansion."
+description: "Iterative post-production fix loop for an existing generated game in dev_game/generated/{game-id}: translate user-reported or capture-found symptoms into a defect class from post-production-qa-contract.md, triage by severity, fix, re-capture under the original repro conditions with before/after evidence, re-run production gates, and accumulate a per-game regression checklist. Use when the user asks for 후보정, 게임 보정, 게임 다듬기, polish the game, fix what the video/screenshot shows, QA fix pass, post-production pass, or reports gameplay/GUI/audio/input/persistence/visual-quality bugs in a game whose first production-demo PASS still stands — confirm with factory:production-pass-status, which must report pass or legacy-pass; legacy-pass covers a frozen, shrinking set of games that predate receipts. Do not use before that first PASS, and do not use when the status is stale, invalid, or unknown — those belong to game-factory. Do not use to create a new game or to add a new feature or mode to an existing one — that is game-factory expansion."
 ---
 
 # Game Polish
@@ -25,18 +25,24 @@ npm --prefix dev_game run factory:production-pass-status -- --project dev_game/g
 ```
 
 - Exit 0 — `pass` (receipt matches the project as it stands) or `legacy-pass` → continue with the
-  loop below. **A missing receipt is not by itself a failure**: 15 of this repo's 19 games are
-  `legacy-pass`, so do not read "영수증이 없다" as "route to factory".
+  loop below.
 - Exit 1 — `stale` (project changed since the gate ran), `invalid` (receipt broken, a
   `PRODUCTION-DEMO-NOT-VERIFIED.json` marker, a `gateProfile` weaker than the spec requires, or a
   custom-loop-full receipt with no QA session behind it), `unknown`, or a missing target → stop and
   route to `game-factory`. Never manufacture a receipt, write an evidence file, or run a gate merely
   to qualify for polish.
+- **Read the answer this command just printed, never a remembered one.** These states flip between
+  sessions: a `pass` game turns `stale` the moment anything under the project changes, and a
+  `legacy-pass` game turns `invalid` as soon as a failed gate leaves a marker. Both happen routinely.
+  Never carry a status over from an earlier session, from a conversation summary, or from a count
+  written in a document — including this one.
 - `legacy-pass` is a **frozen** set: `dev_game/docs/qa-evidence/legacy-pass-allowlist.json` lists the
-  games that predate receipts, and it never grows. Four games are outside it and are `unknown` —
-  that is correct, not a gap to backfill. It is also not fingerprinted, so it means "passed at some
-  point", not "still current". Step 6's gate run ends it either way: passing writes a real receipt,
-  failing leaves the not-verified marker and the game becomes `invalid`.
+  games that predate receipts, and it never grows. Games leave it permanently as they earn real
+  receipts, so it shrinks toward empty and a missing receipt is steadily less likely to be excusable.
+  It is also not fingerprinted, so it means "passed at some point", not "still current". Games
+  outside it report `unknown` — that is correct, not a gap to backfill. Step 6's gate run ends either
+  state: passing writes a real receipt, failing leaves the not-verified marker and the game becomes
+  `invalid`.
 - A requested new feature or mode always routes to `game-factory` expansion, even when the state is `pass`.
 
 ## Authoritative contract
@@ -52,7 +58,7 @@ npm --prefix dev_game run factory:production-pass-status -- --project dev_game/g
 | `dev_game/generated/<game-id>/qa-captures/` | per-game capture evidence: screenshots, video, contact sheets, state-sample JSON |
 | `dev_game/generated/<game-id>/docs/06-FINAL-QA-SUMMARY.md` | running log of symptoms, classifications, fixes, re-capture results |
 | `dev_game/generated/<game-id>/docs/07-REGRESSION-CHECKLIST.md` | accumulated repro scenarios of every closed defect; re-run at the start of every polish session |
-| `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md` | durable tracked summary (generated/** is gitignored) |
+| `dev_game/docs/qa-evidence/<game-id>-<YYYY-MM-DD>.md` | durable tracked summary — always tracked, unlike the game directory itself |
 | `dev_game/generator/scripts/*.mjs` | production gates reused for re-verification |
 
 ## Required loop
@@ -167,6 +173,12 @@ If any symptom remains, report **후보정 미완료** with the open defect list
 
 - No new game creation, no scaffold regeneration, no asset-pipeline changes — route those to `game-factory`.
 - Asset regeneration is allowed only when the contract's fix rule requires it (e.g. background containing gameplay entities); use the same `gpt 이미지젠 스킬` 경로 and provenance rules as `game-factory`. Host adapter and long-run execution rules are the same too — check `factory:host-preflight` first and regenerate individual assets with `npm --prefix dev_game run factory:imagegen -- --project generated/<game-id> --skip-existing --id "<asset-id>"` so a targeted fix does not rebuild the whole art set. **That command requires `asset-plan.json`**; games from before that convention have none, and `factory:asset-plan-recover` rebuilds the plan from the manifest. It cannot recover prompts the manifest never stored — where a prompt is missing, write one before regenerating, and never run `productionize.mjs` on a shipped game to get a plan (it overwrites the planning docs) (`dev_game/docs/ai-art-pipeline.md#호스트-어댑터`).
+- **Reproduce the delivery form of the asset you are replacing.** `factory:imagegen` exports a
+  runtime WebP by default, but many shipped assets are the master PNG — and the two forms coexist
+  inside one manifest, so this is decided per asset, not per game. Read the manifest entry you are
+  about to overwrite: if it has no `provenance.runtimeExport`, regenerate with `--no-runtime-export`.
+  Skipping this replaces a passing asset with one of a different format and size, and the fidelity
+  gate you were trying to clear fails on the fix itself.
 - Do not add features during polish. Difficulty/progression fixes (classes D/E) adjust existing systems to the contract; new mechanics are a `game-factory` expansion request.
 
 ## Response format
