@@ -128,6 +128,12 @@ jobs:
           npm --prefix dev_game run factory:production-demo-qa -- --project "generated/${{ matrix.game }}" --require-gpt-imagegen
           npm --prefix dev_game run factory:image-quality-qa -- --project "generated/${{ matrix.game }}"
           npm --prefix dev_game run factory:hq-screen-quality-qa -- --project "generated/${{ matrix.game }}" --skip-market-events
+      - name: Install Chromium for the physics-bounds run
+        # qa:physics-bounds는 실제 브라우저를 띄운다. 이 잡은 지금껏 브라우저를
+        # 설치한 적이 없어서 "Executable doesn't exist"로 죽었다 — 게임 결함이 아니라
+        # 잡이 의존성을 빠뜨린 것이다. 필요한 게임에서만 설치해 나머지 12개는 빠르게 둔다.
+        if: matrix.game == 'rush-lane-racer'
+        run: npm --prefix dev_game exec playwright install --with-deps chromium
       - name: Verify Rush Lane Racer physics bounds
         if: matrix.game == 'rush-lane-racer'
         run: npm --prefix "dev_game/generated/${{ matrix.game }}" run qa:physics-bounds
