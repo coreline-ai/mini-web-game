@@ -108,7 +108,21 @@ jobs:
       - name: Build runtime allowlist
         run: npm --prefix "dev_game/generated/${{ matrix.game }}" run build
       - name: Verify runtime file-set, SHA and budget
-        run: npm --prefix dev_game run factory:dist-runtime-qa -- --project "generated/${{ matrix.game }}"
+        run: |
+          GAME="dev_game/generated/${{ matrix.game }}"
+          # production-gate.mjs와 같은 판단을 쓴다: assetLayout 마커가 없으면 그 게임은
+          # 런타임 배송 롤아웃을 도입한 적이 없고 이 게이트는 해당되지 않는다.
+          # 게이트는 건너뛰는데 CI만 하드 실패하면 계약이 두 개가 된다.
+          if node -e "process.exit(require('./$GAME/assets/asset-manifest.json').assetLayout ? 0 : 1)"; then
+            npm --prefix dev_game run factory:dist-runtime-qa -- --project "generated/${{ matrix.game }}"
+          elif [ -f "$GAME/scripts/runtime-asset-delivery.mjs" ]; then
+            # 조용한 skip은 위험하다 — 마커를 잃은 롤아웃 게임까지 통과시킨다.
+            # 배선이 남아 있는데 마커만 없으면 legacy가 아니라 회귀다.
+            echo "::error::${{ matrix.game }}: runtime-delivery 배선은 있는데 assetLayout 마커가 없다 — 롤아웃이 회귀했다"
+            exit 1
+          else
+            echo "::notice::${{ matrix.game }}: legacy 배송(assetLayout 마커 없음) — 런타임 배송 게이트 해당없음"
+          fi
       - name: Verify production manifest and image quality
         run: |
           npm --prefix dev_game run factory:production-demo-qa -- --project "generated/${{ matrix.game }}" --require-gpt-imagegen
