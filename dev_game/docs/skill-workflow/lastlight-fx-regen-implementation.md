@@ -94,3 +94,22 @@ production-gate       exit 0
 `codex-imagegen.mjs` 와 그 대조군을 건드린다. 게이트가 `E_SCOPE` 로 막았고 — 옳다 —
 `lastlight-fx-regen-r2` 로 범위를 정확히 다시 선언했다. 첫 task 는 PASS 에 도달한 적이 없어
 supersede 대상이 아니므로 상태 파일만 철회했다.
+
+## PASS 이후 drift — 워크플로 교훈
+
+커밋 뒤 `verify-all` 이 drift 를 냈다.
+
+```
+[E_PASS_DRIFT] lastlight-fx-regen-r2 PASS 이후 승인 범위가 변경됐다:
+  dev_game/generated/last-light-zero-hour/PRODUCTION-DEMO-NOT-VERIFIED.json
+```
+
+게이트가 옳다. PASS 시점에 그 파일은 **작업 트리에서는 지워졌지만 아직 추적 중**이었고,
+커밋이 인덱스에서 제거하면서 승인 범위가 바뀌었다.
+
+교훈: **PASS 로 올리기 전에 작업 트리를 "커밋할 상태" 와 정확히 일치시킨다.** 스테이징 시점에
+하는 정리(`git rm --cached` 등)는 PASS 이후의 변경이 되어 반드시 drift 를 만든다. 이 패턴이
+이번 세션에서 세 번째다 — 앞의 두 번은 `git add -A` 가 남의 파일을 쓸어 담은 경우와 동시
+세션이 만든 파일이 baseline 에 없던 경우였다.
+
+`lastlight-marker-untrack` 이 supersede 하며 닫는다.
