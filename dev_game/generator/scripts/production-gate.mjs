@@ -193,8 +193,9 @@ if (isMain) {
   // 순서가 중요하다. 이 블록은 **첫 게이트(factory:qa)보다 앞**이어야 한다. 뒤에 두었더니
   // foundation gate가 실패했을 때 지난 영수증이 그대로 남아 status가 pass를 보고했다.
   //
-  // 그리고 영수증을 지우기만 하면 부족하다. 지우기만 하면 실패한 실행이 게임을 legacy-pass로
-  // **승격**시킨다(영수증 없음 → allowlist 조회 → exit 0). 실측으로 확인된 동작이다.
+  // 그리고 영수증을 지우기만 하면 부족하다. 지우기만 하면 실패한 실행이 게임을 `unknown`으로
+  // 되돌려 "게이트를 통과하지 못했다"는 사실이 "모른다"로 희석된다(legacy-pass가 있던 시절에는
+  // 그보다 나빴다 — 영수증 없음이 allowlist 조회로 exit 0을 받았다).
   // 그래서 표식을 함께 남긴다. 성공한 실행만 마지막에 이 표식을 지우고 영수증을 쓴다.
   const notVerifiedMarker = path.join(projectDir, 'PRODUCTION-DEMO-NOT-VERIFIED.json');
   const invalidated = invalidatePassReceipt(projectDir);

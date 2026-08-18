@@ -14,8 +14,8 @@ import { fileURLToPath } from 'node:url';
 // 로컬 저장소에는 위조자가 갖지 못하는 비밀이 없으므로 서명으로는 닫히지 않는다. 대신 **git을
 // 앵커로 쓴다**: PASS 상태는 HEAD에 커밋돼 있어야 하고, 작업 트리의 바이트가 커밋된 바이트와
 // 같아야 한다. 위조하려면 커밋이 필요하고, 커밋은 이력에 남아 검토자가 볼 수 있다.
-// 커밋된 상태 파일을 지우는 것도 RED다. 같은 방식이 `production-pass-receipt`의 legacy-pass에서
-// 이미 쓰이고 있다.
+// 커밋된 상태 파일을 지우는 것도 RED다. 같은 앵커(HEAD에 커밋된 바이트)를
+// `production-pass-receipt`의 영수증 판정도 쓴다.
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const STATES = ['PLANNED', 'IMPLEMENTED', 'DOCUMENTED', 'SKILL_COMPARED', 'REVIEWED', 'PASS'];

@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
 import {
   POLISH_ELIGIBLE_STATES, assertSnapshotUnchanged, beginGateSnapshot, canonicalSnapshot,
-  invalidatePassReceipt, legacyPassEvidence,
+  invalidatePassReceipt,
   passReceiptPath, projectFingerprint, verifyPassReceipt, writePassReceipt,
 } from './lib/production-pass-receipt.mjs';
 
@@ -48,7 +48,8 @@ try {
 // 실제 배치를 그대로 흉내 낸다: `<root>/dev_game/generated/<id>`. 그래야 정본 영수증이
 // `<root>/dev_game/docs/qa-evidence/` 안에 떨어지고, fixture 정리로 전부 지워진다.
 // tmpdir 바로 아래에 만들면 영수증이 fixture 밖으로 새어 나가 지워지지 않는다.
-// legacy-pass는 **커밋된** 증거만 받으므로 fixture도 진짜 git 저장소여야 한다.
+// fixture는 진짜 git 저장소다 — 아래 "legacy-pass 폐지" 대조군이 증거 파일을 실제로 커밋해
+// 옛 자격 조건을 재현하기 때문이다.
 const root = fs.mkdtempSync(path.join(os.tmpdir(), 'production-pass-receipt-'));
 const evidenceDir = path.join(root, 'dev_game', 'docs', 'qa-evidence');
 fs.mkdirSync(evidenceDir, { recursive: true });
@@ -67,15 +68,6 @@ function makeProject(id) {
   fs.writeFileSync(path.join(dir, 'assets', 'hero.png'), 'PNG-v1\n');
   fs.writeFileSync(path.join(dir, 'src', 'main.js'), 'export const version = 1;\n');
   return dir;
-}
-// 동결 allowlist를 fixture에 심는다. 목록에 없는 게임은 증거가 있어도 legacy-pass가 아니다.
-// **덧붙이기**다. 덮어쓰기로 두었더니 뒤쪽 컨트롤이 앞쪽 fixture의 자격을 조용히 빼앗아,
-// 대조군이 의도한 결함이 아니라 fixture 설정 때문에 붉어졌다.
-const allowlisted = [];
-function allowlist(...ids) {
-  for (const id of ids) if (!allowlisted.includes(id)) allowlisted.push(id);
-  fs.writeFileSync(path.join(evidenceDir, 'legacy-pass-allowlist.json'),
-    `${JSON.stringify({ schemaVersion: 1, frozenAt: '2026-08-17', games: allowlisted.map((id) => ({ id })) }, null, 2)}\n`);
 }
 /** 증거 파일을 쓰고 **커밋까지** 한다. commit 없이 쓰기만 하면 증거로 세면 안 된다. */
 function commitEvidence(name) {
@@ -268,10 +260,9 @@ try {
 
   // ── unknown: 영수증도 없고 완료 기록도 없다 ──
   const bare = makeProject('bare-game');
-  check(legacyPassEvidence(bare).length === 0, 'bare project must have no legacy evidence');
   expect(verifyPassReceipt(bare), {
-    state: 'unknown', label: 'no receipt, no evidence',
-    fingerprint: /no production-demo PASS receipt and no committed/,
+    state: 'unknown', label: 'no receipt',
+    fingerprint: /no production-demo PASS receipt/,
   });
 
   // ── 양성 대조군 6: gateProfile 위조 ──
@@ -293,69 +284,30 @@ try {
     });
   }
 
-  // ── legacy-pass: 동결 allowlist + **커밋된** qa-evidence/<id>-<date>.md ──
-  const legacy = makeProject('legacy-evidence');
-  allowlist('legacy-evidence', 'uncommitted-evidence', 'staged-evidence', 'marked-unverified');
+  // ── legacy-pass 폐지: 옛 자격을 **전부** 갖춘 게임도 이제 unknown이다 ──
+  // 2026-08-19까지는 (1) 동결 allowlist 등재 + (2) 커밋된 `qa-evidence/<id>-<date>.md` 두 조건을
+  // 모두 만족하면 영수증 없이도 polish 진입이 허용됐다(`legacy-pass`). 이 대조군은 그 두 조건을
+  // **일부러 전부 만족시킨 뒤** unknown을 요구한다. allowlist 파일을 fixture에 되살려 두는 것이
+  // 핵심이다 — 파일이 있어도 어떤 코드도 그것을 읽지 않는다는 것이 증명 대상이기 때문이다.
+  // 이것이 무너지면 "게이트를 통과한 현재 영수증만 polish를 허용한다"는 규칙에 예외가 생긴다.
+  const formerLegacy = makeProject('legacy-evidence');
+  fs.writeFileSync(path.join(evidenceDir, 'legacy-pass-allowlist.json'),
+    `${JSON.stringify({ schemaVersion: 1, frozenAt: '2026-08-17', games: [{ id: 'legacy-evidence' }] }, null, 2)}\n`);
   commitEvidence('legacy-evidence-2026-08-01.md');
-  check(legacyPassEvidence(legacy).includes('qa-evidence/legacy-evidence-2026-08-01.md'),
-    'legacy evidence must list the committed qa-evidence summary');
-  expect(verifyPassReceipt(legacy), {
-    state: 'legacy-pass', label: 'allowlisted + committed evidence',
-    fingerprint: /frozen legacy allowlist with committed/,
+  expect(verifyPassReceipt(formerLegacy), {
+    state: 'unknown', label: 'former legacy-pass shape: allowlist entry + committed evidence',
+    fingerprint: /no production-demo PASS receipt/,
   });
 
-  // ── 양성 대조군 7: allowlist에 없는 게임은 증거가 있어도 legacy-pass가 아니다 ──
-  // 목록이 닫혀 있지 않으면 스킬이 빌드 중에 쓰는 요약 파일이 곧 자격증이 된다 —
-  // 게이트가 실패한 빌드가 스스로 polish 자격을 발급하는 순환이다.
-  const notListed = makeProject('not-listed');
-  commitEvidence('not-listed-2026-08-01.md');
-  check(legacyPassEvidence(notListed).length === 0,
-    'a game outside the frozen allowlist must not become legacy-pass by writing evidence');
-  expect(verifyPassReceipt(notListed), {
-    state: 'unknown', label: 'evidence but not on the allowlist',
-    fingerprint: /no production-demo PASS receipt and no committed/,
-  });
-
-  // ── 양성 대조군 8: 커밋하지 않은 / stage만 한 증거는 세지 않는다 ──
-  // `git ls-files`는 **인덱스**를 읽으므로 `git add`만 해도 통과한다. `git ls-tree HEAD`여야
-  // 커밋된 트리만 본다. 두 경우를 다 건다.
-  const uncommitted = makeProject('uncommitted-evidence');
-  fs.writeFileSync(path.join(evidenceDir, 'uncommitted-evidence-2026-08-01.md'), '# QA\n');
-  check(legacyPassEvidence(uncommitted).length === 0, 'unstaged evidence must not count');
-  expect(verifyPassReceipt(uncommitted), {
-    state: 'unknown', label: 'unstaged evidence file',
-    fingerprint: /no production-demo PASS receipt and no committed/,
-  });
-  const staged = makeProject('staged-evidence');
-  fs.writeFileSync(path.join(evidenceDir, 'staged-evidence-2026-08-01.md'), '# QA\n');
-  git('add', '--', path.join('dev_game', 'docs', 'qa-evidence', 'staged-evidence-2026-08-01.md'));
-  check(legacyPassEvidence(staged).length === 0, 'staged-but-uncommitted evidence must not count');
-  expect(verifyPassReceipt(staged), {
-    state: 'unknown', label: 'staged-but-uncommitted evidence',
-    fingerprint: /no production-demo PASS receipt and no committed/,
-  });
-
-  // ── 양성 대조군 9: 접두사 충돌 ──
-  // `startsWith(`${id}-`)`이면 `legacy`가 `legacy-evidence-2026-08-01.md`를 제 증거로 삼는다.
-  const prefix = makeProject('legacy');
-  allowlist('legacy');
-  check(legacyPassEvidence(prefix).length === 0,
-    'a game id that prefixes another must not inherit its evidence');
-  expect(verifyPassReceipt(prefix), {
-    state: 'unknown', label: 'prefix-colliding game id',
-    fingerprint: /no production-demo PASS receipt and no committed/,
-  });
-
-  // ── 미검증 표식: legacy는 이기고, 유효한 현재 영수증에는 진다 ──
+  // ── 미검증 표식: 영수증 없음은 이기고, 유효한 현재 영수증에는 진다 ──
   // 앞의 판은 표식을 **모든 것보다** 앞에 두었다. 그러면 `make-game`의
   // clearIncompleteMarker가 "검증 → !ok면 throw" 순서라서 표식을 영원히 못 지운다(교착).
   // 게이트를 통과했다는 유효한 영수증은 표식보다 강한 증거다.
   const marked = makeProject('marked-unverified');
-  commitEvidence('marked-unverified-2026-08-01.md');
-  check(verifyPassReceipt(marked).state === 'legacy-pass', 'marker fixture must start legacy-pass');
+  check(verifyPassReceipt(marked).state === 'unknown', 'marker fixture must start unknown');
   fs.writeFileSync(path.join(marked, 'PRODUCTION-DEMO-NOT-VERIFIED.json'), '{"reason":"gate not run"}\n');
   expect(verifyPassReceipt(marked), {
-    state: 'invalid', label: 'PRODUCTION-DEMO-NOT-VERIFIED marker over legacy',
+    state: 'invalid', label: 'PRODUCTION-DEMO-NOT-VERIFIED marker over a missing receipt',
     fingerprint: /PRODUCTION-DEMO-NOT-VERIFIED\.json/,
   });
   writePassReceipt(marked, { gateProfile: 'compatibility', spec: { schemaVersion: '1.0.0' } });
@@ -365,8 +317,8 @@ try {
   });
 
   // ── 없는 프로젝트는 라이브러리 수준에서도 자격이 없다 ──
-  // CLI에만 두면 make-game 같은 직접 호출자가 legacy-pass를 받는다.
-  expect(verifyPassReceipt(path.join(root, 'dev_game', 'generated', 'legacy-evidence-deleted')), {
+  // CLI에만 두면 make-game 같은 직접 호출자가 검사를 우회한다.
+  expect(verifyPassReceipt(path.join(root, 'dev_game', 'generated', 'never-created')), {
     state: 'unknown', label: 'missing project directory', fingerprint: /project directory not found/,
   });
 
@@ -382,7 +334,7 @@ try {
 // ── 지문 상호 배타성 ─────────────────────────────────────────────────────────
 // 지문 하나가 여러 사유에 걸리면 서로 다른 결함이 같은 것으로 보고된다. 하나 고칠 때마다
 // 전수 재대조가 필요하므로 여기서 기계로 돌린다.
-// 같은 지문을 공유하는 컨트롤이 여럿인 것은 정상이다(v1/v2 둘 다 pass, legacy-pass 두 경로).
+// 같은 지문을 공유하는 컨트롤이 여럿인 것은 정상이다(v1/v2 둘 다 pass, unknown 두 경로).
 // 위반은 **다른** 지문의 사유까지 걸리는 경우다 — 그때 두 결함이 한 결함으로 보고된다.
 for (const probe of seenReasons) {
   const foreign = seenReasons.filter((other) => String(other.fingerprint) !== String(probe.fingerprint)
@@ -401,7 +353,8 @@ check(gateSource.lastIndexOf('writePassReceipt(') > gateSource.lastIndexOf('cust
 check(gateSource.indexOf('invalidatePassReceipt(projectDir)') > 0
   && gateSource.indexOf('invalidatePassReceipt(projectDir)') < gateSource.indexOf("'factory:qa'"),
   'production gate must invalidate the previous receipt before the FIRST gate (factory:qa), not just before production-demo-qa');
-// 영수증만 지우면 실패한 실행이 게임을 legacy-pass로 **승격**시킨다. 표식을 함께 남겨야 한다.
+// 영수증만 지우면 실패한 실행이 게임을 unknown으로 되돌린다 — "통과하지 못했다"가 "모른다"로
+// 희석된다. 표식을 함께 남겨야 한다.
 check(gateSource.indexOf('fs.writeFileSync(notVerifiedMarker') > 0
   && gateSource.indexOf('fs.writeFileSync(notVerifiedMarker') < gateSource.indexOf("'factory:qa'"),
   'production gate must write the not-verified marker before the first gate');
@@ -418,7 +371,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log('production PASS receipt QA OK: v1/v2 profiles, tracked receipt path, '
-  + 'pass/legacy-pass/stale/invalid/unknown, src+asset staleness, '
-  + 'forgery/schema/JSON/unverified-marker positives, committed-only legacy evidence '
-  + '(uncommitted + prefix-collision negatives), fingerprint exclusivity, '
+  + 'pass/stale/invalid/unknown, src+asset staleness, '
+  + 'forgery/schema/JSON/unverified-marker positives, retired legacy-pass '
+  + '(allowlist entry + committed evidence must stay unknown), fingerprint exclusivity, '
   + 'gate-start invalidation, gate/make wiring');
