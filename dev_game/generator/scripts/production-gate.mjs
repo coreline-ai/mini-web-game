@@ -253,6 +253,20 @@ if (isMain) {
   });
   preview.stderr?.on('data', (chunk) => { previewStderr += String(chunk); });
   preview.on('exit', (code, signal) => { previewDead = { code, signal, stderr: previewStderr }; });
+  // ── 왜 exit 훅인가 ────────────────────────────────────────────────────────
+  // 위 `run()`은 실패 시 `process.exit()`을 부른다. 그 경로는 아래 try/finally를 **건너뛴다** —
+  // 즉 브라우저 게이트가 하나라도 실패하면 이 프리뷰가 고아로 남는다. 실측(2026-08-19):
+  // `--viewports 1x1`로 실패시킨 게이트가 4325에 vite를 남겼고, 그 유령이 다음 실행의 신원
+  // 검증을 실패시켰다. 오염의 근원이 이것이다 — 검사가 아니라 **정리**가 빠져 있었다.
+  //
+  // 종료 경로가 몇 개든(정상 종료·process.exit·미포착 예외) 한 곳에서 정리한다.
+  // 'exit' 핸들러에서는 비동기 작업이 실행되지 않으므로 동기 kill만 쓴다.
+  const killPreviewGroup = () => {
+    if (!preview || preview.exitCode !== null || previewDead) return;
+    if (process.platform === 'win32') spawnSync('taskkill', ['/pid', String(preview.pid), '/T', '/F'], { stdio: 'ignore' });
+    else { try { process.kill(-preview.pid, 'SIGKILL'); } catch { try { preview.kill('SIGKILL'); } catch {} } }
+  };
+  process.on('exit', killPreviewGroup);
   try {
     await waitForHttp(previewUrl, 20000, () => previewDead);
     // 200이 돌아온다고 내 서버라는 뜻은 아니다. 서빙되는 dist가 이 프로젝트의 것인지 확인한다.

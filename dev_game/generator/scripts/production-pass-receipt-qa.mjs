@@ -377,6 +377,13 @@ for (const [label, source, firstBrowserGate] of [
   check(/--strictPort/.test(source), `${label} must pin the preview port with --strictPort`);
   check(/stderr\?\.on\('data'/.test(source), `${label} must keep the preview stderr instead of discarding it`);
 }
+// 검사가 아니라 **정리**가 빠져 있으면 오염은 계속 만들어진다. production-gate의 run()은 실패 시
+// process.exit()을 부르고 그 경로는 try/finally를 건너뛰므로, 실패한 게이트마다 프리뷰가 고아로
+// 남았다(실측 2026-08-19). 종료 경로 전부를 덮는 exit 훅이 첫 브라우저 게이트보다 앞에 있어야 한다.
+const exitHook = gateSource.indexOf("process.on('exit', killPreviewGroup)");
+check(exitHook > 0, 'production gate must register an exit-time preview cleanup (run() calls process.exit and skips finally)');
+check(exitHook > 0 && exitHook < gateSource.lastIndexOf('visualLayoutQa'),
+  'production gate must register the exit-time cleanup before the first browser gate');
 
 
 
@@ -389,4 +396,4 @@ console.log('production PASS receipt QA OK: v1/v2 profiles, tracked receipt path
   + 'pass/stale/invalid/unknown, src+asset staleness, '
   + 'forgery/schema/JSON/unverified-marker positives, retired legacy-pass '
   + '(allowlist entry + committed evidence must stay unknown), fingerprint exclusivity, '
-  + 'gate-start invalidation, gate/make wiring, preview identity guard');
+  + 'gate-start invalidation, gate/make wiring, preview identity guard, preview exit cleanup');
