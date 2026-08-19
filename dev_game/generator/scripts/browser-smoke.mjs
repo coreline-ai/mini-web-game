@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { depsInstallArgs } from './lib/npm-install.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const generatorRoot = path.resolve(__dirname, '..');
@@ -55,7 +56,7 @@ async function importPlaywright() {
 }
 
 async function browserCheck(projectDir, port) {
-  run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
+  run(npmCommand(), depsInstallArgs(projectDir), { cwd: projectDir });
   run(npmCommand(), ['run', 'build'], { cwd: projectDir });
   run(npmCommand(), ['run', 'qa:dist-runtime'], { cwd: projectDir });
   // detached: 자체 프로세스 그룹으로 분리해 npm→sh→vite→esbuild 트리 전체를 그룹 시그널로 종료할 수 있게 한다.

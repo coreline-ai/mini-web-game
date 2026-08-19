@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
+import { depsInstallArgs } from './lib/npm-install.mjs';
 import {
   POLISH_ELIGIBLE_STATES, assertSnapshotUnchanged, beginGateSnapshot, canonicalSnapshot,
   invalidatePassReceipt,
@@ -380,6 +381,30 @@ for (const [label, source, firstBrowserGate] of [
 // 검사가 아니라 **정리**가 빠져 있으면 오염은 계속 만들어진다. production-gate의 run()은 실패 시
 // process.exit()을 부르고 그 경로는 try/finally를 건너뛰므로, 실패한 게이트마다 프리뷰가 고아로
 // 남았다(실측 2026-08-19). 종료 경로 전부를 덮는 exit 훅이 첫 브라우저 게이트보다 앞에 있어야 한다.
+// ── 게이트가 지문 입력을 스스로 바꾸지 못하게 한다 ──────────────────────────
+// `npm install`은 lockfile을 고칠 권한이 있고, 실제로 고쳤다(실측 2026-08-19: castle-archer의
+// 게이트 실행이 optional peer 항목 2개를 지웠다). lockfile은 canonical snapshot에 포함되므로
+// 그 실행은 **자기가 바꾼 상태를 봉인**하고, 트리가 정리되는 순간 영수증이 stale이 된다.
+// 그것이 오늘 stale 2건의 원인이었다. lockfile이 있으면 읽기 전용인 `npm ci`를 쓴다.
+{
+  const lockRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'deps-install-args-'));
+  try {
+    check(depsInstallArgs(lockRoot).join(' ') === 'install --silent',
+      'lockfile이 없는 프로젝트(즉석 스캐폴드)는 npm install로 생성해야 한다');
+    fs.writeFileSync(path.join(lockRoot, 'package-lock.json'), '{"lockfileVersion":3}\n');
+    check(depsInstallArgs(lockRoot).join(' ') === 'ci --silent',
+      'lockfile이 있는 프로젝트는 npm ci로 설치해야 한다 — install은 지문 입력을 바꾼다');
+  } finally {
+    fs.rmSync(lockRoot, { recursive: true, force: true });
+  }
+}
+for (const [label, source] of [['production-gate', gateSource], ['custom-loop-full-qa', clfSource]]) {
+  check(!/\['install', '--silent'\]/.test(source),
+    `${label} must not run npm install on a game (it rewrites package-lock.json, which the receipt fingerprint covers)`);
+}
+check(/depsInstallArgs\(projectDir\)/.test(gateSource),
+  'production gate must install through the shared deterministic-install contract');
+
 const exitHook = gateSource.indexOf("process.on('exit', killPreviewGroup)");
 check(exitHook > 0, 'production gate must register an exit-time preview cleanup (run() calls process.exit and skips finally)');
 check(exitHook > 0 && exitHook < gateSource.lastIndexOf('visualLayoutQa'),
@@ -396,4 +421,5 @@ console.log('production PASS receipt QA OK: v1/v2 profiles, tracked receipt path
   + 'pass/stale/invalid/unknown, src+asset staleness, '
   + 'forgery/schema/JSON/unverified-marker positives, retired legacy-pass '
   + '(allowlist entry + committed evidence must stay unknown), fingerprint exclusivity, '
-  + 'gate-start invalidation, gate/make wiring, preview identity guard, preview exit cleanup');
+  + 'gate-start invalidation, gate/make wiring, preview identity guard, preview exit cleanup, '
+  + 'deterministic install (lockfile → npm ci)');

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { depsInstallArgs } from './lib/npm-install.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const generatorRoot = path.resolve(__dirname, '..');
@@ -122,7 +123,7 @@ async function importPlaywright() {
 }
 
 function startPreview(projectDir, port) {
-  run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
+  run(npmCommand(), depsInstallArgs(projectDir), { cwd: projectDir });
   run(npmCommand(), ['run', 'build'], { cwd: projectDir });
   const server = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port), '--strictPort'], {
     cwd: projectDir,

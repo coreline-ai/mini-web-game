@@ -8,6 +8,7 @@ import { writePassReceipt, invalidatePassReceipt, beginGateSnapshot, assertSnaps
   from './lib/production-pass-receipt.mjs';
 import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
 import { assertPreviewServesProject } from './lib/preview-identity.mjs';
+import { depsInstallArgs } from './lib/npm-install.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
@@ -237,7 +238,7 @@ if (isMain) {
 
   // Build once and serve once so every viewport gate observes the same immutable
   // preview and does not repeatedly decode the project's high-resolution assets.
-  run(npmCommand(), ['install', '--silent'], { cwd: projectDir });
+  run(npmCommand(), depsInstallArgs(projectDir), { cwd: projectDir });
   run(npmCommand(), ['run', 'build'], { cwd: projectDir });
   // 의존성 설치·빌드 같은 허용된 준비가 끝난 뒤에 QA 시작 digest를 고정한다. 그보다 앞에서
   // 재면 node_modules 설치가 곧바로 drift로 잡힌다(제외 목록에 있지만 dist는 빌드가 만든다).
