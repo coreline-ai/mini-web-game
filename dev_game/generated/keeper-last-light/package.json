@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "qa:dist-runtime": "node scripts/runtime-asset-delivery.mjs qa",
     "test:rules": "node qa/rules-sync-qa.mjs",
     "test:lifecycle": "node qa/lifecycle-soak-qa.mjs",
     "test:clarity": "node qa/clarity-qa.mjs",

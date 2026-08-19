@@ -1,5 +1,10 @@
 {
   "qualityTier": "production-demo",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 7340032,
   "assetIsolation": {
     "mode": "per-game",
     "generatedFor": "last-minute-keeper",
@@ -616,7 +621,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-punch",
@@ -628,7 +634,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-catch",
@@ -640,7 +647,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-net",
@@ -652,7 +660,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-whistle",
@@ -664,7 +673,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "bgm-home",
@@ -676,7 +686,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "bgm-gameplay",
@@ -688,7 +699,8 @@
         "generatedFor": "last-minute-keeper",
         "method": "procedural-wav-synthesis",
         "generator": "scripts/make-audio.mjs (배음 스택 + 코사인 엔벨로프 + 리버브, 외부 서비스 없음)"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "imagegen": {

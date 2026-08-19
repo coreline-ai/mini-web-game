@@ -1,5 +1,10 @@
 {
   "qualityTier": "production-demo",
+  "assetLayout": {
+    "version": "runtime-assets-v1",
+    "runtimeRoot": "assets"
+  },
+  "runtimeBudgetBytes": 8388608,
   "assetIsolation": {
     "mode": "per-game",
     "generatedFor": "keeper-last-light",
@@ -552,7 +557,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-long",
@@ -564,7 +570,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-accepted",
@@ -576,7 +583,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-wreck",
@@ -588,7 +596,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "sfx-stage-clear",
@@ -600,7 +609,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "bgm-home",
@@ -612,7 +622,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     },
     {
       "id": "bgm-gameplay",
@@ -624,7 +635,8 @@
         "generatedFor": "keeper-last-light",
         "method": "procedural-wav-synthesis",
         "generator": "game-specific tone/noise synthesis (no external service)"
-      }
+      },
+      "delivery": "runtime"
     }
   ],
   "imagegen": {

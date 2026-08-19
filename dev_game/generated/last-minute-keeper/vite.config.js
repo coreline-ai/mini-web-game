@@ -1,23 +1,12 @@
 import { defineConfig } from 'vite';
-import fs from 'node:fs';
-import path from 'node:path';
+import { createRuntimeAssetDeliveryPlugin } from './scripts/runtime-asset-delivery.mjs';
 
-// assets/를 publicDir로 쓰면 그 안의 _source/(마스터 PNG·리샘플 원본)까지 dist에 복사된다.
-// 마스터는 재생성·감사를 위한 보관물이지 배포물이 아니다 — 그대로 두면 dist가 수십 MB로
-// 부풀고 런타임 전달 예산을 넘긴다. 빌드 후 배포본에서만 제거한다(원본은 그대로 보존).
-function dropSourceMasters() {
-  return {
-    name: 'drop-source-masters',
-    closeBundle() {
-      const dir = path.resolve('dist/_source');
-      if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
-    },
-  };
-}
-
+// publicDir을 쓰지 않는다. `assets/`를 통째로 복사하던 이전 판은 배포물과 보관물의 경계를
+// 빌드 후 삭제(dist/_source rm)로 지켰다 — 그건 경계가 아니라 사후 청소다. 이제 매니페스트의
+// runtime 항목만 dist에 들어가고, 그 목록·SHA-256·바이트 예산을 qa:dist-runtime이 검증한다.
 export default defineConfig({
-  publicDir: 'assets',
-  plugins: [dropSourceMasters()],
+  publicDir: false,
+  plugins: [createRuntimeAssetDeliveryPlugin()],
   server: { host: '0.0.0.0' },
   build: { chunkSizeWarningLimit: 2048 },
 });
