@@ -7,6 +7,7 @@ import { productionGateProfile } from './lib/production-gate-profile.mjs';
 import { writePassReceipt, invalidatePassReceipt, beginGateSnapshot, assertSnapshotUnchanged }
   from './lib/production-pass-receipt.mjs';
 import { assertArgv, isMainModule } from './lib/cli-contract.mjs';
+import { assertPreviewServesProject } from './lib/preview-identity.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
@@ -74,9 +75,17 @@ function browserArgsForUrl(gateArgs, url) {
 
 function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 
-async function waitForHttp(url, timeoutMs = 20000) {
+// `exited()`는 프리뷰 자식이 준비 전에 죽었는지 알려준다. 이 인자가 없던 판은 자식이 즉시
+// 죽어도 20초를 기다린 뒤, **남의 서버가 응답하면 그대로 통과**했다(실측 2026-08-19).
+async function waitForHttp(url, timeoutMs = 20000, exited = () => null) {
   const started = Date.now();
   while (Date.now() - started < timeoutMs) {
+    const dead = exited();
+    if (dead) {
+      throw new Error(`preview server exited before it was ready (code ${dead.code}, signal ${dead.signal})\n`
+        + `${dead.stderr ? `  ${dead.stderr.trim().split('\n').slice(-6).join('\n  ')}\n` : ''}`
+        + '  포트가 이미 점유돼 있으면 --strictPort가 여기서 실패한다. 점유 프로세스를 끝낼 것.');
+    }
     try { const response = await fetch(url); if (response.ok) return; } catch {}
     await wait(250);
   }
@@ -234,11 +243,20 @@ if (isMain) {
   // 재면 node_modules 설치가 곧바로 drift로 잡힌다(제외 목록에 있지만 dist는 빌드가 만든다).
   const gateSnapshot = beginGateSnapshot(projectDir);
   const previewUrl = `http://127.0.0.1:${split.port}`;
+  // stderr를 버리지 않는다. `stdio:'ignore'`였던 판은 --strictPort 바인딩 실패를 통째로 잃고,
+  // 그 포트에 남아 있던 **다른 게임의 프리뷰**로 브라우저 게이트를 통과시켰다(실측 2026-08-19:
+  // castle-archer·road-stream-racer가 last-light-zero-hour의 dist를 검사한 뒤 영수증을 받았다).
+  let previewDead = null;
+  let previewStderr = '';
   const preview = spawn(npmCommand(), ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(split.port), '--strictPort'], {
-    cwd: projectDir, stdio: 'ignore', detached: process.platform !== 'win32',
+    cwd: projectDir, stdio: ['ignore', 'ignore', 'pipe'], detached: process.platform !== 'win32',
   });
+  preview.stderr?.on('data', (chunk) => { previewStderr += String(chunk); });
+  preview.on('exit', (code, signal) => { previewDead = { code, signal, stderr: previewStderr }; });
   try {
-    await waitForHttp(previewUrl);
+    await waitForHttp(previewUrl, 20000, () => previewDead);
+    // 200이 돌아온다고 내 서버라는 뜻은 아니다. 서빙되는 dist가 이 프로젝트의 것인지 확인한다.
+    await assertPreviewServesProject(previewUrl, projectDir);
     const visualRuns = splitViewportRuns(browserArgsForUrl(split.visualArgs, previewUrl));
     const sceneRuns = splitViewportRuns(browserArgsForUrl(split.sceneArgs, previewUrl));
     for (let index = 0; index < Math.max(visualRuns.length, sceneRuns.length); index += 1) {

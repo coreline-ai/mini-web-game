@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
+import { assertPreviewServesProject } from './lib/preview-identity.mjs';
 
 const argv = process.argv.slice(2);
 const projectArg = argv.includes('--project') ? argv[argv.indexOf('--project') + 1] : null;
@@ -19,8 +20,14 @@ function run(cmd, args, options = {}) {
   if (result.status !== 0) throw new Error(`gate failed (${result.status}): ${cmd} ${args.join(' ')}`);
 }
 
-async function waitForServer(url) {
+async function waitForServer(url, exited = () => null) {
   for (let attempt = 0; attempt < 80; attempt += 1) {
+    const dead = exited();
+    if (dead) {
+      throw new Error(`preview server exited before it was ready (code ${dead.code}, signal ${dead.signal})\n`
+        + `${dead.stderr ? `  ${dead.stderr.trim().split('\n').slice(-6).join('\n  ')}\n` : ''}`
+        + '  포트가 점유돼 있으면 --strictPort가 여기서 실패한다.');
+    }
     try { const response = await fetch(url); if (response.ok) return; } catch {}
     await new Promise((resolve) => setTimeout(resolve, 150));
   }
@@ -29,9 +36,17 @@ async function waitForServer(url) {
 
 run(npm, ['run', 'build'], { cwd: projectDir });
 const url = `http://127.0.0.1:${port}`;
-const server = spawn(npm, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], { cwd: projectDir, stdio: 'inherit', detached: false });
+// --strictPort가 없던 판은 포트가 점유되면 Vite가 **다음 포트로 물러나고**, QA는 원래 포트를
+// 그대로 봤다 — 즉 남의 서버를 검사했다. 물러남을 허용하지 않고, 실패를 stderr로 관찰한다.
+let serverDead = null;
+let serverStderr = '';
+const server = spawn(npm, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
+  { cwd: projectDir, stdio: ['ignore', 'inherit', 'pipe'], detached: process.platform !== 'win32' });
+server.stderr?.on('data', (chunk) => { serverStderr += String(chunk); process.stderr.write(chunk); });
+server.on('exit', (code, signal) => { serverDead = { code, signal, stderr: serverStderr }; });
 try {
-  await waitForServer(url);
+  await waitForServer(url, () => serverDead);
+  await assertPreviewServesProject(url, projectDir);
   const common = ['--project', projectDir, '--url', url];
   run(process.execPath, [path.join(scriptsDir, 'captured-state-qa.mjs'), ...common]);
   run(process.execPath, [path.join(scriptsDir, 'first-play-clarity-qa.mjs'), ...common]);
@@ -55,5 +70,14 @@ try {
   fs.writeFileSync(output, `${JSON.stringify({ ok: false, failedAt: new Date().toISOString(), startedAt: new Date(startedAt).toISOString(), error: error.message }, null, 2)}\n`);
   throw error;
 } finally {
-  if (!server.killed) server.kill('SIGTERM');
+  // npm 래퍼만 죽이면 vite 자식이 살아남아 포트를 계속 잡는다 — 그 유령이 다음 게이트를
+  // 오염시켰다(실측: 4325·4173에 전날 세션의 프리뷰가 남아 있었다). 프로세스 그룹을 끝낸다.
+  if (!server.killed) {
+    if (process.platform === 'win32') spawnSync('taskkill', ['/pid', String(server.pid), '/T', '/F'], { stdio: 'ignore' });
+    else {
+      try { process.kill(-server.pid, 'SIGTERM'); } catch { server.kill('SIGTERM'); }
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      try { process.kill(-server.pid, 'SIGKILL'); } catch {}
+    }
+  }
 }

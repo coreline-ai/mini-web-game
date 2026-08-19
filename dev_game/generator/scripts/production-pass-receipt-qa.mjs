@@ -362,6 +362,21 @@ check(gateSource.indexOf('fs.rmSync(notVerifiedMarker') > gateSource.lastIndexOf
   'production gate must remove the not-verified marker only after every gate passed');
 check(makeSource.indexOf('verifyPassReceipt(projectDir)') < makeSource.indexOf('fs.unlinkSync(file)'),
   'make-game must verify the receipt before removing the incomplete marker');
+// 포트에 응답이 있다는 것과 **내 서버가 응답한다**는 것은 다르다. 실측(2026-08-19): 전날 세션이
+// 남긴 다른 게임의 프리뷰가 포트를 잡고 있어 브라우저 게이트가 남의 dist를 검사한 뒤 영수증이
+// 발급됐다. 신원 확인이 브라우저 게이트보다 **앞**이어야 그 통과가 무엇을 본 것인지 말할 수 있다.
+const clfSource = fs.readFileSync(path.join(scriptsDir, 'custom-loop-full-qa.mjs'), 'utf8');
+for (const [label, source, firstBrowserGate] of [
+  ['production-gate', gateSource, 'visualLayoutQa'],
+  ['custom-loop-full-qa', clfSource, 'captured-state-qa.mjs'],
+]) {
+  const guard = source.indexOf('assertPreviewServesProject(');
+  check(guard > 0, `${label} must verify the preview serves this project's dist`);
+  check(guard > 0 && guard < source.lastIndexOf(firstBrowserGate),
+    `${label} must verify preview identity before the first browser gate`);
+  check(/--strictPort/.test(source), `${label} must pin the preview port with --strictPort`);
+  check(/stderr\?\.on\('data'/.test(source), `${label} must keep the preview stderr instead of discarding it`);
+}
 
 
 
@@ -374,4 +389,4 @@ console.log('production PASS receipt QA OK: v1/v2 profiles, tracked receipt path
   + 'pass/stale/invalid/unknown, src+asset staleness, '
   + 'forgery/schema/JSON/unverified-marker positives, retired legacy-pass '
   + '(allowlist entry + committed evidence must stay unknown), fingerprint exclusivity, '
-  + 'gate-start invalidation, gate/make wiring');
+  + 'gate-start invalidation, gate/make wiring, preview identity guard');
