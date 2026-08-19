@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "qa:dist-runtime": "node scripts/runtime-asset-delivery.mjs qa",
     "test:rules": "node qa/rules-sync-qa.mjs",
+    "test:backdrops": "node qa/backdrop-residency-qa.mjs",
     "test:lifecycle": "node qa/lifecycle-soak-qa.mjs",
     "test:clarity": "node qa/clarity-qa.mjs",
     "test:hostile-input": "node qa/input-hostility-qa.mjs",

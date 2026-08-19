@@ -234,3 +234,111 @@ round 0..4 : activeTweens 7 / activeTimers 0 / poolSize 6 / liveShips 4 / bgm 1
 **게이트 공백 1건**을 추가했다: 렌더 시점의 스케일 왜곡은 어떤 게이트도 잡지 않는다.
 manifest 게이트는 원본 파일만 보고, 레이아웃 게이트는 화면 bounds만 보기 때문에
 원본 비율 ↔ 표시 비율의 불일치를 대조하는 코드가 없다.
+
+---
+
+# 후보정 세션 #4 — 2026-08-20 (게이트 브라우저 단계 간헐 실패)
+
+## 증상 (verbatim)
+
+> "헤드리스 브라우저에서 부팅이 간헐적으로 15초를 넘겨 Home/Game 씬에 도달하지 못한다.
+> 오늘 게이트 3회 중 2회가 브라우저 단계에서 실패했고(input-hostility 타임아웃 +
+> Framebuffer Unsupported, scene \"Game\" not reached), 프로브에서는 30초 뒤에도 Loading에 머물렀다."
+
+- 결함 클래스: **K. Long-Run Stability**의 새 변종(상주 텍스처 총량이 부팅 마진을 먹는다) — 재발한 **R3**(레이아웃 공표)로도 분류된다
+- 심각도: **1 (진행 불가)** — 부팅하지 못하면 아무 검사도 성립하지 않는다
+- 요청 수용 기준: 헤드리스에서 Home 도달 10/10, 각 5초 이내
+
+## 0단계 — 회귀 체크리스트
+
+R3 재발로 이번 세션의 최우선 결함으로 올렸다. R1·R2·R4~R16은 이 세션의 게이트 실행
+(custom-loop-full 5어댑터 + captured-state + hq-screen + image-quality + visual-layout +
+scene-composite)으로 재실행했고, 자동 게이트가 없는 R9~R13·R15~R16은 그 실행이 남긴 캡처로 확인했다.
+
+## 계측 도구 검증 (§0.1)
+
+| 대조군 | 결과 |
+|---|---|
+| 음성(실제 부팅하는 게임 `last-minute-keeper`) | `ok`, Home 1822ms |
+| 양성(게임 없는 페이지) | `ok:false` — 도구가 실패를 잡는다 |
+
+도구는 리포 밖(스크래치패드)에 둔다 — 게이트가 `dev_game/.tmp`를 통째로 비우므로 그 안에 두면 사라진다.
+
+## 원인은 둘이었다
+
+1. **QA 하네스 오염** (이 게임 밖). `custom-loop-full-qa`가 npm 래퍼만 종료해 vite가 살아남고,
+   `--strictPort`가 없어 다음 게임의 어댑터가 남은 서버를 검사했다. 오늘 `c9f1639`·`c14edc1`로
+   닫았다(신원 검증 + strictPort + 프로세스 그룹 종료 + exit 훅).
+2. **상주 텍스처 총량** (이 게임). `LoadingScene`이 Home 진입 **직후** 배경 4장
+   (1440×3120 × 4 = 디코드 68MiB)을 한꺼번에 큐에 넣었다. 5장을 선로드하지 않으려던 이전 수정이
+   폭발을 첫 화면 직후로 옮긴 것이었다. 호스트 메모리 압력(24GB 머신, 스왑 8GB 중 7.49GB 사용,
+   swapout 184만) 아래에서 뒤따라 뜨는 브라우저가 부팅하지 못했다.
+
+## 수정 (심각도 1)
+
+| 파일 | 변경 |
+|---|---|
+| `src/game/systems/BackdropLoader.js` (신규) | `ensureBackdrop(scene, index)` — 없을 때만 한 장 로드. `bestLoadedBackdrop` — 올라온 배경 중 최선 |
+| `src/game/scenes/LoadingScene.js` | Home 직후 배경 일괄 큐 제거, BGM 2개만 채운다 |
+| `src/game/scenes/GameScene.js` | `prefetchBackdrops()` — 현재 + 다음 스테이지 한 장만. 텍스처 부재 가드는 기존 것을 그대로 쓴다 |
+| `src/game/scenes/GameOverScene.js` | 전용 배경(`bg_4`/`bg_3`)이 아직 없으면 올라온 배경으로 대체 — 선로드 제거의 회귀를 막는다 |
+
+아트는 건드리지 않았다(재생성 없음, 자산 바이트 불변).
+
+## 측정 — before / after
+
+| 측정 | before | after |
+|---|---|---|
+| 게이트 인접쌍(visual-layout → scene-composite) ×8 | **3/8** | **6/8** |
+| 단독 부팅 ×10 (5초 예산) | 10/10 (1218~1956ms) | 10/10 (1054~1454ms) |
+| 동시 프로브 6개 (15초 예산) | 6/6 | 재측정 안 함 (수정 전에도 통과했으므로 판별력이 없다) |
+| Home 상주 배경 | 5장 · 디코드 85MiB | **1장** (`bg_0`) · 17MiB |
+| 스테이지 1 상주 배경 | 5장 | **2장** (`bg_0`,`bg_1`) |
+
+`npm run test:backdrops` 실측값 (`qa-captures/backdrop-residency-results.json`):
+
+```
+homeResident      ["bg_0"]                          상주 1장
+stage1Resident    ["bg_0","bg_1"]                   현재 + 다음 한 장
+stage3Backdrop    "bg_2"                            온디맨드 도착 확인
+gameOverBackdrops ["bg_3"]                          전용/대체 배경 존재
+browserErrors     []                                rendererWarnings 0
+```
+
+## 환경 대조군 — 잔여 실패는 이 게임의 것이 아니다
+
+`visual-layout-qa` ×6:
+
+| 게임 | 통과 | 실패 뷰포트 | 실패 서명 |
+|---|---|---|---|
+| keeper-last-light (배경 17MiB×5) | 5/6 | 1080×1920 | `__GAME_LAYOUT_BOUNDS__ missing or empty` |
+| last-minute-keeper (큰 배경 없음) | 5/6 | 1080×1920 | 동일 |
+
+텍스처가 훨씬 작은 게임이 **같은 비율·같은 뷰포트·같은 서명**으로 실패한다. 잔여 1/6은 게임의
+결함이 아니라 스왑이 포화된 호스트의 상태이며, 게임을 더 깎아 이길 수 있는 조건이 아니다.
+요청 수용 기준(게이트 문맥 10/10)은 **이 머신 상태에서 미달**로 남긴다 — 숨기지 않는다.
+
+## 게이트 결과
+
+```
+factory:production-gate --project dev_game/generated/keeper-last-light --require-gpt-imagegen
+  exit 0 (1회 시도), gateProfile=custom-loop-full, qaRunId 2026-08-19T21-21-04-500Z
+  factory:qa / dist-runtime(23 assets, 7222014/8388608 bytes) / production-demo-qa /
+  image-quality / visual-layout / scene-composite / custom-loop-full(captured-state ·
+  clarity · input-hostility · session-continuity · test:rules · test:lifecycle ·
+  docs-runtime · hq-screen · qa-session-report) 전부 통과
+npm run test:backdrops (신규 어댑터, R17)  ok=true, assert 6/6
+```
+
+## 계약 승격
+
+`post-production-qa-contract.md` 클래스 K에 시그니처를 추가했다 — 브라우저 단계가
+`__GAME_LAYOUT_BOUNDS__` 미공표로 **간헐** 실패할 때의 진단 순서(상주 텍스처 총량을 재고,
+다른 게임으로 대조군을 돌려 게임 결함과 호스트 압력을 가른다).
+
+## 열린 결함
+
+없음(심각도 1·2). 단, 요청된 수용 기준 "게이트 문맥에서 Home 도달 10/10"은 **이 호스트에서
+미달**이다 — 잔여 실패율은 게임과 무관하다는 것이 대조군으로 확인됐고(다른 게임도 1080×1920에서
+6회 중 1회 실패), 스왑이 포화된 머신에서는 어떤 게임이든 같은 확률로 실패한다. 게임 쪽에서 줄일
+수 있는 부분(상주 텍스처 85MiB → 17MiB)은 이 세션에서 닫았다.

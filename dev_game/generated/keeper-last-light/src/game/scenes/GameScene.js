@@ -10,6 +10,7 @@ import ShipRouting from '../systems/ShipRouting.js';
 import StageDirector from '../systems/StageDirector.js';
 import { AudioManager } from '../systems/AudioManager.js';
 import { SaveData } from '../systems/SaveData.js';
+import { ensureBackdrop, backdropKey } from '../systems/BackdropLoader.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() { super(SCENES.GAME); }
@@ -24,6 +25,8 @@ export default class GameScene extends Phaser.Scene {
     this.ended = false;
 
     // ── 배경 (배경이 소유하는 것: 등대·암초·바다. 런타임이 소유하는 것: 배·FX)
+    // 스테이지 1 배경은 선로드돼 있고, 스테이지 2 배경은 여기서 한 장만 예약한다.
+    this.prefetchBackdrops(null);
     this.backdrop = this.add.image(width / 2, height / 2, 'bg_0').setDepth(-20);
     this.fitBackdrop(this.backdrop);
     this.backdropNext = this.add.image(width / 2, height / 2, 'bg_0').setDepth(-19).setAlpha(0);
@@ -295,6 +298,9 @@ export default class GameScene extends Phaser.Scene {
   onStageChange(stage) {
     this.routing.setStage(stage);
     const key = stage.backdrop;
+    // 다음 스테이지 배경을 지금 올려 둔다(한 장만). 이 스테이지의 배경이 아직 없으면
+    // 아래 가드가 현재 배경을 유지하고, 도착하면 다음 전환에서 반영된다.
+    this.prefetchBackdrops(stage);
     if (!this.textures.exists(key)) return;
     this.backdropNext.setTexture(key);
     this.fitBackdrop(this.backdropNext);
@@ -308,6 +314,20 @@ export default class GameScene extends Phaser.Scene {
         this.backdropNext.setAlpha(0);
       },
     });
+  }
+
+  /**
+   * 현재 스테이지와 **다음 한 장**만 확보한다. 5장을 상주시키면 디코드 85MiB가 되어
+   * 메모리 압력이 있는 환경에서 뒤따르는 브라우저가 부팅하지 못했다(실측: 게이트 인접쌍 3/8).
+   */
+  prefetchBackdrops(stage) {
+    const current = stage || this.director?.stage || this.rules?.stages?.[0];
+    const index = Number(String(current?.backdrop || 'bg_0').replace('bg_', '')) || 0;
+    ensureBackdrop(this, index);
+    ensureBackdrop(this, index + 1);
+    // 종료 화면이 쓰는 배경은 마지막 스테이지에 도달했을 때 함께 준비된다.
+    if (current?.next === 'dawn') ensureBackdrop(this, index);
+    return backdropKey(index);
   }
 
   spawnFx(key, x, y, scale) {

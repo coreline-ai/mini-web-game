@@ -66,16 +66,16 @@ export default class LoadingScene extends Phaser.Scene {
     this.time.delayedCall(140, go);
   }
 
-  // 홈이 뜬 뒤 나머지 스테이지 배경을 조용히 채운다. 도착 전에 스테이지가 넘어가면
-  // StageDirector가 텍스처 부재를 확인하고 현재 배경을 유지하므로 깨지지 않는다.
+  // 홈이 뜬 뒤 BGM만 조용히 채운다.
+  //
+  // 이전 판은 여기서 남은 배경 4장(1440x3120 × 4 = 디코드 68MiB)을 한꺼번에 큐에 넣었다.
+  // 첫 화면을 늦추지 않으려는 의도였지만 폭발을 첫 화면 **직후**로 옮긴 것이었고, 메모리
+  // 압력이 있는 환경에서 그 뒤에 뜨는 브라우저가 부팅하지 못했다(실측: 게이트 인접쌍 3/8).
+  // 배경은 이제 `BackdropLoader`가 현재+다음 스테이지만 올린다.
   queueRemainingBackdrops() {
     const loader = this.scene.get(SCENES.HOME)?.load || this.load;
     if (!this.cache.audio.exists('bgm-home')) loader.audio('bgm-home', 'audio/home-loop.wav');
     if (!this.cache.audio.exists('bgm-gameplay')) loader.audio('bgm-gameplay', 'audio/gameplay-loop.wav');
-    BACKDROPS.slice(1).forEach((id, i) => {
-      const key = `bg_${i + 1}`;
-      if (!this.textures.exists(key)) loader.image(key, `backgrounds/${id}.webp`);
-    });
     loader.start();
   }
 }
