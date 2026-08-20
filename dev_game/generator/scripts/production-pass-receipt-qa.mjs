@@ -6,6 +6,7 @@ import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { productionGateProfile } from './lib/production-gate-profile.mjs';
 import { depsInstallArgs } from './lib/npm-install.mjs';
+import { browserLaunchArgs, classifyPageError } from './lib/browser-boot-diagnostics.mjs';
 import {
   POLISH_ELIGIBLE_STATES, assertSnapshotUnchanged, beginGateSnapshot, canonicalSnapshot,
   invalidatePassReceipt,
@@ -405,6 +406,39 @@ for (const [label, source] of [['production-gate', gateSource], ['custom-loop-fu
 check(/depsInstallArgs\(projectDir\)/.test(gateSource),
   'production gate must install through the shared deterministic-install contract');
 
+// ── 브라우저 게이트가 자기 실패를 설명해야 한다 ─────────────────────────────
+// 실측(2026-08-20): 씬 대기가 `.catch(() => {})`로 침묵하고 다음 검사가 "레지스트리가 비었다"만
+// 보고했다. 그 공백을 사람이 추측으로 메웠고(메모리 압력·뷰포트 크기·텍스처 총량), 세 추측이
+// 모두 재측정에서 배제됐다. 계측을 붙인 첫 실패에서 원인이 한 줄로 나왔다 —
+// `rafTicks=725 loop=stopped frame=0`: 브라우저는 프레임을 주는데 Phaser 루프가 시작되지 않았다.
+{
+  const savedGl = process.env.GAME_QA_GL;
+  try {
+    delete process.env.GAME_QA_GL;
+    check(browserLaunchArgs().includes('--use-angle=swiftshader'),
+      '기본 소프트웨어 GL 경로는 ANGLE이어야 한다 (실측: gl 9/10 vs angle 22/22)');
+    process.env.GAME_QA_GL = 'gl';
+    check(browserLaunchArgs().includes('--use-gl=swiftshader'),
+      'GAME_QA_GL=gl로 옛 경로를 되돌릴 수 있어야 한다 — 비교 측정이 불가능하면 원인을 확정할 수 없다');
+  } finally {
+    if (savedGl === undefined) delete process.env.GAME_QA_GL; else process.env.GAME_QA_GL = savedGl;
+  }
+  check(classifyPageError('Framebuffer status: Framebuffer Unsupported') === 'rendererWarning',
+    'swiftshader 드라이버 메시지는 렌더러 경고로 분류해야 한다 (게임들의 자체 어댑터와 같은 분류)');
+  check(classifyPageError('TypeError: x is not a function') === 'error',
+    '실제 페이지 오류는 error로 남아야 한다');
+}
+for (const [label, file] of [['visual-layout-qa', 'visual-layout-qa.mjs'], ['scene-composite-qa', 'scene-composite-qa.mjs']]) {
+  const source = fs.readFileSync(path.join(scriptsDir, file), 'utf8');
+  check(/browserLaunchArgs\(\)/.test(source) && !/--use-gl=swiftshader/.test(source),
+    `${label}은 공용 실행 인자를 써야 한다 — 하드코딩하면 GL 경로를 비교 측정할 수 없다`);
+  check(/awaitScene\(page, /.test(source),
+    `${label}은 씬 대기 실패를 계측해야 한다 (침묵하는 .catch로 두면 원인을 추측하게 된다)`);
+  check(/installFrameCounter\(page\)/.test(source),
+    `${label}은 프레임 카운터를 주입해야 한다 — rafTicks가 "프레임 없음"과 "루프 미시작"을 가른다`);
+  check(/writeDiagnostics\(/.test(source), `${label}은 진단을 파일로 남겨야 한다`);
+}
+
 const exitHook = gateSource.indexOf("process.on('exit', killPreviewGroup)");
 check(exitHook > 0, 'production gate must register an exit-time preview cleanup (run() calls process.exit and skips finally)');
 check(exitHook > 0 && exitHook < gateSource.lastIndexOf('visualLayoutQa'),
@@ -422,4 +456,4 @@ console.log('production PASS receipt QA OK: v1/v2 profiles, tracked receipt path
   + 'forgery/schema/JSON/unverified-marker positives, retired legacy-pass '
   + '(allowlist entry + committed evidence must stay unknown), fingerprint exclusivity, '
   + 'gate-start invalidation, gate/make wiring, preview identity guard, preview exit cleanup, '
-  + 'deterministic install (lockfile → npm ci)');
+  + 'deterministic install (lockfile → npm ci), browser boot diagnostics (ANGLE 기본 · 대기 계측 · 잡음 분류)');

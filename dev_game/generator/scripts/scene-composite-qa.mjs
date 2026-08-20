@@ -14,6 +14,8 @@ import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { depsInstallArgs } from './lib/npm-install.mjs';
+import { awaitScene, summarizeDiagnostics, writeDiagnostics, classifyPageError, installFrameCounter, browserLaunchArgs }
+  from './lib/browser-boot-diagnostics.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const generatorRoot = path.resolve(__dirname, '..');
@@ -206,13 +208,22 @@ async function capture(page, phase, viewport, dir, records) {
   records.push({ phase, viewport: viewportLabel(viewport), screenshot: file, layout: layoutFile });
 }
 
-async function exercise(page, viewport, url, dir, records) {
+async function exercise(page, viewport, url, dir, records, waitLog = [], errors = []) {
   await page.goto(withQaHoldLoading(url), { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('canvas', { timeout: 10000 });
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Loading', null, { timeout: 10000 }).catch(() => {});
+  // 대기 실패를 침묵시키지 않는다 — 경과 시간과 부팅 진단을 남긴다(visual-layout과 같은 계약).
+  const loadingWait = await awaitScene(page, 'Loading', 10000, waitLog);
+  if (!loadingWait.ok) {
+    errors.push(`${viewportLabel(viewport)} loading-wait: ${loadingWait.elapsedMs}ms 안에 도달 못함 — `
+      + summarizeDiagnostics(loadingWait.diagnostics));
+  }
   await capture(page, 'loading', viewport, dir, records);
   await page.evaluate(() => { if (typeof globalThis.__RELEASE_LOADING__ === 'function') globalThis.__RELEASE_LOADING__(); }).catch(() => {});
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Home', null, { timeout: 10000 }).catch(() => {});
+  const homeWait = await awaitScene(page, 'Home', 10000, waitLog);
+  if (!homeWait.ok) {
+    errors.push(`${viewportLabel(viewport)} home-wait: ${homeWait.elapsedMs}ms 안에 도달 못함 — `
+      + summarizeDiagnostics(homeWait.diagnostics));
+  }
   await page.waitForTimeout(650);
   await capture(page, 'home', viewport, dir, records);
   const canvas = await page.locator('canvas').boundingBox();
@@ -363,20 +374,32 @@ async function runBrowser(url, args, projectName) {
   fs.mkdirSync(screenshotDir, { recursive: true });
   const records = [];
   const browserErrors = [];
+  const rendererWarnings = [];
+  const waitLog = [];
 
   for (const viewport of args.viewports) {
     let browser;
     try {
-      browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
+      browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
       const page = await browser.newPage({ viewport, isMobile: viewport.width <= 600, deviceScaleFactor: viewport.width >= 1000 ? 1 : 2 });
-      page.on('pageerror', (err) => browserErrors.push(`${viewportLabel(viewport)} pageerror: ${err.message}`));
-      page.on('console', (msg) => { if (msg.type() === 'error') browserErrors.push(`${viewportLabel(viewport)} console:error: ${msg.text()}`); });
-      await exercise(page, viewport, url, screenshotDir, records);
+      await installFrameCounter(page);
+      // 렌더러 잡음은 게임 오류가 아니다(게임들의 자체 어댑터와 같은 분류). 버리지 않고 센다.
+      page.on('pageerror', (err) => {
+        if (classifyPageError(err.message) === 'rendererWarning') rendererWarnings.push(`${viewportLabel(viewport)} ${err.message}`);
+        else browserErrors.push(`${viewportLabel(viewport)} pageerror: ${err.message}`);
+      });
+      page.on('console', (msg) => {
+        if (msg.type() !== 'error') return;
+        if (classifyPageError(msg.text()) === 'rendererWarning') rendererWarnings.push(`${viewportLabel(viewport)} ${msg.text()}`);
+        else browserErrors.push(`${viewportLabel(viewport)} console:error: ${msg.text()}`);
+      });
+      await exercise(page, viewport, url, screenshotDir, records, waitLog, browserErrors);
       await page.close().catch(() => {});
     } finally {
       if (browser) await browser.close().catch(() => {});
     }
   }
+  writeDiagnostics(screenshotDir, { url, waits: waitLog, rendererWarnings, errors: browserErrors });
 
   if (browserErrors.length) throw new Error(browserErrors.join('\n'));
   const pixelResult = runPixelInspection(records);

@@ -4,6 +4,8 @@ import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { depsInstallArgs } from './lib/npm-install.mjs';
+import { awaitScene, summarizeDiagnostics, writeDiagnostics, classifyPageError, installFrameCounter, browserLaunchArgs }
+  from './lib/browser-boot-diagnostics.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const generatorRoot = path.resolve(__dirname, '..');
@@ -321,13 +323,23 @@ async function waitForRegistryScene(page, scene, timeout = 6000) {
   );
 }
 
-async function exerciseFlow(page, viewport, args, screenshotDir, errors) {
+async function exerciseFlow(page, viewport, args, screenshotDir, errors, waitLog = []) {
   await page.waitForSelector('canvas', { timeout: 10000 });
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Loading', null, { timeout: 10000 }).catch(() => {});
-  await page.waitForTimeout(180);
-  await inspectCurrentPage(page, 'loading', viewport, args, screenshotDir, errors);
-  await page.evaluate(() => { if (typeof globalThis.__RELEASE_LOADING__ === 'function') globalThis.__RELEASE_LOADING__(); }).catch(() => {});
-  await page.waitForFunction(() => globalThis.__GAME_LAYOUT_BOUNDS__?.scene === 'Home', null, { timeout: 10000 }).catch(() => {});
+  // 씬 대기를 침묵시키지 않는다. 타임아웃이면 경과 시간과 부팅 진단을 함께 남긴다 —
+  // 그것이 "게임이 죽었다"와 "게임이 느리다"를 가르는 유일한 정보다(실측 2026-08-20:
+  // 이 정보가 없어서 같은 실패의 원인을 두 번 잘못 단정했다).
+  for (const scene of ['Loading', 'Home']) {
+    if (scene === 'Home') {
+      await page.waitForTimeout(180);
+      await inspectCurrentPage(page, 'loading', viewport, args, screenshotDir, errors);
+      await page.evaluate(() => { if (typeof globalThis.__RELEASE_LOADING__ === 'function') globalThis.__RELEASE_LOADING__(); }).catch(() => {});
+    }
+    const result = await awaitScene(page, scene, 10000, waitLog);
+    if (!result.ok) {
+      errors.push(`${viewportLabel(viewport)} ${scene.toLowerCase()}-wait: ${result.elapsedMs}ms 안에 도달 못함 — `
+        + summarizeDiagnostics(result.diagnostics));
+    }
+  }
   await page.waitForTimeout(700);
   await inspectCurrentPage(page, 'home', viewport, args, screenshotDir, errors);
   const canvas = await page.locator('canvas').boundingBox();
@@ -355,6 +367,8 @@ async function exerciseFlow(page, viewport, args, screenshotDir, errors) {
 async function runBrowserQa(url, args, projectName) {
   const { chromium } = await importPlaywright();
   const errors = [];
+  const rendererWarnings = [];
+  const waitLog = [];
   const screenshotDir = path.join(defaultTmpRoot, projectName || 'url');
   fs.rmSync(screenshotDir, { recursive: true, force: true });
 
@@ -365,12 +379,22 @@ async function runBrowserQa(url, args, projectName) {
       let browser;
       let page;
       try {
-        browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
+        browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
         page = await browser.newPage({ viewport, isMobile: viewport.width <= 600, deviceScaleFactor: viewport.width >= 1000 ? 1 : 2 });
-        page.on('pageerror', (err) => errors.push(`${viewportLabel(viewport)} pageerror: ${err.message}`));
-        page.on('console', (msg) => { if (msg.type() === 'error') errors.push(`${viewportLabel(viewport)} console:error: ${msg.text()}`); });
+        await installFrameCounter(page);
+        // 렌더러 잡음(swiftshader 드라이버 메시지)은 게임 오류가 아니다 — 게임들의 자체
+        // 어댑터와 같은 분류를 쓴다. 버리지 않고 경고로 세어 출력에 남긴다.
+        page.on('pageerror', (err) => {
+          if (classifyPageError(err.message) === 'rendererWarning') rendererWarnings.push(`${viewportLabel(viewport)} ${err.message}`);
+          else errors.push(`${viewportLabel(viewport)} pageerror: ${err.message}`);
+        });
+        page.on('console', (msg) => {
+          if (msg.type() !== 'error') return;
+          if (classifyPageError(msg.text()) === 'rendererWarning') rendererWarnings.push(`${viewportLabel(viewport)} ${msg.text()}`);
+          else errors.push(`${viewportLabel(viewport)} console:error: ${msg.text()}`);
+        });
         await page.goto(withQaHoldLoading(url), { waitUntil: 'domcontentloaded' });
-        await exerciseFlow(page, viewport, args, screenshotDir, errors);
+        await exerciseFlow(page, viewport, args, screenshotDir, errors, waitLog);
         completed = true;
       } catch (err) {
         lastErr = err;
@@ -386,8 +410,10 @@ async function runBrowserQa(url, args, projectName) {
       }
     }
     if (!completed && !lastErr) errors.push(`${viewportLabel(viewport)} browser-flow: unknown browser failure`);
+    // 성공한 실행의 대기 시간도 남긴다 — 천장(10s)에 얼마나 가까웠는지가 다음 판단의 근거다.
+    writeDiagnostics(screenshotDir, { url, waits: waitLog, rendererWarnings, errors });
   }
-  return { errors, screenshotDir };
+  return { errors, screenshotDir, rendererWarnings, waitLog };
 }
 
 try {
@@ -406,15 +432,22 @@ try {
   try {
     await waitForHttp(url);
     const projectName = projectDir ? path.basename(projectDir) : new URL(url).host.replace(/[^a-z0-9._-]+/gi, '-');
-    const { errors, screenshotDir } = await runBrowserQa(url, args, projectName);
+    const { errors, screenshotDir, rendererWarnings, waitLog } = await runBrowserQa(url, args, projectName);
     if (errors.length) {
       console.error(`Visual layout QA failed: ${url}`);
       for (const err of errors) console.error(`- ${err}`);
+      if (rendererWarnings.length) {
+        console.error(`renderer warnings (게임 오류 아님): ${rendererWarnings.length}건 — ${rendererWarnings[0]}`);
+      }
       console.error(`Screenshots: ${screenshotDir}`);
+      console.error(`Boot diagnostics: ${path.join(screenshotDir, 'boot-diagnostics.json')}`);
       if (preview) console.error(preview.log());
       process.exitCode = 1;
     } else {
       console.log(`Visual layout QA OK: ${url}`);
+      if (rendererWarnings.length) console.log(`renderer warnings (게임 오류 아님): ${rendererWarnings.length}건`);
+      const slowest = waitLog.filter((w) => w.ok).sort((a, b) => b.elapsedMs - a.elapsedMs)[0];
+      if (slowest) console.log(`가장 느린 씬 대기: ${slowest.scene} ${slowest.elapsedMs}ms / 천장 ${slowest.timeoutMs}ms`);
       console.log(`Screenshots: ${screenshotDir}`);
     }
   } finally {
