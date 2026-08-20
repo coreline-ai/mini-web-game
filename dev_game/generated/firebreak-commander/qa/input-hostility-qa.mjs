@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { browserLaunchArgs } from './_browser-args.mjs';
 
 const baseUrl = process.env.FIREBREAK_QA_URL || process.env.GAME_QA_URL || 'http://127.0.0.1:5188';
-const browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
+const browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
 const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, hasTouch: true });
 const page = await context.newPage();
 const errors = [];
