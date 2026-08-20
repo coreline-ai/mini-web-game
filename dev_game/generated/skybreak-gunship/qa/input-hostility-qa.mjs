@@ -1,10 +1,9 @@
 import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
-import { browserLaunchArgs } from './_browser-args.mjs';
 
 const baseUrl = process.env.GAME_QA_URL || 'http://127.0.0.1:5187';
 const qaUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}skipTutorial=1`;
-const browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
+const browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
 const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true });
 const page = await context.newPage();
 const browserErrors = [];

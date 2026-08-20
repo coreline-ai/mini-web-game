@@ -1,14 +1,13 @@
 // QA 어댑터 공통 헬퍼.
 import fs from 'node:fs';
 import { chromium } from 'playwright';
-import { browserLaunchArgs } from './_browser-args.mjs';
 
 export const BASE_URL = process.env.GAME_QA_URL || process.env.FIREBREAK_QA_URL || 'http://127.0.0.1:4173';
 export const U = 3;                       // 논리 캔버스 / 디자인 단위 (1170 / 390)
 export const CANVAS = { width: 390 * U, height: 844 * U };
 
 export async function openGame({ width = 390, height = 844, dpr = 2 } = {}) {
-  const browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
+  const browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
   const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr });
   const page = await context.newPage();
 

@@ -3,7 +3,6 @@ import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { FIREBREAK_CONFIG } from '../src/game/config/firebreakConfig.js';
 import { GAME_RULES } from '../src/game/config/gameRules.js';
-import { browserLaunchArgs } from './_browser-args.mjs';
 
 const SPEC = JSON.parse(await fs.readFile(new URL('../src/game/data/game-spec.json', import.meta.url), 'utf8'));
 
@@ -27,7 +26,7 @@ for (const command of SPEC.rules.commands) {
   }
 }
 
-const browser = await chromium.launch({ headless: true, args: browserLaunchArgs() });
+const browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader', '--disable-gpu-sandbox', '--no-sandbox'] });
 const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
 const page = await context.newPage();
 const errors = [];
