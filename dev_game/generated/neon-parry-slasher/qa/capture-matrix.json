@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0.0",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "dpr": 2
+    },
+    {
+      "width": 1080,
+      "height": 1920,
+      "dpr": 1
+    }
+  ],
+  "states": [
+    {
+      "id": "loading",
+      "expectedScene": "Loading",
+      "requiredIds": [
+        "loading-title",
+        "loading-status"
+      ]
+    },
+    {
+      "id": "home",
+      "expectedScene": "Home",
+      "requiredIds": [
+        "home-title",
+        "home-goal",
+        "play"
+      ]
+    },
+    {
+      "id": "game",
+      "expectedScene": "Game",
+      "requiredIds": [
+        "game-status",
+        "progress-metric",
+        "pause"
+      ]
+    },
+    {
+      "id": "pause",
+      "expectedScene": "Pause",
+      "requiredIds": [
+        "pause-title",
+        "resume",
+        "home"
+      ]
+    },
+    {
+      "id": "result-win",
+      "expectedScene": "GameOver",
+      "requiredIds": [
+        "result-title",
+        "retry",
+        "home"
+      ],
+      "terminal": "win"
+    },
+    {
+      "id": "result-loss",
+      "expectedScene": "GameOver",
+      "requiredIds": [
+        "result-title",
+        "retry",
+        "home"
+      ],
+      "terminal": "loss"
+    }
+  ]
+}

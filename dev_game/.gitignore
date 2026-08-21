@@ -38,6 +38,8 @@ generated/*
 !generated/skybreak-gunship/**
 !generated/last-minute-keeper/
 !generated/last-minute-keeper/**
+!generated/neon-parry-slasher/
+!generated/neon-parry-slasher/**
 !generated/dev-plan/
 !generated/dev-plan/implement_20260711_223729.md
 

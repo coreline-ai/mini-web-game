@@ -1,0 +1,43 @@
+{
+  "gameId": "neon-parry-slasher",
+  "generatedAt": "2026-08-18T18:40:00.000Z",
+  "qualityTier": "production-demo",
+  "assets": [
+    {
+      "id": "player-ronin",
+      "role": "player-ronin",
+      "category": "character",
+      "runtimePath": "assets/images/player_ronin.jpg",
+      "width": 1024,
+      "height": 1024,
+      "blendMode": "ALPHA"
+    },
+    {
+      "id": "drone-striker",
+      "role": "drone-striker",
+      "category": "enemy",
+      "runtimePath": "assets/images/combat_drone.jpg",
+      "width": 1024,
+      "height": 1024,
+      "blendMode": "SCREEN"
+    },
+    {
+      "id": "slash-arc",
+      "role": "slash-arc",
+      "category": "vfx",
+      "runtimePath": "assets/images/neon_slash_vfx.jpg",
+      "width": 1024,
+      "height": 1024,
+      "blendMode": "ADD"
+    },
+    {
+      "id": "cyber-grid-bg",
+      "role": "background-stage",
+      "category": "background",
+      "runtimePath": "assets/images/cyber_grid_bg.jpg",
+      "width": 1024,
+      "height": 1820,
+      "blendMode": "NORMAL"
+    }
+  ]
+}

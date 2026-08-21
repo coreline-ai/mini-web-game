@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "2.0.0",
+  "gameId": "neon-parry-slasher",
+  "qualityTier": "production-demo",
+  "provenanceRoute": "Path-B",
+  "generatedAt": "2026-08-21T19:30:00.000Z",
+  "assetFidelity": {
+    "logicalCanvas": { "width": 1080, "height": 1920 },
+    "maxTargetDpr": 1,
+    "physicalCanvasTarget": { "width": 1080, "height": 1920 }
+  },
+  "assets": {
+    "backgrounds": {
+      "bg-cyber-grid": {
+        "path": "assets/images/cyber_grid_bg.png",
+        "role": "background-stage-1-midnight",
+        "resolution": "1080x1920",
+        "format": "png",
+        "quality": "production-demo"
+      },
+      "bg-cyber-crimson": {
+        "path": "assets/images/cyber_grid_bg_crimson.png",
+        "role": "background-stage-2-crimson",
+        "resolution": "1080x1920",
+        "format": "png",
+        "quality": "production-demo"
+      },
+      "bg-cyber-aurora": {
+        "path": "assets/images/cyber_grid_bg_aurora.png",
+        "role": "background-stage-3-aurora",
+        "resolution": "1080x1920",
+        "format": "png",
+        "quality": "production-demo"
+      }
+    },
+    "characters": {
+      "player_ronin": {
+        "path": "assets/images/player_ronin.png",
+        "role": "player-ronin-idle",
+        "resolution": "1024x1024",
+        "format": "png",
+        "quality": "production-demo"
+      },
+      "player_ronin_slash": {
+        "path": "assets/images/player_ronin_slash.png",
+        "role": "player-ronin-slash",
+        "resolution": "1024x1024",
+        "format": "png",
+        "quality": "production-demo"
+      },
+      "player_ronin_parry": {
+        "path": "assets/images/player_ronin_parry.png",
+        "role": "player-ronin-parry",
+        "resolution": "1024x1024",
+        "format": "png",
+        "quality": "production-demo"
+      },
+      "ronin_storyboard": {
+        "path": "assets/images/ronin_storyboard.png",
+        "role": "lore-storyboard-illustration",
+        "resolution": "1080x1920",
+        "format": "png",
+        "quality": "production-demo"
+      }
+    },
+    "enemies": {
+      "combat_drone": {
+        "path": "assets/images/combat_drone.png",
+        "role": "drone-striker-solid-gunship",
+        "resolution": "1024x1024",
+        "format": "png",
+        "quality": "production-demo"
+      }
+    },
+    "vfx": {
+      "neon_slash_vfx": {
+        "path": "assets/images/neon_slash_vfx.png",
+        "role": "slash-arc",
+        "resolution": "1024x1024",
+        "format": "png",
+        "quality": "production-demo"
+      }
+    }
+  }
+}
